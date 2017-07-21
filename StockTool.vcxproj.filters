@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{02d5022c-c394-44b9-b9b8-03ab334ecf8a}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{4df9d0a1-d788-4c80-9e06-5bb93a50068a}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="DAL">
+      <UniqueIdentifier>{a322abb5-1e4d-4cd0-a6ea-79d1eaeaf96a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{f7fd2a87-3939-4b60-8258-a94596ac2d63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BLL">
+      <UniqueIdentifier>{e32b1c7e-a2cf-43f9-800b-b770629a4b66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{c0a691e7-9585-4e47-86f4-a2ba5f9e9fad}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GeneratedFiles\qrc_stocktool.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_JKMainWin.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_JKMainWin.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\JKMainWin.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_JKInfoWgt.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_JKInfoWgt.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\JKInfoWgt.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_JKTrendChart.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_JKTrendChart.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\JKTrendChart.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="DAL\JKProjectDAL.cpp">
+      <Filter>DAL</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\JKBaseModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\JKProjectModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="BLL\JKBaseBLL.cpp">
+      <Filter>BLL</Filter>
+    </ClCompile>
+    <ClCompile Include="BLL\JKProjectBLL.cpp">
+      <Filter>BLL</Filter>
+    </ClCompile>
+    <ClCompile Include="DAL\JKBaseDAL.cpp">
+      <Filter>DAL</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="UI\JKMainWin.h">
+      <Filter>UI</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKMainWin.ui">
+      <Filter>UI</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKInfoWgt.ui">
+      <Filter>UI</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKInfoWgt.h">
+      <Filter>UI</Filter>
+    </CustomBuild>
+    <CustomBuild Include="stocktool.qrc" />
+    <CustomBuild Include="UI\JKTrendChart.ui">
+      <Filter>UI</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKTrendChart.h">
+      <Filter>UI</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GeneratedFiles\ui_JKMainWin.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_JKInfoWgt.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_JKTrendChart.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="DAL\JKProjectDAL.h">
+      <Filter>DAL</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\JKBaseModel.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\JKProjectModel.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="BLL\JKBaseBLL.h">
+      <Filter>BLL</Filter>
+    </ClInclude>
+    <ClInclude Include="BLL\JKProjectBLL.h">
+      <Filter>BLL</Filter>
+    </ClInclude>
+    <ClInclude Include="DAL\JKBaseDAL.h">
+      <Filter>DAL</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

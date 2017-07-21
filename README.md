@@ -10,3 +10,30 @@
 4. 输入目标价位，计算出能盈利多少。
 5. 输入当前股价，判断是否买入或者卖出。 
 
+
+
+工程数据格式
+{
+    "name": "",
+    "date": "",
+    "stockCode": [
+        {
+            "Setting": {
+                "taxPercent": "",
+                "offsetPercent": "",
+                "targetPrice": ""
+            },
+            "code": "",
+            "name": "",
+            "latestPrice": "",
+            "trade": [
+                {
+                    "type": "",
+                    "date": "",
+                    "tradingPrice": "",
+                    "tradingCount": ""
+                }
+            ]
+        }
+    ]
+}

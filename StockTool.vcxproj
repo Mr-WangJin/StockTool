@@ -98,7 +98,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;$(JKCore)\..\..\build\bin\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -131,7 +131,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;$(JKCore)\..\..\build\bin\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -139,8 +139,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BLL\JKBaseData.cpp" />
-    <ClCompile Include="BLL\JKProjectData.cpp" />
+    <ClCompile Include="BLL\JKBaseBLL.cpp" />
+    <ClCompile Include="BLL\JKProjectBLL.cpp" />
+    <ClCompile Include="DAL\JKBaseDAL.cpp" />
+    <ClCompile Include="DAL\JKProjectDAL.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_JKInfoWgt.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -175,6 +177,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Model\JKBaseModel.cpp" />
+    <ClCompile Include="Model\JKProjectModel.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="UI\JKTrendChart.cpp" />
     <ClCompile Include="main.cpp" />
@@ -242,11 +246,15 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BLL\JKBaseData.h" />
-    <ClInclude Include="BLL\JKProjectData.h" />
+    <ClInclude Include="BLL\JKBaseBLL.h" />
+    <ClInclude Include="BLL\JKProjectBLL.h" />
+    <ClInclude Include="DAL\JKBaseDAL.h" />
+    <ClInclude Include="DAL\JKProjectDAL.h" />
     <ClInclude Include="GeneratedFiles\ui_JKInfoWgt.h" />
     <ClInclude Include="GeneratedFiles\ui_JKMainWin.h" />
     <ClInclude Include="GeneratedFiles\ui_JKTrendChart.h" />
+    <ClInclude Include="Model\JKBaseModel.h" />
+    <ClInclude Include="Model\JKProjectModel.h" />
     <ClInclude Include="stdafx.h" />
     <CustomBuild Include="UI\JKTrendChart.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
