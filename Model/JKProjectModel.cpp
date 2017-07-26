@@ -14,13 +14,3 @@ JKProjectModel::~JKProjectModel()
 {
 }
 
-bool JKProjectModel::OpenProject(const JKString & path)
-{
-	JKPath filePath(path);
-	if (!filePath.is_file())
-		return false;
-	
-	
-
-
-}

@@ -85,6 +85,24 @@
     <ClCompile Include="DAL\JKBaseDAL.cpp">
       <Filter>DAL</Filter>
     </ClCompile>
+    <ClCompile Include="Model\JKStockCode.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\JKStockCodeSetting.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\JKStockCodeTrade.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="DAL\JKStockCodeTradeDAL.cpp">
+      <Filter>DAL</Filter>
+    </ClCompile>
+    <ClCompile Include="DAL\JKStockCodeDAL.cpp">
+      <Filter>DAL</Filter>
+    </ClCompile>
+    <ClCompile Include="DAL\JKStockCodeSettingDAL.cpp">
+      <Filter>DAL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\JKMainWin.h">
@@ -134,6 +152,24 @@
       <Filter>BLL</Filter>
     </ClInclude>
     <ClInclude Include="DAL\JKBaseDAL.h">
+      <Filter>DAL</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\JKStockCode.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\JKStockCodeSetting.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\JKStockCodeTrade.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="DAL\JKStockCodeTradeDAL.h">
+      <Filter>DAL</Filter>
+    </ClInclude>
+    <ClInclude Include="DAL\JKStockCodeDAL.h">
+      <Filter>DAL</Filter>
+    </ClInclude>
+    <ClInclude Include="DAL\JKStockCodeSettingDAL.h">
       <Filter>DAL</Filter>
     </ClInclude>
   </ItemGroup>

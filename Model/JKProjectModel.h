@@ -1,24 +1,23 @@
 #pragma once
 #include "JKBaseModel.h"
 
+#include "JKUtil/JKDateUtil.h"
 
 
 class JKProjectModel : public JKBaseModel
 {
-public:
+	friend class JKProjectDAL;
+private:
 	JKProjectModel();
 	~JKProjectModel();
 
 
-	bool OpenProject(const JKString &path);
-
-
-protected:
+	JK_DISABLE_COPY(JKProjectModel)
 
 
 private:
 	JKString m_Name;
-
+	JKRef_Ptr<JKDateUtil> m_CreateDate;
 
 };
 
