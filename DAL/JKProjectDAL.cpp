@@ -46,16 +46,17 @@ bool JKProjectDAL::OpenProject(const JKString & path)
 		for (int i = 0; i < b5DFiles.size(); ++i)
 		{
 			Json::Value b5dFile = b5DFiles[i];
-			pB5DFile->setFileName(b5dFile["name"].asString());
-			pB5DFile->setFullPath(b5dFile["path"].asString());
-			pB5DFile->setVersionNum(b5dFile["versionNum"].asString());
+			//pB5DFile->setFileName(b5dFile["name"].asString());
+			//pB5DFile->setFullPath(b5dFile["path"].asString());
+			//pB5DFile->setVersionNum(b5dFile["versionNum"].asString());
 
-		}
+		} 
 	}
 	catch (...)
 	{
+
 		m_ProjectModel = nullptr;
-		return;
+		return false;
 	}
 }
 
