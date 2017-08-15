@@ -15,7 +15,7 @@ public:
 	JKRef_Ptr<JKProjectModel> getProjectModel();
 
 private:
-	JKRef_Ptr<JKProjectModel> m_ProjectModel;
+	JKRef_Ptr<JKProjectModel> projectModel;
 
 };
 

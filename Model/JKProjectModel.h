@@ -11,13 +11,16 @@ private:
 	JKProjectModel();
 	~JKProjectModel();
 
+	virtual void Serialization(Json::Value &vObj) override;
+	virtual void Deserialization(const Json::Value &vObj) override;
+
 
 	JK_DISABLE_COPY(JKProjectModel)
 
 
 private:
-	JKString m_Name;
-	JKRef_Ptr<JKDateUtil> m_CreateDate;
+	JKString name;
+	JKRef_Ptr<JKDateUtil> createDate;
 
 };
 

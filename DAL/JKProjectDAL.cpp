@@ -20,7 +20,7 @@ JKProjectDAL::~JKProjectDAL()
 
 bool JKProjectDAL::isValid() const
 {
-	return m_ProjectModel.valid();
+	return projectModel.valid();
 }
 
 bool JKProjectDAL::OpenProject(const JKString & path)
@@ -29,33 +29,25 @@ bool JKProjectDAL::OpenProject(const JKString & path)
 	if (!filePath.is_file())
 		return false;
 	
-	JKString data;
+	JKString fileData;
 	size_t dataLen = 0;
-	if (!JKFileIO::ReadFile(path, JKFileIO::Read, data, dataLen))
+	if (!JKFileIO::ReadFile(path, JKFileIO::Read, fileData, dataLen))
 		return false;
 
 	try 
 	{
-		m_ProjectModel = new JKProjectModel;
+		projectModel = new JKProjectModel;
 
 		Json::Reader reader;
-		Json::Value result;
-		reader.parse(data, result);
+		Json::Value jsonValue;
+		reader.parse(fileData, jsonValue);
 
-		Json::Value b5DFiles = result["B5DFiles"];
-		for (int i = 0; i < b5DFiles.size(); ++i)
-		{
-			Json::Value b5dFile = b5DFiles[i];
-			//pB5DFile->setFileName(b5dFile["name"].asString());
-			//pB5DFile->setFullPath(b5dFile["path"].asString());
-			//pB5DFile->setVersionNum(b5dFile["versionNum"].asString());
-
-		} 
+		projectModel->Deserialization(jsonValue);
 	}
 	catch (...)
 	{
 
-		m_ProjectModel = nullptr;
+		projectModel = nullptr;
 		return false;
 	}
 }
