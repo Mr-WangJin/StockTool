@@ -12,6 +12,8 @@ private:
 	JKStockCode();
 	~JKStockCode();
 
+	virtual void Serialization(Json::Value &vObj) override;
+	virtual void Deserialization(const Json::Value &vObj) override;
 
 	JK_DISABLE_COPY(JKStockCode)
 
@@ -19,7 +21,7 @@ private:
 private:
 	JKString m_Name;
 	JKString m_Code;
-	double m_LatestPrice;
+	uint64_t m_LatestPrice;
 
 	JKRef_Ptr<JKStockCodeSetting> m_Setting;
 
