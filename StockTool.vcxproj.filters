@@ -16,9 +16,6 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="DAL">
-      <UniqueIdentifier>{a322abb5-1e4d-4cd0-a6ea-79d1eaeaf96a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{f7fd2a87-3939-4b60-8258-a94596ac2d63}</UniqueIdentifier>
     </Filter>
@@ -67,25 +64,25 @@
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="DAL\JKProjectDAL.cpp">
-      <Filter>DAL</Filter>
-    </ClCompile>
     <ClCompile Include="Model\JKBaseModel.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Model\JKProjectModel.cpp">
       <Filter>Model</Filter>
     </ClCompile>
     <ClCompile Include="BLL\JKBaseBLL.cpp">
       <Filter>BLL</Filter>
     </ClCompile>
+    <ClCompile Include="BLL\JKDatabase.cpp">
+      <Filter>BLL</Filter>
+    </ClCompile>
+    <ClCompile Include="BLL\JKStockCodeBLL.cpp">
+      <Filter>BLL</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\JKStockCode.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
     <ClCompile Include="BLL\JKProjectBLL.cpp">
       <Filter>BLL</Filter>
     </ClCompile>
-    <ClCompile Include="DAL\JKBaseDAL.cpp">
-      <Filter>DAL</Filter>
-    </ClCompile>
-    <ClCompile Include="Model\JKStockCode.cpp">
+    <ClCompile Include="Model\JKProjectModel.cpp">
       <Filter>Model</Filter>
     </ClCompile>
     <ClCompile Include="Model\JKStockCodeSetting.cpp">
@@ -93,15 +90,6 @@
     </ClCompile>
     <ClCompile Include="Model\JKStockCodeTrade.cpp">
       <Filter>Model</Filter>
-    </ClCompile>
-    <ClCompile Include="DAL\JKStockCodeTradeDAL.cpp">
-      <Filter>DAL</Filter>
-    </ClCompile>
-    <ClCompile Include="DAL\JKStockCodeDAL.cpp">
-      <Filter>DAL</Filter>
-    </ClCompile>
-    <ClCompile Include="DAL\JKStockCodeSettingDAL.cpp">
-      <Filter>DAL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,9 +124,6 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="DAL\JKProjectDAL.h">
-      <Filter>DAL</Filter>
-    </ClInclude>
     <ClInclude Include="Model\JKBaseModel.h">
       <Filter>Model</Filter>
     </ClInclude>
@@ -147,12 +132,6 @@
     </ClInclude>
     <ClInclude Include="BLL\JKBaseBLL.h">
       <Filter>BLL</Filter>
-    </ClInclude>
-    <ClInclude Include="BLL\JKProjectBLL.h">
-      <Filter>BLL</Filter>
-    </ClInclude>
-    <ClInclude Include="DAL\JKBaseDAL.h">
-      <Filter>DAL</Filter>
     </ClInclude>
     <ClInclude Include="Model\JKStockCode.h">
       <Filter>Model</Filter>
@@ -163,14 +142,14 @@
     <ClInclude Include="Model\JKStockCodeTrade.h">
       <Filter>Model</Filter>
     </ClInclude>
-    <ClInclude Include="DAL\JKStockCodeTradeDAL.h">
-      <Filter>DAL</Filter>
+    <ClInclude Include="BLL\JKDatabase.h">
+      <Filter>BLL</Filter>
     </ClInclude>
-    <ClInclude Include="DAL\JKStockCodeDAL.h">
-      <Filter>DAL</Filter>
+    <ClInclude Include="BLL\JKStockCodeBLL.h">
+      <Filter>BLL</Filter>
     </ClInclude>
-    <ClInclude Include="DAL\JKStockCodeSettingDAL.h">
-      <Filter>DAL</Filter>
+    <ClInclude Include="BLL\JKProjectBLL.h">
+      <Filter>BLL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

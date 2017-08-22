@@ -6,17 +6,19 @@
 
 class JKStockCodeSetting : public JKBaseModel
 {
-	friend class JKStockCodeSettingDAL;
-private:
-	JKStockCodeSetting();
-	~JKStockCodeSetting();
+	friend class hiberlite::access;
+	template<class Archive>
+	void hibernate(Archive & ar)
+	{
+		ar & HIBERLITE_NVP(taxPercent);
+		ar & HIBERLITE_NVP(offsetPercent);
+		ar & HIBERLITE_NVP(targetPrice);
+	}
 
-
-	JK_DISABLE_COPY(JKStockCodeSetting)
-
-
-private:
-
-
+public:
+	float taxPercent;
+	float offsetPercent;
+	double targetPrice;
 };
 
+//HIBERLITE_EXPORT_CLASS(JKStockCodeSetting)

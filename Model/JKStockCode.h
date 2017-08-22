@@ -1,29 +1,30 @@
 #pragma once
-#include "JKBaseModel.h"
 
-#include "JKUtil/JKDateUtil.h"
+#include "JKBaseModel.h"
 #include "JKStockCodeSetting.h"
+#include "JKStockCodeTrade.h"
 
 
 class JKStockCode : public JKBaseModel
 {
-	friend class JKStockCodeDAL;
+	friend class hiberlite::access;
+	template<class Archive>
+	void hibernate(Archive & ar)
+	{
+		ar & HIBERLITE_NVP(name);
+		ar & HIBERLITE_NVP(code);
+		ar & HIBERLITE_NVP(latestPrice);
+		ar & HIBERLITE_NVP(codeSetting);
+		ar & HIBERLITE_NVP(vecCodeTrade);
+	}
+
 private:
-	JKStockCode();
-	~JKStockCode();
+	JKString name;
+	JKString code;
+	uint64_t latestPrice;
+	bean_ptr<JKStockCodeSetting> codeSetting;
 
-	virtual void Serialization(Json::Value &vObj) override;
-	virtual void Deserialization(const Json::Value &vObj) override;
-
-	JK_DISABLE_COPY(JKStockCode)
-
-
-private:
-	JKString m_Name;
-	JKString m_Code;
-	uint64_t m_LatestPrice;
-
-	JKRef_Ptr<JKStockCodeSetting> m_Setting;
+	vector<bean_ptr<JKStockCodeTrade>> vecCodeTrade;
 
 };
 

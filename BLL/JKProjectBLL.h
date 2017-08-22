@@ -1,7 +1,10 @@
 #pragma once
+
 #include "BLL/JKBaseBLL.h"
+#include "Model/JKProjectModel.h"
+//#include "BLL/JKStockCodeBLL.h"
 
-
+class JKStockCodeBLL;
 
 class JKProjectBLL : public JKBaseBLL
 {
@@ -9,11 +12,12 @@ public:
 	JKProjectBLL();
 	~JKProjectBLL();
 
-
-	bool OpenProject(const JKString &path);
-
-
 protected:
+	
+private:
+	bean_ptr<JKProjectModel> refProjectModel;
+	
+	JKRef_Ptr<JKStockCodeBLL> refStockCodeBLL;
 
 
 };

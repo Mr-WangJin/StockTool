@@ -2,21 +2,4 @@
 #include "JKStockCode.h"
 
 
-
-JKStockCode::JKStockCode()
-{
-
-}
-JKStockCode::~JKStockCode()
-{
-
-}
-
-void JKStockCode::Serialization(Json::Value & vObj)
-{
-}
-
-void JKStockCode::Deserialization(const Json::Value &vObj)
-{
-
-}
+HIBERLITE_EXPORT_CLASS(JKStockCode)

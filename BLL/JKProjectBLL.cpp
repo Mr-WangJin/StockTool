@@ -1,26 +1,15 @@
 #include "stdafx.h"
 #include "JKProjectBLL.h"
-#include <JKFile/JKPath.h>
+#include "Model/JKProjectModel.h"
+#include "BLL/JKStockCodeBLL.h"
 
-USING_JK_NAMESPACE
 
 JKProjectBLL::JKProjectBLL()
-	: JKBaseBLL()
 {
+	//refProjectModel = SingleDB.createBean<JKProjectModel>();
 }
 
 
 JKProjectBLL::~JKProjectBLL()
 {
-}
-
-bool JKProjectBLL::OpenProject(const JKString & path)
-{
-	JKPath filePath(path);
-	if (!filePath.is_file())
-		return false;
-	
-	
-
-
 }

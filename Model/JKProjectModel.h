@@ -1,26 +1,23 @@
 #pragma once
 #include "JKBaseModel.h"
-
-#include "JKUtil/JKDateUtil.h"
-
+#include "JKStockCode.h";
 
 class JKProjectModel : public JKBaseModel
 {
-	friend class JKProjectDAL;
-private:
-	JKProjectModel();
-	~JKProjectModel();
-
-	virtual void Serialization(Json::Value &vObj) override;
-	virtual void Deserialization(const Json::Value &vObj) override;
-
-
-	JK_DISABLE_COPY(JKProjectModel)
-
+	friend class hiberlite::access;
+	template<class Archive>
+	void hibernate(Archive & ar)
+	{
+		ar & HIBERLITE_NVP(name);
+		ar & HIBERLITE_NVP(createDate);
+		ar & HIBERLITE_NVP(vecStockCode);
+	}
 
 private:
 	JKString name;
-	JKRef_Ptr<JKDateUtil> createDate;
+	JKString createDate;
+
+	vector<bean_ptr<JKStockCode>> vecStockCode;
 
 };
 

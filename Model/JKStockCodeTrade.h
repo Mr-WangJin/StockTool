@@ -1,12 +1,18 @@
 #pragma once
 #include "JKBaseModel.h"
 
-#include "JKUtil/JKDateUtil.h"
-
-
 class JKStockCodeTrade : public JKBaseModel
 {
-	friend class JKStockCodeTradeDAL;
+	friend class hiberlite::access;
+	template<class Archive>
+	void hibernate(Archive & ar)
+	{
+		ar & HIBERLITE_NVP(type);
+		ar & HIBERLITE_NVP(date);
+		ar & HIBERLITE_NVP(tradingPrice);
+		ar & HIBERLITE_NVP(tradingCount);
+	}
+
 public:
 	enum class TradeType
 	{
@@ -14,20 +20,11 @@ public:
 		SELL
 	};
 
-private:
-	JKStockCodeTrade();
-	~JKStockCodeTrade();
 
-
-	JK_DISABLE_COPY(JKStockCodeTrade)
-
-
-private:
-	TradeType m_tradeType = TradeType::BUY;
-	JKRef_Ptr<JKDateUtil> m_Date;
-	double m_TradingPrice;
-	uint m_TradingCount;
-
-
+	uint32_t type;
+	JKString date;
+	double tradingPrice;
+	uint64_t tradingCount;
 };
 
+//HIBERLITE_EXPORT_CLASS(JKStockCodeTrade)
