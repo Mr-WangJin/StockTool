@@ -91,6 +91,15 @@
     <ClCompile Include="Model\JKStockCodeTrade.cpp">
       <Filter>Model</Filter>
     </ClCompile>
+    <ClCompile Include="UI\JKNewStockCodeWgt.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_JKNewStockCodeWgt.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_JKNewStockCodeWgt.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\JKMainWin.h">
@@ -110,6 +119,12 @@
       <Filter>UI</Filter>
     </CustomBuild>
     <CustomBuild Include="UI\JKTrendChart.h">
+      <Filter>UI</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKNewStockCodeWgt.h">
+      <Filter>UI</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKNewStockCodeWgt.ui">
       <Filter>UI</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -150,6 +165,9 @@
     </ClInclude>
     <ClInclude Include="BLL\JKProjectBLL.h">
       <Filter>BLL</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_JKNewStockCodeWgt.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

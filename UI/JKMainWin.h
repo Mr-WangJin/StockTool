@@ -15,10 +15,13 @@ public:
 	JKMainWin(JKProjectBLL* _projectBLL, QWidget *parent = 0);
 	~JKMainWin();
 
+	private slots:
+	void NewStockCode();
+
 private:
 	Ui::JKMainWin ui;
 
-	JKRef_Ptr<JKProjectBLL> refProjectBLL;
+	JKRef_Ptr<JKProjectBLL> refProject;
 
 };
 

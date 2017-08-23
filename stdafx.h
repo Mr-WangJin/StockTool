@@ -11,5 +11,5 @@ using namespace hiberlite;
 USING_JK_NAMESPACE
 
 
-//#define SingleDB JKSingleton<JKDatabase>::GetInstance().db
+#define SingleDB JKSingleton<JKDatabase>::GetInstance().db
 

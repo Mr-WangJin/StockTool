@@ -1,9 +1,10 @@
 #pragma once
 #include "JKBaseModel.h"
-#include "JKStockCode.h";
+#include "JKStockCode.h"
 
 class JKProjectModel : public JKBaseModel
 {
+	friend class JKProjectBLL;
 	friend class hiberlite::access;
 	template<class Archive>
 	void hibernate(Archive & ar)

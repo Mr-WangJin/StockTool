@@ -12,13 +12,11 @@ public:
 	JKProjectBLL();
 	~JKProjectBLL();
 
+	JKRef_Ptr<JKStockCodeBLL> AddNewStockCode();
+
 protected:
 	
 private:
 	bean_ptr<JKProjectModel> refProjectModel;
-	
-	JKRef_Ptr<JKStockCodeBLL> refStockCodeBLL;
-
-
 };
 

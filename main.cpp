@@ -8,9 +8,9 @@ int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 
-	JKProjectBLL projectBLL;
+	JKRef_Ptr<JKProjectBLL> projectBLL = new JKProjectBLL;
 
-	JKMainWin w(&projectBLL);
+	JKMainWin w(projectBLL.get());
 	w.show();
 	return a.exec();
 }

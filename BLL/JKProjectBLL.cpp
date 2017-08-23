@@ -6,7 +6,7 @@
 
 JKProjectBLL::JKProjectBLL()
 {
-	//refProjectModel = SingleDB.createBean<JKProjectModel>();
+	refProjectModel = SingleDB.createBean<JKProjectModel>();
 }
 
 

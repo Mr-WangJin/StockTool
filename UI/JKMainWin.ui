@@ -51,7 +51,7 @@
     <property name="title">
      <string> 文件</string>
     </property>
-    <addaction name="m_pNewProject"/>
+    <addaction name="actNewStockCode"/>
     <addaction name="m_pOpenProject"/>
     <addaction name="m_pActSave"/>
     <addaction name="m_pExit"/>
@@ -77,12 +77,12 @@
    <addaction name="menu_4"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="m_pNewProject">
+  <action name="actNewStockCode">
    <property name="text">
-    <string>新建项目</string>
+    <string>添加股票</string>
    </property>
    <property name="toolTip">
-    <string>新建项目</string>
+    <string>添加股票</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>

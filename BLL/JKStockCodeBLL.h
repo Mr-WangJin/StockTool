@@ -12,6 +12,10 @@ public:
 	~JKStockCodeBLL();
 
 
+	static JKRef_Ptr<JKStockCodeBLL> NewStockCodeBLL();
+
+
+
 };
 
 

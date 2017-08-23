@@ -2,6 +2,8 @@
 
 #include <JKFramework\JKSingleton.h>
 
+#include <hiberlite.h>
+
 
 class JKDatabase
 {
@@ -10,7 +12,7 @@ public:
 	~JKDatabase();
 
 public:
-	//Database db;
+	hiberlite::Database db;
 
 };
 

@@ -21,4 +21,3 @@ public:
 	double targetPrice;
 };
 
-//HIBERLITE_EXPORT_CLASS(JKStockCodeSetting)
