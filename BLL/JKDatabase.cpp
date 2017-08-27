@@ -4,6 +4,7 @@
 #include "Model/JKStockCode.h"
 #include "Model/JKStockCodeSetting.h"
 #include "Model/JKStockCodeTrade.h"
+#include <iostream>
 
 
 
@@ -16,8 +17,12 @@ JKDatabase::JKDatabase()
 	db.registerBeanClass<JKStockCodeSetting>();
 	db.registerBeanClass<JKStockCodeTrade>();
 
-	db.dropModel();
-	db.createModel();
+	vector<string> msg = db.checkModel();
+	for (size_t ci = 0; ci<msg.size(); ci++)
+		std::cout << "model check reported: " << msg[ci] << endl;
+
+	//db.dropModel();
+	//db.createModel();
 
 
 }

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>JKMainWin</string>
+   <string>炒股工具</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -52,24 +52,28 @@
      <string> 文件</string>
     </property>
     <addaction name="actNewStockCode"/>
-    <addaction name="m_pOpenProject"/>
-    <addaction name="m_pActSave"/>
-    <addaction name="m_pExit"/>
+    <addaction name="actOpenProject"/>
+    <addaction name="actSave"/>
+    <addaction name="actExit"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
      <string>录入</string>
     </property>
+    <addaction name="actBuyStock"/>
+    <addaction name="actSellStock"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
      <string>设置</string>
     </property>
+    <addaction name="actSetting"/>
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="title">
      <string>帮助</string>
     </property>
+    <addaction name="actAbout"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -88,7 +92,7 @@
     <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="m_pOpenProject">
+  <action name="actOpenProject">
    <property name="text">
     <string>打开项目</string>
    </property>
@@ -99,7 +103,7 @@
     <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="m_pExit">
+  <action name="actExit">
    <property name="text">
     <string>退出</string>
    </property>
@@ -110,7 +114,7 @@
     <string>Esc</string>
    </property>
   </action>
-  <action name="m_pActSave">
+  <action name="actSave">
    <property name="text">
     <string>保存项目</string>
    </property>
@@ -119,6 +123,38 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actBuyStock">
+   <property name="text">
+    <string>买入</string>
+   </property>
+   <property name="toolTip">
+    <string>买入股票</string>
+   </property>
+  </action>
+  <action name="actSellStock">
+   <property name="text">
+    <string>卖出</string>
+   </property>
+   <property name="toolTip">
+    <string>卖出股票</string>
+   </property>
+  </action>
+  <action name="actSetting">
+   <property name="text">
+    <string>设置参数</string>
+   </property>
+   <property name="toolTip">
+    <string>设置参数</string>
+   </property>
+  </action>
+  <action name="actAbout">
+   <property name="text">
+    <string>关于</string>
+   </property>
+   <property name="toolTip">
+    <string>关于</string>
    </property>
   </action>
  </widget>

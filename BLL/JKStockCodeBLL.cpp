@@ -5,22 +5,31 @@
 
 JKStockCodeBLL::JKStockCodeBLL()
 {
+	refStockCodeModel = SingleDB.createBean<JKStockCode>();
+}
 
+JKStockCodeBLL::JKStockCodeBLL(bean_ptr<JKStockCode> _refStockCodeModel)
+{
+	refStockCodeModel = _refStockCodeModel;
 }
 
 JKStockCodeBLL::~JKStockCodeBLL()
 {
 }
 
-JKRef_Ptr<JKStockCodeBLL> JKStockCodeBLL::NewStockCodeBLL()
+JKString JKStockCodeBLL::getName()
 {
-	bean_ptr<JKStockCode> stockCode = SingleDB.createBean<JKStockCode>();
+	return refStockCodeModel->name;
+}
 
-
-	JKRef_Ptr<JKStockCodeBLL> stockCodeBll = new JKStockCodeBLL();
-	return stockCodeBll;
+void JKStockCodeBLL::setParams(JKString name, JKString code, double latestPrice)
+{
+	refStockCodeModel->name = name;
+	refStockCodeModel->code = code;
+	refStockCodeModel->latestPrice = latestPrice;
 
 }
+
 
 
 //HIBERLITE_EXPORT_CLASS(JKStockCodeBLL)

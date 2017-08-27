@@ -14,6 +14,8 @@ class JKProjectModel : public JKBaseModel
 		ar & HIBERLITE_NVP(vecStockCode);
 	}
 
+	void addStockCode(bean_ptr<JKStockCode> stockCode);
+
 private:
 	JKString name;
 	JKString createDate;

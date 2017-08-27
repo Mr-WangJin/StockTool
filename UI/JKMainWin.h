@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "ui_JKMainWin.h"
 #include <JKFramework/SmartPtr/JKRef_Ptr.h>
+#include "BLL/JKStockCodeBLL.h"
 
 class JKProjectBLL;
 
@@ -15,13 +16,18 @@ public:
 	JKMainWin(JKProjectBLL* _projectBLL, QWidget *parent = 0);
 	~JKMainWin();
 
+
+	void updateStatusBar();
+
 	private slots:
-	void NewStockCode();
+	void newStockCode();
+	void buyStockCode();
 
 private:
 	Ui::JKMainWin ui;
 
 	JKRef_Ptr<JKProjectBLL> refProject;
+
 
 };
 

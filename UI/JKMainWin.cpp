@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "JKMainWin.h"
+#include "JKNewStockCodeWgt.h"
+#include "JKBuyStockCodeWgt.h"
 
 #include "BLL/JKProjectBLL.h"
 #include "BLL/JKStockCodeBLL.h"
@@ -9,8 +11,10 @@ JKMainWin::JKMainWin(JKProjectBLL* _projectBLL, QWidget *parent)
 {
 	ui.setupUi(this);
 	refProject = _projectBLL;
+	this->updateStatusBar();
 
-	connect(ui.actNewStockCode, SIGNAL(triggered()), this, SLOT(NewStockCode()));
+	connect(ui.actNewStockCode, SIGNAL(triggered()), this, SLOT(newStockCode()));
+	connect(ui.actBuyStock, SIGNAL(triggered()), this, SLOT(buyStockCode()));
 
 }
 
@@ -19,9 +23,32 @@ JKMainWin::~JKMainWin()
 
 }
 
-void JKMainWin::NewStockCode()
+void JKMainWin::updateStatusBar()
 {
+	JKRef_Ptr<JKStockCodeBLL> refStockCode = refProject->getCurStockCode();
+	if (refStockCode.valid())
+	{
+		QLabel* pQLabel = new QLabel(QString(refStockCode->getName().c_str()));
+		ui.statusBar->addWidget(pQLabel);
+	}
+}
 
-	JKRef_Ptr<JKStockCodeBLL> refStockCode = JKStockCodeBLL::NewStockCodeBLL();
+void JKMainWin::newStockCode()
+{
+	JKNewStockCodeWgt newStockCodeWgt(refProject);
+	if (QDialog::Accepted == newStockCodeWgt.exec())
+	{
+		JKRef_Ptr<JKStockCodeBLL> refCurStockCode = newStockCodeWgt.getStockCode();
+		refProject->setCurStockCode(refCurStockCode);
+		this->updateStatusBar();
+	}
 	
 }
+
+void JKMainWin::buyStockCode()
+{
+	JKBuyStockCodeWgt buyStockCodeWgt();
+
+}
+
+

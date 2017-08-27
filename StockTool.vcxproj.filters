@@ -22,13 +22,14 @@
     <Filter Include="BLL">
       <UniqueIdentifier>{e32b1c7e-a2cf-43f9-800b-b770629a4b66}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Form Files">
-      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
-      <Extensions>ui</Extensions>
-      <ParseFiles>true</ParseFiles>
-    </Filter>
     <Filter Include="Model">
       <UniqueIdentifier>{c0a691e7-9585-4e47-86f4-a2ba5f9e9fad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Input">
+      <UniqueIdentifier>{fa8dff88-fd13-4f9c-be04-a06564664115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\New">
+      <UniqueIdentifier>{2d21f140-8cd4-40f3-9aaa-6c0f387f39b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -91,13 +92,22 @@
     <ClCompile Include="Model\JKStockCodeTrade.cpp">
       <Filter>Model</Filter>
     </ClCompile>
-    <ClCompile Include="UI\JKNewStockCodeWgt.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_JKNewStockCodeWgt.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_JKNewStockCodeWgt.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\JKNewStockCodeWgt.cpp">
+      <Filter>UI\New</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\JKBuyStockCodeWgt.cpp">
+      <Filter>UI\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_JKBuyStockCodeWgt.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_JKBuyStockCodeWgt.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
@@ -121,11 +131,17 @@
     <CustomBuild Include="UI\JKTrendChart.h">
       <Filter>UI</Filter>
     </CustomBuild>
-    <CustomBuild Include="UI\JKNewStockCodeWgt.h">
-      <Filter>UI</Filter>
-    </CustomBuild>
     <CustomBuild Include="UI\JKNewStockCodeWgt.ui">
-      <Filter>UI</Filter>
+      <Filter>UI\New</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKNewStockCodeWgt.h">
+      <Filter>UI\New</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKBuyStockCodeWgt.h">
+      <Filter>UI\Input</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKBuyStockCodeWgt.ui">
+      <Filter>UI\Input</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +183,9 @@
       <Filter>BLL</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_JKNewStockCodeWgt.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_JKBuyStockCodeWgt.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

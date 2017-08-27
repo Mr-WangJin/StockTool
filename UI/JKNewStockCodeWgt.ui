@@ -99,14 +99,14 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="pBtnOK">
        <property name="text">
         <string>确定</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="pBtnCancel">
        <property name="text">
         <string>取消</string>
        </property>

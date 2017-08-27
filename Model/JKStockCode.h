@@ -7,6 +7,7 @@
 
 class JKStockCode : public JKBaseModel
 {
+	friend class JKStockCodeBLL;
 	friend class hiberlite::access;
 	template<class Archive>
 	void hibernate(Archive & ar)
@@ -21,7 +22,7 @@ class JKStockCode : public JKBaseModel
 private:
 	JKString name;
 	JKString code;
-	uint64_t latestPrice;
+	double latestPrice;
 	bean_ptr<JKStockCodeSetting> codeSetting;
 
 	vector<bean_ptr<JKStockCodeTrade>> vecCodeTrade;
