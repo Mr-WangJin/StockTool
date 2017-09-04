@@ -5,7 +5,7 @@
 
 HIBERLITE_EXPORT_CLASS(JKProjectModel)
 
-void JKProjectModel::addStockCode(bean_ptr<JKStockCode> stockCode)
+void JKProjectModel::addStockCode(bean_ptr<JKStockCodeModel> stockCode)
 {
 	vecStockCode.push_back(stockCode);
 }

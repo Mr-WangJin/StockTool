@@ -1,10 +1,12 @@
 #pragma once
 #include "JKBaseModel.h"
-#include "JKStockCode.h"
+#include "JKStockCodeModel.h"
+
 
 class JKProjectModel : public JKBaseModel
 {
 	friend class JKProjectBLL;
+	friend class hiberlite::Database;
 	friend class hiberlite::access;
 	template<class Archive>
 	void hibernate(Archive & ar)
@@ -14,13 +16,15 @@ class JKProjectModel : public JKBaseModel
 		ar & HIBERLITE_NVP(vecStockCode);
 	}
 
-	void addStockCode(bean_ptr<JKStockCode> stockCode);
 
-private:
+public:
+	void addStockCode(bean_ptr<JKStockCodeModel> stockCode);
+
+public:
 	JKString name;
 	JKString createDate;
 
-	vector<bean_ptr<JKStockCode>> vecStockCode;
+	vector<bean_ptr<JKStockCodeModel>> vecStockCode;
 
 };
 

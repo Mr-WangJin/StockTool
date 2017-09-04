@@ -1,33 +1,28 @@
 #include "stdafx.h"
 #include "JKStockCodeBLL.h"
-#include "Model/JKStockCode.h"
+#include "JKStockCodeTradeBLL.h"
+#include "Model/JKStockCodeModel.h"
 
 
-JKStockCodeBLL::JKStockCodeBLL()
-{
-	refStockCodeModel = SingleDB.createBean<JKStockCode>();
-}
-
-JKStockCodeBLL::JKStockCodeBLL(bean_ptr<JKStockCode> _refStockCodeModel)
-{
-	refStockCodeModel = _refStockCodeModel;
-}
-
-JKStockCodeBLL::~JKStockCodeBLL()
-{
-}
 
 JKString JKStockCodeBLL::getName()
 {
-	return refStockCodeModel->name;
+	return refJKStockCodeModel->name;
+}
+
+JKRef_Ptr<JKStockCodeTradeBLL> JKStockCodeBLL::newStockCodeTrade()
+{
+	JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTrade = new JKStockCodeTradeBLL();
+
+	refJKStockCodeModel->addStockCodeTrade(_refStockCodeTrade->getModel());
+	return _refStockCodeTrade;
 }
 
 void JKStockCodeBLL::setParams(JKString name, JKString code, double latestPrice)
 {
-	refStockCodeModel->name = name;
-	refStockCodeModel->code = code;
-	refStockCodeModel->latestPrice = latestPrice;
-
+	refJKStockCodeModel->name = name;
+	refJKStockCodeModel->code = code;
+	refJKStockCodeModel->latestPrice = latestPrice;
 }
 
 

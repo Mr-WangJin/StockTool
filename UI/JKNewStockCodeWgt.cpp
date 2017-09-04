@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "JKNewStockCodeWgt.h"
-#include "BLL/JKStockCodeBLL.h"
-#include "BLL/JKProjectBLL.h"
+#include "bll/JKStockCodeBLL.h"
+#include "bll/JKProjectBLL.h"
 
 JKNewStockCodeWgt::JKNewStockCodeWgt(JKRef_Ptr<JKProjectBLL> project, QWidget *parent)
 	: QDialog(parent)

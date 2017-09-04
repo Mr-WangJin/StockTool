@@ -16,14 +16,14 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="UI">
-      <UniqueIdentifier>{f7fd2a87-3939-4b60-8258-a94596ac2d63}</UniqueIdentifier>
-    </Filter>
     <Filter Include="BLL">
       <UniqueIdentifier>{e32b1c7e-a2cf-43f9-800b-b770629a4b66}</UniqueIdentifier>
     </Filter>
     <Filter Include="Model">
       <UniqueIdentifier>{c0a691e7-9585-4e47-86f4-a2ba5f9e9fad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{f7fd2a87-3939-4b60-8258-a94596ac2d63}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI\Input">
       <UniqueIdentifier>{fa8dff88-fd13-4f9c-be04-a06564664115}</UniqueIdentifier>
@@ -77,19 +77,10 @@
     <ClCompile Include="BLL\JKStockCodeBLL.cpp">
       <Filter>BLL</Filter>
     </ClCompile>
-    <ClCompile Include="Model\JKStockCode.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
     <ClCompile Include="BLL\JKProjectBLL.cpp">
       <Filter>BLL</Filter>
     </ClCompile>
     <ClCompile Include="Model\JKProjectModel.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Model\JKStockCodeSetting.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Model\JKStockCodeTrade.cpp">
       <Filter>Model</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_JKNewStockCodeWgt.cpp">
@@ -109,6 +100,24 @@
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_JKBuyStockCodeWgt.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="BLL\JKStockCodeTradeBLL.cpp">
+      <Filter>BLL</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\JKStockCodeModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\JKStockCodeSettingModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\JKStockCodeTradeModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\JKModelFactory.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="BLL\JKBLLCommon.cpp">
+      <Filter>BLL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -164,15 +173,6 @@
     <ClInclude Include="BLL\JKBaseBLL.h">
       <Filter>BLL</Filter>
     </ClInclude>
-    <ClInclude Include="Model\JKStockCode.h">
-      <Filter>Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Model\JKStockCodeSetting.h">
-      <Filter>Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Model\JKStockCodeTrade.h">
-      <Filter>Model</Filter>
-    </ClInclude>
     <ClInclude Include="BLL\JKDatabase.h">
       <Filter>BLL</Filter>
     </ClInclude>
@@ -187,6 +187,24 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_JKBuyStockCodeWgt.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BLL\JKStockCodeTradeBLL.h">
+      <Filter>BLL</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\JKStockCodeModel.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\JKStockCodeSettingModel.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\JKStockCodeTradeModel.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\JKModelFactory.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="BLL\JKBLLCommon.h">
+      <Filter>BLL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

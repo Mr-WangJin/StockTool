@@ -13,6 +13,9 @@ public:
 	~JKTrendChart();
 
 private:
+	void initUi();
+
+private:
 	Ui::JKTrendChart ui;
 };
 

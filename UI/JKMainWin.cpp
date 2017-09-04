@@ -3,8 +3,9 @@
 #include "JKNewStockCodeWgt.h"
 #include "JKBuyStockCodeWgt.h"
 
-#include "BLL/JKProjectBLL.h"
-#include "BLL/JKStockCodeBLL.h"
+#include "bll/JKProjectBLL.h"
+#include "bll/JKStockCodeBLL.h"
+
 
 JKMainWin::JKMainWin(JKProjectBLL* _projectBLL, QWidget *parent)
 	: QMainWindow(parent)
@@ -47,8 +48,8 @@ void JKMainWin::newStockCode()
 
 void JKMainWin::buyStockCode()
 {
-	JKBuyStockCodeWgt buyStockCodeWgt();
-
+	JKBuyStockCodeWgt buyStockCodeWgt(refProject);
+	buyStockCodeWgt.exec();
 }
 
 

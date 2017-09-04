@@ -1,29 +1,37 @@
 #pragma once
 
-#include "BLL/JKBaseBLL.h"
+#include "bll/JKBaseBLL.h"
 #include "Model/JKProjectModel.h"
-//#include "BLL/JKStockCodeBLL.h"
+//#include "bll/JKStockCodeBLL.h"
 
 class JKStockCodeBLL;
 
 class JKProjectBLL : public JKBaseBLL
 {
 public:
-	JKProjectBLL();
+	enum class ProjectInitStatus
+	{
+		DEFAULT_First,
+		DEFAULT_New,
+		DEFAULT_FirstOrNew
+	};
+public:
+	JKProjectBLL(ProjectInitStatus status);
 	~JKProjectBLL();
+	
+	
+	void savePrject();
 
 	JKRef_Ptr<JKStockCodeBLL> newStockCode();
-	void setCurStockCode(JKRef_Ptr<JKStockCodeBLL> stockCode);
 	JKRef_Ptr<JKStockCodeBLL> getCurStockCode();
 
-	void savePrject();
+	void setCurStockCode(JKRef_Ptr<JKStockCodeBLL> stockCode);
+
 	
 
-protected:
-	
+	JK_BLL_INIT(JKProject);
+
 private:
-	bean_ptr<JKProjectModel> refProjectModel;
-
 	JKRef_Ptr<JKStockCodeBLL> refCurStockCode;
 
 

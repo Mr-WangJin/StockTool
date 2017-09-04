@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include "ui_JKMainWin.h"
 #include <JKFramework/SmartPtr/JKRef_Ptr.h>
-#include "BLL/JKStockCodeBLL.h"
+#include "bll/JKStockCodeBLL.h"
 
 class JKProjectBLL;
 

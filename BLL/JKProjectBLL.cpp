@@ -1,21 +1,25 @@
 #include "stdafx.h"
 #include "JKProjectBLL.h"
 #include "Model/JKProjectModel.h"
-#include "BLL/JKStockCodeBLL.h"
+#include "bll/JKStockCodeBLL.h"
+#include "Model/JKModelFactory.h"
 
 
-JKProjectBLL::JKProjectBLL()
+JKProjectBLL::JKProjectBLL(ProjectInitStatus status)
 {
-	std::vector<sqlid_t> vecIds = SingleDB.getBeanIds<JKProjectModel>();
-	if (vecIds.size() > 0)
+	if (status == ProjectInitStatus::DEFAULT_FirstOrNew)
 	{
-		refProjectModel = SingleDB.loadBean<JKProjectModel>(vecIds[0]);
-		if (refProjectModel->vecStockCode.size() > 0)
-			refCurStockCode = new JKStockCodeBLL(refProjectModel->vecStockCode[0]);
-	}
-	else
-	{
-		refProjectModel = SingleDB.createBean<JKProjectModel>();
+		std::vector<sqlid_t> vecIds = SingleDB.getBeanIds<JKProjectModel>();
+		if (vecIds.size() > 0)
+		{
+			refJKProjectModel = SingleDB.loadBean<JKProjectModel>(vecIds[0]);
+			if (refJKProjectModel->vecStockCode.size() > 0)
+				refCurStockCode = new JKStockCodeBLL(refJKProjectModel->vecStockCode[0]);
+		}
+		else
+		{
+			refJKProjectModel = SingleDB.createBean<JKProjectModel>();
+		}
 	}
 }
 
@@ -30,10 +34,10 @@ void JKProjectBLL::savePrject()
 }
 JKRef_Ptr<JKStockCodeBLL> JKProjectBLL::newStockCode()
 {
-	JKRef_Ptr<JKStockCodeBLL> refStockCode = new JKStockCodeBLL();
+	JKRef_Ptr<JKStockCodeBLL> _refStockCode = new JKStockCodeBLL();
 
-	refProjectModel->addStockCode(refStockCode->getStockCodeModel());
-	return refStockCode;
+	refJKProjectModel->addStockCode(_refStockCode->getModel());
+	return _refStockCode;
 }
 
 void JKProjectBLL::setCurStockCode(JKRef_Ptr<JKStockCodeBLL> stockCode)

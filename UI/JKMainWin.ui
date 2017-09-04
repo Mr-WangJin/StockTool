@@ -32,7 +32,7 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="JKTrendChart" name="widget" native="true"/>
+      <widget class="JKTrendChart" name="trendChartWgt" native="true"/>
       <widget class="JKInfoWgt" name="widget_2" native="true"/>
      </widget>
     </item>
