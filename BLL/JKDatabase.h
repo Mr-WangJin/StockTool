@@ -11,6 +11,9 @@ public:
 	JKDatabase();
 	~JKDatabase();
 
+	void dropAllTable();
+	void checkModel();
+
 public:
 	hiberlite::Database db;
 

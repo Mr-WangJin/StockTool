@@ -19,9 +19,9 @@ public:
 
 public:
 
-	JKUInt type;
+	int type;
 	JKString date;
-	JKUInt64 tradingPrice;
-	JKUInt64 tradingCount;
+	int tradingPrice;
+	int tradingCount;
 };
 

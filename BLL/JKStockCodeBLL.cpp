@@ -2,6 +2,7 @@
 #include "JKStockCodeBLL.h"
 #include "JKStockCodeTradeBLL.h"
 #include "Model/JKStockCodeModel.h"
+#include "JKStockCodeTradeBLL.h"
 
 
 
@@ -16,6 +17,19 @@ JKRef_Ptr<JKStockCodeTradeBLL> JKStockCodeBLL::newStockCodeTrade()
 
 	refJKStockCodeModel->addStockCodeTrade(_refStockCodeTrade->getModel());
 	return _refStockCodeTrade;
+}
+
+vector<JKRef_Ptr<JKStockCodeTradeBLL>> JKStockCodeBLL::getAllTrades()
+{
+	vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecTrades;
+
+	for (auto &var : refJKStockCodeModel->vecCodeTrade)
+	{
+		JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTradeBLL = new JKStockCodeTradeBLL(var);
+		vecTrades.push_back(_refStockCodeTradeBLL);
+	}
+	
+	return vecTrades;	 
 }
 
 void JKStockCodeBLL::setParams(JKString name, JKString code, double latestPrice)

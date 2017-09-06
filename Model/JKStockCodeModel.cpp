@@ -10,9 +10,6 @@ void JKStockCodeModel::addStockCodeTrade(bean_ptr<JKStockCodeTradeModel> _refSto
 }
 
 
-
-
-
 HIBERLITE_EXPORT_CLASS(JKStockCodeModel)
 
 

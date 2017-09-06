@@ -17,16 +17,23 @@ JKDatabase::JKDatabase()
 	db.registerBeanClass<JKStockCodeSettingModel>();
 	db.registerBeanClass<JKStockCodeTradeModel>();
 
-	vector<string> msg = db.checkModel();
-	for (size_t ci = 0; ci<msg.size(); ci++)
-		std::cout << "model check reported: " << msg[ci] << endl;
-
-	db.dropModel();
-	db.createModel();
-
+	//db.dropModel();
+	//db.createModel();
 
 }
 
 JKDatabase::~JKDatabase()
 {
+}
+
+void JKDatabase::dropAllTable()
+{
+	db.dropModel();
+}
+
+void JKDatabase::checkModel()
+{
+	vector<string> msg = db.checkModel();
+	for (size_t ci = 0; ci<msg.size(); ci++)
+		std::cout << "model check reported: " << msg[ci] << endl;
 }

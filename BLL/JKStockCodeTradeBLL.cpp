@@ -10,3 +10,16 @@ void JKStockCodeTradeBLL::setParams(TradeType type, JKString date, JKUInt64 coun
 	refJKStockCodeTradeModel->tradingCount = count;
 	refJKStockCodeTradeModel->tradingPrice = price;
 }
+
+JKString JKStockCodeTradeBLL::getDate()
+{
+	return refJKStockCodeTradeModel->date;
+}
+JKUInt64 JKStockCodeTradeBLL::getCount()
+{
+	return refJKStockCodeTradeModel->tradingCount;
+}
+JKUInt64 JKStockCodeTradeBLL::getPrice()
+{
+	return refJKStockCodeTradeModel->tradingPrice;
+}

@@ -9,22 +9,19 @@ class JKStockCodeTradeBLL;
 class JKStockCodeBLL : public JKBaseBLL
 {
 	friend class JKProjectBLL;
+	
+	JK_BLL_INIT(JKStockCode)
+
 public:
 	JKString getName();
 
 
 	JKRef_Ptr<JKStockCodeTradeBLL> newStockCodeTrade();
 
-	////购买交易
-	//bool buyStockCodeTrade(JKString date, JKUInt64 count, JKUInt64 price);
-	//bool cellStockCodeTrade(JKString date, JKUInt64 count, JKUInt64 price);
-
+	vector<JKRef_Ptr<JKStockCodeTradeBLL>> getAllTrades();
 
 	//设置股票参数
 	void setParams(JKString name, JKString code, double latestPrice);
-
-
-	JK_BLL_INIT(JKStockCode)
 
 
 };

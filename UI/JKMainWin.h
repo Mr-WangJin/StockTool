@@ -17,11 +17,13 @@ public:
 	~JKMainWin();
 
 
-	void updateStatusBar();
+	void updateStatusBar(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
 
 	private slots:
 	void newStockCode();
 	void buyStockCode();
+
+	void stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
 
 private:
 	Ui::JKMainWin ui;

@@ -14,9 +14,13 @@ class JKStockCodeTradeBLL : public JKBaseBLL
 
 public:
 	/**
-	 *	 
+	 *	 …Ë÷√≤Œ ˝
 	 */
 	void setParams(TradeType type, JKString date, JKUInt64 count, JKUInt64 price);
+
+	JKString getDate();
+	JKUInt64 getCount();
+	JKUInt64 getPrice();
 
 };
 

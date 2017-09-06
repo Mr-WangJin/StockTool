@@ -3,14 +3,14 @@
 #include <QDialog>
 #include "ui_JKBuyStockCodeWgt.h"
 
-class JKProjectBLL;
+class JKStockCodeBLL;
 
 
 class JKBuyStockCodeWgt : public QDialog
 {
 	Q_OBJECT
 public:
-	JKBuyStockCodeWgt(JKRef_Ptr<JKProjectBLL> _refProject, QWidget* parent = nullptr);
+	JKBuyStockCodeWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode, QWidget* parent = nullptr);
 	~JKBuyStockCodeWgt();
 
 	private slots:
@@ -20,7 +20,7 @@ public:
 private:
 	Ui::JKBuyStockCodeWgt ui;
 
-	JKRef_Ptr<JKProjectBLL> refProject;
+	JKRef_Ptr<JKStockCodeBLL> refStockCode;
 };
 
 
