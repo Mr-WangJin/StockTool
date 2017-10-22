@@ -11,6 +11,11 @@ void JKStockCodeTradeBLL::setParams(TradeType type, JKString date, JKUInt64 coun
 	refJKStockCodeTradeModel->tradingPrice = price;
 }
 
+TradeType JKStockCodeTradeBLL::getType()
+{
+	return (TradeType)refJKStockCodeTradeModel->type;
+}
+
 JKString JKStockCodeTradeBLL::getDate()
 {
 	return refJKStockCodeTradeModel->date;
@@ -22,4 +27,10 @@ JKUInt64 JKStockCodeTradeBLL::getCount()
 JKUInt64 JKStockCodeTradeBLL::getPrice()
 {
 	return refJKStockCodeTradeModel->tradingPrice;
+}
+
+double JKStockCodeTradeBLL::getEarning(const double & latestPrice)
+{
+	double diff = latestPrice - refJKStockCodeTradeModel->tradingPrice;
+	return diff * refJKStockCodeTradeModel->tradingCount;
 }

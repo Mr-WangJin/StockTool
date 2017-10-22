@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>675</width>
-    <height>443</height>
+    <width>863</width>
+    <height>477</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,7 +33,42 @@
        <enum>Qt::Horizontal</enum>
       </property>
       <widget class="JKTrendChart" name="trendChartWgt" native="true"/>
-      <widget class="JKInfoWgt" name="widget_2" native="true"/>
+      <widget class="JKInfoWgt" name="widget_2" native="true">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QTableWidget" name="tableWidget">
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <column>
+           <property name="text">
+            <string>买卖</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>时间</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>数量</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>价钱</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>收益</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -43,7 +78,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>675</width>
+     <width>863</width>
      <height>23</height>
     </rect>
    </property>
@@ -75,9 +110,15 @@
     </property>
     <addaction name="actAbout"/>
    </widget>
+   <widget class="QMenu" name="menu_5">
+    <property name="title">
+     <string>显示</string>
+    </property>
+   </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
    <addaction name="menu_3"/>
+   <addaction name="menu_5"/>
    <addaction name="menu_4"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -155,6 +196,11 @@
    </property>
    <property name="toolTip">
     <string>关于</string>
+   </property>
+  </action>
+  <action name="actSwitchCode">
+   <property name="text">
+    <string>切换股票</string>
    </property>
   </action>
  </widget>

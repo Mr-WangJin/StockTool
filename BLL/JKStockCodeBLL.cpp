@@ -39,6 +39,8 @@ void JKStockCodeBLL::setParams(JKString name, JKString code, double latestPrice)
 	refJKStockCodeModel->latestPrice = latestPrice;
 }
 
+double JKStockCodeBLL::getLatestPrice() 
+{
+	return refJKStockCodeModel->latestPrice;
+}
 
-
-//HIBERLITE_EXPORT_CLASS(JKStockCodeBLL)

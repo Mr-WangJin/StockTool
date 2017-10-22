@@ -24,6 +24,7 @@ public:
 	void buyStockCode();
 
 	void stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
+	void updateTableWidget();
 
 private:
 	Ui::JKMainWin ui;

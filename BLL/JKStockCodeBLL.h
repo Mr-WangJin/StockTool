@@ -15,14 +15,14 @@ class JKStockCodeBLL : public JKBaseBLL
 public:
 	JKString getName();
 
-
-	JKRef_Ptr<JKStockCodeTradeBLL> newStockCodeTrade();
+	double getLatestPrice();
 
 	vector<JKRef_Ptr<JKStockCodeTradeBLL>> getAllTrades();
 
 	//设置股票参数
 	void setParams(JKString name, JKString code, double latestPrice);
 
+	JKRef_Ptr<JKStockCodeTradeBLL> newStockCodeTrade();
 
 };
 

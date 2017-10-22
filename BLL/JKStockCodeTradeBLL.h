@@ -18,9 +18,12 @@ public:
 	 */
 	void setParams(TradeType type, JKString date, JKUInt64 count, JKUInt64 price);
 
+	TradeType getType();
 	JKString getDate();
 	JKUInt64 getCount();
 	JKUInt64 getPrice();
+
+	double getEarning(const double & latestPrice);
 
 };
 

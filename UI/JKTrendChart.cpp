@@ -35,6 +35,9 @@ void JKTrendChart::updateTrendChart()
 
 	vector<JKRef_Ptr<JKStockCodeTradeBLL>> _refStockCodeTradeBLL = refStockCode->getAllTrades();
 
+	chart->removeAllSeries();
+	
+
 	acmeSeries = new QCandlestickSeries();
 	acmeSeries->setName("Acme Ltd");
 	acmeSeries->setIncreasingColor(QColor(Qt::green));
@@ -56,13 +59,23 @@ void JKTrendChart::updateTrendChart()
 
 		QCandlestickSet *candlestickSet = new QCandlestickSet(dt.toMSecsSinceEpoch());
 		candlestickSet->setOpen(price);
-		candlestickSet->setHigh(price + count);
+		candlestickSet->setHigh(price + .1);
 		candlestickSet->setLow(price);
-		candlestickSet->setClose(price+count);
+		candlestickSet->setClose(price + .1);
 
 		acmeSeries->append(candlestickSet);
 	}
+
+	chart->removeAxis(axisX);
+
+	axisX = new QDateTimeAxis;
+	axisX->setTickCount(1);
+	axisX->setFormat("yyyy-MM-dd");
+	axisX->setTitleText(QStringLiteral("ÈÕÆÚ"));
+	chart->addAxis(axisX, Qt::AlignBottom);
+
 	axisX->setTickCount(_refStockCodeTradeBLL.size());
+	//axisX->setTickCount(5);
 	chart->addSeries(acmeSeries);
 	acmeSeries->attachAxis(axisX);
 	acmeSeries->attachAxis(axisY);
@@ -97,6 +110,7 @@ void JKTrendChart::updateTrendChart()
 	//chart->addSeries(acmeSeries);
 	//acmeSeries->attachAxis(axisX);
 	//acmeSeries->attachAxis(axisY);
+
 
 }
 
