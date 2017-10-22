@@ -20,6 +20,7 @@ class JKStockCodeModel : public JKBaseModel
 	}
 
 	void addStockCodeTrade(bean_ptr<JKStockCodeTradeModel> _refStockCodeTradeModel);
+	bool delStockCodeTrade(bean_ptr<JKStockCodeTradeModel> _refStockCodeTradeModel);
 
 public:
 	JKString name;

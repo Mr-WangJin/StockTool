@@ -23,11 +23,18 @@ public:
 	void newStockCode();
 	void buyStockCode();
 
+	void onTableWgtPopMenu(QPoint pos);
+	void onDeleteTrade();
+
 	void stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
 	void updateTableWidget();
 
 private:
+	void initUI();
+
+private:
 	Ui::JKMainWin ui;
+	QMenu* tableWgtPopMenu;
 
 	JKRef_Ptr<JKProjectBLL> refProject;
 

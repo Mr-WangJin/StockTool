@@ -19,6 +19,14 @@ JKRef_Ptr<JKStockCodeTradeBLL> JKStockCodeBLL::newStockCodeTrade()
 	return _refStockCodeTrade;
 }
 
+bool JKStockCodeBLL::deleteTrade(JKRef_Ptr<JKStockCodeTradeBLL> _refTradeBll)
+{
+	if (!_refTradeBll.valid())
+		return false;
+
+	return refJKStockCodeModel->delStockCodeTrade(_refTradeBll->getModel());
+}
+
 vector<JKRef_Ptr<JKStockCodeTradeBLL>> JKStockCodeBLL::getAllTrades()
 {
 	vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecTrades;

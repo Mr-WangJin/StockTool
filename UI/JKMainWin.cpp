@@ -14,10 +14,13 @@ JKMainWin::JKMainWin(JKProjectBLL* _projectBLL, QWidget *parent)
 {
 	ui.setupUi(this);
 	refProject = _projectBLL;
+
+	this->initUI();
+
+
 	this->stockCodeChanged(refProject->getCurStockCode());
 
-	connect(ui.actNewStockCode, SIGNAL(triggered()), this, SLOT(newStockCode()));
-	connect(ui.actBuyStock, SIGNAL(triggered()), this, SLOT(buyStockCode()));
+
 
 }
 
@@ -70,6 +73,25 @@ void JKMainWin::buyStockCode()
 	}
 }
 
+void JKMainWin::onTableWgtPopMenu(QPoint pos)
+{
+	tableWgtPopMenu->exec(QCursor::pos());
+}
+
+void JKMainWin::onDeleteTrade()
+{
+	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
+	if (_refStockCode.valid())
+	{
+		vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecRefStockCodeTradeBLL = _refStockCode->getAllTrades();
+		int rowNum = ui.tableWidget->currentRow();
+		if (_refStockCode->deleteTrade(vecRefStockCodeTradeBLL[rowNum]))
+		{
+			this->stockCodeChanged(_refStockCode);
+		}
+	}
+}
+
 void JKMainWin::stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 {
 	if (!_refStockCode.valid())
@@ -83,12 +105,12 @@ void JKMainWin::updateTableWidget()
 {
 	ui.tableWidget->clearContents();
 
-	vector<JKRef_Ptr<JKStockCodeTradeBLL>> _refStockCodeTradeBLL = refProject->getCurStockCode()->getAllTrades();
+	vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecRefStockCodeTradeBLL = refProject->getCurStockCode()->getAllTrades();
 	double latestPrice = refProject->getCurStockCode()->getLatestPrice();
 
-	ui.tableWidget->setRowCount(_refStockCodeTradeBLL.size());
+	ui.tableWidget->setRowCount(vecRefStockCodeTradeBLL.size());
 	int i = 0;
-	for (auto var : _refStockCodeTradeBLL)
+	for (auto var : vecRefStockCodeTradeBLL)
 	{
 		int j = 0;
 		QTableWidgetItem* tbItem = new QTableWidgetItem();
@@ -109,6 +131,23 @@ void JKMainWin::updateTableWidget()
 
 		i++;
 	}
+}
+
+void JKMainWin::initUI()
+{
+
+	tableWgtPopMenu = new QMenu(ui.tableWidget);
+	ui.tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+
+	QAction* actDel = new QAction(QStringLiteral("É¾³ý"), this);
+	tableWgtPopMenu->addAction(actDel);
+	connect(actDel, SIGNAL(triggered()), this, SLOT(onDeleteTrade()));
+
+
+
+	connect(ui.actNewStockCode, SIGNAL(triggered()), this, SLOT(newStockCode()));
+	connect(ui.actBuyStock, SIGNAL(triggered()), this, SLOT(buyStockCode()));
+	connect(ui.tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onTableWgtPopMenu(QPoint)));
 }
 
 

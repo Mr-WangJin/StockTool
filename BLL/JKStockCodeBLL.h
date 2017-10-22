@@ -19,10 +19,12 @@ public:
 
 	vector<JKRef_Ptr<JKStockCodeTradeBLL>> getAllTrades();
 
+
 	//设置股票参数
 	void setParams(JKString name, JKString code, double latestPrice);
 
 	JKRef_Ptr<JKStockCodeTradeBLL> newStockCodeTrade();
+	bool deleteTrade(JKRef_Ptr<JKStockCodeTradeBLL>);
 
 };
 
