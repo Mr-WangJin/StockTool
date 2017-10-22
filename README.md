@@ -1,3 +1,9 @@
+
+使用到开源库
+Hiberlite https://github.com/paulftw/hiberlite.git
+Qt库
+JKCore https://github.com/Mr-WangJin/jk_cpp.git
+
 # StockTool
 炒股辅助工具
 
