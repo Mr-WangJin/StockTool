@@ -11,12 +11,7 @@ JKBuyStockCodeWgt::JKBuyStockCodeWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode, QW
 {
 	ui.setupUi(this);
 
-	//ui.lEditDate->set
-
-	connect(ui.pBtnOK, SIGNAL(clicked()), this, SLOT(okClicked()));
-	connect(ui.pBtnCancel, SIGNAL(clicked()), this, SLOT(cancleClicked()));
-
-
+	this->initUI();
 }
 
 JKBuyStockCodeWgt::~JKBuyStockCodeWgt()
@@ -30,9 +25,11 @@ void JKBuyStockCodeWgt::okClicked()
 	QString buyCount = ui.lEdtCount->text();
 	QString buyPrice = ui.lEditPrice->text();
 
+	double price = buyPrice.toDouble();
+	JKUInt count = buyCount.toUInt();
+
 	JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTrade = refStockCode->newStockCodeTrade();
-	_refStockCodeTrade->setParams(TradeType::BUY, buyDate.toStdString(), 
-		buyCount.toULongLong(), buyPrice.toULongLong());
+	_refStockCodeTrade->setParams(TradeType::BUY, buyDate.toStdString(), count, price);
 
 	this->accept();
 
@@ -40,4 +37,14 @@ void JKBuyStockCodeWgt::okClicked()
 void JKBuyStockCodeWgt::cancleClicked()
 {
 	this->reject();
+}
+
+void JKBuyStockCodeWgt::initUI()
+{
+	ui.lEditDate->setDate(QDate::currentDate());
+
+
+	connect(ui.pBtnOK, SIGNAL(clicked()), this, SLOT(okClicked()));
+	connect(ui.pBtnCancel, SIGNAL(clicked()), this, SLOT(cancleClicked()));
+
 }

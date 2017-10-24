@@ -31,6 +31,24 @@
     <Filter Include="UI\New">
       <UniqueIdentifier>{2d21f140-8cd4-40f3-9aaa-6c0f387f39b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\Setting">
+      <UniqueIdentifier>{a68ca047-e021-4239-a765-2319c2ef63df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\qrc_stocktool.cpp">
@@ -119,6 +137,15 @@
     <ClCompile Include="BLL\JKBLLCommon.cpp">
       <Filter>BLL</Filter>
     </ClCompile>
+    <ClCompile Include="UI\JKSettingLatestPrice.cpp">
+      <Filter>UI\Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_JKSettingLatestPrice.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_JKSettingLatestPrice.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\JKMainWin.h">
@@ -151,6 +178,12 @@
     </CustomBuild>
     <CustomBuild Include="UI\JKBuyStockCodeWgt.ui">
       <Filter>UI\Input</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKSettingLatestPrice.h">
+      <Filter>UI\Setting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKSettingLatestPrice.ui">
+      <Filter>UI\Setting</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="BLL\JKBLLCommon.h">
       <Filter>BLL</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_JKSettingLatestPrice.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

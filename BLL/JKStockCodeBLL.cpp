@@ -11,6 +11,11 @@ JKString JKStockCodeBLL::getName()
 	return refJKStockCodeModel->name;
 }
 
+JKString JKStockCodeBLL::getCode()
+{
+	return refJKStockCodeModel->code;
+}
+
 JKRef_Ptr<JKStockCodeTradeBLL> JKStockCodeBLL::newStockCodeTrade()
 {
 	JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTrade = new JKStockCodeTradeBLL();
@@ -52,3 +57,7 @@ double JKStockCodeBLL::getLatestPrice()
 	return refJKStockCodeModel->latestPrice;
 }
 
+void JKStockCodeBLL::setLatestPrice(double latestPrice)
+{
+	refJKStockCodeModel->latestPrice = latestPrice;
+}

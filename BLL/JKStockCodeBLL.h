@@ -14,8 +14,10 @@ class JKStockCodeBLL : public JKBaseBLL
 
 public:
 	JKString getName();
-
+	JKString getCode();
 	double getLatestPrice();
+
+	void setLatestPrice(double latestPrice);
 
 	vector<JKRef_Ptr<JKStockCodeTradeBLL>> getAllTrades();
 

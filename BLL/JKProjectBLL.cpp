@@ -49,3 +49,17 @@ JKRef_Ptr<JKStockCodeBLL> JKProjectBLL::getCurStockCode()
 {
 	return refCurStockCode;
 }
+
+vector<JKRef_Ptr<JKStockCodeBLL>> JKProjectBLL::getAllStockCode()
+{
+	vector<JKRef_Ptr<JKStockCodeBLL>> vecTrades;
+
+	for (auto &var : refJKProjectModel->vecStockCode)
+	{
+		JKRef_Ptr<JKStockCodeBLL> _refStockCodeTradeBLL = new JKStockCodeBLL(var);
+		vecTrades.push_back(_refStockCodeTradeBLL);
+	}
+
+	return vecTrades;
+}
+

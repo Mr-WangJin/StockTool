@@ -24,6 +24,7 @@ public:
 
 	JKRef_Ptr<JKStockCodeBLL> newStockCode();
 	JKRef_Ptr<JKStockCodeBLL> getCurStockCode();
+	vector<JKRef_Ptr<JKStockCodeBLL>> getAllStockCode();
 
 	void setCurStockCode(JKRef_Ptr<JKStockCodeBLL> stockCode);
 

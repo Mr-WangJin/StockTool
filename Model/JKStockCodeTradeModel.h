@@ -21,7 +21,7 @@ public:
 
 	int type;
 	JKString date;
-	int tradingPrice;
-	int tradingCount;
+	double tradingPrice;
+	JKUInt tradingCount;
 };
 

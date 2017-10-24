@@ -18,6 +18,9 @@ public:
 	void cancleClicked();
 
 private:
+	void initUI();
+
+private:
 	Ui::JKBuyStockCodeWgt ui;
 
 	JKRef_Ptr<JKStockCodeBLL> refStockCode;

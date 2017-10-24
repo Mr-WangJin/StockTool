@@ -35,8 +35,23 @@
       <widget class="JKTrendChart" name="trendChartWgt" native="true"/>
       <widget class="JKInfoWgt" name="widget_2" native="true">
        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
         <item>
          <widget class="QTableWidget" name="tableWidget">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
           <property name="selectionBehavior">
            <enum>QAbstractItemView::SelectRows</enum>
           </property>
@@ -66,6 +81,33 @@
            </property>
           </column>
          </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cmbBxSwitch"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pBtnSetCurPrice">
+            <property name="text">
+             <string>设置当前交易价</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -200,7 +242,10 @@
   </action>
   <action name="actSwitchCode">
    <property name="text">
-    <string>切换股票</string>
+    <string>设置当前显示股票</string>
+   </property>
+   <property name="toolTip">
+    <string>设置当前显示股票</string>
    </property>
   </action>
  </widget>

@@ -5,21 +5,34 @@
 #include "Model/JKStockCodeSettingModel.h"
 #include "Model/JKStockCodeTradeModel.h"
 #include <iostream>
+#include <QFile>
 
 
 
 JKDatabase::JKDatabase()
 {
-	db.open("test.db");
+	QFile f("test.db");
+	if (f.exists())
+	{
+		db.open("test.db");
 
-	db.registerBeanClass<JKProjectModel>();
-	db.registerBeanClass<JKStockCodeModel>();
-	db.registerBeanClass<JKStockCodeSettingModel>();
-	db.registerBeanClass<JKStockCodeTradeModel>();
+		db.registerBeanClass<JKProjectModel>();
+		db.registerBeanClass<JKStockCodeModel>();
+		db.registerBeanClass<JKStockCodeSettingModel>();
+		db.registerBeanClass<JKStockCodeTradeModel>();
+	}
+	else
+	{
+		db.open("test.db");
 
-	//db.dropModel();
-	//db.createModel();
+		db.registerBeanClass<JKProjectModel>();
+		db.registerBeanClass<JKStockCodeModel>();
+		db.registerBeanClass<JKStockCodeSettingModel>();
+		db.registerBeanClass<JKStockCodeTradeModel>();
 
+		db.dropModel();
+		db.createModel();
+	}
 }
 
 JKDatabase::~JKDatabase()

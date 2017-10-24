@@ -7,6 +7,7 @@
 #include "bll/JKStockCodeBLL.h"
 
 class JKProjectBLL;
+class QLabel;
 
 
 class JKMainWin : public QMainWindow
@@ -22,19 +23,26 @@ public:
 	private slots:
 	void newStockCode();
 	void buyStockCode();
+	void onSwitchCode();
+	void setCurrentStockPrice();
 
 	void onTableWgtPopMenu(QPoint pos);
 	void onDeleteTrade();
 
 	void stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
+	void latestPriceChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
 	void updateTableWidget();
 
 private:
 	void initUI();
+	void updateCmbBoxSwitch();
 
 private:
 	Ui::JKMainWin ui;
 	QMenu* tableWgtPopMenu;
+	QLabel* lblShowCurStock;
+	QLabel* lblLatestPrice;
+
 
 	JKRef_Ptr<JKProjectBLL> refProject;
 

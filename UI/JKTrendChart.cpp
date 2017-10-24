@@ -135,7 +135,7 @@ void JKTrendChart::initUi()
 	chartView = new QChartView();
 	chartView->setChart(chart);
 	chartView->setRenderHint(QPainter::Antialiasing);
-	chartView->setFixedWidth(400);
+	//chartView->setFixedWidth(400);
 
 	QVBoxLayout* pVLayout = new QVBoxLayout;
 	pVLayout->setSpacing(0);
