@@ -78,21 +78,13 @@ void JKMainWin::openProject()
 
 void JKMainWin::newStockCode()
 {
-	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
-	if (!_refStockCode.valid())
+	JKNewStockCodeWgt newStockCodeWgt(refProject);
+	if (QDialog::Accepted == newStockCodeWgt.exec())
 	{
-		QMessageBox::information(this, QStringLiteral("提示！"), QStringLiteral("请新建工程......"));
-	}
-	else
-	{
-		JKNewStockCodeWgt newStockCodeWgt(refProject);
-		if (QDialog::Accepted == newStockCodeWgt.exec())
-		{
-			JKRef_Ptr<JKStockCodeBLL> refCurStockCode = newStockCodeWgt.getStockCode();
-			refProject->setCurStockCode(refCurStockCode);
-			this->stockCodeChanged(refCurStockCode);
-			this->updateCmbBoxSwitch();
-		}
+		JKRef_Ptr<JKStockCodeBLL> refCurStockCode = newStockCodeWgt.getStockCode();
+		refProject->setCurStockCode(refCurStockCode);
+		this->stockCodeChanged(refCurStockCode);
+		this->updateCmbBoxSwitch();
 	}
 }
 
@@ -126,7 +118,7 @@ void JKMainWin::sellStockCode()
 		JKSellStockCodeWgt buyStockCodeWgt(_refStockCode);
 		if (buyStockCodeWgt.exec() == QDialog::Accepted)
 		{
-			ui.trendChartWgt->updateTrendChart();
+			//ui.trendChartWgt->updateTrendChart();
 			this->updateTableWidget();
 		}
 	}
