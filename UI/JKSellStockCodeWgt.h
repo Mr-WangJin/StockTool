@@ -20,7 +20,7 @@ private:
 	private slots:
 	void onOK();
 	void onCancel();
-
+	void onCmbBoxChanged(int);
 
 private:
 	Ui::JKSellStockCodeWgt ui;

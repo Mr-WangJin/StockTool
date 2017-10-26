@@ -2,9 +2,8 @@
 
 
 #include "BLL/JKBaseBLL.h"
-//#include "Model/JKStockCodeTradeModel.h"
+#include "Model/JKStockCodeTradeModel.h"
 
-class JKStockCodeTradeModel;
 
 class JKStockCodeTradeBLL : public JKBaseBLL
 {

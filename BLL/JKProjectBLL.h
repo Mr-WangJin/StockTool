@@ -8,6 +8,8 @@ class JKStockCodeBLL;
 
 class JKProjectBLL : public JKBaseBLL
 {
+	JK_BLL_INIT(JKProject);
+
 public:
 	enum class ProjectInitStatus
 	{
@@ -16,6 +18,7 @@ public:
 		DEFAULT_FirstOrNew
 	};
 public:
+
 	JKProjectBLL(ProjectInitStatus status);
 	~JKProjectBLL();
 	
@@ -30,7 +33,6 @@ public:
 
 	void setCurStockCode(JKRef_Ptr<JKStockCodeBLL> stockCode);
 
-	JK_BLL_INIT(JKProject);
 
 private:
 	JKRef_Ptr<JKStockCodeBLL> refCurStockCode;

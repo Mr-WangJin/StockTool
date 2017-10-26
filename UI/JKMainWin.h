@@ -31,6 +31,7 @@ public:
 
 	void onTableWgtPopMenu(QPoint pos);
 	void onDeleteTrade();
+	void onSellTrade();
 
 	void stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
 	void latestPriceChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode);

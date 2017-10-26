@@ -63,7 +63,7 @@ void JKMainWin::newProject()
 
 void JKMainWin::openProject()
 {
-	QString fullName = QFileDialog::getOpenFileName(this, QStringLiteral("请选择工程路径......"));
+	QString fullName = QFileDialog::getOpenFileName(this, QStringLiteral("请选择工程文件......"));
 	if (fullName.isEmpty())
 	{
 		return;
@@ -85,6 +85,7 @@ void JKMainWin::newStockCode()
 		refProject->setCurStockCode(refCurStockCode);
 		this->stockCodeChanged(refCurStockCode);
 		this->updateCmbBoxSwitch();
+		this->updateInputUIEnable();
 	}
 }
 
@@ -115,8 +116,8 @@ void JKMainWin::sellStockCode()
 	}
 	else
 	{
-		JKSellStockCodeWgt buyStockCodeWgt(_refStockCode);
-		if (buyStockCodeWgt.exec() == QDialog::Accepted)
+		JKSellStockCodeWgt sellStockCodeWgt(_refStockCode);
+		if (sellStockCodeWgt.exec() == QDialog::Accepted)
 		{
 			//ui.trendChartWgt->updateTrendChart();
 			this->updateTableWidget();
@@ -160,6 +161,9 @@ void JKMainWin::onTableWgtPopMenu(QPoint pos)
 
 void JKMainWin::onDeleteTrade()
 {
+	if (!refProject.valid())
+		return;
+
 	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
 	if (_refStockCode.valid())
 	{
@@ -172,6 +176,22 @@ void JKMainWin::onDeleteTrade()
 	}
 }
 
+void JKMainWin::onSellTrade()
+{
+	if (!refProject.valid())
+		return;
+
+	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
+	if (_refStockCode.valid())
+	{
+		JKSellStockCodeWgt sellStockCodeWgt(_refStockCode);
+		if (sellStockCodeWgt.exec() == QDialog::Accepted)
+		{
+			this->updateTableWidget();
+		}
+	}
+}
+
 void JKMainWin::stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 {
 	if (!_refStockCode.valid())
@@ -179,6 +199,7 @@ void JKMainWin::stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 	this->updateStatusBar(_refStockCode);
 	ui.trendChartWgt->setStockCode(_refStockCode);
 	this->updateTableWidget();
+	this->updateCmbBoxSwitch();
 }
 
 void JKMainWin::latestPriceChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
@@ -243,6 +264,9 @@ void JKMainWin::initUI()
 	QAction* actDel = new QAction(QStringLiteral("删除"), this);
 	tableWgtPopMenu->addAction(actDel);
 	connect(actDel, SIGNAL(triggered()), this, SLOT(onDeleteTrade()));
+	QAction* actSell = new QAction(QStringLiteral("卖出"), this);
+	tableWgtPopMenu->addAction(actSell);
+	connect(actSell, SIGNAL(triggered()), this, SLOT(onSellTrade()));
 
 	lblShowCurStock = new QLabel(QStringLiteral("当前显示股票："));
 	ui.statusBar->addWidget(lblShowCurStock);

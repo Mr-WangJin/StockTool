@@ -20,6 +20,7 @@ public:
 	void setLatestPrice(double latestPrice);
 
 	vector<JKRef_Ptr<JKStockCodeTradeBLL>> getAllTrades();
+	JKRef_Ptr<JKStockCodeTradeBLL> getTradeById(const JKString &id);
 
 
 	//设置股票参数

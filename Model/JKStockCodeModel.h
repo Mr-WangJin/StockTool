@@ -23,6 +23,7 @@ class JKStockCodeModel : public JKBaseModel
 	bool delStockCodeTrade(bean_ptr<JKStockCodeTradeModel> _refStockCodeTradeModel);
 
 public:
+	JKString id;
 	JKString name;
 	JKString code;
 	double latestPrice;

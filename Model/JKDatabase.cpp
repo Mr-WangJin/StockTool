@@ -13,7 +13,7 @@
 #include "QVariant"
 
 
-const JKString JKDatabase::dbName = "JKDatabase";
+const JKString JKDatabase::dbName = "JKDatabase.jk";
 
 JKDatabase::JKDatabase()
 {

@@ -19,7 +19,7 @@ public:
 	JKStockCodeTradeModel() {};
 
 public:
-
+	JKString id;
 	int type;
 	JKString date;
 	double buyPrice;

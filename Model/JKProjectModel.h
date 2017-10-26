@@ -21,6 +21,7 @@ public:
 	void addStockCode(bean_ptr<JKStockCodeModel> stockCode);
 
 public:
+	JKString id;
 	JKString name;
 	JKString createDate;
 

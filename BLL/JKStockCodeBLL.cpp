@@ -45,6 +45,18 @@ vector<JKRef_Ptr<JKStockCodeTradeBLL>> JKStockCodeBLL::getAllTrades()
 	return vecTrades;	 
 }
 
+JKRef_Ptr<JKStockCodeTradeBLL> JKStockCodeBLL::getTradeById(const JKString &id)
+{
+	for (auto &var : refJKStockCodeModel->vecCodeTrade)
+	{
+		if (var->id != id)
+			continue;
+		JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTradeBLL = new JKStockCodeTradeBLL(var);
+		return _refStockCodeTradeBLL;
+	}
+	return nullptr;
+}
+
 void JKStockCodeBLL::setParams(JKString name, JKString code, double latestPrice)
 {
 	refJKStockCodeModel->name = name;
