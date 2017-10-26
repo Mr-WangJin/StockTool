@@ -78,15 +78,22 @@ void JKMainWin::openProject()
 
 void JKMainWin::newStockCode()
 {
-	JKNewStockCodeWgt newStockCodeWgt(refProject);
-	if (QDialog::Accepted == newStockCodeWgt.exec())
+	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
+	if (!_refStockCode.valid())
 	{
-		JKRef_Ptr<JKStockCodeBLL> refCurStockCode = newStockCodeWgt.getStockCode();
-		refProject->setCurStockCode(refCurStockCode);
-		this->stockCodeChanged(refCurStockCode);
-		this->updateCmbBoxSwitch();
+		QMessageBox::information(this, QStringLiteral("提示！"), QStringLiteral("请新建工程......"));
 	}
-	
+	else
+	{
+		JKNewStockCodeWgt newStockCodeWgt(refProject);
+		if (QDialog::Accepted == newStockCodeWgt.exec())
+		{
+			JKRef_Ptr<JKStockCodeBLL> refCurStockCode = newStockCodeWgt.getStockCode();
+			refProject->setCurStockCode(refCurStockCode);
+			this->stockCodeChanged(refCurStockCode);
+			this->updateCmbBoxSwitch();
+		}
+	}
 }
 
 void JKMainWin::buyStockCode()
@@ -112,7 +119,7 @@ void JKMainWin::sellStockCode()
 	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
 	if (!_refStockCode.valid())
 	{
-
+		QMessageBox::information(this, QStringLiteral("提示！"), QStringLiteral("请新建股票代码"));
 	}
 	else
 	{
@@ -254,7 +261,6 @@ void JKMainWin::initUI()
 	ui.m_pHSplitter->setSizes(QList<int>() << 200 << 400);
 	this->updateCmbBoxSwitch();
 
-
 	connect(ui.actNewStockCode, SIGNAL(triggered()), this, SLOT(newStockCode()));
 	connect(ui.actBuyStock, SIGNAL(triggered()), this, SLOT(buyStockCode()));
 	connect(ui.actSellStock, SIGNAL(triggered()), this, SLOT(sellStockCode()));
@@ -263,6 +269,8 @@ void JKMainWin::initUI()
 	connect(ui.pBtnSetCurPrice, SIGNAL(clicked()), this, SLOT(setCurrentStockPrice()));
 	connect(ui.actNewProject, SIGNAL(triggered()), this, SLOT(newProject()));
 	connect(ui.actOpenProject, SIGNAL(triggered()), this, SLOT(openProject()));
+	connect(ui.actExit, SIGNAL(triggered()), this, SLOT(close()));
+
 }
 
 void JKMainWin::updateCmbBoxSwitch()
@@ -285,14 +293,31 @@ void JKMainWin::updateCmbBoxSwitch()
 
 void JKMainWin::updateUIEnable()
 {
-	bool b = false;
+	bool bUIEnable = false;
 	if (refProject.valid())
-		b = true;
-	ui.trendChartWgt->setEnabled(b);
-	ui.tableWidget->setEnabled(b);
-	ui.cmbBxSwitch->setEnabled(b);
-	ui.pBtnSetCurPrice->setEnabled(b);
+		bUIEnable = true;
+	ui.trendChartWgt->setEnabled(bUIEnable);
+	ui.tableWidget->setEnabled(bUIEnable);
+	ui.cmbBxSwitch->setEnabled(bUIEnable);
+	ui.pBtnSetCurPrice->setEnabled(bUIEnable);
 
+	ui.actNewStockCode->setEnabled(bUIEnable);
+
+	this->updateInputUIEnable();
+}
+
+void JKMainWin::updateInputUIEnable()
+{
+	bool bInputEnable = refProject.valid();
+	if (bInputEnable)
+	{
+		JKRef_Ptr<JKStockCodeBLL> refCurStockCode = refProject->getCurStockCode();
+		if (!refCurStockCode.valid())
+			bInputEnable = false;
+	}
+
+	ui.actBuyStock->setEnabled(bInputEnable);
+	ui.actSellStock->setEnabled(bInputEnable);
 }
 
 

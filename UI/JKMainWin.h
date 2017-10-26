@@ -40,6 +40,7 @@ private:
 	void initUI();
 	void updateCmbBoxSwitch();
 	void updateUIEnable();
+	void updateInputUIEnable();
 
 private:
 	Ui::JKMainWin ui;
