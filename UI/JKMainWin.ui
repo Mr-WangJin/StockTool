@@ -80,6 +80,11 @@
             <string>收益</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>收益百分比</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item>
@@ -98,7 +103,14 @@
            </spacer>
           </item>
           <item>
-           <widget class="QComboBox" name="cmbBxSwitch"/>
+           <widget class="QComboBox" name="cmbBxSwitch">
+            <property name="editable">
+             <bool>false</bool>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::AdjustToContents</enum>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QPushButton" name="pBtnSetCurPrice">
@@ -128,8 +140,9 @@
     <property name="title">
      <string> 文件</string>
     </property>
-    <addaction name="actNewStockCode"/>
+    <addaction name="actNewProject"/>
     <addaction name="actOpenProject"/>
+    <addaction name="actNewStockCode"/>
     <addaction name="actSave"/>
     <addaction name="actExit"/>
    </widget>
@@ -246,6 +259,11 @@
    </property>
    <property name="toolTip">
     <string>设置当前显示股票</string>
+   </property>
+  </action>
+  <action name="actNewProject">
+   <property name="text">
+    <string>新建项目</string>
    </property>
   </action>
  </widget>

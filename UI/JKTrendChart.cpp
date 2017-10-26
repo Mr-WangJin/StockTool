@@ -54,7 +54,7 @@ void JKTrendChart::updateTrendChart()
 		QDateTime dt;
 		dt.setDate(QDate::fromString(QString::fromStdString(dateStr), Qt::ISODate));
 
-		JKUInt64 price = var->getPrice();
+		JKUInt64 price = var->getBuyPrice();
 		JKUInt64 count = var->getCount();
 
 		QCandlestickSet *candlestickSet = new QCandlestickSet(dt.toMSecsSinceEpoch());

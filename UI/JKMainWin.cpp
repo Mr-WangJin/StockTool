@@ -1,28 +1,28 @@
 #include "stdafx.h"
+#include <QFileDialog>
+#include <QMessageBox>
 
 #include "JKMainWin.h"
 #include "JKNewStockCodeWgt.h"
 #include "JKBuyStockCodeWgt.h"
 #include "JKSettingLatestPrice.h"
+#include "JKSellStockCodeWgt.h"
 #include "BLL\JKStockCodeTradeBLL.h"
 
 #include "bll/JKProjectBLL.h"
 #include "bll/JKStockCodeBLL.h"
 
 
-JKMainWin::JKMainWin(JKProjectBLL* _projectBLL, QWidget *parent)
+JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-	refProject = _projectBLL;
+	refProject = nullptr;
 
 	this->initUI();
+	this->updateUIEnable();
 
-
-	this->stockCodeChanged(refProject->getCurStockCode());
-
-
-
+//	this->stockCodeChanged(refProject->getCurStockCode());
 }
 
 JKMainWin::~JKMainWin()
@@ -39,6 +39,41 @@ void JKMainWin::updateStatusBar(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 		lblLatestPrice->setText(QStringLiteral("当前股票最新交易价：") + QString::number(_refStockCode->getLatestPrice()));
 	}
 	
+}
+
+void JKMainWin::newProject()
+{
+	QString path = QFileDialog::getExistingDirectory(this, QStringLiteral("请选择新建工程路径......"));
+	if (path.isEmpty())
+		return;
+	QDir dir(path);
+	QStringList fileNames = dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot | QDir::Hidden);
+	if (fileNames.count() > 0)
+	{
+		QMessageBox::information(this, QStringLiteral("提示！"), QStringLiteral("文件夹不为空！"));
+		return;
+	}
+	else
+	{
+		refProject = JKProjectBLL::newProject(path.toStdString());
+		this->updateUIEnable();
+		//this->stockCodeChanged(refProject->getCurStockCode());
+	}
+}
+
+void JKMainWin::openProject()
+{
+	QString fullName = QFileDialog::getOpenFileName(this, QStringLiteral("请选择工程路径......"));
+	if (fullName.isEmpty())
+	{
+		return;
+	}
+	else
+	{
+		refProject = JKProjectBLL::openProject(fullName.toStdString());
+		this->updateUIEnable();
+		this->stockCodeChanged(refProject->getCurStockCode());
+	}
 }
 
 void JKMainWin::newStockCode()
@@ -59,11 +94,29 @@ void JKMainWin::buyStockCode()
 	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
 	if (!_refStockCode.valid())
 	{
-
+		QMessageBox::information(this, QStringLiteral("提示！"), QStringLiteral("请新建股票代码"));
 	}
 	else
 	{
 		JKBuyStockCodeWgt buyStockCodeWgt(_refStockCode);
+		if (buyStockCodeWgt.exec() == QDialog::Accepted)
+		{
+			ui.trendChartWgt->updateTrendChart();
+			this->updateTableWidget();
+		}
+	}
+}
+
+void JKMainWin::sellStockCode()
+{
+	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
+	if (!_refStockCode.valid())
+	{
+
+	}
+	else
+	{
+		JKSellStockCodeWgt buyStockCodeWgt(_refStockCode);
 		if (buyStockCodeWgt.exec() == QDialog::Accepted)
 		{
 			ui.trendChartWgt->updateTrendChart();
@@ -169,10 +222,13 @@ void JKMainWin::updateTableWidget()
 		tbItem->setData(Qt::DisplayRole, var->getCount());
 		ui.tableWidget->setItem(i, j++, tbItem);
 		tbItem = new QTableWidgetItem();
-		tbItem->setData(Qt::DisplayRole, var->getPrice());
+		tbItem->setData(Qt::DisplayRole, var->getBuyPrice());
 		ui.tableWidget->setItem(i, j++, tbItem);
 		tbItem = new QTableWidgetItem();
 		tbItem->setData(Qt::DisplayRole, var->getEarning(latestPrice));
+		ui.tableWidget->setItem(i, j++, tbItem);
+		tbItem = new QTableWidgetItem();
+		tbItem->setData(Qt::DisplayRole, QString("%1%").arg(var->getEarningPercent(latestPrice)));
 		ui.tableWidget->setItem(i, j++, tbItem);
 
 		i++;
@@ -195,18 +251,25 @@ void JKMainWin::initUI()
 	lblLatestPrice = new QLabel(QStringLiteral("当前股票最新交易价："));
 	ui.statusBar->addWidget(lblLatestPrice);
 
+	ui.m_pHSplitter->setSizes(QList<int>() << 200 << 400);
 	this->updateCmbBoxSwitch();
 
 
 	connect(ui.actNewStockCode, SIGNAL(triggered()), this, SLOT(newStockCode()));
 	connect(ui.actBuyStock, SIGNAL(triggered()), this, SLOT(buyStockCode()));
+	connect(ui.actSellStock, SIGNAL(triggered()), this, SLOT(sellStockCode()));
 	connect(ui.tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onTableWgtPopMenu(QPoint)));
 	connect(ui.cmbBxSwitch, SIGNAL(currentIndexChanged(int)), this, SLOT(onSwitchCode()), Qt::UniqueConnection);
 	connect(ui.pBtnSetCurPrice, SIGNAL(clicked()), this, SLOT(setCurrentStockPrice()));
+	connect(ui.actNewProject, SIGNAL(triggered()), this, SLOT(newProject()));
+	connect(ui.actOpenProject, SIGNAL(triggered()), this, SLOT(openProject()));
 }
 
 void JKMainWin::updateCmbBoxSwitch()
 {
+	if (!refProject.valid())
+		return;
+
 	disconnect(ui.cmbBxSwitch, SIGNAL(currentIndexChanged(int)), this, SLOT(onSwitchCode()));
 
 	ui.cmbBxSwitch->clear();
@@ -217,6 +280,18 @@ void JKMainWin::updateCmbBoxSwitch()
 	}
 
 	connect(ui.cmbBxSwitch, SIGNAL(currentIndexChanged(int)), this, SLOT(onSwitchCode()));
+
+}
+
+void JKMainWin::updateUIEnable()
+{
+	bool b = false;
+	if (refProject.valid())
+		b = true;
+	ui.trendChartWgt->setEnabled(b);
+	ui.tableWidget->setEnabled(b);
+	ui.cmbBxSwitch->setEnabled(b);
+	ui.pBtnSetCurPrice->setEnabled(b);
 
 }
 

@@ -10,8 +10,9 @@ class JKStockCodeTradeModel : public JKBaseModel
 	{
 		ar & HIBERLITE_NVP(type);
 		ar & HIBERLITE_NVP(date);
-		ar & HIBERLITE_NVP(tradingPrice);
-		ar & HIBERLITE_NVP(tradingCount);
+		ar & HIBERLITE_NVP(buyPrice);
+		ar & HIBERLITE_NVP(buyCount);
+		ar & HIBERLITE_NVP(sellPrice);
 	}
 
 public:
@@ -21,7 +22,8 @@ public:
 
 	int type;
 	JKString date;
-	double tradingPrice;
-	JKUInt tradingCount;
+	double buyPrice;
+	JKUInt buyCount;
+	double sellPrice;
 };
 

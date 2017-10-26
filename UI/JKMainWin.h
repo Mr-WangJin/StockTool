@@ -14,15 +14,18 @@ class JKMainWin : public QMainWindow
 {
 	Q_OBJECT
 public:
-	JKMainWin(JKProjectBLL* _projectBLL, QWidget *parent = 0);
+	JKMainWin(/*JKProjectBLL* _projectBLL, */QWidget *parent = 0);
 	~JKMainWin();
 
 
 	void updateStatusBar(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
 
 	private slots:
+	void newProject();
+	void openProject();
 	void newStockCode();
 	void buyStockCode();
+	void sellStockCode();
 	void onSwitchCode();
 	void setCurrentStockPrice();
 
@@ -36,6 +39,7 @@ public:
 private:
 	void initUI();
 	void updateCmbBoxSwitch();
+	void updateUIEnable();
 
 private:
 	Ui::JKMainWin ui;

@@ -5,7 +5,7 @@
 #include <JKFramework/SmartPtr/JKRef_Ptr.h>
 USING_JK_NAMESPACE
 
-#include "bll\JKDatabase.h"
+#include "Model\JKDatabase.h"
 
 
 #include <hiberlite.h>

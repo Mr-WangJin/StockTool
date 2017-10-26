@@ -89,9 +89,6 @@
     <ClCompile Include="BLL\JKBaseBLL.cpp">
       <Filter>BLL</Filter>
     </ClCompile>
-    <ClCompile Include="BLL\JKDatabase.cpp">
-      <Filter>BLL</Filter>
-    </ClCompile>
     <ClCompile Include="BLL\JKStockCodeBLL.cpp">
       <Filter>BLL</Filter>
     </ClCompile>
@@ -146,6 +143,24 @@
     <ClCompile Include="GeneratedFiles\Release\moc_JKSettingLatestPrice.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_JKSellStockCodeWgt.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_JKSellStockCodeWgt.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\JKSellStockCodeWgt.cpp">
+      <Filter>UI\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\JKProjectVersionModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\JKDatabase.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\JKExeVersion.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\JKMainWin.h">
@@ -185,6 +200,12 @@
     <CustomBuild Include="UI\JKSettingLatestPrice.ui">
       <Filter>UI\Setting</Filter>
     </CustomBuild>
+    <CustomBuild Include="UI\JKSellStockCodeWgt.ui">
+      <Filter>UI\Input</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKSellStockCodeWgt.h">
+      <Filter>UI\Input</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_JKMainWin.h">
@@ -204,9 +225,6 @@
       <Filter>Model</Filter>
     </ClInclude>
     <ClInclude Include="BLL\JKBaseBLL.h">
-      <Filter>BLL</Filter>
-    </ClInclude>
-    <ClInclude Include="BLL\JKDatabase.h">
       <Filter>BLL</Filter>
     </ClInclude>
     <ClInclude Include="BLL\JKStockCodeBLL.h">
@@ -241,6 +259,18 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_JKSettingLatestPrice.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_JKSellStockCodeWgt.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\JKProjectVersionModel.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\JKDatabase.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\JKExeVersion.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

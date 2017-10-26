@@ -9,20 +9,40 @@ JKProjectBLL::JKProjectBLL(ProjectInitStatus status)
 {
 	if (status == ProjectInitStatus::DEFAULT_FirstOrNew)
 	{
-		std::vector<sqlid_t> vecIds = SingleDB.getBeanIds<JKProjectModel>();
+		std::vector<sqlid_t> vecIds = SingleDB->getBeanIds<JKProjectModel>();
 		if (vecIds.size() > 0)
 		{
-			refJKProjectModel = SingleDB.loadBean<JKProjectModel>(vecIds[0]);
+			refJKProjectModel = SingleDB->loadBean<JKProjectModel>(vecIds[0]);
 			if (refJKProjectModel->vecStockCode.size() > 0)
 				refCurStockCode = new JKStockCodeBLL(refJKProjectModel->vecStockCode[0]);
 		}
 		else
 		{
-			refJKProjectModel = SingleDB.createBean<JKProjectModel>();
+			refJKProjectModel = SingleDB->createBean<JKProjectModel>();
 		}
 	}
 }
 
+JKRef_Ptr<JKProjectBLL> JKProjectBLL::newProject(const JKString &path)
+{
+	if (JKSingleton<JKDatabase>::GetInstance().newDatabase(path))
+	{
+		JKRef_Ptr<JKProjectBLL> refProjectBLL = new JKProjectBLL(JKProjectBLL::ProjectInitStatus::DEFAULT_FirstOrNew);
+		return refProjectBLL;
+	}
+	
+	return nullptr;
+}
+
+JKRef_Ptr<JKProjectBLL> JKProjectBLL::openProject(const JKString & path)
+{
+	if (JKSingleton<JKDatabase>::GetInstance().openDatabase(path))
+	{
+		JKRef_Ptr<JKProjectBLL> refProjectBLL = new JKProjectBLL(JKProjectBLL::ProjectInitStatus::DEFAULT_FirstOrNew);
+		return refProjectBLL;
+	}
+	return nullptr;
+}
 
 JKProjectBLL::~JKProjectBLL()
 {
