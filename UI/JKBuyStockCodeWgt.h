@@ -4,6 +4,7 @@
 #include "ui_JKBuyStockCodeWgt.h"
 
 class JKStockCodeBLL;
+class JKStockCodeTradeBLL;
 
 
 class JKBuyStockCodeWgt : public QDialog
@@ -12,6 +13,8 @@ class JKBuyStockCodeWgt : public QDialog
 public:
 	JKBuyStockCodeWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode, QWidget* parent = nullptr);
 	~JKBuyStockCodeWgt();
+
+	JKRef_Ptr<JKStockCodeTradeBLL> getNewStockCodeTrade();
 
 	private slots:
 	void okClicked();
@@ -24,6 +27,7 @@ private:
 	Ui::JKBuyStockCodeWgt ui;
 
 	JKRef_Ptr<JKStockCodeBLL> refStockCode;
+	JKRef_Ptr<JKStockCodeTradeBLL> refStockCodeTrade;
 };
 
 

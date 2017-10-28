@@ -30,6 +30,7 @@ void JKSellStockCodeWgt::initUI()
 			ui.cmbBx->addItem(text, QString::fromStdString(var->getId()));
 		}
 	}
+	onCmbBoxChanged(0);
 	connect(ui.cmbBx, SIGNAL(currentIndexChanged(int)), this, SLOT(onCmbBoxChanged(int)));
 	connect(ui.pBtnOK, SIGNAL(clicked()), this, SLOT(onOK()));
 	connect(ui.pBtnCancel, SIGNAL(clicked()), this, SLOT(onCancel()));

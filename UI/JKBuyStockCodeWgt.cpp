@@ -19,6 +19,11 @@ JKBuyStockCodeWgt::~JKBuyStockCodeWgt()
 
 }
 
+JKRef_Ptr<JKStockCodeTradeBLL> JKBuyStockCodeWgt::getNewStockCodeTrade()
+{
+	return refStockCodeTrade;
+};
+
 void JKBuyStockCodeWgt::okClicked()
 {
 	QString buyDate = ui.lEditDate->date().toString(Qt::ISODate);
@@ -28,8 +33,8 @@ void JKBuyStockCodeWgt::okClicked()
 	double price = buyPrice.toDouble();
 	JKUInt count = buyCount.toUInt();
 
-	JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTrade = refStockCode->newStockCodeTrade();
-	_refStockCodeTrade->setParams(TradeType::BUY, buyDate.toStdString(), count, price);
+	refStockCodeTrade = refStockCode->newStockCodeTrade();
+	refStockCodeTrade->setParams(TradeType::BUY, buyDate.toStdString(), count, price);
 
 	this->accept();
 

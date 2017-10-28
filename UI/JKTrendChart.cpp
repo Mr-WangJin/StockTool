@@ -29,7 +29,6 @@ void JKTrendChart::setStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 
 void JKTrendChart::updateTrendChart()
 {
-	//return;
 	if (!refStockCode.valid())
 		return;
 
@@ -48,7 +47,7 @@ void JKTrendChart::updateTrendChart()
 	QDateTime minDate;
 	QDateTime maxDate;
 
-	for (auto var : _refStockCodeTradeBLL)
+	for (auto &var : _refStockCodeTradeBLL)
 	{
 		JKString dateStr = var->getDate();
 		QDateTime dt;
@@ -63,6 +62,22 @@ void JKTrendChart::updateTrendChart()
 		candlestickSet->setLow(price);
 		candlestickSet->setClose(price + .1);
 
+		switch (var->getType())
+		{
+		case TradeType::BUY:
+		{
+			candlestickSet->setBrush(Qt::blue);
+		}
+			break;
+		case TradeType::SELL:
+		{
+			candlestickSet->setBrush(Qt::green);
+		}
+			break;
+		default:
+			break;
+		}
+
 		acmeSeries->append(candlestickSet);
 	}
 
@@ -72,9 +87,10 @@ void JKTrendChart::updateTrendChart()
 	axisX->setTickCount(1);
 	axisX->setFormat("yyyy-MM-dd");
 	axisX->setTitleText(QStringLiteral("ÈÕÆÚ"));
+	//axisX->setRange
 	chart->addAxis(axisX, Qt::AlignBottom);
 
-	axisX->setTickCount(_refStockCodeTradeBLL.size());
+	axisX->setTickCount(_refStockCodeTradeBLL.size()+2);
 	//axisX->setTickCount(5);
 	chart->addSeries(acmeSeries);
 	acmeSeries->attachAxis(axisX);
