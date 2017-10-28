@@ -57,6 +57,7 @@ signals:
 	void updateInputUIEnable(JKRef_Ptr<JKStockCodeBLL>);
 	void updateUIEnable(JKRef_Ptr<JKProjectBLL>);
 	void updateCmbBoxSwitch(JKRef_Ptr<JKProjectBLL>);
+	void addedCmbBoxSwitch(JKRef_Ptr<JKStockCodeBLL>);
 
 
 private:

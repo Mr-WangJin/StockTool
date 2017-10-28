@@ -7,6 +7,7 @@
 #include "JKBuyStockCodeWgt.h"
 #include "JKSettingLatestPrice.h"
 #include "JKSellStockCodeWgt.h"
+#include "JKNewProject.h"
 
 
 
@@ -53,9 +54,18 @@ void JKMainWin::newProject()
 	}
 	else
 	{
-		emit beforeProjectChanged();
-		refProject = JKProjectBLL::newProject(path.toStdString());
-		emit afterProjectChanged(refProject);
+		JKNewProject newProject(this);
+		if (newProject.exec() == QDialog::Accepted)
+		{
+			emit beforeProjectChanged();
+
+			refProject = JKProjectBLL::newProject(path.toStdString());
+			refProject->setStampTax(newProject.getStampTax());
+			refProject->setTransfer(newProject.getTransfer());
+			refProject->setCommission(newProject.getCommission());
+
+			emit afterProjectChanged(refProject);
+		}
 	}
 }
 
@@ -88,6 +98,7 @@ void JKMainWin::newStockCode()
 		refProject->setCurStockCode(refCurStockCode);
 
 		emit afterAddedNewStockCode(refCurStockCode);
+		emit afterStockCodeChanged(refCurStockCode);
 	}
 }
 
@@ -105,6 +116,7 @@ void JKMainWin::buyStockCode()
 		{
 			ui.trendChartWgt->updateTrendChart();
 			this->updateTableWidget();
+			this->updateInfoWgt(_refStockCode);
 		}
 	}
 }
@@ -123,6 +135,7 @@ void JKMainWin::sellStockCode()
 		{
 			ui.trendChartWgt->updateTrendChart();
 			this->updateTableWidget();
+			this->updateInfoWgt(_refStockCode);
 		}
 	}
 }
@@ -223,7 +236,7 @@ void JKMainWin::updateTableWidget()
 
 	ui.tableWidget->setRowCount(vecRefStockCodeTradeBLL.size());
 	int i = 0;
-	for (auto var : vecRefStockCodeTradeBLL)
+	for (auto &var : vecRefStockCodeTradeBLL)
 	{
 		int j = 0;
 		QTableWidgetItem* tbItem = new QTableWidgetItem();
@@ -249,10 +262,18 @@ void JKMainWin::updateTableWidget()
 		tbItem->setData(Qt::DisplayRole, var->getBuyPrice());
 		ui.tableWidget->setItem(i, j++, tbItem);
 		tbItem = new QTableWidgetItem();
-		tbItem->setData(Qt::DisplayRole, var->getEarning(latestPrice));
+		tbItem->setData(Qt::DisplayRole, refProject->getCostPrice(var));
 		ui.tableWidget->setItem(i, j++, tbItem);
 		tbItem = new QTableWidgetItem();
-		tbItem->setData(Qt::DisplayRole, QString("%1%").arg(var->getEarningPercent(latestPrice)));
+		tbItem->setData(Qt::DisplayRole, var->getSellPrice());
+		ui.tableWidget->setItem(i, j++, tbItem);
+
+		tbItem = new QTableWidgetItem();
+		double preEarning = var->getEarning(latestPrice) - refProject->getBuyTaxes(var) - refProject->getPredictSellTaxes(var, latestPrice);
+		tbItem->setData(Qt::DisplayRole, preEarning);
+		ui.tableWidget->setItem(i, j++, tbItem);
+		tbItem = new QTableWidgetItem();
+		tbItem->setData(Qt::DisplayRole, QString("%1%").arg(preEarning/var->getInputPrice()*100));
 		ui.tableWidget->setItem(i, j++, tbItem);
 
 		i++;
@@ -317,7 +338,9 @@ void JKMainWin::initUI()
 	lblLatestPrice = new QLabel(QStringLiteral("当前股票最新交易价："));
 	ui.statusBar->addWidget(lblLatestPrice);
 
-	ui.m_pHSplitter->setSizes(QList<int>() << 200 << 400);
+	ui.m_pHSplitter->setSizes(QList<int>() << 180 << 400);
+	ui.tableWidget->setSizeAdjustPolicy(QAbstractScrollArea::SizeAdjustPolicy::AdjustToContents);
+
 
 	connect(ui.actNewStockCode, SIGNAL(triggered()), this, SLOT(newStockCode()));
 	connect(ui.actBuyStock, SIGNAL(triggered()), this, SLOT(buyStockCode()));
@@ -335,7 +358,8 @@ void JKMainWin::initUI()
 	connect(this, SIGNAL(afterStockCodeChanged(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(updateInfoWgt(JKRef_Ptr<JKStockCodeBLL>)));
 	connect(this, SIGNAL(afterStockCodeChanged(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(stockCodeChanged(JKRef_Ptr<JKStockCodeBLL>)));
 	connect(this, SIGNAL(afterStockCodeChanged(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(updateInputUIEnable(JKRef_Ptr<JKStockCodeBLL>)));
-
+	connect(this, SIGNAL(afterAddedNewStockCode(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(addedCmbBoxSwitch(JKRef_Ptr<JKStockCodeBLL>)));
+	connect(this, SIGNAL(afterAddedNewStockCode(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(updateInputUIEnable(JKRef_Ptr<JKStockCodeBLL>)));
 
 
 }
@@ -356,6 +380,16 @@ void JKMainWin::updateCmbBoxSwitch(JKRef_Ptr<JKProjectBLL> _refProject)
 
 
 	connect(ui.cmbBxSwitch, SIGNAL(currentIndexChanged(int)), this, SLOT(onSwitchCode()));
+
+}
+
+void JKMainWin::addedCmbBoxSwitch(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
+{
+	if (!_refStockCode.valid())
+		return;
+
+	ui.cmbBxSwitch->addItem(QString(_refStockCode->getName().c_str()), QVariant(QString(_refStockCode->getCode().c_str())));
+	ui.cmbBxSwitch->setCurrentText(QString(_refStockCode->getName().c_str()));
 
 }
 

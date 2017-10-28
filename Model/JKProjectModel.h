@@ -14,6 +14,9 @@ class JKProjectModel : public JKBaseModel
 		ar & HIBERLITE_NVP(name);
 		ar & HIBERLITE_NVP(createDate);
 		ar & HIBERLITE_NVP(vecStockCode);
+		ar & HIBERLITE_NVP(stampTax);
+		ar & HIBERLITE_NVP(transfer);
+		ar & HIBERLITE_NVP(commission);
 	}
 
 
@@ -24,6 +27,11 @@ public:
 	JKString id;
 	JKString name;
 	JKString createDate;
+
+	float stampTax;			//印花税
+	float transfer;			//过户
+	float commission;		//佣金
+
 
 	vector<bean_ptr<JKStockCodeModel>> vecStockCode;
 

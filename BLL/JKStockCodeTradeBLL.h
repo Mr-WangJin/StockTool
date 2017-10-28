@@ -26,6 +26,7 @@ public:
 	JKUInt64 getCount();
 	double getBuyPrice();
 	double getSellPrice();
+	double getInputPrice();
 
 	double getEarning(const double & latestPrice);
 	double getEarningPercent(const double & latestPrice);

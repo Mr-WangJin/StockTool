@@ -24,6 +24,6 @@ public:
 	JKString date;
 	double buyPrice;
 	JKUInt buyCount;
-	double sellPrice;
+	double sellPrice = 0.0f;
 };
 

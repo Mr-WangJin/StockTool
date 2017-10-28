@@ -161,6 +161,15 @@
     <ClCompile Include="UI\JKExeVersion.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_JKNewProject.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_JKNewProject.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\JKNewProject.cpp">
+      <Filter>UI\New</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\JKMainWin.h">
@@ -205,6 +214,12 @@
     </CustomBuild>
     <CustomBuild Include="UI\JKSellStockCodeWgt.h">
       <Filter>UI\Input</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKNewProject.ui">
+      <Filter>UI\New</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKNewProject.h">
+      <Filter>UI\New</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -271,6 +286,9 @@
     </ClInclude>
     <ClInclude Include="UI\JKExeVersion.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_JKNewProject.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

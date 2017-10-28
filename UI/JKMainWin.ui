@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>941</width>
-    <height>647</height>
+    <width>1138</width>
+    <height>649</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -75,12 +75,22 @@
           </column>
           <column>
            <property name="text">
-            <string>价钱</string>
+            <string>买入价</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>收益</string>
+            <string>成本价</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>卖出价</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>预计卖出收益</string>
            </property>
           </column>
           <column>
@@ -231,7 +241,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>941</width>
+     <width>1138</width>
      <height>23</height>
     </rect>
    </property>

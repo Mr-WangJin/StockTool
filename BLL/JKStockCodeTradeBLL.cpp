@@ -40,6 +40,12 @@ double JKStockCodeTradeBLL::getSellPrice()
 	return refJKStockCodeTradeModel->sellPrice;
 }
 
+double JKStockCodeTradeBLL::getInputPrice()
+{
+	return refJKStockCodeTradeModel->buyPrice * refJKStockCodeTradeModel->buyCount;
+}
+
+
 double JKStockCodeTradeBLL::getEarning(const double & latestPrice)
 {
 	switch ((TradeType)refJKStockCodeTradeModel->type)
