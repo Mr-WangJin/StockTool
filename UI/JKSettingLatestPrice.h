@@ -4,12 +4,14 @@
 #include <QDialog>
 #include "ui_JKSettingLatestPrice.h"
 
+class JKStockCodeBLL;
+
 class JKSettingLatestPrice : public QDialog
 {
 	Q_OBJECT
 
 public:
-	JKSettingLatestPrice(double _prePrice, QWidget *parent = 0);
+	JKSettingLatestPrice(JKRef_Ptr<JKStockCodeBLL> _refStockCode, QWidget *parent = 0);
 	~JKSettingLatestPrice();
 
 	double getLatestPrice();
@@ -24,8 +26,7 @@ private:
 private:
 	Ui::JKSettingLatestPrice ui;
 
-
-	double prePrice;
+	JKRef_Ptr<JKStockCodeBLL> refStockCode;
 };
 
 #endif // JKSETTINGLATESTPRICE_H

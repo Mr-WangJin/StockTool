@@ -36,7 +36,6 @@ void JKTrendChart::updateTrendChart()
 
 	chart->removeAllSeries();
 	
-
 	acmeSeries = new QCandlestickSeries();
 	acmeSeries->setName("Acme Ltd");
 	acmeSeries->setIncreasingColor(QColor(Qt::green));
@@ -44,8 +43,8 @@ void JKTrendChart::updateTrendChart()
 	acmeSeries->setMaximumColumnWidth(1);
 	acmeSeries->setUseOpenGL(true);
 
-	QDateTime minDate;
-	QDateTime maxDate;
+	QDateTime minDate(QDate(2030, 1,1), QTime(1,1,1));
+	QDateTime maxDate(QDate(1999, 1, 1), QTime(1, 1, 1));
 
 	for (auto &var : _refStockCodeTradeBLL)
 	{
@@ -55,6 +54,11 @@ void JKTrendChart::updateTrendChart()
 
 		JKUInt64 price = var->getBuyPrice();
 		JKUInt64 count = var->getCount();
+
+		if (dt < minDate)
+			minDate = dt;
+		if (dt > maxDate)
+			maxDate = dt;
 
 		QCandlestickSet *candlestickSet = new QCandlestickSet(dt.toMSecsSinceEpoch());
 		candlestickSet->setOpen(price);
@@ -87,7 +91,9 @@ void JKTrendChart::updateTrendChart()
 	axisX->setTickCount(1);
 	axisX->setFormat("yyyy-MM-dd");
 	axisX->setTitleText(QStringLiteral("ÈÕÆÚ"));
-	//axisX->setRange
+	//if (minDate == maxDate)
+	//	maxDate.addDays(1);
+	//axisX->setRange(minDate, maxDate);
 	chart->addAxis(axisX, Qt::AlignBottom);
 
 	axisX->setTickCount(_refStockCodeTradeBLL.size()+2);

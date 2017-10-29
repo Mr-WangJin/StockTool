@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1138</width>
-    <height>649</height>
+    <width>1170</width>
+    <height>645</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -139,21 +139,21 @@
               <item>
                <widget class="QLabel" name="lblBuySumPrice">
                 <property name="text">
-                 <string>买入支出：</string>
+                 <string>买入总支出：</string>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QLabel" name="lblBuySumCount">
                 <property name="text">
-                 <string>买入数量：</string>
+                 <string>买入总数量：</string>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QLabel" name="lblBuySumEarning">
                 <property name="text">
-                 <string>买入收益：</string>
+                 <string>买入总收益：</string>
                 </property>
                </widget>
               </item>
@@ -241,7 +241,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1138</width>
+     <width>1170</width>
      <height>23</height>
     </rect>
    </property>

@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "JKSettingLatestPrice.h"
+#include "BLL/JKStockCodeBLL.h"
 
-JKSettingLatestPrice::JKSettingLatestPrice(double _prePrice, QWidget *parent)
+JKSettingLatestPrice::JKSettingLatestPrice(JKRef_Ptr<JKStockCodeBLL> _refStockCode, QWidget *parent)
 	: QDialog(parent)
-	, prePrice(_prePrice)
+	, refStockCode(_refStockCode)
 {
 	ui.setupUi(this);
 
@@ -31,7 +32,8 @@ void JKSettingLatestPrice::onCancel()
 
 void JKSettingLatestPrice::initUI()
 {
-	ui.dSpBxPrice->setValue(prePrice);
+	ui.dSpBxPrice->setValue(refStockCode->getLatestPrice());
+	ui.lblCurStock->setText(QString::fromStdString(refStockCode->getName()));
 
 	connect(ui.pBtnOK, SIGNAL(clicked()), this, SLOT(onOK()));
 	connect(ui.pBtnCancel, SIGNAL(clicked()), this, SLOT(onCancel()));

@@ -163,7 +163,7 @@ void JKMainWin::setCurrentStockPrice()
 	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
 	if (_refStockCode.valid())
 	{
-		JKSettingLatestPrice setting(_refStockCode->getLatestPrice(), this);
+		JKSettingLatestPrice setting(_refStockCode, this);
 		if (setting.exec() == QDialog::Accepted)
 		{
 			_refStockCode->setLatestPrice(setting.getLatestPrice());
@@ -297,9 +297,11 @@ void JKMainWin::updateInfoWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 		{
 			if (TradeType::BUY == var->getType())
 			{
-				buySumPrice += var->getBuyPrice();
+				buySumPrice += var->getInputPrice();
 				buySumCount += var->getCount();
-				buySumEarning += var->getEarning(latestPrice);
+				double preEarning = var->getEarning(latestPrice) - refProject->getBuyTaxes(var) - refProject->getPredictSellTaxes(var, latestPrice);
+
+				buySumEarning += preEarning;
 			}
 			else
 			{
@@ -310,9 +312,9 @@ void JKMainWin::updateInfoWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 		}
 	}
 
-	ui.lblBuySumPrice->setText(QStringLiteral("买入支出：") + QString::number(buySumPrice));
-	ui.lblBuySumCount->setText(QStringLiteral("买入数量：") + QString::number(buySumCount));
-	ui.lblBuySumEarning->setText(QStringLiteral("买入收益：") + QString::number(buySumEarning));
+	ui.lblBuySumPrice->setText(QStringLiteral("买入总支出：") + QString::number(buySumPrice));
+	ui.lblBuySumCount->setText(QStringLiteral("买入总数量：") + QString::number(buySumCount));
+	ui.lblBuySumEarning->setText(QStringLiteral("预计总收益：") + QString::number(buySumEarning));
 
 	ui.lblSellSumPrice->setText(QStringLiteral("卖出支出：") + QString::number(sellSumPrice));
 	ui.lblSellSumCount->setText(QStringLiteral("卖出数量：") + QString::number(sellSumCount));
@@ -324,6 +326,7 @@ void JKMainWin::initUI()
 {
 	tableWgtPopMenu = new QMenu(ui.tableWidget);
 	ui.tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+	ui.tableWidget->setSizeAdjustPolicy(QAbstractScrollArea::SizeAdjustPolicy::AdjustToContents);
 
 	QAction* actDel = new QAction(QStringLiteral("删除"), this);
 	tableWgtPopMenu->addAction(actDel);
@@ -338,8 +341,7 @@ void JKMainWin::initUI()
 	lblLatestPrice = new QLabel(QStringLiteral("当前股票最新交易价："));
 	ui.statusBar->addWidget(lblLatestPrice);
 
-	ui.m_pHSplitter->setSizes(QList<int>() << 180 << 400);
-	ui.tableWidget->setSizeAdjustPolicy(QAbstractScrollArea::SizeAdjustPolicy::AdjustToContents);
+	ui.m_pHSplitter->setSizes(QList<int>() << 100 << 500);
 
 
 	connect(ui.actNewStockCode, SIGNAL(triggered()), this, SLOT(newStockCode()));
