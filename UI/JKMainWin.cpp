@@ -211,6 +211,21 @@ void JKMainWin::onSellTrade()
 	}
 }
 
+void JKMainWin::onShowBuyOnly()
+{
+	this->updateTableWidget(Show_Buy_Only);
+}
+void JKMainWin::onShowSellOnly()
+{
+	this->updateTableWidget(Show_Sell_Only);
+
+}
+void JKMainWin::onShowAll()
+{
+	this->updateTableWidget();
+
+}
+
 void JKMainWin::stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 {
 	if (!_refStockCode.valid())
@@ -221,18 +236,40 @@ void JKMainWin::stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 }
 
 
-void JKMainWin::updateTableWidget()
+void JKMainWin::updateTableWidget(TableShowType type /*= Show_All*/)
 {
 	ui.tableWidget->clearContents();
 
-	vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecRefStockCodeTradeBLL = refProject->getCurStockCode()->getAllTrades();
+	vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecRefStockCodeTradeBLLTemp = refProject->getCurStockCode()->getAllTrades();
 	double latestPrice = refProject->getCurStockCode()->getLatestPrice();
+
+	vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecRefStockCodeTradeBLL;
+	for (auto &var :vecRefStockCodeTradeBLLTemp)
+	{
+		switch (type)
+		{
+		case JKMainWin::Show_All:
+			vecRefStockCodeTradeBLL.push_back(var);
+			break;
+		case JKMainWin::Show_Buy_Only:
+			if (var->getType() == TradeType::BUY)
+				vecRefStockCodeTradeBLL.push_back(var);
+			break;
+		case JKMainWin::Show_Sell_Only:
+			if (var->getType() == TradeType::SELL)
+				vecRefStockCodeTradeBLL.push_back(var);
+			break;
+		default:
+			break;
+		}
+	}
 
 	ui.tableWidget->setRowCount(vecRefStockCodeTradeBLL.size());
 	int i = 0;
 	for (auto &var : vecRefStockCodeTradeBLL)
 	{
 		int j = 0;
+
 		QTableWidgetItem* tbItem = new QTableWidgetItem();
 		switch ((int)var->getType())
 		{
@@ -330,6 +367,15 @@ void JKMainWin::initUI()
 	QAction* actSell = new QAction(QStringLiteral("卖出"), this);
 	tableWgtPopMenu->addAction(actSell);
 	connect(actSell, SIGNAL(triggered()), this, SLOT(onSellTrade()));
+	QAction* actShowBuyOnly = new QAction(QStringLiteral("只显示买入"), this);
+	tableWgtPopMenu->addAction(actShowBuyOnly);
+	connect(actShowBuyOnly, SIGNAL(triggered()), this, SLOT(onShowBuyOnly()));
+	QAction* actShowSellOnly = new QAction(QStringLiteral("只显示卖入"), this);
+	tableWgtPopMenu->addAction(actShowSellOnly);
+	connect(actShowSellOnly, SIGNAL(triggered()), this, SLOT(onShowSellOnly()));
+	QAction* actShowAll = new QAction(QStringLiteral("全部显示"), this);
+	tableWgtPopMenu->addAction(actShowAll);
+	connect(actShowAll, SIGNAL(triggered()), this, SLOT(onShowAll()));
 
 	lblShowCurStock = new QLabel(QStringLiteral("当前显示股票："));
 	ui.statusBar->addWidget(lblShowCurStock);

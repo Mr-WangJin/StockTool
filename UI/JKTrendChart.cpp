@@ -62,9 +62,9 @@ void JKTrendChart::updateTrendChart()
 
 		QCandlestickSet *candlestickSet = new QCandlestickSet(dt.toMSecsSinceEpoch());
 		candlestickSet->setOpen(price);
-		candlestickSet->setHigh(price + .1);
+		candlestickSet->setHigh(price + .001);
 		candlestickSet->setLow(price);
-		candlestickSet->setClose(price + .1);
+		candlestickSet->setClose(price + .001);
 
 		switch (var->getType())
 		{
@@ -150,7 +150,7 @@ void JKTrendChart::initUi()
 	chart->addAxis(axisX, Qt::AlignBottom);
 
 	axisY = new QValueAxis;
-	axisY->setLabelFormat("%i");
+	axisY->setLabelFormat("%f");
 	axisY->setTitleText(QStringLiteral("½»Ò×¼ÛÇ®"));
 	chart->addAxis(axisY, Qt::AlignLeft);
 

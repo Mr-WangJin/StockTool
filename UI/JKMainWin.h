@@ -18,6 +18,11 @@ public:
 	JKMainWin(/*JKProjectBLL* _projectBLL, */QWidget *parent = 0);
 	~JKMainWin();
 
+	enum TableShowType {
+		Show_All,
+		Show_Buy_Only,
+		Show_Sell_Only
+	};
 
 	void updateStatusBar(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
 
@@ -49,9 +54,12 @@ signals:
 	void onTableWgtPopMenu(QPoint pos);
 	void onDeleteTrade();
 	void onSellTrade();
+	void onShowBuyOnly();
+	void onShowSellOnly();
+	void onShowAll();
 
 	void stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
-	void updateTableWidget();
+	void updateTableWidget(TableShowType type = Show_All);
 	void updateInfoWgt(JKRef_Ptr<JKStockCodeBLL>);
 	void updateInputUIEnable(JKRef_Ptr<JKStockCodeBLL>);
 	void updateUIEnable(JKRef_Ptr<JKProjectBLL>);
