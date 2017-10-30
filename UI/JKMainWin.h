@@ -51,7 +51,6 @@ signals:
 	void onSellTrade();
 
 	void stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
-	void latestPriceChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
 	void updateTableWidget();
 	void updateInfoWgt(JKRef_Ptr<JKStockCodeBLL>);
 	void updateInputUIEnable(JKRef_Ptr<JKStockCodeBLL>);

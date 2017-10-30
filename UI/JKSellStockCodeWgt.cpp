@@ -25,8 +25,8 @@ void JKSellStockCodeWgt::initUI()
 		if (var->getType() == TradeType::BUY)
 		{
 			QString text = QString::fromStdString(var->getDate())
-				+ QString("--") + QString::number(var->getBuyPrice())
-				+ QString("--") + QString::number(var->getCount());
+				+ QString("  ") + QString::number(var->getBuyPrice())
+				+ QString("  ") + QString::number(var->getCount());
 			ui.cmbBx->addItem(text, QString::fromStdString(var->getId()));
 		}
 	}

@@ -167,7 +167,8 @@ void JKMainWin::setCurrentStockPrice()
 		if (setting.exec() == QDialog::Accepted)
 		{
 			_refStockCode->setLatestPrice(setting.getLatestPrice());
-			this->latestPriceChanged(_refStockCode);
+
+			emit afterStockCodeChanged(_refStockCode);
 		}
 	}
 }
@@ -219,13 +220,6 @@ void JKMainWin::stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 	this->updateTableWidget();
 }
 
-void JKMainWin::latestPriceChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
-{
-	if (!_refStockCode.valid())
-		return;
-	this->updateStatusBar(_refStockCode);
-	this->updateTableWidget();
-}
 
 void JKMainWin::updateTableWidget()
 {
@@ -278,6 +272,8 @@ void JKMainWin::updateTableWidget()
 
 		i++;
 	}
+	ui.tableWidget->sortByColumn(1, Qt::SortOrder::AscendingOrder);
+
 }
 
 void JKMainWin::updateInfoWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
@@ -342,6 +338,13 @@ void JKMainWin::initUI()
 	ui.statusBar->addWidget(lblLatestPrice);
 
 	ui.m_pHSplitter->setSizes(QList<int>() << 100 << 500);
+	QHeaderView *headerGoods = ui.tableWidget->horizontalHeader();
+	//SortIndicator为水平标题栏文字旁边的三角指示器
+	headerGoods->setSortIndicator(0, Qt::AscendingOrder);
+	headerGoods->setSortIndicatorShown(true);
+	//headerGoods->setClickable(true);
+	connect(headerGoods, SIGNAL(sectionClicked(int)), ui.tableWidget, SLOT(sortByColumn(int)));
+
 
 
 	connect(ui.actNewStockCode, SIGNAL(triggered()), this, SLOT(newStockCode()));
