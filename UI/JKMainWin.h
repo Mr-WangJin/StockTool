@@ -7,6 +7,7 @@
 #include "BLL/JKProjectBLL.h"
 #include "BLL/JKStockCodeBLL.h"
 #include "BLL/JKStockCodeTradeBLL.h"
+#include "Utils/JKCrawlPrice.h"
 
 class QLabel;
 
@@ -78,6 +79,8 @@ private:
 
 
 	JKRef_Ptr<JKProjectBLL> refProject;
+
+	JKCrawlPrice* crawlPrice;
 
 
 };

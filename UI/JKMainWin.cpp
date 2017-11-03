@@ -22,6 +22,7 @@ JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
 	
 	emit afterProjectChanged(refProject);
 
+	crawlPrice = new JKCrawlPrice(refProject, this);
 }
 
 JKMainWin::~JKMainWin()
@@ -84,6 +85,8 @@ void JKMainWin::openProject()
 
 		emit afterProjectChanged(refProject);
 		emit afterStockCodeChanged(refProject->getCurStockCode());
+
+
 	}
 }
 
