@@ -13,7 +13,6 @@ int main(int argc, char *argv[])
 
 	try {
 
-		Py_Initialize();
 
 		//JKRef_Ptr<JKProjectBLL> projectBLL = new JKProjectBLL(JKProjectBLL::ProjectInitStatus::DEFAULT_FirstOrNew);
 
@@ -22,7 +21,6 @@ int main(int argc, char *argv[])
 
 		return a.exec();
 
-		Py_Finalize();
 
 	}
 	catch (std::exception & e)

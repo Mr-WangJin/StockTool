@@ -24,6 +24,9 @@ bool requestStockPrice(JKCrawlPrice* pCrawlPrice, JKRef_Ptr<JKStockCodeBLL> refS
 	refStockCode->setLatestPrice(refStockCode->getLatestPrice() + .01);
 	pCrawlPrice->stockCodeChanged(refStockCode);
 
+	Py_Initialize();
+
+
 	// 将Python工作路径切换到待调用模块所在目录，一定要保证路径名的正确性
 	string path = "D:/Programs/JK/JKPython/scrapy/tutorial/";
 	string chdir_cmd = string("sys.path.append('") + path + "')";
@@ -72,7 +75,7 @@ bool requestStockPrice(JKCrawlPrice* pCrawlPrice, JKRef_Ptr<JKStockCodeBLL> refS
 		{
 			JKString data;
 			size_t dataLen = 0;
-			double price = -1;
+			JKString price;
 			if (JKFileIO::ReadFile("D:/Programs/JK/JKPython/scrapy/tutorial/600100", JKFileIO::Read, data, dataLen))
 			{
 				Json::Reader reader;
@@ -82,7 +85,7 @@ bool requestStockPrice(JKCrawlPrice* pCrawlPrice, JKRef_Ptr<JKStockCodeBLL> refS
 				if (p.type() == Json::ValueType::arrayValue)
 				{
 					for (int i = 0; i < p.size(); ++i)
-						price = p[i].asDouble();
+						price = p[i].asString();
 				}
 				
 			}
@@ -91,6 +94,9 @@ bool requestStockPrice(JKCrawlPrice* pCrawlPrice, JKRef_Ptr<JKStockCodeBLL> refS
 	
 	
 	PyRun_SimpleString("print 'hello'");
+
+	Py_Finalize();
+
 
 	return true;
 
@@ -131,7 +137,7 @@ JKCrawlPrice::JKCrawlPrice(JKRef_Ptr<JKProjectBLL> _refProject, QObject* parent/
 
 	m_timer = new QTimer(this);
 	connect(m_timer, SIGNAL(timeout()), this, SLOT(reCrawlPrice()));
-	m_timer->start(2 * 1000); //every 2 minutes 
+	m_timer->start(4 * 1000); //every 2 minutes 
 
 
 	//runCrawlPriceThread(this);
