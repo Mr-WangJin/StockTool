@@ -4,12 +4,16 @@
 #include "bll/JKProjectBLL.h"
 #include <QMessageBox>
 
+#include <Python.h>
 
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 
+
 	try {
+
+		Py_Initialize();
 
 		//JKRef_Ptr<JKProjectBLL> projectBLL = new JKProjectBLL(JKProjectBLL::ProjectInitStatus::DEFAULT_FirstOrNew);
 
@@ -17,6 +21,9 @@ int main(int argc, char *argv[])
 		w.show();
 
 		return a.exec();
+
+		Py_Finalize();
+
 	}
 	catch (std::exception & e)
 	{

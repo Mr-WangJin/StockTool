@@ -23,6 +23,8 @@ JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
 	emit afterProjectChanged(refProject);
 
 	crawlPrice = new JKCrawlPrice(refProject, this);
+	connect(this, SIGNAL(beforeProjectChanged()), crawlPrice, SLOT(beforeProjectChanged()));
+	connect(this, SIGNAL(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)), crawlPrice, SLOT(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)));
 }
 
 JKMainWin::~JKMainWin()

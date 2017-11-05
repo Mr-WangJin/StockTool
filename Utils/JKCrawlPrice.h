@@ -5,13 +5,12 @@
 #include <QObject>
 #include "JKEventType.h"
 #include "BLL/JKStockCodeBLL.h"
+#include "BLL/JKProjectBLL.h"
 
-class JKStockCodeBLL;
 class JKCrawlPrice;
-class JKProjectBLL;
 
 
-void requestStockPrice(JKCrawlPrice* pCrawlPrice, JKRef_Ptr<JKStockCodeBLL> refStockCode);
+bool requestStockPrice(JKCrawlPrice* pCrawlPrice, JKRef_Ptr<JKStockCodeBLL> refStockCode);
 
 void runCrawlPriceThread(JKCrawlPrice* pCrawlPrice);
 
@@ -31,6 +30,8 @@ public:
 	void beforeProjectChanged();
 	void afterProjectChanged(JKRef_Ptr<JKProjectBLL> _refProject);
 
+	void reCrawlPrice();
+
 signals:
 	void stockCodePriceChanged(JKRef_Ptr<JKStockCodeBLL>);
 
@@ -39,12 +40,13 @@ private:
 
 
 private:
-	//std::thread threadCrawler;
+	std::thread threadCrawler[1];
 
 	JKRef_Ptr<JKProjectBLL> refProject;
 
 	friend void runCrawlPriceThread(JKCrawlPrice* pCrawlPrice);
 
 	std::mutex mtxProjectChanged;
+	std::mutex mtxReadProject;
 };
 
