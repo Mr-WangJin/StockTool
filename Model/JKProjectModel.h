@@ -11,6 +11,7 @@ class JKProjectModel : public JKBaseModel
 	template<class Archive>
 	void hibernate(Archive & ar)
 	{
+		ar & HIBERLITE_NVP(id);
 		ar & HIBERLITE_NVP(name);
 		ar & HIBERLITE_NVP(createDate);
 		ar & HIBERLITE_NVP(vecStockCode);

@@ -12,6 +12,7 @@ class JKStockCodeModel : public JKBaseModel
 	template<class Archive>
 	void hibernate(Archive & ar)
 	{
+		ar & HIBERLITE_NVP(id);
 		ar & HIBERLITE_NVP(name);
 		ar & HIBERLITE_NVP(code);
 		ar & HIBERLITE_NVP(latestPrice);

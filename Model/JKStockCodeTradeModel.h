@@ -8,6 +8,7 @@ class JKStockCodeTradeModel : public JKBaseModel
 	template<class Archive>
 	void hibernate(Archive & ar)
 	{
+		ar & HIBERLITE_NVP(id);
 		ar & HIBERLITE_NVP(type);
 		ar & HIBERLITE_NVP(date);
 		ar & HIBERLITE_NVP(buyPrice);

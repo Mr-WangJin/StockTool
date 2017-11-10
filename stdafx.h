@@ -19,5 +19,5 @@ using namespace hiberlite;
 enum class TradeType
 {
 	BUY = 1,
-	SELL
+	SELL = 2
 };

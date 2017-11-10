@@ -15,6 +15,7 @@ JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+	ui.trendChartWgt->setVisible(false);
 	refProject = nullptr;
 
 	this->initUI();
@@ -22,9 +23,9 @@ JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
 	
 	emit afterProjectChanged(refProject);
 
-	crawlPrice = new JKCrawlPrice(refProject, this);
-	connect(this, SIGNAL(beforeProjectChanged()), crawlPrice, SLOT(beforeProjectChanged()));
-	connect(this, SIGNAL(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)), crawlPrice, SLOT(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)));
+	//crawlPrice = new JKCrawlPrice(refProject, this);
+	//connect(this, SIGNAL(beforeProjectChanged()), crawlPrice, SLOT(beforeProjectChanged()));
+	//connect(this, SIGNAL(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)), crawlPrice, SLOT(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)));
 }
 
 JKMainWin::~JKMainWin()
@@ -119,8 +120,8 @@ void JKMainWin::buyStockCode()
 		JKBuyStockCodeWgt buyStockCodeWgt(_refStockCode);
 		if (buyStockCodeWgt.exec() == QDialog::Accepted)
 		{
-			ui.trendChartWgt->updateTrendChart();
-			this->updateTableWidget();
+			//ui.trendChartWgt->updateTrendChart();
+			this->updateTableWidget(tbShowType);
 			this->updateInfoWgt(_refStockCode);
 		}
 	}
@@ -138,8 +139,8 @@ void JKMainWin::sellStockCode()
 		JKSellStockCodeWgt sellStockCodeWgt(_refStockCode);
 		if (sellStockCodeWgt.exec() == QDialog::Accepted)
 		{
-			ui.trendChartWgt->updateTrendChart();
-			this->updateTableWidget();
+			//ui.trendChartWgt->updateTrendChart();
+			this->updateTableWidget(tbShowType);
 			this->updateInfoWgt(_refStockCode);
 		}
 	}
@@ -211,23 +212,26 @@ void JKMainWin::onSellTrade()
 		JKSellStockCodeWgt sellStockCodeWgt(_refStockCode);
 		if (sellStockCodeWgt.exec() == QDialog::Accepted)
 		{
-			this->updateTableWidget();
+			this->updateTableWidget(tbShowType);
 		}
 	}
 }
 
 void JKMainWin::onShowBuyOnly()
 {
-	this->updateTableWidget(Show_Buy_Only);
+	tbShowType = Show_Buy_Only;
+	this->updateTableWidget(tbShowType);
 }
 void JKMainWin::onShowSellOnly()
 {
-	this->updateTableWidget(Show_Sell_Only);
+	tbShowType = Show_Sell_Only;
+	this->updateTableWidget(tbShowType);
 
 }
 void JKMainWin::onShowAll()
 {
-	this->updateTableWidget();
+	tbShowType = Show_All;
+	this->updateTableWidget(tbShowType);
 
 }
 
@@ -236,8 +240,8 @@ void JKMainWin::stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 	if (!_refStockCode.valid())
 		return;
 	this->updateStatusBar(_refStockCode);
-	ui.trendChartWgt->setStockCode(_refStockCode);
-	this->updateTableWidget();
+	//ui.trendChartWgt->setStockCode(_refStockCode);
+	this->updateTableWidget(tbShowType);
 }
 
 
@@ -251,22 +255,15 @@ void JKMainWin::updateTableWidget(TableShowType type /*= Show_All*/)
 	vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecRefStockCodeTradeBLL;
 	for (auto &var :vecRefStockCodeTradeBLLTemp)
 	{
-		switch (type)
+		if (type & Show_Buy_Only && var->getType() == TradeType::BUY)
 		{
-		case JKMainWin::Show_All:
 			vecRefStockCodeTradeBLL.push_back(var);
-			break;
-		case JKMainWin::Show_Buy_Only:
-			if (var->getType() == TradeType::BUY)
-				vecRefStockCodeTradeBLL.push_back(var);
-			break;
-		case JKMainWin::Show_Sell_Only:
-			if (var->getType() == TradeType::SELL)
-				vecRefStockCodeTradeBLL.push_back(var);
-			break;
-		default:
-			break;
 		}
+		if (type & Show_Sell_Only && var->getType() == TradeType::SELL)
+		{
+			vecRefStockCodeTradeBLL.push_back(var);
+		}
+		
 	}
 
 	ui.tableWidget->setRowCount(vecRefStockCodeTradeBLL.size());
@@ -305,11 +302,11 @@ void JKMainWin::updateTableWidget(TableShowType type /*= Show_All*/)
 		ui.tableWidget->setItem(i, j++, tbItem);
 
 		tbItem = new QTableWidgetItem();
-		double preEarning = var->getEarning(latestPrice) - refProject->getBuyTaxes(var) - refProject->getPredictSellTaxes(var, latestPrice);
-		tbItem->setData(Qt::DisplayRole, preEarning);
+		double preRealEarning = refProject->getRealEarning(latestPrice, var);
+		tbItem->setData(Qt::DisplayRole, preRealEarning);
 		ui.tableWidget->setItem(i, j++, tbItem);
 		tbItem = new QTableWidgetItem();
-		tbItem->setData(Qt::DisplayRole, QString("%1%").arg(preEarning/var->getInputPrice()*100));
+		tbItem->setData(Qt::DisplayRole, QString("%1%").arg(preRealEarning/var->getSumPrice()*100));
 		ui.tableWidget->setItem(i, j++, tbItem);
 
 		i++;
@@ -335,9 +332,9 @@ void JKMainWin::updateInfoWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 		{
 			if (TradeType::BUY == var->getType())
 			{
-				buySumPrice += var->getInputPrice();
+				buySumPrice += var->getSumPrice();
 				buySumCount += var->getCount();
-				double preEarning = var->getEarning(latestPrice) - refProject->getBuyTaxes(var) - refProject->getPredictSellTaxes(var, latestPrice);
+				double preEarning = var->getPureEarning(latestPrice) - refProject->getBuyTaxes(var) - refProject->getPredictSellTaxes(var, latestPrice);
 
 				buySumEarning += preEarning;
 			}
@@ -345,7 +342,7 @@ void JKMainWin::updateInfoWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 			{
 				sellSumPrice += var->getBuyPrice();
 				sellSumCount += var->getCount();
-				sellSumEarning += var->getEarning(latestPrice);
+				sellSumEarning += var->getPureEarning(latestPrice);
 			}
 		}
 	}
@@ -452,7 +449,7 @@ void JKMainWin::addedCmbBoxSwitch(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 void JKMainWin::updateUIEnable(JKRef_Ptr<JKProjectBLL> _refProject)
 {
 	bool bUIEnable = _refProject.valid();
-	ui.trendChartWgt->setEnabled(bUIEnable);
+	//ui.trendChartWgt->setEnabled(bUIEnable);
 	ui.tableWidget->setEnabled(bUIEnable);
 	ui.cmbBxSwitch->setEnabled(bUIEnable);
 	ui.pBtnSetCurPrice->setEnabled(bUIEnable);

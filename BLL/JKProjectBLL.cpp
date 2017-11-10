@@ -155,3 +155,14 @@ double JKProjectBLL::getPredictSellTaxes(JKRef_Ptr<JKStockCodeTradeBLL> _refJKSt
 	double taxes = count* refJKProjectModel->stampTax + count * refJKProjectModel->transfer + commission;
 	return taxes;
 }
+
+double JKProjectBLL::getRealEarning(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL> refStockCodeTrade)
+{
+	double realEarning = 0.0f;
+	double buyTax = getBuyTaxes(refStockCodeTrade);
+	double sellTax = getPredictSellTaxes(refStockCodeTrade, latestPrice);
+
+	realEarning = refStockCodeTrade->getPureEarning(latestPrice) - buyTax - sellTax;
+	return realEarning;
+	
+}

@@ -20,9 +20,9 @@ public:
 	~JKMainWin();
 
 	enum TableShowType {
-		Show_All,
-		Show_Buy_Only,
-		Show_Sell_Only
+		Show_Buy_Only = 1,
+		Show_Sell_Only = 2,
+		Show_All = Show_Buy_Only | Show_Sell_Only
 	};
 
 	void updateStatusBar(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
@@ -76,7 +76,7 @@ private:
 	QMenu* tableWgtPopMenu;
 	QLabel* lblShowCurStock;
 	QLabel* lblLatestPrice;
-
+	TableShowType tbShowType = Show_All;
 
 	JKRef_Ptr<JKProjectBLL> refProject;
 

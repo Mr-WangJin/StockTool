@@ -40,9 +40,15 @@ public:
 
 	//获取成本价
 	double getCostPrice(JKRef_Ptr<JKStockCodeTradeBLL>);
+	//获取当前交易的买入税费
 	double getBuyTaxes(JKRef_Ptr<JKStockCodeTradeBLL>);
+	//获取当前交易的卖出税费
 	double getSellTaxes(JKRef_Ptr<JKStockCodeTradeBLL>);
-	double getPredictSellTaxes(JKRef_Ptr<JKStockCodeTradeBLL>, double sellPrice);	//获取预计卖出税费
+	//获取预计卖出税费
+	double getPredictSellTaxes(JKRef_Ptr<JKStockCodeTradeBLL>, double sellPrice);
+	//获取真实收益
+	double getRealEarning(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL> refStockCodeTrade);
+
 
 
 

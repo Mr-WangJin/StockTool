@@ -40,13 +40,13 @@ double JKStockCodeTradeBLL::getSellPrice()
 	return refJKStockCodeTradeModel->sellPrice;
 }
 
-double JKStockCodeTradeBLL::getInputPrice()
+double JKStockCodeTradeBLL::getSumPrice()
 {
 	return refJKStockCodeTradeModel->buyPrice * refJKStockCodeTradeModel->buyCount;
 }
 
 
-double JKStockCodeTradeBLL::getEarning(const double & latestPrice)
+double JKStockCodeTradeBLL::getPureEarning(const double & latestPrice)
 {
 	switch ((TradeType)refJKStockCodeTradeModel->type)
 	{
@@ -67,7 +67,7 @@ double JKStockCodeTradeBLL::getEarning(const double & latestPrice)
 	return 0;
 }
 
-double JKStockCodeTradeBLL::getEarningPercent(const double & latestPrice)
+double JKStockCodeTradeBLL::getPureEarningPercent(const double & latestPrice)
 {
 	switch ((TradeType)refJKStockCodeTradeModel->type)
 	{

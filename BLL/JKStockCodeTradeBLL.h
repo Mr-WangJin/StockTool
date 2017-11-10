@@ -26,10 +26,13 @@ public:
 	JKUInt64 getCount();
 	double getBuyPrice();
 	double getSellPrice();
-	double getInputPrice();
+	double getSumPrice();
 
-	double getEarning(const double & latestPrice);
-	double getEarningPercent(const double & latestPrice);
+	/** 
+	 *	获取买卖利润差，不包括额外的税费
+	 */
+	double getPureEarning(const double & latestPrice);
+	double getPureEarningPercent(const double & latestPrice);
 
 };
 
