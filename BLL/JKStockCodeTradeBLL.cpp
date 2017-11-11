@@ -40,51 +40,7 @@ double JKStockCodeTradeBLL::getSellPrice()
 	return refJKStockCodeTradeModel->sellPrice;
 }
 
-double JKStockCodeTradeBLL::getSumPrice()
+double JKStockCodeTradeBLL::getBuyPureCost()
 {
 	return refJKStockCodeTradeModel->buyPrice * refJKStockCodeTradeModel->buyCount;
-}
-
-
-double JKStockCodeTradeBLL::getPureEarning(const double & latestPrice)
-{
-	switch ((TradeType)refJKStockCodeTradeModel->type)
-	{
-	case TradeType::BUY:
-	{
-		double diff = latestPrice - refJKStockCodeTradeModel->buyPrice;
-		return diff * refJKStockCodeTradeModel->buyCount;
-	}
-	break;
-	case TradeType::SELL:
-	{
-		double diff = refJKStockCodeTradeModel->sellPrice - refJKStockCodeTradeModel->buyPrice;
-		return diff * refJKStockCodeTradeModel->buyCount;
-	}
-	default:
-		break;
-	}
-	return 0;
-}
-
-double JKStockCodeTradeBLL::getPureEarningPercent(const double & latestPrice)
-{
-	switch ((TradeType)refJKStockCodeTradeModel->type)
-	{
-	case TradeType::BUY:
-	{
-		double diff = latestPrice - refJKStockCodeTradeModel->buyPrice;
-		return diff / refJKStockCodeTradeModel->buyPrice * 100.0;
-	}
-	break;
-	case TradeType::SELL:
-	{
-		double diff = refJKStockCodeTradeModel->sellPrice - refJKStockCodeTradeModel->buyPrice;
-		return diff / refJKStockCodeTradeModel->buyCount * 100.0;
-	}
-	break;
-	default:
-		break;
-	}
-	return 0;
 }

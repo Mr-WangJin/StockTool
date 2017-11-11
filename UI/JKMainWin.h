@@ -51,6 +51,7 @@ signals:
 	void sellStockCode();
 	void onSwitchCode();
 	void setCurrentStockPrice();
+	void projectTaxSetting();
 
 	void onTableWgtPopMenu(QPoint pos);
 	void onDeleteTrade();
@@ -58,6 +59,7 @@ signals:
 	void onShowBuyOnly();
 	void onShowSellOnly();
 	void onShowAll();
+	void onShowTradeInfo();
 
 	void stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
 	void updateTableWidget(TableShowType type = Show_All);

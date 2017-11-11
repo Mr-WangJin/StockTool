@@ -8,6 +8,8 @@
 #include "JKSettingLatestPrice.h"
 #include "JKSellStockCodeWgt.h"
 #include "JKNewProject.h"
+#include "BLL/JKStockTradeUtil.h"
+#include "JKStockTradeDetail.h"
 
 
 
@@ -179,6 +181,22 @@ void JKMainWin::setCurrentStockPrice()
 	}
 }
 
+void JKMainWin::projectTaxSetting()
+{
+	JKNewProject newProject(this);
+	newProject.setProject(refProject);
+	if (newProject.exec() == QDialog::Accepted)
+	{
+		emit beforeProjectChanged();
+
+		refProject->setStampTax(newProject.getStampTax());
+		refProject->setTransfer(newProject.getTransfer());
+		refProject->setCommission(newProject.getCommission());
+
+		emit afterProjectChanged(refProject);
+	}
+}
+
 void JKMainWin::onTableWgtPopMenu(QPoint pos)
 {
 	tableWgtPopMenu->exec(QCursor::pos());
@@ -186,6 +204,7 @@ void JKMainWin::onTableWgtPopMenu(QPoint pos)
 
 void JKMainWin::onDeleteTrade()
 {
+	//删除有问题，需要改
 	if (!refProject.valid())
 		return;
 
@@ -217,6 +236,24 @@ void JKMainWin::onSellTrade()
 	}
 }
 
+void JKMainWin::onShowTradeInfo()
+{
+	if (!refProject.valid())
+		return;
+
+	JKString stockTradeId = ui.tableWidget->currentItem()->data(Qt::UserRole).toString().toStdString();
+	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
+	if (_refStockCode.valid())
+	{
+		JKRef_Ptr<JKStockCodeTradeBLL> refStockTrade = _refStockCode->getTradeById(stockTradeId);
+
+		JKRef_Ptr<JKStockTradeUtil> refTradeUtil = new JKStockTradeUtil(refProject);
+		JKStockTradeDetail detail(refTradeUtil, refStockTrade);
+		detail.exec();
+	}
+
+}
+
 void JKMainWin::onShowBuyOnly()
 {
 	tbShowType = Show_Buy_Only;
@@ -244,7 +281,6 @@ void JKMainWin::stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 	this->updateTableWidget(tbShowType);
 }
 
-
 void JKMainWin::updateTableWidget(TableShowType type /*= Show_All*/)
 {
 	ui.tableWidget->clearContents();
@@ -268,6 +304,7 @@ void JKMainWin::updateTableWidget(TableShowType type /*= Show_All*/)
 
 	ui.tableWidget->setRowCount(vecRefStockCodeTradeBLL.size());
 	int i = 0;
+	JKStockTradeUtil tradeUtil(refProject);
 	for (auto &var : vecRefStockCodeTradeBLL)
 	{
 		int j = 0;
@@ -286,27 +323,32 @@ void JKMainWin::updateTableWidget(TableShowType type /*= Show_All*/)
 		}
 		ui.tableWidget->setItem(i, j++, tbItem);
 		tbItem = new QTableWidgetItem();
-		tbItem->setData(Qt::DisplayRole, var->getDate().c_str());
+		tbItem->setData(Qt::DisplayRole, var->getDate().c_str()); tbItem->setData(Qt::UserRole, QString::fromStdString(var->getId()));
 		ui.tableWidget->setItem(i, j++, tbItem);
 		tbItem = new QTableWidgetItem();
-		tbItem->setData(Qt::DisplayRole, var->getCount());
+		tbItem->setData(Qt::DisplayRole, var->getCount()); tbItem->setData(Qt::UserRole, QString::fromStdString(var->getId()));
 		ui.tableWidget->setItem(i, j++, tbItem);
 		tbItem = new QTableWidgetItem();
-		tbItem->setData(Qt::DisplayRole, var->getBuyPrice());
+		tbItem->setData(Qt::DisplayRole, var->getBuyPrice()); tbItem->setData(Qt::UserRole, QString::fromStdString(var->getId()));
 		ui.tableWidget->setItem(i, j++, tbItem);
 		tbItem = new QTableWidgetItem();
-		tbItem->setData(Qt::DisplayRole, refProject->getCostPrice(var));
+		tbItem->setData(Qt::DisplayRole, tradeUtil.getTradeBuyCost(var)); tbItem->setData(Qt::UserRole, QString::fromStdString(var->getId()));
 		ui.tableWidget->setItem(i, j++, tbItem);
 		tbItem = new QTableWidgetItem();
-		tbItem->setData(Qt::DisplayRole, var->getSellPrice());
+		tbItem->setData(Qt::DisplayRole, var->getSellPrice()); tbItem->setData(Qt::UserRole, QString::fromStdString(var->getId()));
 		ui.tableWidget->setItem(i, j++, tbItem);
 
 		tbItem = new QTableWidgetItem();
-		double preRealEarning = refProject->getRealEarning(latestPrice, var);
-		tbItem->setData(Qt::DisplayRole, preRealEarning);
+		double preRealEarning = 0;
+		if (var->getType() == TradeType::BUY)
+			preRealEarning = tradeUtil.getRealEarning(latestPrice, var);
+		else
+			preRealEarning = tradeUtil.getRealEarning(var->getSellPrice(), var);
+		tbItem->setData(Qt::DisplayRole, preRealEarning); tbItem->setData(Qt::UserRole, QString::fromStdString(var->getId()));
 		ui.tableWidget->setItem(i, j++, tbItem);
 		tbItem = new QTableWidgetItem();
-		tbItem->setData(Qt::DisplayRole, QString("%1%").arg(preRealEarning/var->getSumPrice()*100));
+		tbItem->setData(Qt::DisplayRole, QString("%1%").arg(tradeUtil.getRealEarningPercent(latestPrice, var)*100));
+		tbItem->setData(Qt::UserRole, QString::fromStdString(var->getId()));
 		ui.tableWidget->setItem(i, j++, tbItem);
 
 		i++;
@@ -328,13 +370,14 @@ void JKMainWin::updateInfoWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 	{
 		double latestPrice = _refStockCode->getLatestPrice();
 
+		JKStockTradeUtil trackUtil(refProject);
 		for (auto &var : _refStockCode->getAllTrades())
 		{
 			if (TradeType::BUY == var->getType())
 			{
-				buySumPrice += var->getSumPrice();
+				buySumPrice += var->getBuyPureCost();
 				buySumCount += var->getCount();
-				double preEarning = var->getPureEarning(latestPrice) - refProject->getBuyTaxes(var) - refProject->getPredictSellTaxes(var, latestPrice);
+				double preEarning = trackUtil.getRealEarning(latestPrice, var);
 
 				buySumEarning += preEarning;
 			}
@@ -342,7 +385,7 @@ void JKMainWin::updateInfoWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 			{
 				sellSumPrice += var->getBuyPrice();
 				sellSumCount += var->getCount();
-				sellSumEarning += var->getPureEarning(latestPrice);
+				sellSumEarning += trackUtil.getRealEarning(var->getSellPrice(), var);
 			}
 		}
 	}
@@ -369,6 +412,9 @@ void JKMainWin::initUI()
 	QAction* actSell = new QAction(QStringLiteral("卖出"), this);
 	tableWgtPopMenu->addAction(actSell);
 	connect(actSell, SIGNAL(triggered()), this, SLOT(onSellTrade()));
+	QAction* actShowDetail = new QAction(QStringLiteral("显示详情"), this);
+	tableWgtPopMenu->addAction(actShowDetail);
+	connect(actShowDetail, SIGNAL(triggered()), this, SLOT(onShowTradeInfo()));
 	QAction* actShowBuyOnly = new QAction(QStringLiteral("只显示买入"), this);
 	tableWgtPopMenu->addAction(actShowBuyOnly);
 	connect(actShowBuyOnly, SIGNAL(triggered()), this, SLOT(onShowBuyOnly()));
@@ -404,6 +450,7 @@ void JKMainWin::initUI()
 	connect(ui.actNewProject, SIGNAL(triggered()), this, SLOT(newProject()));
 	connect(ui.actOpenProject, SIGNAL(triggered()), this, SLOT(openProject()));
 	connect(ui.actExit, SIGNAL(triggered()), this, SLOT(close()));
+	connect(ui.actTaxSetting, SIGNAL(triggered()), this, SLOT(projectTaxSetting()));
 
 
 	connect(this, SIGNAL(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)), this, SLOT(updateUIEnable(JKRef_Ptr<JKProjectBLL>)));
@@ -455,6 +502,7 @@ void JKMainWin::updateUIEnable(JKRef_Ptr<JKProjectBLL> _refProject)
 	ui.pBtnSetCurPrice->setEnabled(bUIEnable);
 
 	ui.actNewStockCode->setEnabled(bUIEnable);
+	ui.actTaxSetting->setEnabled(bUIEnable);
 
 }
 

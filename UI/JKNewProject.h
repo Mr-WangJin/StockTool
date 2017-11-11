@@ -4,6 +4,8 @@
 #include <QDialog>
 #include "ui_JKNewProject.h"
 
+class JKProjectBLL;
+
 class JKNewProject : public QDialog
 {
 	Q_OBJECT
@@ -15,6 +17,8 @@ public:
 	double getStampTax();
 	double getTransfer();
 	double getCommission();
+
+	void setProject(JKRef_Ptr<JKProjectBLL> _refProject);
 
 	private slots:
 	void onOkClick();

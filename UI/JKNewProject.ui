@@ -36,7 +36,7 @@
       <string>过户税千分之</string>
      </property>
      <property name="value">
-      <double>0.300000000000000</double>
+      <double>0.020000000000000</double>
      </property>
     </widget>
    </item>

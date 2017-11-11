@@ -24,15 +24,12 @@ public:
 	TradeType getType();
 	JKString getDate();
 	JKUInt64 getCount();
+	//获取买入单价
 	double getBuyPrice();
+	//获取卖出单价
 	double getSellPrice();
-	double getSumPrice();
-
-	/** 
-	 *	获取买卖利润差，不包括额外的税费
-	 */
-	double getPureEarning(const double & latestPrice);
-	double getPureEarningPercent(const double & latestPrice);
+	//获取买入纯成本
+	double getBuyPureCost();
 
 };
 
