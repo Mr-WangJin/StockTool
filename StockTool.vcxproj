@@ -272,7 +272,7 @@
     <ClCompile Include="Utils\JKCrawlPrice.cpp" />
     <ClCompile Include="Utils\ThreadUtil\JKThreadUtil.cpp" />
     <ClCompile Include="Utils\WebRequest\JKRequestWebData.cpp" />
-    <ClCompile Include="Utils\XMLParser\JKParsetHtmlData.cpp" />
+    <ClCompile Include="Utils\XMLParser\JKParserHtmlData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="stocktool.qrc">
@@ -363,7 +363,7 @@
     <ClInclude Include="UI\JKExeVersion.h" />
     <ClInclude Include="Utils\ThreadUtil\JKThreadUtil.h" />
     <ClInclude Include="Utils\WebRequest\JKRequestWebData.h" />
-    <ClInclude Include="Utils\XMLParser\JKParsetHtmlData.h" />
+    <ClInclude Include="Utils\XMLParser\JKParserHtmlData.h" />
     <CustomBuild Include="UI\JKStockTradeDetail.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing JKStockTradeDetail.h...</Message>

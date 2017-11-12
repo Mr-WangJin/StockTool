@@ -224,11 +224,11 @@
     <ClCompile Include="Utils\WebRequest\JKRequestWebData.cpp">
       <Filter>Utils\WebRequest</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\XMLParser\JKParsetHtmlData.cpp">
-      <Filter>Utils\XMLParser</Filter>
-    </ClCompile>
     <ClCompile Include="Utils\ThreadUtil\JKThreadUtil.cpp">
       <Filter>Utils\ThreadUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\XMLParser\JKParserHtmlData.cpp">
+      <Filter>Utils\XMLParser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -374,11 +374,11 @@
     <ClInclude Include="Utils\WebRequest\JKRequestWebData.h">
       <Filter>Utils\WebRequest</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\XMLParser\JKParsetHtmlData.h">
-      <Filter>Utils\XMLParser</Filter>
-    </ClInclude>
     <ClInclude Include="Utils\ThreadUtil\JKThreadUtil.h">
       <Filter>Utils\ThreadUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\XMLParser\JKParserHtmlData.h">
+      <Filter>Utils\XMLParser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
