@@ -58,6 +58,15 @@
     <Filter Include="UI\Info">
       <UniqueIdentifier>{3fcee0d5-641d-4389-8560-a9daee327391}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils\WebRequest">
+      <UniqueIdentifier>{b1715aee-6a9c-4376-8945-5f53baf10b73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\XMLParser">
+      <UniqueIdentifier>{46a5382f-6e15-4da2-870d-93efba7bd458}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\ThreadUtil">
+      <UniqueIdentifier>{bb6ff483-7d66-46e0-ba96-0ecde51eb530}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\qrc_stocktool.cpp">
@@ -212,6 +221,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_JKStockTradeDetail.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Utils\WebRequest\JKRequestWebData.cpp">
+      <Filter>Utils\WebRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\XMLParser\JKParsetHtmlData.cpp">
+      <Filter>Utils\XMLParser</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\ThreadUtil\JKThreadUtil.cpp">
+      <Filter>Utils\ThreadUtil</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\JKMainWin.h">
@@ -352,6 +370,15 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_JKStockTradeDetail.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\WebRequest\JKRequestWebData.h">
+      <Filter>Utils\WebRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\XMLParser\JKParsetHtmlData.h">
+      <Filter>Utils\XMLParser</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\ThreadUtil\JKThreadUtil.h">
+      <Filter>Utils\ThreadUtil</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,36 +4,33 @@
 #include <mutex>
 #include <QObject>
 #include "JKEventType.h"
-#include "BLL/JKStockCodeBLL.h"
-#include "BLL/JKProjectBLL.h"
+#include "ThreadUtil\JKThreadUtil.h"
 
+class JKStockCodeBLL;
 class JKCrawlPrice;
-
-
-bool requestStockPrice(JKCrawlPrice* pCrawlPrice, JKRef_Ptr<JKStockCodeBLL> refStockCode);
-
-void runCrawlPriceThread(JKCrawlPrice* pCrawlPrice);
+extern void runCrawlPriceThread(JKCrawlPrice* pCrawlPrice);
 
 class JKCrawlPrice : public QObject, public JKUiEventHandler
 {
+	friend void runCrawlPriceThread(JKCrawlPrice*);
 	Q_OBJECT
 public:
-	JKCrawlPrice(JKRef_Ptr<JKProjectBLL> _refProject, QObject* parent = nullptr);
+	JKCrawlPrice(QObject* parent = nullptr);
 	~JKCrawlPrice();
 
-	void stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> refStockCode);
-	bool isContinue();
+	void addStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
+	void removeStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
+
+	void startRunCraw();
+	void stopRunCraw();
+
+	bool getIsDelete();
+	void setIsDelete(const bool &);
 
 	virtual void HandleEvent(const JKCustomUIEvent* event) override;
 
-	public slots:
-	void beforeProjectChanged();
-	void afterProjectChanged(JKRef_Ptr<JKProjectBLL> _refProject);
-
-	void reCrawlPrice();
-
 signals:
-	void stockCodePriceChanged(JKRef_Ptr<JKStockCodeBLL>);
+	//void stockCodePriceChanged(JKRef_Ptr<JKStockCodeBLL>);
 
 private:
 	void initCrawler();
@@ -42,11 +39,11 @@ private:
 private:
 	std::thread threadCrawler[1];
 
-	JKRef_Ptr<JKProjectBLL> refProject;
+	JKVariableMtx<bool, std::mutex>* varIsDelete;
 
-	friend void runCrawlPriceThread(JKCrawlPrice* pCrawlPrice);
+	std::mutex mtxRunCraw;
+	std::mutex mtxRunCraw_Mtx;
 
-	std::mutex mtxProjectChanged;
-	std::mutex mtxReadProject;
+	std::list<JKRef_Ptr<JKStockCodeBLL>> listStockCode;
 };
 

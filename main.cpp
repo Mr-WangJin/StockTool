@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "UI/JKMainWin.h"
 #include <QtWidgets/QApplication>
-#include "bll/JKProjectBLL.h"
-#include <QMessageBox>
-
-#include <Python.h>
 
 int main(int argc, char *argv[])
 {

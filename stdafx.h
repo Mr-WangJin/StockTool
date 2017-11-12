@@ -9,6 +9,8 @@ USING_JK_NAMESPACE
 
 
 #include <hiberlite.h>
+#include <QMessageBox>
+
 
 using namespace hiberlite;
 
