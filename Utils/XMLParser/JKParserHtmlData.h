@@ -1,6 +1,8 @@
 #pragma once
 
 
+class JKHtmlData;
+
 class JKParserHtmlData
 {
 public:
@@ -8,6 +10,7 @@ public:
 	virtual ~JKParserHtmlData();
 
 
+	void test(JKHtmlData* htmlData);
 
 
 

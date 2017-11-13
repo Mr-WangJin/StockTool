@@ -3,6 +3,7 @@
 #include "BLL/JKStockCodeBLL.h"
 #include "WebRequest\JKRequestWebData.h"
 #include <iostream>
+#include "Utils\XMLParser\JKParserHtmlData.h"
 
 //bool requestStockPrice(JKCrawlPrice* pCrawlPrice, JKRef_Ptr<JKStockCodeBLL> refStockCode)
 //{
@@ -100,7 +101,10 @@ void runCrawlPriceThread(JKCrawlPrice* pCrawlPrice)
 		pCrawlPrice->mtxRunCraw_Mtx.unlock();
 
 		JKRequestWebData requestWebData;
-		JKHtmlData* data = requestWebData.getHtmlData("www.baidu.com");
+		JKHtmlData* data = requestWebData.getHtmlData("https://gupiao.baidu.com/stock/sh600100.html");
+
+		JKParserHtmlData parserData;
+		parserData.test(data);
 		
 		std::cout << data->memory << std::endl;
 

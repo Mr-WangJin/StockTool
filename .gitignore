@@ -33,3 +33,16 @@
 /x64
 /GeneratedFiles
 /Debug
+.vs/
+*.exp
+*.iobj
+*.log
+*.tlog
+*.pdb
+*.ilk
+*.ipch
+*.idb
+StockTool.VC.VC.opendb
+StockTool.VC.db
+StockTool.vcxproj.user
+Lib/
