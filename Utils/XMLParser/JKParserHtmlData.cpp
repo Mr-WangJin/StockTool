@@ -3,7 +3,161 @@
 #include <libxml/HTMLparser.h>
 #include "../WebRequest/JKRequestWebData.h"
 #include <iostream>
+#include <string.h>  
+#include <JKUtil/JKStringUtil.h>
 
+
+#ifdef _MSC_VER
+#define COMPARE(a, b) (!_stricmp((a), (b)))
+#else
+#define COMPARE(a, b) (!strcasecmp((a), (b)))
+#endif
+
+//
+//  libxml callback context structure
+//
+struct Context
+{
+	Context() : addTitle(false) { }
+
+	bool addTitle;
+	std::string title;
+};
+
+//
+//  libcurl write callback function
+//
+static int writer(char *data, size_t size, size_t nmemb,
+	std::string *writerData)
+{
+	if (writerData == NULL)
+		return 0;
+
+	writerData->append(data, size*nmemb);
+
+	return size * nmemb;
+}
+
+
+static void StartElement(void *voidContext,
+	const xmlChar *name,
+	const xmlChar **attributes)
+{
+	Context *context = (Context *)voidContext;
+
+	//assert(!COMPARE((char *)name, "strong"));
+		
+	if (COMPARE((char *)name, "strong")) {
+		context->title = "";
+		context->addTitle = true;
+	}
+	(void)attributes;
+}
+
+//
+//  libxml end element callback function
+//
+
+static void EndElement(void *voidContext,
+	const xmlChar *name)
+{
+	Context *context = (Context *)voidContext;
+
+	if (COMPARE((char *)name, "strong"))
+		context->addTitle = false;
+}
+
+//
+//  Text handling helper function
+//
+
+static void handleCharacters(Context *context,
+	const xmlChar *chars,
+	int length)
+{
+	if (context->addTitle)
+		context->title.append((char *)chars, length);
+}
+
+//
+//  libxml PCDATA callback function
+//
+
+static void Characters(void *voidContext,
+	const xmlChar *chars,
+	int length)
+{
+	Context *context = (Context *)voidContext;
+
+	handleCharacters(context, chars, length);
+}
+
+//
+//  libxml CDATA callback function
+//
+
+static void cdata(void *voidContext,
+	const xmlChar *chars,
+	int length)
+{
+	Context *context = (Context *)voidContext;
+
+	handleCharacters(context, chars, length);
+}
+
+//
+//  libxml SAX callback structure
+//
+
+static htmlSAXHandler saxHandler =
+{
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	StartElement,
+	EndElement,
+	NULL,
+	Characters,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	cdata,
+	NULL
+};
+
+//
+//  Parse given (assumed to be) HTML text and return the title
+//
+
+static void parseHtml(const std::string &html, std::string &title)
+{
+	htmlParserCtxtPtr ctxt;
+	Context context;
+
+	ctxt = htmlCreatePushParserCtxt(&saxHandler, &context, "", 0, "", XML_CHAR_ENCODING_UTF8);
+
+	htmlParseChunk(ctxt, html.c_str(), html.size(), 0);
+	//htmlParseChunk(ctxt, "", 0, 1);
+
+	htmlFreeParserCtxt(ctxt);
+
+	title = context.title;
+}
 
 JKParserHtmlData::JKParserHtmlData()
 {
@@ -136,42 +290,35 @@ void traverse_dom_trees(xmlNodePtr currentNode)
 	//}
 }
 
-
 void JKParserHtmlData::test(JKHtmlData* htmlData)
 {
-	htmlDocPtr doc;
-	xmlNode *roo_element = NULL;
+	if (htmlData == nullptr)
+		return;
 
-	//if (argc != 2)
+	JKString data = JKString(htmlData->memory);
+
+	//char* p = g2u(htmlData->memory, htmlData->size);
+
+	JKString title;
+	parseHtml(data, title);
+
+	std::wstring t = JKStringUtil::UTF8ToUnicode(title);
+	std::string t1 = UTF8ToANSI(title);
+
+	std::cout << title;
+
+
+
+	//int nOutLen = 2 * size - 1;
+	//char* szOut = (char*)malloc(nOutLen);
+	//if (-1 == code_convert("utf-8", "gb2312", inbuf, size, szOut, nOutLen))
 	//{
-	//	printf("\nInvalid argument\n");
-	//	return(1);
+	//	free(szOut);
+	//	szOut = NULL;
 	//}
+	//return szOut;
 
-	/* Macro to check API for match with the DLL we are using */
-	LIBXML_TEST_VERSION
-
-	doc = htmlParseDoc(xmlCharStrndup(htmlData->memory, htmlData->size), "");
-	if (doc == NULL)
-	{
-		fprintf(stderr, "Document not parsed successfully.\n");
-		return ;
-	}
-
-	roo_element = xmlDocGetRootElement(doc);
-
-	if (roo_element == NULL)
-	{
-		fprintf(stderr, "empty document\n");
-		xmlFreeDoc(doc);
-		return ;
-	}
-
-	printf("Root Node is %s\n", roo_element->name);
-	traverse_dom_trees(roo_element);
-
-	xmlFreeDoc(doc);       // free document
-	xmlCleanupParser();    // Free globals
+	
 }
 
 

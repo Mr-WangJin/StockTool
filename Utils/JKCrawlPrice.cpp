@@ -106,8 +106,6 @@ void runCrawlPriceThread(JKCrawlPrice* pCrawlPrice)
 		JKParserHtmlData parserData;
 		parserData.test(data);
 		
-		std::cout << data->memory << std::endl;
-
 		JK_FreeAndNullptr(data);
 
 		//pause_thread(5);

@@ -55,8 +55,10 @@ JKHtmlData * JKRequestWebData::getHtmlData(const JKString &url)
 		/* init the curl session */
 		curl_handle = curl_easy_init();
 
+		curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYHOST, FALSE);
 		/* specify URL to get */
-		curl_easy_setopt(curl_handle, CURLOPT_URL, "http://www.example.com/");
+		curl_easy_setopt(curl_handle, CURLOPT_URL, "https://gupiao.baidu.com/stock/sh600100.html");
 
 		/* send all data to this function  */
 		curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, JKRequestWebData::WriteMemoryCallback);
