@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string.h>  
 #include <JKUtil/JKStringUtil.h>
-#include "Utils/TransferData/JKTagTextContext.h"
+#include "Utils/XMLParser/JKTagTextContext.h"
 
 #ifdef _MSC_VER
 #define COMPARE(a, b) (!_stricmp((a), (b)))

@@ -156,6 +156,10 @@ void JKMainWin::onSwitchCode()
 		if (QString(var->getCode().c_str()) == code)
 		{
 			emit beforeStockCodeChanged();
+			if (crawlPrice)
+			{
+				crawlPrice->stopRunCraw();
+			}
 
 			refProject->setCurStockCode(var);
 
@@ -165,6 +169,7 @@ void JKMainWin::onSwitchCode()
 			{
 				crawlPrice->clearStoclCode();
 				crawlPrice->addStockCode(var);
+				crawlPrice->startRunCraw();
 			}
 			break;
 		}

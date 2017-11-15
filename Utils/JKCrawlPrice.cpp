@@ -4,7 +4,9 @@
 #include "WebRequest\JKRequestWebData.h"
 #include <iostream>
 #include "Utils\XMLParser\JKParserHtmlData.h"
-#include "Utils\TransferData\JKTagTextContext.h"
+#include "Utils\XMLParser\JKTagTextContext.h"
+#include "Utils\TransferData\JKWebData.h"
+#include "JKUtil\JKStringUtil.h"
 
 //bool requestStockPrice(JKCrawlPrice* pCrawlPrice, JKRef_Ptr<JKStockCodeBLL> refStockCode)
 //{
@@ -95,18 +97,29 @@ void runCrawlPriceThread(JKCrawlPrice* pCrawlPrice)
 
 	while (true)
 	{
-		const std::list<JKRef_Ptr<JKStockCodeBLL>> &listStockCodes = pCrawlPrice->getStockCodes();
+		if (pCrawlPrice->getIsDelete())
+			break;
+		pCrawlPrice->mtxRunCraw_Mtx.lock();
+		std::unique_lock<std::mutex> uLck(pCrawlPrice->mtxRunCraw);
+		pCrawlPrice->mtxRunCraw_Mtx.unlock();
+
+		const std::list<JKRef_Ptr<JKStockCodeBLL>> listStockCodes = pCrawlPrice->getStockCodes();
 		for (auto var : listStockCodes)
 		{
-			if (pCrawlPrice->getIsDelete())
-				break;
-			pCrawlPrice->mtxRunCraw_Mtx.lock();
-			std::unique_lock<std::mutex> uLck(pCrawlPrice->mtxRunCraw);
-			pCrawlPrice->mtxRunCraw_Mtx.unlock();
-
 			JKRequestWebData requestWebData;
 			QString url = QString("https://gupiao.baidu.com/stock/sh%1.html").arg(var->getCode().c_str());
-			JKHtmlData* htmlData = requestWebData.getHtmlData("https://gupiao.baidu.com/stock/sh600100.html");
+			JKHtmlData* htmlData = requestWebData.getHtmlData(url.toStdString());
+			if (htmlData == nullptr)
+			{
+				std::cout << "request error ! " << url.toStdString();
+				continue;
+			}
+
+#ifdef _DEBUG
+			JKString strHtmlData = JKString(htmlData->getMemory());
+			strHtmlData = JKStringUtil::UTF8ToANSI(strHtmlData);
+#endif // _DEBUG
+
 
 			JKTagTextContext tagTextContext("strong");
 			if (JKParserHtmlData::parserTagTextAttribute(htmlData, &tagTextContext))

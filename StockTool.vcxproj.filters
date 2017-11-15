@@ -239,10 +239,10 @@
     <ClCompile Include="Utils\TransferData\JKWebData.cpp">
       <Filter>Utils\TransferData</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\TransferData\JKTagContextBase.cpp">
+    <ClCompile Include="Utils\XMLParser\JKTagContextBase.cpp">
       <Filter>Utils\XMLParser</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\TransferData\JKTagTextContext.cpp">
+    <ClCompile Include="Utils\XMLParser\JKTagTextContext.cpp">
       <Filter>Utils\XMLParser</Filter>
     </ClCompile>
   </ItemGroup>
@@ -401,10 +401,10 @@
     <ClInclude Include="Utils\TransferData\JKWebData.h">
       <Filter>Utils\TransferData</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\TransferData\JKTagContextBase.h">
+    <ClInclude Include="Utils\XMLParser\JKTagTextContext.h">
       <Filter>Utils\XMLParser</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\TransferData\JKTagTextContext.h">
+    <ClInclude Include="Utils\XMLParser\JKTagContextBase.h">
       <Filter>Utils\XMLParser</Filter>
     </ClInclude>
   </ItemGroup>
