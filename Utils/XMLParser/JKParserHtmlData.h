@@ -1,9 +1,7 @@
 #pragma once
 
-
 class JKHtmlData;
-
-
+class JKTagTextContext;
 
 class JKParserHtmlData
 {
@@ -11,12 +9,8 @@ public:
 	JKParserHtmlData();
 	virtual ~JKParserHtmlData();
 
+	JK_DISABLE_COPY(JKParserHtmlData);
 
-	void getTagTextAttribute();
-
-	void test(JKHtmlData* htmlData);
-
-
-
+	static bool parserTagTextAttribute(JKHtmlData* htmlData, JKTagTextContext* tagContext);
 
 };

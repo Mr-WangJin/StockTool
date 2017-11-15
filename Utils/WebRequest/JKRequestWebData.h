@@ -2,16 +2,7 @@
 
 #include <JKFramework\SmartPtr\JKReferenced.h>
 
-
-class JKHtmlData
-{
-public:
-	JKHtmlData();
-	~JKHtmlData();
-
-	char *memory;
-	size_t size;
-};
+class JKHtmlData;
 
 class JKRequestWebData : public JKReferenced
 {

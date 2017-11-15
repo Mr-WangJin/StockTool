@@ -2,6 +2,7 @@
 
 
 #include <JKCommon/JKCommon.h>
+#include <JKCommon/JKDef.h>
 #include <JKFramework/SmartPtr/JKRef_Ptr.h>
 USING_JK_NAMESPACE
 

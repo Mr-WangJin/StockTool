@@ -69,6 +69,8 @@ signals:
 	void updateCmbBoxSwitch(JKRef_Ptr<JKProjectBLL>);
 	void addedCmbBoxSwitch(JKRef_Ptr<JKStockCodeBLL>);
 
+	void initCrawler();
+	void stockCodePriceChanged(JKString);
 
 private:
 	void initUI();
@@ -82,7 +84,7 @@ private:
 
 	JKRef_Ptr<JKProjectBLL> refProject;
 
-	JKCrawlPrice* crawlPrice;
+	JKCrawlPrice* crawlPrice = nullptr;
 
 
 };

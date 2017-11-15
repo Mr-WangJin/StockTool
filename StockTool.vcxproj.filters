@@ -67,6 +67,9 @@
     <Filter Include="Utils\ThreadUtil">
       <UniqueIdentifier>{bb6ff483-7d66-46e0-ba96-0ecde51eb530}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils\TransferData">
+      <UniqueIdentifier>{699f8603-f30c-4096-afc7-e412de2e22a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\qrc_stocktool.cpp">
@@ -230,6 +233,18 @@
     <ClCompile Include="Utils\XMLParser\JKParserHtmlData.cpp">
       <Filter>Utils\XMLParser</Filter>
     </ClCompile>
+    <ClCompile Include="Utils\TransferData\JKTransferDataBase.cpp">
+      <Filter>Utils\TransferData</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\TransferData\JKWebData.cpp">
+      <Filter>Utils\TransferData</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\TransferData\JKTagContextBase.cpp">
+      <Filter>Utils\XMLParser</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\TransferData\JKTagTextContext.cpp">
+      <Filter>Utils\XMLParser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\JKMainWin.h">
@@ -378,6 +393,18 @@
       <Filter>Utils\ThreadUtil</Filter>
     </ClInclude>
     <ClInclude Include="Utils\XMLParser\JKParserHtmlData.h">
+      <Filter>Utils\XMLParser</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\TransferData\JKTransferDataBase.h">
+      <Filter>Utils\TransferData</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\TransferData\JKWebData.h">
+      <Filter>Utils\TransferData</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\TransferData\JKTagContextBase.h">
+      <Filter>Utils\XMLParser</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\TransferData\JKTagTextContext.h">
       <Filter>Utils\XMLParser</Filter>
     </ClInclude>
   </ItemGroup>

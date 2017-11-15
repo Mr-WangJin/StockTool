@@ -18,8 +18,10 @@ public:
 	JKCrawlPrice(QObject* parent = nullptr);
 	~JKCrawlPrice();
 
+	const std::list<JKRef_Ptr<JKStockCodeBLL>> &getStockCodes();
 	void addStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
 	void removeStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
+	void clearStoclCode();
 
 	void startRunCraw();
 	void stopRunCraw();
@@ -27,10 +29,11 @@ public:
 	bool getIsDelete();
 	void setIsDelete(const bool &);
 
+	void fire(JKString t);
 	virtual void HandleEvent(const JKCustomUIEvent* event) override;
 
 signals:
-	//void stockCodePriceChanged(JKRef_Ptr<JKStockCodeBLL>);
+	void stockCodePriceChanged(JKString);
 
 private:
 	void initCrawler();
@@ -39,11 +42,12 @@ private:
 private:
 	std::thread threadCrawler[1];
 
-	JKVariableMtx<bool, std::mutex>* varIsDelete;
+	JKVariableRWMtx<bool, std::mutex>* varIsDelete;
 
 	std::mutex mtxRunCraw;
 	std::mutex mtxRunCraw_Mtx;
 
+	std::mutex mtxListStockCode;
 	std::list<JKRef_Ptr<JKStockCodeBLL>> listStockCode;
 };
 

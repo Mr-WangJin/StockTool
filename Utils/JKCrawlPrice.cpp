@@ -4,6 +4,7 @@
 #include "WebRequest\JKRequestWebData.h"
 #include <iostream>
 #include "Utils\XMLParser\JKParserHtmlData.h"
+#include "Utils\TransferData\JKTagTextContext.h"
 
 //bool requestStockPrice(JKCrawlPrice* pCrawlPrice, JKRef_Ptr<JKStockCodeBLL> refStockCode)
 //{
@@ -94,21 +95,35 @@ void runCrawlPriceThread(JKCrawlPrice* pCrawlPrice)
 
 	while (true)
 	{
-		if (pCrawlPrice->getIsDelete())
-			break;
-		pCrawlPrice->mtxRunCraw_Mtx.lock();
-		std::unique_lock<std::mutex> uLck(pCrawlPrice->mtxRunCraw);
-		pCrawlPrice->mtxRunCraw_Mtx.unlock();
+		const std::list<JKRef_Ptr<JKStockCodeBLL>> &listStockCodes = pCrawlPrice->getStockCodes();
+		for (auto var : listStockCodes)
+		{
+			if (pCrawlPrice->getIsDelete())
+				break;
+			pCrawlPrice->mtxRunCraw_Mtx.lock();
+			std::unique_lock<std::mutex> uLck(pCrawlPrice->mtxRunCraw);
+			pCrawlPrice->mtxRunCraw_Mtx.unlock();
 
-		JKRequestWebData requestWebData;
-		JKHtmlData* data = requestWebData.getHtmlData("https://gupiao.baidu.com/stock/sh600100.html");
+			JKRequestWebData requestWebData;
+			QString url = QString("https://gupiao.baidu.com/stock/sh%1.html").arg(var->getCode().c_str());
+			JKHtmlData* htmlData = requestWebData.getHtmlData("https://gupiao.baidu.com/stock/sh600100.html");
 
-		JKParserHtmlData parserData;
-		parserData.test(data);
+			JKTagTextContext tagTextContext("strong");
+			if (JKParserHtmlData::parserTagTextAttribute(htmlData, &tagTextContext))
+			{
+				const std::list<JKString> tagText = tagTextContext.getListTagText();
+				std::cout << "parser tag " << tagTextContext.getTag() << " size : " << tagText.size();
+				if (tagText.size() > 0)
+				{
+					JKString s = *(tagText.begin());
+					pCrawlPrice->fire(s);
+				}
+			}
+
+			JK_FreeAndNullptr(htmlData);
+		}
 		
-		JK_FreeAndNullptr(data);
-
-		//pause_thread(5);
+		pause_thread(500);
 	}
 }
 
@@ -116,7 +131,7 @@ void runCrawlPriceThread(JKCrawlPrice* pCrawlPrice)
 JKCrawlPrice::JKCrawlPrice(QObject* parent/* = nullptr*/)
 	: QObject(parent)
 {
-	varIsDelete = new JKVariableMtx<bool, std::mutex>(false);
+	varIsDelete = new JKVariableRWMtx<bool, std::mutex>(false);
 	
 	this->stopRunCraw();
 
@@ -134,8 +149,16 @@ JKCrawlPrice::~JKCrawlPrice()
 	threadCrawler[0].join();
 }
 
+const std::list<JKRef_Ptr<JKStockCodeBLL>>& JKCrawlPrice::getStockCodes()
+{
+	std::unique_lock<std::mutex> ulck(mtxListStockCode);
+	return listStockCode;
+}
+
 void JKCrawlPrice::addStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 {
+	std::unique_lock<std::mutex> ulck(mtxListStockCode);
+
 	if (std::find(listStockCode.begin(), listStockCode.end(), _refStockCode) == listStockCode.end())
 	{
 		listStockCode.push_back(_refStockCode);
@@ -144,12 +167,22 @@ void JKCrawlPrice::addStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 
 void JKCrawlPrice::removeStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 {
+	std::unique_lock<std::mutex> ulck(mtxListStockCode);
+
 	std::list<JKRef_Ptr<JKStockCodeBLL>>::iterator iter = std::find(listStockCode.begin(), listStockCode.end(), _refStockCode);
 	if (iter != listStockCode.end())
 	{
 		listStockCode.remove(_refStockCode);
 	}
 }
+
+void JKCrawlPrice::clearStoclCode()
+{
+	std::unique_lock<std::mutex> ulck(mtxListStockCode);
+
+	listStockCode.clear();
+}
+
 
 void JKCrawlPrice::startRunCraw()
 {
@@ -171,6 +204,11 @@ bool JKCrawlPrice::getIsDelete()
 void JKCrawlPrice::setIsDelete(const bool & isDelete)
 {
 	varIsDelete->setVariable(isDelete);
+}
+
+void JKCrawlPrice::fire(JKString t)
+{
+	emit stockCodePriceChanged(t);
 }
 
 void JKCrawlPrice::HandleEvent(const JKCustomUIEvent* event)

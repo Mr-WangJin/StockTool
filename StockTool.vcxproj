@@ -273,6 +273,10 @@
     <ClCompile Include="UI\JKUiEventDispatcher.cpp" />
     <ClCompile Include="Utils\JKCrawlPrice.cpp" />
     <ClCompile Include="Utils\ThreadUtil\JKThreadUtil.cpp" />
+    <ClCompile Include="Utils\TransferData\JKTagContextBase.cpp" />
+    <ClCompile Include="Utils\TransferData\JKTagTextContext.cpp" />
+    <ClCompile Include="Utils\TransferData\JKTransferDataBase.cpp" />
+    <ClCompile Include="Utils\TransferData\JKWebData.cpp" />
     <ClCompile Include="Utils\WebRequest\JKRequestWebData.cpp" />
     <ClCompile Include="Utils\XMLParser\JKParserHtmlData.cpp" />
   </ItemGroup>
@@ -364,6 +368,10 @@
     <ClInclude Include="UI\JKEventType.h" />
     <ClInclude Include="UI\JKExeVersion.h" />
     <ClInclude Include="Utils\ThreadUtil\JKThreadUtil.h" />
+    <ClInclude Include="Utils\TransferData\JKTagContextBase.h" />
+    <ClInclude Include="Utils\TransferData\JKTagTextContext.h" />
+    <ClInclude Include="Utils\TransferData\JKTransferDataBase.h" />
+    <ClInclude Include="Utils\TransferData\JKWebData.h" />
     <ClInclude Include="Utils\WebRequest\JKRequestWebData.h" />
     <ClInclude Include="Utils\XMLParser\JKParserHtmlData.h" />
     <CustomBuild Include="UI\JKStockTradeDetail.h">

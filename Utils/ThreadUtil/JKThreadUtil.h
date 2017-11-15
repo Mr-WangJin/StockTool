@@ -1,17 +1,17 @@
 #pragma once
 
 
-void pause_thread(int seconds);
+void pause_thread(size_t milliseconds);
 
 template<typename Variable, typename Mtx>
-class JKVariableMtx
+class JKVariableRWMtx
 {
 public:
-	JKVariableMtx(Variable _var)
+	JKVariableRWMtx(Variable _var)
 		: var(_var)
 	{
 	};
-	~JKVariableMtx()
+	~JKVariableRWMtx()
 	{
 	}
 

@@ -16,6 +16,8 @@
 JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
 	: QMainWindow(parent)
 {
+	qRegisterMetaType<JKString>("JKString");
+
 	ui.setupUi(this);
 	ui.trendChartWgt->setVisible(false);
 	refProject = nullptr;
@@ -24,11 +26,6 @@ JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
 	this->updateInputUIEnable(nullptr);
 	
 	emit afterProjectChanged(refProject);
-
-	crawlPrice = new JKCrawlPrice(this);
-	crawlPrice->startRunCraw();
-	//connect(this, SIGNAL(beforeProjectChanged()), crawlPrice, SLOT(beforeProjectChanged()));
-	//connect(this, SIGNAL(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)), crawlPrice, SLOT(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)));
 }
 
 JKMainWin::~JKMainWin()
@@ -163,6 +160,13 @@ void JKMainWin::onSwitchCode()
 			refProject->setCurStockCode(var);
 
 			emit afterStockCodeChanged(var);
+
+			if (crawlPrice)
+			{
+				crawlPrice->clearStoclCode();
+				crawlPrice->addStockCode(var);
+			}
+			break;
 		}
 	}
 }
@@ -456,6 +460,7 @@ void JKMainWin::initUI()
 
 	connect(this, SIGNAL(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)), this, SLOT(updateUIEnable(JKRef_Ptr<JKProjectBLL>)));
 	connect(this, SIGNAL(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)), this, SLOT(updateCmbBoxSwitch(JKRef_Ptr<JKProjectBLL>)));
+	connect(this, SIGNAL(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)), this, SLOT(initCrawler()));
 	connect(this, SIGNAL(afterStockCodeChanged(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(updateInfoWgt(JKRef_Ptr<JKStockCodeBLL>)));
 	connect(this, SIGNAL(afterStockCodeChanged(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(stockCodeChanged(JKRef_Ptr<JKStockCodeBLL>)));
 	connect(this, SIGNAL(afterStockCodeChanged(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(updateInputUIEnable(JKRef_Ptr<JKStockCodeBLL>)));
@@ -492,6 +497,34 @@ void JKMainWin::addedCmbBoxSwitch(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 	ui.cmbBxSwitch->addItem(QString(_refStockCode->getName().c_str()), QVariant(QString(_refStockCode->getCode().c_str())));
 	ui.cmbBxSwitch->setCurrentText(QString(_refStockCode->getName().c_str()));
 
+}
+
+void JKMainWin::initCrawler()
+{
+	JK_FreeAndNullptr(crawlPrice);
+	if (!refProject.valid())
+		return;
+
+	crawlPrice = new JKCrawlPrice(this);
+	crawlPrice->addStockCode(refProject->getCurStockCode());
+	crawlPrice->startRunCraw();
+
+	connect(crawlPrice, SIGNAL(stockCodePriceChanged(JKString)), this, SLOT(stockCodePriceChanged(JKString)));
+}
+
+void JKMainWin::stockCodePriceChanged(JKString v)
+{
+	float laterPrice = QString(v.c_str()).toFloat();
+	if (refProject.valid())
+	{
+		JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
+		if (_refStockCode.valid())
+		{
+			_refStockCode->setLatestPrice(laterPrice);
+
+			emit afterStockCodeChanged(_refStockCode);
+		}
+	}
 }
 
 void JKMainWin::updateUIEnable(JKRef_Ptr<JKProjectBLL> _refProject)

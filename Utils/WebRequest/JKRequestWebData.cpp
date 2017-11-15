@@ -1,18 +1,10 @@
 #include "stdafx.h"
 #include "JKRequestWebData.h"
-
+#include "Utils/TransferData/JKWebData.h"
 #include <curl/curl.h>
 
 
-JKHtmlData::JKHtmlData()
-{
-	memory = (char*)malloc(1);  /* will be grown as needed by the realloc above */
-	size = 0;    /* no data at this point */
-}
-JKHtmlData::~JKHtmlData()
-{
-	free(memory);
-}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -29,7 +21,7 @@ JKRequestWebData::~JKRequestWebData()
 size_t JKRequestWebData::WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
 	size_t realsize = size * nmemb;
-	struct JKHtmlData *mem = (struct JKHtmlData *)userp;
+	JKHtmlData *mem = (JKHtmlData *)userp;
 
 	mem->memory = (char*)realloc(mem->memory, mem->size + realsize + 1);
 	if (mem->memory == NULL) {

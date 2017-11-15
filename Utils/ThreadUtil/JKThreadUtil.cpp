@@ -4,8 +4,8 @@
 #include <iostream>
 
 
-void pause_thread(int seconds)
+void pause_thread(size_t milliseconds)
 {
-	std::this_thread::sleep_for(std::chrono::seconds(seconds));
-	std::cout << "pause of " << seconds << " seconds ended ----------------thread_id£º" << std::this_thread::get_id << std::endl;
+	std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
+	std::cout << "pause of " << milliseconds << " milliseconds ended ----------------thread_id£º" << std::this_thread::get_id << std::endl;
 }
