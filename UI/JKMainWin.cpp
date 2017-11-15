@@ -456,7 +456,7 @@ void JKMainWin::initUI()
 	connect(ui.actSellStock, SIGNAL(triggered()), this, SLOT(sellStockCode()));
 	connect(ui.tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onTableWgtPopMenu(QPoint)));
 	connect(ui.cmbBxSwitch, SIGNAL(currentIndexChanged(int)), this, SLOT(onSwitchCode()), Qt::UniqueConnection);
-	connect(ui.pBtnSetCurPrice, SIGNAL(clicked()), this, SLOT(setCurrentStockPrice()));
+	//connect(ui.pBtnSetCurPrice, SIGNAL(clicked()), this, SLOT(setCurrentStockPrice()));
 	connect(ui.actNewProject, SIGNAL(triggered()), this, SLOT(newProject()));
 	connect(ui.actOpenProject, SIGNAL(triggered()), this, SLOT(openProject()));
 	connect(ui.actExit, SIGNAL(triggered()), this, SLOT(close()));
@@ -538,7 +538,6 @@ void JKMainWin::updateUIEnable(JKRef_Ptr<JKProjectBLL> _refProject)
 	//ui.trendChartWgt->setEnabled(bUIEnable);
 	ui.tableWidget->setEnabled(bUIEnable);
 	ui.cmbBxSwitch->setEnabled(bUIEnable);
-	ui.pBtnSetCurPrice->setEnabled(bUIEnable);
 
 	ui.actNewStockCode->setEnabled(bUIEnable);
 	ui.actTaxSetting->setEnabled(bUIEnable);

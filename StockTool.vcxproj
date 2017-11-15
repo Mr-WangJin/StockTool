@@ -102,7 +102,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(JKCore)\..\..\build\bin\$(Configuration)\;$(JSONCPP_HOME)\$(Platform)\$(Configuration)\;$(HiberliteDir)\bin\hiberlite\$(Configuration)\;$(HiberliteDir)\bin\sqlite\$(Configuration);$(JSONCPP_HOME)\lib;$(CurlDir)\lib;$(LibXML2DIR)\lib\$(Configuration)\;$(LibiconvDIR)\lib\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(JKCore)\..\..\build\bin\$(Configuration)\;$(JSONCPP_HOME)\$(Platform)\$(Configuration)\;$(HiberliteDir)\bin\hiberlite\$(Configuration)\;$(HiberliteDir)\bin\sqlite\$(Configuration);$(JSONCPP_HOME)\lib;$(CurlDir)\lib\$(Configuration)\;$(LibXML2DIR)\lib\$(Configuration)\;$(LibiconvDIR)\lib\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libxml2.lib;libiconv.lib;qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;JKCored.lib;sqlite.lib;hiberlite.lib;Qt5Chartsd.lib;Qt5Sqld.lib;jsoncppd.lib;libcurld.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -139,8 +139,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(JKCore)\..\..\build\bin\$(Configuration)\;$(JSONCPP_HOME)\$(Platform)\$(Configuration)\;$(HiberliteDir)\bin\hiberlite\$(Configuration)\;$(HiberliteDir)\bin\sqlite\$(Configuration);$(JSONCPP_HOME)\lib;$(CurlDir)\lib;$(LibXML2DIR)\lib\$(Configuration)\;$(LibiconvDIR)\lib\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(JKCore)\..\..\build\bin\$(Configuration)\;$(JSONCPP_HOME)\$(Platform)\$(Configuration)\;$(HiberliteDir)\bin\hiberlite\$(Configuration)\;$(HiberliteDir)\bin\sqlite\$(Configuration);$(JSONCPP_HOME)\lib;$(CurlDir)\lib\$(Configuration);$(LibXML2DIR)\lib\$(Configuration)\;$(LibiconvDIR)\lib\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libxml2.lib;libiconv.lib;qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Widgets.lib;JKCore.lib;jsoncpp.lib;Qt5Charts.lib;sqlite.lib;hiberlite.lib;Qt5Sql.lib;libcurl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

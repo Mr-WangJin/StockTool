@@ -221,13 +221,6 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QPushButton" name="pBtnSetCurPrice">
-            <property name="text">
-             <string>设置当前交易价</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
        </layout>

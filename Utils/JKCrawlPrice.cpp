@@ -125,7 +125,7 @@ void runCrawlPriceThread(JKCrawlPrice* pCrawlPrice)
 			if (JKParserHtmlData::parserTagTextAttribute(htmlData, &tagTextContext))
 			{
 				const std::list<JKString> tagText = tagTextContext.getListTagText();
-				std::cout << "parser tag " << tagTextContext.getTag() << " size : " << tagText.size();
+				std::cout << "parser tag " << tagTextContext.getTag() << " size : " << tagText.size() << std::endl;
 				if (tagText.size() > 0)
 				{
 					JKString s = *(tagText.begin());

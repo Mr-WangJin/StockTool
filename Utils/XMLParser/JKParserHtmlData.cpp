@@ -19,8 +19,6 @@ static void StartElement(void *voidContext,	const xmlChar *name, const xmlChar *
 {
 	JKTagTextContext *context = (JKTagTextContext *)voidContext;
 
-	//assert(!COMPARE((char *)name, "strong"));
-		
 	if (COMPARE((char *)name, context->getTag().c_str())) {
 		context->setState(true);
 	}
@@ -112,7 +110,6 @@ bool JKParserHtmlData::parserTagTextAttribute(JKHtmlData * htmlData, JKTagTextCo
 	ctxt = htmlCreatePushParserCtxt(&saxHandler, tagContext, "", 0, "", XML_CHAR_ENCODING_UTF8);
 
 	htmlParseChunk(ctxt, htmlData->getMemory(), htmlData->getSize(), 0);
-	//htmlParseChunk(ctxt, "", 0, 1);
 
 	htmlFreeParserCtxt(ctxt);
 
