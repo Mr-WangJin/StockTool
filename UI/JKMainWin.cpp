@@ -279,7 +279,7 @@ void JKMainWin::onAfterProjectChanged(JKRef_Ptr<JKProjectBLL> _refProject)
 	updateUIEnable(_refProject);
 	updateCmbBoxSwitch(_refProject);
 	refreshCrawler(_refProject);
-	crawlerOptChanged();
+	//crawlerOptChanged();
 }
 
 void JKMainWin::onShowBuyOnly()
@@ -535,14 +535,16 @@ void JKMainWin::refreshCrawler(JKRef_Ptr<JKProjectBLL> _refProject)
 	connect(crawlPrice, SIGNAL(stockCodePriceChanged(JKString)), this, SLOT(stockCodePriceChanged(JKString)));
 }
 
-void JKMainWin::stockCodePriceChanged(JKString v)
+void JKMainWin::stockCodePriceChanged(JKString price)
 {
-	float laterPrice = QString(v.c_str()).toFloat();
+	float laterPrice = QString(price.c_str()).toFloat();
 	if (refProject.valid())
 	{
 		JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
 		if (_refStockCode.valid())
 		{
+			if (_refStockCode->getLatestPrice() == laterPrice)
+				return;
 			_refStockCode->setLatestPrice(laterPrice);
 
 			emit afterStockCodeChanged(_refStockCode);

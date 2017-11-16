@@ -41,6 +41,7 @@ private:
 
 private:
 	std::thread threadCrawler[1];
+	bool bIsStartCraw = false;
 
 	JKVariableRWMtx<bool, std::mutex>* varIsDelete;
 

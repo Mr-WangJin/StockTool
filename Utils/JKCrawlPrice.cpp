@@ -97,11 +97,12 @@ void runCrawlPriceThread(JKCrawlPrice* pCrawlPrice)
 
 	while (true)
 	{
-		if (pCrawlPrice->getIsDelete())
-			break;
 		pCrawlPrice->mtxRunCraw_Mtx.lock();
 		std::unique_lock<std::mutex> uLck(pCrawlPrice->mtxRunCraw);
 		pCrawlPrice->mtxRunCraw_Mtx.unlock();
+
+		if (pCrawlPrice->getIsDelete())
+			break;
 
 		const std::list<JKRef_Ptr<JKStockCodeBLL>> listStockCodes = pCrawlPrice->getStockCodes();
 		for (auto var : listStockCodes)
@@ -135,8 +136,7 @@ void runCrawlPriceThread(JKCrawlPrice* pCrawlPrice)
 
 			JK_FreeAndNullptr(htmlData);
 		}
-		
-		pause_thread(500);
+		pause_thread(1000);
 	}
 }
 
@@ -145,7 +145,7 @@ JKCrawlPrice::JKCrawlPrice(QObject* parent/* = nullptr*/)
 	: QObject(parent)
 {
 	varIsDelete = new JKVariableRWMtx<bool, std::mutex>(false);
-	
+	bIsStartCraw = true;
 	this->stopRunCraw();
 
 	threadCrawler[0] = std::thread(runCrawlPriceThread, this);
@@ -159,6 +159,8 @@ JKCrawlPrice::JKCrawlPrice(QObject* parent/* = nullptr*/)
 JKCrawlPrice::~JKCrawlPrice()
 {
 	this->setIsDelete(true);
+	if (!bIsStartCraw)
+		this->startRunCraw();
 	threadCrawler[0].join();
 }
 
@@ -199,14 +201,21 @@ void JKCrawlPrice::clearStoclCode()
 
 void JKCrawlPrice::startRunCraw()
 {
-	mtxRunCraw.unlock();
+	if (!bIsStartCraw)
+		mtxRunCraw.unlock();
+
+	bIsStartCraw = true;
 	//std::unique_lock<std::mutex> uLck(mtxRunCraw_Mtx);
 }
 
 void JKCrawlPrice::stopRunCraw()
 {
-	std::unique_lock<std::mutex> uLck(mtxRunCraw_Mtx);
-	mtxRunCraw.lock();
+	if (bIsStartCraw)
+	{
+		std::unique_lock<std::mutex> uLck(mtxRunCraw_Mtx);
+		mtxRunCraw.lock();
+	}
+	bIsStartCraw = false;
 }
 
 bool JKCrawlPrice::getIsDelete() 
