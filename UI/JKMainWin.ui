@@ -260,6 +260,7 @@
      <string>设置</string>
     </property>
     <addaction name="actTaxSetting"/>
+    <addaction name="actCrawlerOpt"/>
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="title">
@@ -366,6 +367,14 @@
   <action name="actNewProject">
    <property name="text">
     <string>新建项目</string>
+   </property>
+  </action>
+  <action name="actCrawlerOpt">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>开启爬虫</string>
    </property>
   </action>
  </widget>

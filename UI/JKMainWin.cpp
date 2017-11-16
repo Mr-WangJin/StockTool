@@ -12,7 +12,6 @@
 #include "JKStockTradeDetail.h"
 
 
-
 JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -156,10 +155,6 @@ void JKMainWin::onSwitchCode()
 		if (QString(var->getCode().c_str()) == code)
 		{
 			emit beforeStockCodeChanged();
-			if (crawlPrice)
-			{
-				crawlPrice->stopRunCraw();
-			}
 
 			refProject->setCurStockCode(var);
 
@@ -169,7 +164,6 @@ void JKMainWin::onSwitchCode()
 			{
 				crawlPrice->clearStoclCode();
 				crawlPrice->addStockCode(var);
-				crawlPrice->startRunCraw();
 			}
 			break;
 		}
@@ -204,6 +198,17 @@ void JKMainWin::projectTaxSetting()
 		refProject->setCommission(newProject.getCommission());
 
 		emit afterProjectChanged(refProject);
+	}
+}
+
+void JKMainWin::crawlerOptChanged()
+{
+	if (crawlPrice)
+	{
+		if (ui.actCrawlerOpt->isChecked())
+			crawlPrice->startRunCraw();
+		else
+			crawlPrice->stopRunCraw();
 	}
 }
 
@@ -262,6 +267,19 @@ void JKMainWin::onShowTradeInfo()
 		detail.exec();
 	}
 
+}
+
+void JKMainWin::onBeforeProjectChanged()
+{
+	ui.actCrawlerOpt->setChecked(false);
+}
+
+void JKMainWin::onAfterProjectChanged(JKRef_Ptr<JKProjectBLL> _refProject)
+{
+	updateUIEnable(_refProject);
+	updateCmbBoxSwitch(_refProject);
+	refreshCrawler(_refProject);
+	crawlerOptChanged();
 }
 
 void JKMainWin::onShowBuyOnly()
@@ -461,11 +479,12 @@ void JKMainWin::initUI()
 	connect(ui.actOpenProject, SIGNAL(triggered()), this, SLOT(openProject()));
 	connect(ui.actExit, SIGNAL(triggered()), this, SLOT(close()));
 	connect(ui.actTaxSetting, SIGNAL(triggered()), this, SLOT(projectTaxSetting()));
+	connect(ui.actCrawlerOpt, SIGNAL(triggered()), this, SLOT(crawlerOptChanged()));
 
 
-	connect(this, SIGNAL(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)), this, SLOT(updateUIEnable(JKRef_Ptr<JKProjectBLL>)));
-	connect(this, SIGNAL(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)), this, SLOT(updateCmbBoxSwitch(JKRef_Ptr<JKProjectBLL>)));
-	connect(this, SIGNAL(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)), this, SLOT(initCrawler()));
+	connect(this, SIGNAL(beforeProjectChanged()), this, SLOT(onBeforeProjectChanged()));
+	connect(this, SIGNAL(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)), this, SLOT(onAfterProjectChanged(JKRef_Ptr<JKProjectBLL>)));
+
 	connect(this, SIGNAL(afterStockCodeChanged(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(updateInfoWgt(JKRef_Ptr<JKStockCodeBLL>)));
 	connect(this, SIGNAL(afterStockCodeChanged(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(stockCodeChanged(JKRef_Ptr<JKStockCodeBLL>)));
 	connect(this, SIGNAL(afterStockCodeChanged(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(updateInputUIEnable(JKRef_Ptr<JKStockCodeBLL>)));
@@ -504,15 +523,14 @@ void JKMainWin::addedCmbBoxSwitch(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 
 }
 
-void JKMainWin::initCrawler()
+void JKMainWin::refreshCrawler(JKRef_Ptr<JKProjectBLL> _refProject)
 {
 	JK_FreeAndNullptr(crawlPrice);
-	if (!refProject.valid())
+	if (!_refProject.valid())
 		return;
 
 	crawlPrice = new JKCrawlPrice(this);
-	crawlPrice->addStockCode(refProject->getCurStockCode());
-	crawlPrice->startRunCraw();
+	crawlPrice->addStockCode(_refProject->getCurStockCode());
 
 	connect(crawlPrice, SIGNAL(stockCodePriceChanged(JKString)), this, SLOT(stockCodePriceChanged(JKString)));
 }
@@ -541,7 +559,6 @@ void JKMainWin::updateUIEnable(JKRef_Ptr<JKProjectBLL> _refProject)
 
 	ui.actNewStockCode->setEnabled(bUIEnable);
 	ui.actTaxSetting->setEnabled(bUIEnable);
-
 }
 
 void JKMainWin::updateInputUIEnable(JKRef_Ptr<JKStockCodeBLL> _refStockCode)

@@ -52,6 +52,7 @@ signals:
 	void onSwitchCode();
 	void setCurrentStockPrice();
 	void projectTaxSetting();
+	void crawlerOptChanged();
 
 	void onTableWgtPopMenu(QPoint pos);
 	void onDeleteTrade();
@@ -60,6 +61,8 @@ signals:
 	void onShowSellOnly();
 	void onShowAll();
 	void onShowTradeInfo();
+	void onBeforeProjectChanged();
+	void onAfterProjectChanged(JKRef_Ptr<JKProjectBLL>);
 
 	void stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
 	void updateTableWidget(TableShowType type = Show_All);
@@ -69,7 +72,7 @@ signals:
 	void updateCmbBoxSwitch(JKRef_Ptr<JKProjectBLL>);
 	void addedCmbBoxSwitch(JKRef_Ptr<JKStockCodeBLL>);
 
-	void initCrawler();
+	void refreshCrawler(JKRef_Ptr<JKProjectBLL>);
 	void stockCodePriceChanged(JKString);
 
 private:
