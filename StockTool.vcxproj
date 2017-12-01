@@ -364,6 +364,7 @@
     <ClInclude Include="Model\JKStockCodeModel.h" />
     <ClInclude Include="Model\JKStockCodeSettingModel.h" />
     <ClInclude Include="Model\JKStockCodeTradeModel.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="UI\JKEventType.h" />
     <ClInclude Include="UI\JKExeVersion.h" />
@@ -714,6 +715,12 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="StockTool.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="JKStockTool.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

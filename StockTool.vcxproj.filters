@@ -407,5 +407,14 @@
     <ClInclude Include="Utils\XMLParser\JKTagContextBase.h">
       <Filter>Utils\XMLParser</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="StockTool.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="JKStockTool.ico" />
   </ItemGroup>
 </Project>
