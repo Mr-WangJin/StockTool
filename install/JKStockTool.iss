@@ -134,10 +134,10 @@ var
   sFile: String;
   nErrorCode: Integer;
 begin
-  sFile := ExpandConstant('{app}\bin\Enviroment\vcredist_x64.exe');
+  sFile := ExpandConstant('{app}\vc_redist.x64_2015.exe');
   if FileExists(sFile) then
   begin
-    if not RegValueExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\VisualStudio\10.0\VC\Runtimes\x64', 'Version') then
+    if not RegValueExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\VisualStudio\10.0\VC\Runtimes\x64', 'Version1') then
     begin
       ShellExec('', sFile, '/q', '', SW_HIDE, ewWaitUntilTerminated, nErrorCode);
     end; 
@@ -181,5 +181,10 @@ begin
 
     //程序版本号写入注册表
     //WriteVersionToReg();
+	
+	//清除setup包
+    DeleteFile(ExpandConstant('{app}\vc_redist.x64_2015.exe'));
+    //DelTree(ExpandConstant('{app}\vc_redist.x64_2015.exe'), True, True, True);
+	
   end;
 end;

@@ -15,5 +15,6 @@ if exist %OutPutExeFile% (
 XCopy ..\%Platform%\%Configuration%\platforms\*.dll .\%OutPutExeFile%\platforms\
 XCopy ..\%Platform%\%Configuration%\*.dll .\%OutPutExeFile%\
 XCopy ..\%Platform%\%Configuration%\*.exe .\%OutPutExeFile%\
+XCopy vc_redist.x64_2015.exe .\%OutPutExeFile%\
 
 "%InnoDIR%\Compil32.exe" /cc "JKStockTool.iss"
