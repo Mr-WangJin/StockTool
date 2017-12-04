@@ -1,4 +1,5 @@
 <RCC>
-    <qresource prefix="StockTool">
+    <qresource prefix="/StockTool">
+        <file>JKStockTool.ico</file>
     </qresource>
 </RCC>

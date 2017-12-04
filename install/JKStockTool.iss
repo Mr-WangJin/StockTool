@@ -4,9 +4,9 @@
 #define MyAppName "JKStockTool"
 #define MyAppVersion "1.1"
 #define MyAppPublisher "JK, Inc."
-#define MyAppExeName "JKStockTool.exe"
+#define MyAppExeName "StockTool.exe"
 
-#define AppSrcDir "D:\programs\cpp\StockTool\x64\Debug"
+#define AppSrcDir "D:\programs\cpp\StockTool\x64\Debug\"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -18,6 +18,7 @@ AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 DefaultDirName={pf}\JKStockTool
+DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 LicenseFile=D:\Program Files (x86)\Inno Setup 5\license.txt
 InfoBeforeFile=D:\Program Files (x86)\Inno Setup 5\license.txt

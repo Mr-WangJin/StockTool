@@ -70,6 +70,11 @@
     <Filter Include="Utils\TransferData">
       <UniqueIdentifier>{699f8603-f30c-4096-afc7-e412de2e22a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\qrc_stocktool.cpp">
@@ -245,6 +250,9 @@
     <ClCompile Include="Utils\XMLParser\JKTagTextContext.cpp">
       <Filter>Utils\XMLParser</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_icon.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\JKMainWin.h">
@@ -307,6 +315,9 @@
     </CustomBuild>
     <CustomBuild Include="UI\JKStockTradeDetail.h">
       <Filter>UI\Info</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\icon.qrc">
+      <Filter>UI</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -416,5 +427,8 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="JKStockTool.ico" />
+    <Image Include="UI\JKStockTool.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
