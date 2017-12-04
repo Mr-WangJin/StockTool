@@ -136,7 +136,8 @@ void JKMainWin::sellStockCode()
 	}
 	else
 	{
-		JKSellStockCodeWgt sellStockCodeWgt(_refStockCode);
+		std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecStockTrade;
+		JKSellStockCodeWgt sellStockCodeWgt(_refStockCode, vecStockTrade);
 		if (sellStockCodeWgt.exec() == QDialog::Accepted)
 		{
 			//ui.trendChartWgt->updateTrendChart();
@@ -250,7 +251,15 @@ void JKMainWin::onSellTrade()
 	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
 	if (_refStockCode.valid())
 	{
-		JKSellStockCodeWgt sellStockCodeWgt(_refStockCode);
+		std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecStockTrade;
+		for (auto & var : ui.tableWidget->selectedItems())
+		{
+
+		}
+
+
+
+		JKSellStockCodeWgt sellStockCodeWgt(_refStockCode, vecStockTrade, this);
 		if (sellStockCodeWgt.exec() == QDialog::Accepted)
 		{
 			this->updateTableWidget(tbShowType);
@@ -345,6 +354,7 @@ void JKMainWin::updateTableWidget(TableShowType type /*= Show_All*/)
 		int j = 0;
 
 		QTableWidgetItem* tbItem = new QTableWidgetItem();
+		tbItem->setData(Qt::UserRole, QString::fromStdString(var->getId()));
 		switch ((int)var->getType())
 		{
 		case 1:
@@ -377,7 +387,7 @@ void JKMainWin::updateTableWidget(TableShowType type /*= Show_All*/)
 		double preRealEarning = 0;
 		if (var->getType() == TradeType::BUY)
 			preRealEarning = tradeUtil.getRealEarning(latestPrice, var);
-		else
+		else if (var->getType() == TradeType::SELL)
 			preRealEarning = tradeUtil.getRealEarning(var->getSellPrice(), var);
 		tbItem->setData(Qt::DisplayRole, preRealEarning); tbItem->setData(Qt::UserRole, QString::fromStdString(var->getId()));
 		ui.tableWidget->setItem(i, j++, tbItem);

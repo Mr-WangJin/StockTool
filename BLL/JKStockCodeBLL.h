@@ -21,6 +21,7 @@ public:
 
 	vector<JKRef_Ptr<JKStockCodeTradeBLL>> getAllTrades();
 	JKRef_Ptr<JKStockCodeTradeBLL> getTradeById(const JKString &id);
+	bool batchSellTrade(std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecStockTrade, size_t sellCount, float sellPrice);
 
 
 	//设置股票参数

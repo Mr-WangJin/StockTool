@@ -3,9 +3,10 @@
 #include "BLL/JKStockCodeBLL.h"
 #include "BLL/JKStockCodeTradeBLL.h"
 
-JKSellStockCodeWgt::JKSellStockCodeWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode, QWidget *parent)
+JKSellStockCodeWgt::JKSellStockCodeWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode, std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecStockTrade, QWidget *parent)
 	: QDialog(parent)
 	, refStockCode(_refStockCode)
+	, vecStockTrade(_vecStockTrade)
 {
 	ui.setupUi(this);
 
@@ -19,49 +20,42 @@ JKSellStockCodeWgt::~JKSellStockCodeWgt()
 
 void JKSellStockCodeWgt::initUI()
 {
-	vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecRefTrade = refStockCode->getAllTrades();
-	for (auto &var : vecRefTrade)
+	int lblBuyCount = 0;
+	for (auto &var : vecStockTrade)
 	{
-		if (var->getType() == TradeType::BUY)
-		{
-			QString text = QString::fromStdString(var->getDate())
-				+ QString("  ") + QString::number(var->getBuyPrice())
-				+ QString("  ") + QString::number(var->getCount());
-			ui.cmbBx->addItem(text, QString::fromStdString(var->getId()));
-		}
+		lblBuyCount += var->getCount();
 	}
-	if (vecRefTrade.size() > 0)
-		onCmbBoxChanged(0);
-	connect(ui.cmbBx, SIGNAL(currentIndexChanged(int)), this, SLOT(onCmbBoxChanged(int)));
+	if (lblBuyCount == 0)
+		ui.spBxCount->setEnabled(false);
+	ui.lblBuyCount->setText(QString("%1").arg(lblBuyCount));
+
 	connect(ui.pBtnOK, SIGNAL(clicked()), this, SLOT(onOK()));
 	connect(ui.pBtnCancel, SIGNAL(clicked()), this, SLOT(onCancel()));
 }
 
 void JKSellStockCodeWgt::onOK()
 {
-	int idx = ui.cmbBx->currentIndex();
-	JKString id = ui.cmbBx->itemData(idx).toString().toStdString();
-	JKRef_Ptr<JKStockCodeTradeBLL> refTrade = refStockCode->getTradeById(id);
-	if (refTrade.valid())
+	if (ui.spBxCount->value() == 0)
 	{
-		refTrade->sell(ui.dSpBxPrice->value());
+		ui.lblInfo->setVisible(true);
+		ui.lblInfo->setText(QStringLiteral("卖出数量不能为0！"));
+		return;
 	}
-
+	else if (ui.lblBuyCount->text().toInt() < ui.spBxCount->value())
+	{
+		ui.lblInfo->setVisible(true);
+		ui.lblInfo->setText(QStringLiteral("卖出数量不能大于买入数量！"));
+		return;
+	}
+	int sellCount = ui.spBxCount->value();
+	for (auto &var : vecStockTrade)
+	{
+		//if (var->getCount() <)
+	}
 	this->accept();
 }
 
 void JKSellStockCodeWgt::onCancel()
 {
 	this->reject();
-}
-
-void JKSellStockCodeWgt::onCmbBoxChanged(int idx)
-{
-	JKString id = ui.cmbBx->itemData(idx).toString().toStdString();
-	JKRef_Ptr<JKStockCodeTradeBLL> refTrade = refStockCode->getTradeById(id);
-	if (refTrade.valid())
-	{
-		//ui.dSpBxPrice->setValue(refTrade->getBuyPrice());
-		ui.spBxCount->setValue(refTrade->getCount());
-	}
 }

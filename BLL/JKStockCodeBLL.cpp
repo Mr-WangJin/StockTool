@@ -3,7 +3,8 @@
 #include "JKStockCodeTradeBLL.h"
 #include "Model/JKStockCodeModel.h"
 #include "JKStockCodeTradeBLL.h"
-
+#include <iostream>
+#include <sstream>
 
 
 JKString JKStockCodeBLL::getName()
@@ -55,6 +56,23 @@ JKRef_Ptr<JKStockCodeTradeBLL> JKStockCodeBLL::getTradeById(const JKString &id)
 		return _refStockCodeTradeBLL;
 	}
 	return nullptr;
+}
+
+bool JKStockCodeBLL::batchSellTrade(std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecStockTrade, size_t sellCount, float sellPrice)
+{
+	int canSellCount = 0;
+	for (auto &var : _vecStockTrade)
+	{
+		canSellCount += var->getCount();
+	}
+	if (canSellCount < sellCount)
+	{
+		std::ostringstream o;
+		o << "sell count " << sellCount << " larger than " << canSellCount;
+		throw std::exception(o.str().c_str());
+	}
+
+	return false;
 }
 
 void JKStockCodeBLL::setParams(JKString name, JKString code, double latestPrice)

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>293</width>
-    <height>146</height>
+    <width>270</width>
+    <height>131</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,16 +15,56 @@
   </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0">
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="lblBuyCount">
      <property name="text">
-      <string>选择卖出批次：</string>
+      <string>可卖出数量：</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
-    <widget class="QComboBox" name="cmbBx"/>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>卖出数量：</string>
+     </property>
+    </widget>
    </item>
-   <item row="6" column="0" colspan="2">
+   <item row="1" column="1">
+    <widget class="QSpinBox" name="spBxCount">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+     <property name="maximum">
+      <number>9999000</number>
+     </property>
+     <property name="singleStep">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>卖出价钱：</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QDoubleSpinBox" name="dSpBxPrice">
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="maximum">
+      <double>99999999.989999994635582</double>
+     </property>
+     <property name="singleStep">
+      <double>0.010000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <spacer name="horizontalSpacer">
@@ -55,59 +95,10 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>卖出数量：</string>
-     </property>
-    </widget>
-   </item>
    <item row="4" column="0">
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="lblInfo">
      <property name="text">
-      <string>卖出价钱：</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QSpinBox" name="spBxCount">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-     <property name="maximum">
-      <number>9999000</number>
-     </property>
-     <property name="singleStep">
-      <number>100</number>
-     </property>
-     <property name="value">
-      <number>100</number>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QDoubleSpinBox" name="dSpBxPrice">
-     <property name="readOnly">
-      <bool>false</bool>
-     </property>
-     <property name="maximum">
-      <double>99999999.989999994635582</double>
-     </property>
-     <property name="singleStep">
-      <double>0.010000000000000</double>
+      <string>TextLabel</string>
      </property>
     </widget>
    </item>

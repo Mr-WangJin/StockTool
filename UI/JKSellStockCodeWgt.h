@@ -5,13 +5,14 @@
 #include "ui_JKSellStockCodeWgt.h"
 
 class JKStockCodeBLL;
+class JKStockCodeTradeBLL;
 
 class JKSellStockCodeWgt : public QDialog
 {
 	Q_OBJECT
 
 public:
-	JKSellStockCodeWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode, QWidget *parent = 0);
+	JKSellStockCodeWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode, std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecStockTrade, QWidget *parent = 0);
 	~JKSellStockCodeWgt();
 
 private:
@@ -20,12 +21,12 @@ private:
 	private slots:
 	void onOK();
 	void onCancel();
-	void onCmbBoxChanged(int);
 
 private:
 	Ui::JKSellStockCodeWgt ui;
 
 	JKRef_Ptr<JKStockCodeBLL> refStockCode;
+	std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecStockTrade;
 
 };
 
