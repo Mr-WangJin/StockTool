@@ -5,6 +5,7 @@
 #include "Model/JKStockCodeSettingModel.h"
 #include "Model/JKStockCodeTradeModel.h"
 #include "Model/JKProjectVersionModel.h"
+#include "Model\JKStockCodeTradeItemModel.h"
 #include <iostream>
 #include <QFile>
 #include "QtSql/QSqlDatabase"
@@ -46,6 +47,7 @@ bool JKDatabase::newDatabase(JKString path)
 		db->registerBeanClass<JKStockCodeModel>();
 		db->registerBeanClass<JKStockCodeSettingModel>();
 		db->registerBeanClass<JKStockCodeTradeModel>();
+		db->registerBeanClass<JKStockCodeTradeItemModel>();
 
 		db->dropModel();
 		db->createModel();
@@ -73,6 +75,7 @@ bool JKDatabase::openDatabase(JKString fullName)
 		db->registerBeanClass<JKStockCodeModel>();
 		db->registerBeanClass<JKStockCodeSettingModel>();
 		db->registerBeanClass<JKStockCodeTradeModel>();
+		db->registerBeanClass<JKStockCodeTradeItemModel>();
 
 
 		return true;
@@ -113,13 +116,28 @@ void JKDatabase::upgradeDatabase(JKString fullFileName)
 				throw std::exception("Project version is bigger then program support version, you need update program!");
 			}
 			/** 按照版本更新依次添加 */
-			if (version < maxVersion)//2
+			if (version < maxVersion)//3
 			{
+				QString sqlStr = "CREATE TABLE JKStockCodeTradeItemModel(commission REAL, hiberlite_id INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, sellCount INTEGER, sellPrice REAL, sellSumCount INTEGER, sellSumTax REAL, stampTax REAL, transfer REAL);";
+				QSqlQuery query(_db);
+				query.prepare(sqlStr);		//创建表  
+				if (!query.exec())			//查看创建表是否成功  
+				{
+					JKString error = "upgrade to 3 error! " + query.lastError().text().toStdString();
+					throw std::exception(error.c_str());
+				}
+				sqlStr = "CREATE TABLE JKStockCodeTradeModel_vecSellItem_items (hiberlite_entry_indx INTEGER, hiberlite_id INTEGER PRIMARY KEY AUTOINCREMENT, hiberlite_parent_id INTEGER, item_id INTEGER);";
+				query.prepare(sqlStr);
+				if (!query.exec())			//查看创建表是否成功  
+				{
+					JKString error = "upgrade to 3 error! " + query.lastError().text().toStdString();
+					throw std::exception(error.c_str());
+				}
 
 			}
 			
-			JKString querySqlStr = (QString("update JKProjectVersionModel Set version = %1").arg(maxVersion)).toStdString();
-			QSqlQuery query(QString::fromStdString(querySqlStr), _db);
+			QString querySqlStr = QString("update JKProjectVersionModel Set version = %1").arg(maxVersion);
+			QSqlQuery query(querySqlStr, _db);
 			if (!query.exec())
 			{
 				throw std::exception("update ProjectVersion error!");

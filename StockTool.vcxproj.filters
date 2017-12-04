@@ -256,6 +256,9 @@
     <ClCompile Include="UI\JKAbout.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="Model\JKStockCodeTradeItemModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\JKMainWin.h">
@@ -426,6 +429,9 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_JKAbout.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\JKStockCodeTradeItemModel.h">
+      <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

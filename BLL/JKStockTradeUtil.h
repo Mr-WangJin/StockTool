@@ -20,6 +20,7 @@ public:
 	//double getTradeSellCost(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL>);
 	//获取卖出真实收益
 	double getRealEarning(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL>);
+	//获取卖出真实收益百分比
 	double getRealEarningPercent(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL>);
 
 	//获取佣金

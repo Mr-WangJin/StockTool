@@ -1,5 +1,6 @@
 #pragma once
 #include "JKBaseModel.h"
+#include "JKStockCodeTradeItemModel.h"
 
 class JKStockCodeTradeModel : public JKBaseModel
 {
@@ -14,6 +15,7 @@ class JKStockCodeTradeModel : public JKBaseModel
 		ar & HIBERLITE_NVP(buyPrice);
 		ar & HIBERLITE_NVP(buyCount);
 		ar & HIBERLITE_NVP(sellPrice);
+		ar & HIBERLITE_NVP(vecSellItem);
 	}
 
 public:
@@ -25,6 +27,7 @@ public:
 	JKString date;
 	double buyPrice;
 	JKUInt buyCount;
-	double sellPrice = 0.0f;
-};
+	double sellPrice = 0.0f;			//·ÏÆú
 
+	vector<bean_ptr<JKStockCodeTradeItemModel>> vecSellItem;
+};
