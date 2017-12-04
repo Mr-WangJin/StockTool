@@ -107,8 +107,7 @@
       <AdditionalDependencies>libxml2.lib;libiconv.lib;qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;JKCored.lib;sqlite.lib;hiberlite.lib;Qt5Chartsd.lib;Qt5Sqld.lib;jsoncppd.lib;libcurld.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>asdfasdf</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

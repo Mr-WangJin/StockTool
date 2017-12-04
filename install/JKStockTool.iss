@@ -6,7 +6,7 @@
 #define MyAppPublisher "JK, Inc."
 #define MyAppExeName "StockTool.exe"
 
-#define AppSrcDir "D:\programs\cpp\StockTool\x64\Debug\"
+#define AppSrcDir "exe\"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.

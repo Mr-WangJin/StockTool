@@ -1,6 +1,0 @@
-windows 创建项目单独的Python环境
-1. 首先安装 pip install virtualenv
-2. 创建目录，到目录下执行 virtualenv --no-site-packages venv    , venv为名称
-3. 执行 venv\Scripts\activate   ,激活环境， 执行venv\Scripts\deactivate, 取消激活
-
-安装 Twisted 
