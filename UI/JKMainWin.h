@@ -53,6 +53,7 @@ signals:
 	void setCurrentStockPrice();
 	void projectTaxSetting();
 	void crawlerOptChanged();
+	void about();
 
 	void onTableWgtPopMenu(QPoint pos);
 	void onDeleteTrade();

@@ -96,9 +96,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_JKInfoWgt.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="UI\JKInfoWgt.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_JKTrendChart.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -184,9 +181,6 @@
     <ClCompile Include="Model\JKDatabase.cpp">
       <Filter>Model</Filter>
     </ClCompile>
-    <ClCompile Include="UI\JKExeVersion.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_JKNewProject.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -250,8 +244,17 @@
     <ClCompile Include="Utils\XMLParser\JKTagTextContext.cpp">
       <Filter>Utils\XMLParser</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_icon.cpp">
-      <Filter>Generated Files</Filter>
+    <ClCompile Include="UI\JKInfoWgt.cpp">
+      <Filter>UI\Info</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_JKAbout.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_JKAbout.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\JKAbout.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -259,12 +262,6 @@
       <Filter>UI</Filter>
     </CustomBuild>
     <CustomBuild Include="UI\JKMainWin.ui">
-      <Filter>UI</Filter>
-    </CustomBuild>
-    <CustomBuild Include="UI\JKInfoWgt.ui">
-      <Filter>UI</Filter>
-    </CustomBuild>
-    <CustomBuild Include="UI\JKInfoWgt.h">
       <Filter>UI</Filter>
     </CustomBuild>
     <CustomBuild Include="stocktool.qrc" />
@@ -316,7 +313,16 @@
     <CustomBuild Include="UI\JKStockTradeDetail.h">
       <Filter>UI\Info</Filter>
     </CustomBuild>
-    <CustomBuild Include="UI\icon.qrc">
+    <CustomBuild Include="UI\JKInfoWgt.ui">
+      <Filter>UI\Info</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKInfoWgt.h">
+      <Filter>UI\Info</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKAbout.ui">
+      <Filter>UI</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKAbout.h">
       <Filter>UI</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -382,9 +388,6 @@
     <ClInclude Include="Model\JKDatabase.h">
       <Filter>Model</Filter>
     </ClInclude>
-    <ClInclude Include="UI\JKExeVersion.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_JKNewProject.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
@@ -419,6 +422,9 @@
       <Filter>Utils\XMLParser</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_JKAbout.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

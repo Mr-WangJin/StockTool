@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "JKStockTool"
-#define MyAppVersion "1.1"
+#define MyAppVersion "0.0.1"
 #define MyAppPublisher "JK, Inc."
 #define MyAppExeName "StockTool.exe"
 
@@ -20,8 +20,8 @@ AppPublisher={#MyAppPublisher}
 DefaultDirName={pf}\JKStockTool
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
-LicenseFile=D:\Program Files (x86)\Inno Setup 5\license.txt
-InfoBeforeFile=D:\Program Files (x86)\Inno Setup 5\license.txt
+LicenseFile=license.txt
+; InfoBeforeFile=D:\Program Files (x86)\Inno Setup 5\license.txt
 ; InfoAfterFile=D:\Program Files (x86)\Inno Setup 5\license.txt
 OutputDir=.\
 OutputBaseFilename={#MyAppName}
@@ -43,6 +43,7 @@ Source: "{#AppSrcDir}*"; DestDir: "{app}\"; Flags: ignoreversion recursesubdirs 
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{group}\Ð¶ÔØ"; Filename: "{app}\unins000.exe"
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
@@ -183,8 +184,11 @@ begin
     //WriteVersionToReg();
 	
 	//Çå³ýsetup°ü
-    DeleteFile(ExpandConstant('{app}\vc_redist.x64_2015.exe'));
     //DelTree(ExpandConstant('{app}\vc_redist.x64_2015.exe'), True, True, True);
 	
+  end;
+  if CurStep = ssDone then
+  begin
+    DeleteFile(ExpandConstant('{app}\vc_redist.x64_2015.exe'));
   end;
 end;

@@ -21,7 +21,7 @@ private:
 
 public:
 	hiberlite::Database* db = nullptr;
-	static const int databaseVersion = 1;
+	static const int databaseVersion = 2;
 	static const JKString dbName;
 
 };

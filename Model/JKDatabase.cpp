@@ -90,7 +90,10 @@ void JKDatabase::checkModel()
 
 void JKDatabase::upgradeDatabase(JKString fullFileName)
 {
+	int maxVersion = JKDatabase::databaseVersion;
 	int version = this->getDbVersion(fullFileName);
+	if (maxVersion == version)
+		return;
 
 	QSqlDatabase _db;
 	_db = QSqlDatabase::addDatabase("QSQLITE");
@@ -101,26 +104,41 @@ void JKDatabase::upgradeDatabase(JKString fullFileName)
 		QString szError = sqlError.text();
 		throw std::exception(szError.toStdString().c_str());
 	}
-	try
+	else
 	{
-		if (version < 2)
+		try
 		{
+			if (version > maxVersion)
+			{
+				throw std::exception("Project version is bigger then program support version, you need update program!");
+			}
+			/** 按照版本更新依次添加 */
+			if (version < maxVersion)//2
+			{
 
+			}
+			
+			JKString querySqlStr = (QString("update JKProjectVersionModel Set version = %1").arg(maxVersion)).toStdString();
+			QSqlQuery query(QString::fromStdString(querySqlStr), _db);
+			if (!query.exec())
+			{
+				throw std::exception("update ProjectVersion error!");
+			}
 		}
-	}
-	catch (const std::exception& e)
-	{
-		throw e;
+		catch (const std::exception& e)
+		{
+			_db.close();
+
+			throw e;
+		}
+		catch (...)
+		{
+			_db.close();
+		}
 
 		_db.close();
 	}
-	catch (...)
-	{
-		_db.close();
-	}
-
-	_db.close();
-
+	
 }
 
 int JKDatabase::getDbVersion(JKString _dbFullFileName)

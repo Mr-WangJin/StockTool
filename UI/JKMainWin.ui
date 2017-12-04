@@ -14,8 +14,8 @@
    <string>炒股工具</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="icon.qrc">
-    <normaloff>:/Icon/JKStockTool.ico</normaloff>:/Icon/JKStockTool.ico</iconset>
+   <iconset resource="../stocktool.qrc">
+    <normaloff>:/StockTool/JKStockTool.ico</normaloff>:/StockTool/JKStockTool.ico</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -398,7 +398,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="icon.qrc"/>
+  <include location="../stocktool.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -10,6 +10,7 @@
 #include "JKNewProject.h"
 #include "BLL/JKStockTradeUtil.h"
 #include "JKStockTradeDetail.h"
+#include "JKAbout.h"
 
 
 JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
@@ -210,6 +211,12 @@ void JKMainWin::crawlerOptChanged()
 		else
 			crawlPrice->stopRunCraw();
 	}
+}
+
+void JKMainWin::about()
+{
+	JKAbout about(this);
+	about.exec();
 }
 
 void JKMainWin::onTableWgtPopMenu(QPoint pos)
@@ -480,7 +487,7 @@ void JKMainWin::initUI()
 	connect(ui.actExit, SIGNAL(triggered()), this, SLOT(close()));
 	connect(ui.actTaxSetting, SIGNAL(triggered()), this, SLOT(projectTaxSetting()));
 	connect(ui.actCrawlerOpt, SIGNAL(triggered()), this, SLOT(crawlerOptChanged()));
-
+	connect(ui.actAbout, SIGNAL(triggered()), this, SLOT(about()));
 
 	connect(this, SIGNAL(beforeProjectChanged()), this, SLOT(onBeforeProjectChanged()));
 	connect(this, SIGNAL(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)), this, SLOT(onAfterProjectChanged(JKRef_Ptr<JKProjectBLL>)));
