@@ -118,7 +118,7 @@ void JKDatabase::upgradeDatabase(JKString fullFileName)
 			/** 按照版本更新依次添加 */
 			if (version < maxVersion)//3
 			{
-				QString sqlStr = "CREATE TABLE JKStockCodeTradeItemModel(commission REAL, hiberlite_id INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, sellCount INTEGER, sellPrice REAL, sellSumCount INTEGER, sellSumTax REAL, stampTax REAL, transfer REAL);";
+				QString sqlStr = "CREATE TABLE JKStockCodeTradeItemModel(commission REAL, hiberlite_id INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, sellCount INTEGER, sellPrice REAL, sellSumCount INTEGER, stampTax REAL, transfer REAL);";
 				QSqlQuery query(_db);
 				query.prepare(sqlStr);		//创建表  
 				if (!query.exec())			//查看创建表是否成功  

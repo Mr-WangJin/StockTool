@@ -21,6 +21,11 @@ class JKStockCodeTradeModel : public JKBaseModel
 public:
 	JKStockCodeTradeModel() {};
 
+	void addStockCodeTradeItem(bean_ptr<JKStockCodeTradeItemModel> _refItem)
+	{
+		vecSellItem.push_back(_refItem);
+	}
+
 public:
 	JKString id;
 	int type;

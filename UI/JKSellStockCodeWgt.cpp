@@ -1,11 +1,12 @@
 #include "stdafx.h"
 #include "JKSellStockCodeWgt.h"
+#include "BLL/JKProjectBll.h"
 #include "BLL/JKStockCodeBLL.h"
 #include "BLL/JKStockCodeTradeBLL.h"
 
-JKSellStockCodeWgt::JKSellStockCodeWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode, std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecStockTrade, QWidget *parent)
+JKSellStockCodeWgt::JKSellStockCodeWgt(JKRef_Ptr<JKProjectBLL> _refProject, std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecStockTrade, QWidget *parent)
 	: QDialog(parent)
-	, refStockCode(_refStockCode)
+	, refProject(_refProject)
 	, vecStockTrade(_vecStockTrade)
 {
 	ui.setupUi(this);

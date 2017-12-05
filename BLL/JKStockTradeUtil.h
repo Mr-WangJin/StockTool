@@ -10,6 +10,7 @@ class JKStockTradeUtil : public JKReferenced
 {
 public:
 	JKStockTradeUtil(JKRef_Ptr<JKProjectBLL> _refProject);
+	JKStockTradeUtil(float _stampTax, float _transfer, float _commission);
 	virtual ~JKStockTradeUtil();
 
 	//获取买入成本
@@ -34,7 +35,9 @@ private:
 	double getSellTax(double sellCost);
 
 private:
-	JKRef_Ptr<JKProjectBLL> refProject;
+	float stampTax = 0;			//印花税
+	float transfer = 0;			//过户
+	float commission = 0;		//佣金
 
 
 };

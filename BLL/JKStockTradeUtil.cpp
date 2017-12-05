@@ -6,8 +6,20 @@
 
 JKStockTradeUtil::JKStockTradeUtil(JKRef_Ptr<JKProjectBLL> _refProject)
 	: JKReferenced()
-	, refProject(_refProject)
 {
+	if (_refProject.valid())
+	{
+		stampTax = _refProject->getStampTax();
+		transfer = _refProject->getTransfer();
+		commission = _refProject->getCommission();
+	}
+}
+
+JKStockTradeUtil::JKStockTradeUtil(float _stampTax, float _transfer, float _commission)
+{
+	stampTax = _stampTax;
+	transfer = _transfer;
+	commission = _commission;
 }
 
 JKStockTradeUtil::~JKStockTradeUtil()
@@ -56,16 +68,16 @@ double JKStockTradeUtil::getCommission(double buyCost)
 {
 	double commission = 0;
 	if (buyCost <= 10000)
-		commission = 10000 * refProject->getCommission();
+		commission = 10000 * commission;
 	else
-		commission = buyCost * refProject->getCommission();
+		commission = buyCost * commission;
 
 	return commission; //Ó¶½ð
 }
 
 double JKStockTradeUtil::getStampTax(double buyCost)
 {
-	double stampPercent = refProject->getStampTax();
+	double stampPercent = stampTax;
 	double stamp = buyCost * stampPercent;
 
 	return stamp;
@@ -73,7 +85,7 @@ double JKStockTradeUtil::getStampTax(double buyCost)
 
 double JKStockTradeUtil::getTransfer(double buyCost)
 {
-	double transferPercent = refProject->getTransfer();
+	double transferPercent = transfer;
 	double transfer = transferPercent * buyCost;
 
 	return transfer;
@@ -81,7 +93,6 @@ double JKStockTradeUtil::getTransfer(double buyCost)
 
 double JKStockTradeUtil::getBuyTax(double buyCost)
 {
-	assert(refProject.valid());
 	double transfer = this->getTransfer(buyCost);
 
 	double commission = this->getCommission(buyCost);
@@ -91,7 +102,6 @@ double JKStockTradeUtil::getBuyTax(double buyCost)
 
 double JKStockTradeUtil::getSellTax(double sellCost)
 {
-	assert(refProject.valid());
 	double transfer = this->getTransfer(sellCost);
 
 	double commission = this->getCommission(sellCost);

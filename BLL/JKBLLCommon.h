@@ -4,7 +4,6 @@
 
 
 
-
 #define JK_BLL_INIT(T) \
 protected:\
 T##BLL() { ref##T##Model = SingleDB->createBean<T##Model>(); \

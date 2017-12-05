@@ -139,7 +139,7 @@ void JKMainWin::sellStockCode()
 	else
 	{
 		std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecStockTrade;
-		JKSellStockCodeWgt sellStockCodeWgt(_refStockCode, vecStockTrade);
+		JKSellStockCodeWgt sellStockCodeWgt(refProject, vecStockTrade);
 		if (sellStockCodeWgt.exec() == QDialog::Accepted)
 		{
 			//ui.trendChartWgt->updateTrendChart();
@@ -259,9 +259,7 @@ void JKMainWin::onSellTrade()
 
 		}
 
-
-
-		JKSellStockCodeWgt sellStockCodeWgt(_refStockCode, vecStockTrade, this);
+		JKSellStockCodeWgt sellStockCodeWgt(refProject, vecStockTrade, this);
 		if (sellStockCodeWgt.exec() == QDialog::Accepted)
 		{
 			this->updateTableWidget(tbShowType);
