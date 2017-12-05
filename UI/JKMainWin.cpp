@@ -26,6 +26,8 @@ JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
 	this->updateInputUIEnable(nullptr);
 	
 	emit afterProjectChanged(refProject);
+
+	this->about();
 }
 
 JKMainWin::~JKMainWin()
