@@ -21,7 +21,7 @@ using namespace hiberlite;
 
 enum class TradeType
 {
-	BUY = 1 << 1,
-	SELL = 1 << 2,
+	BUY = 1 << 0,
+	SELL = 1 << 1,
 
 };

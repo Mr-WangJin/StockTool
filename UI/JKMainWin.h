@@ -8,6 +8,7 @@
 #include "BLL/JKStockCodeBLL.h"
 #include "BLL/JKStockCodeTradeBLL.h"
 #include "Utils/JKCrawlPrice.h"
+#include "JKStockTableModel.h"
 
 class QLabel;
 
@@ -19,11 +20,6 @@ public:
 	JKMainWin(/*JKProjectBLL* _projectBLL, */QWidget *parent = 0);
 	~JKMainWin();
 
-	enum TableShowType {
-		Show_Buy_Only = 1,
-		Show_Sell_Only = 2,
-		Show_All = Show_Buy_Only | Show_Sell_Only
-	};
 
 	void updateStatusBar(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
 
@@ -66,7 +62,7 @@ signals:
 	void onAfterProjectChanged(JKRef_Ptr<JKProjectBLL>);
 
 	void stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
-	void updateTableWidget(TableShowType type = Show_All);
+	void updateTableWidget();
 	void updateInfoWgt(JKRef_Ptr<JKStockCodeBLL>);
 	void updateInputUIEnable(JKRef_Ptr<JKStockCodeBLL>);
 	void updateUIEnable(JKRef_Ptr<JKProjectBLL>);
@@ -84,11 +80,11 @@ private:
 	QMenu* tableWgtPopMenu;
 	QLabel* lblShowCurStock;
 	QLabel* lblLatestPrice;
-	TableShowType tbShowType = Show_All;
-
+	JKStockTableModel* stockTableModel;
 	JKRef_Ptr<JKProjectBLL> refProject;
 
 	JKCrawlPrice* crawlPrice = nullptr;
+	//TableShowType tbShowType;
 
 
 };

@@ -55,54 +55,7 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QTableWidget" name="tableWidget">
-          <property name="editTriggers">
-           <set>QAbstractItemView::NoEditTriggers</set>
-          </property>
-          <property name="selectionBehavior">
-           <enum>QAbstractItemView::SelectRows</enum>
-          </property>
-          <column>
-           <property name="text">
-            <string>买卖</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>时间</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>数量</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>买入价</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>成本价</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>卖出价</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>预计卖出收益</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>收益百分比</string>
-           </property>
-          </column>
-         </widget>
+         <widget class="QTableView" name="tableView"/>
         </item>
         <item>
          <widget class="QGroupBox" name="groupBox">

@@ -12,11 +12,11 @@ void JKStockCodeTradeBLL::setParams(TradeType type, JKString date, JKUInt64 coun
 	refJKStockCodeTradeModel->buyPrice = buyPrice;
 }
 
-void JKStockCodeTradeBLL::sell(double price)
-{
-	refJKStockCodeTradeModel->type = (JKUInt)TradeType::SELL;
-	refJKStockCodeTradeModel->sellPrice = price;
-}
+// void JKStockCodeTradeBLL::sell(double price)
+// {
+// 	refJKStockCodeTradeModel->type = (JKUInt)TradeType::SELL;
+// 	refJKStockCodeTradeModel->sellPrice = price;
+// }
 
 void JKStockCodeTradeBLL::sell(double sellPrice, size_t sellCount, size_t sellSumCount, float stampTax, float transfer, float commission)
 {

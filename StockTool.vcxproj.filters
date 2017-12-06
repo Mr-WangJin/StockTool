@@ -262,6 +262,15 @@
     <ClCompile Include="BLL\JKStockCodeTradeItemBLL.cpp">
       <Filter>BLL</Filter>
     </ClCompile>
+    <ClCompile Include="UI\JKStockTableModel.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_JKStockTableModel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_JKStockTableModel.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\JKMainWin.h">
@@ -329,6 +338,9 @@
       <Filter>UI</Filter>
     </CustomBuild>
     <CustomBuild Include="UI\JKAbout.h">
+      <Filter>UI</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKStockTableModel.h">
       <Filter>UI</Filter>
     </CustomBuild>
   </ItemGroup>
