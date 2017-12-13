@@ -422,7 +422,7 @@ void JKMainWin::updateInfoWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 			{
 				buySumPrice += var->getBuyPureCost();
 				buySumCount += var->getCount();
-				double preEarning = trackUtil.getRealEarning(latestPrice, var);
+				double preEarning = trackUtil.getExpactEarning(latestPrice, var);
 
 				buySumEarning += preEarning;
 			}
@@ -430,7 +430,7 @@ void JKMainWin::updateInfoWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 			{
 				sellSumPrice += var->getBuyPrice();
 				sellSumCount += var->getCount();
-				sellSumEarning += trackUtil.getRealEarning(var->getSellPrice(), var);
+				sellSumEarning += trackUtil.getExpactEarning(var->getSellPrice(), var);
 			}
 		}
 	}

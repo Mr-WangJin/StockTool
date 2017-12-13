@@ -4,6 +4,8 @@
 #include "BLL/JKBaseBLL.h"
 #include "Model/JKStockCodeTradeModel.h"
 
+class JKStockCodeTradeItemBLL;
+
 
 class JKStockCodeTradeBLL : public JKBaseBLL
 {
@@ -22,7 +24,9 @@ public:
 	TradeType getType();
 	JKString getDate();
 	JKUInt64 getCount();
+	//获取已经卖出的数量
 	JKUInt64 getSoldCount();
+	//
 	JKUInt64 getCouldSellCount();
 	//获取买入单价
 	double getBuyPrice();
@@ -30,7 +34,10 @@ public:
 	double getSellPrice();
 	//获取买入纯成本
 	double getBuyPureCost();
+	//获取真实收益
+	double getRealEarning();
 
+	void getTradeItems(std::vector<JKRef_Ptr<JKStockCodeTradeItemBLL>> &vecTradeItems);
 };
 
 

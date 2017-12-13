@@ -13,6 +13,7 @@ class JKStockCodeTradeItemModel : public JKBaseModel
 		ar & HIBERLITE_NVP(sellPrice);
 		ar & HIBERLITE_NVP(sellCount);
 		ar & HIBERLITE_NVP(sellSumCount);
+		ar & HIBERLITE_NVP(realEarning);
 		ar & HIBERLITE_NVP(stampTax);
 		ar & HIBERLITE_NVP(transfer);
 		ar & HIBERLITE_NVP(commission);
@@ -26,6 +27,7 @@ public:
 	double sellPrice;		//卖出单价
 	size_t sellCount;		//卖出数量
 	size_t sellSumCount;	//总计卖出数量
+	double realEarning;		//真实收益
 
 	float stampTax;			//印花税
 	float transfer;			//过户

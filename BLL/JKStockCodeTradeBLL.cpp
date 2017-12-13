@@ -73,3 +73,22 @@ double JKStockCodeTradeBLL::getBuyPureCost()
 {
 	return refJKStockCodeTradeModel->buyPrice * refJKStockCodeTradeModel->buyCount;
 }
+
+double JKStockCodeTradeBLL::getRealEarning()
+{
+	double realEarning = 0;
+	for (auto &var : refJKStockCodeTradeModel->vecSellItem)
+	{
+		realEarning += var->realEarning;
+	}
+	return realEarning;
+}
+
+void JKStockCodeTradeBLL::getTradeItems(std::vector<JKRef_Ptr<JKStockCodeTradeItemBLL>>& vecTradeItems)
+{
+	for (auto &var : refJKStockCodeTradeModel->vecSellItem)
+	{
+		JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = new JKStockCodeTradeItemBLL(var);
+		vecTradeItems.push_back(_refStockCodeTradeItem);
+	}
+}

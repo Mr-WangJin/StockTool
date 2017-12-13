@@ -19,10 +19,14 @@ public:
 	double getTradeBuyCostPrice(JKRef_Ptr<JKStockCodeTradeBLL>);
 	////获取卖出成本
 	//double getTradeSellCost(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL>);
+	//获取预期卖出收益
+	double getExpactEarning(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL>);
+	//获取预期卖出收益百分比
+	double getExpactEarningPercent(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL> refStockCodeTrade);
 	//获取卖出真实收益
-	double getRealEarning(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL>);
+	double getRealEarning(JKRef_Ptr<JKStockCodeTradeBLL>);
 	//获取卖出真实收益百分比
-	double getRealEarningPercent(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL>);
+	double getRealEarningPercent(JKRef_Ptr<JKStockCodeTradeBLL>);
 
 	//获取佣金
 	double getCommission(double buyCost);

@@ -49,19 +49,36 @@ double JKStockTradeUtil::getTradeBuyCostPrice(JKRef_Ptr<JKStockCodeTradeBLL> ref
 //	return  (buyCost + buyTax)/refStockCodeTrade->getCount();
 //}
 
-double JKStockTradeUtil::getRealEarning(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL> refStockCodeTrade)
+double JKStockTradeUtil::getExpactEarning(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL> refStockCodeTrade)
 {
-	double buyCost = getTradeBuyCost(refStockCodeTrade);
-	double pureSellCost = latestPrice*refStockCodeTrade->getCount();
-	
+	size_t couldSellCount = refStockCodeTrade->getCouldSellCount();
+	size_t sumCount = refStockCodeTrade->getCount();
+
+	double buyCost = getTradeBuyCost(refStockCodeTrade)*couldSellCount / sumCount;
+
+	double pureSellCost = latestPrice*couldSellCount;
+
 	double sellTax = this->getSellTax(pureSellCost);
 
 	return  pureSellCost - buyCost - sellTax;
 }
 
-double JKStockTradeUtil::getRealEarningPercent(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL> refStockCodeTrade)
+double JKStockTradeUtil::getExpactEarningPercent(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL> refStockCodeTrade)
 {
-	return getRealEarning(latestPrice, refStockCodeTrade) / refStockCodeTrade->getBuyPureCost();
+	return getExpactEarning(latestPrice, refStockCodeTrade) / refStockCodeTrade->getBuyPureCost();
+}
+
+double JKStockTradeUtil::getRealEarning(JKRef_Ptr<JKStockCodeTradeBLL> refStockCodeTrade)
+{
+	return refStockCodeTrade->getRealEarning();
+}
+
+double JKStockTradeUtil::getRealEarningPercent(JKRef_Ptr<JKStockCodeTradeBLL> refStockCodeTrade)
+{
+	size_t soldCount = refStockCodeTrade->getSoldCount();
+	size_t sumCount = refStockCodeTrade->getCount();
+
+	return getRealEarning(refStockCodeTrade) / (refStockCodeTrade->getBuyPureCost()*soldCount/sumCount);
 }
 
 double JKStockTradeUtil::getCommission(double buyCost)

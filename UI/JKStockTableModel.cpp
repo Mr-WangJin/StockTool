@@ -110,25 +110,23 @@ QVariant JKStockTableModel::data(const QModelIndex & index, int role) const
 		{
 			double preRealEarning = 0;
 			if (var->getType() == TradeType::BUY)
-				preRealEarning = tradeUtil.getRealEarning(latestPrice, var);
-			else if (var->getType() == TradeType::SELL)
-				preRealEarning = tradeUtil.getRealEarning(var->getSellPrice(), var);
+				preRealEarning = tradeUtil.getExpactEarning(latestPrice, var);
+// 			else if (var->getType() == TradeType::SELL)
+// 				preRealEarning = tradeUtil.getRealEarning(var->getSellPrice(), var);
 
 			variant.setValue(preRealEarning);
 		}
 		break;
 		case 7:
 		{
-			variant.setValue(QString("%1%").arg(tradeUtil.getRealEarningPercent(latestPrice, var) * 100));
+			variant.setValue(QString("%1%").arg(tradeUtil.getRealEarningPercent(var) * 100));
 		}
 		break;
 		default:
 			break;
 		}
-
 	}
 	
-
 	return variant;
 }
 
@@ -167,7 +165,7 @@ QVariant JKStockTableModel::headerData(int section, Qt::Orientation orientation,
 		}
 		case 6:
 		{
-			return QVariant(QStringLiteral("预计卖出收益"));
+			return QVariant(QStringLiteral("预计收益"));
 		}
 		case 7:
 		{
