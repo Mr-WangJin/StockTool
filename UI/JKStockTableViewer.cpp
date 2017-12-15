@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "JKStockTableViewer.h"
 #include <QHeaderView>
+#include "JKStockTableModel.h"
+#include "BLL/JKStockCodeTradeBLL.h"
 
 
 JKStockTableViewer::JKStockTableViewer(QWidget* parent/* = nullptr*/)
@@ -23,17 +25,38 @@ void JKStockTableViewer::setModel(QAbstractItemModel * model)
 	this->setColumnWidth(2, 50);
 }
 
-void JKStockTableViewer::getSelectedStockCode(std::vector<JKString>& _vecStockTradeIDs)
+void JKStockTableViewer::getSelectedStockTradeIds(std::vector<JKString>& _vecStockTradeIDs)
 {
-	QModelIndexList indexList = this->selectedIndexes();
-	
+	JKStockTableModel* _tableModel = qobject_cast<JKStockTableModel*>(model());
+	QModelIndexList indexList = selectionModel()->selectedIndexes();
+
 	for each(auto& index in indexList)
 	{
-		JKString id = index.data().toString().toStdString();
+		JKRef_Ptr<JKStockCodeTradeBLL> _refStockTrade = _tableModel->getStockTradeByRow(index.row());
+		if (!_refStockTrade.valid())
+			continue;
+		JKString id = _refStockTrade->getId();
+
 		if (std::find(_vecStockTradeIDs.begin(), _vecStockTradeIDs.end(), id) == _vecStockTradeIDs.end())
 			_vecStockTradeIDs.push_back(id);
 	}
 
+}
+
+void JKStockTableViewer::getSelectedStockTrade(std::vector<JKRef_Ptr<JKStockCodeTradeBLL>>& _vecStockTrade)
+{
+	JKStockTableModel* _tableModel = qobject_cast<JKStockTableModel*>(model());
+	QModelIndexList indexList = selectionModel()->selectedIndexes();
+
+	for each(auto& index in indexList)
+	{
+		JKRef_Ptr<JKStockCodeTradeBLL> _refStockTrade = _tableModel->getStockTradeByRow(index.row());
+		if (!_refStockTrade.valid())
+			continue;
+
+		if (std::find(_vecStockTrade.begin(), _vecStockTrade.end(), _refStockTrade) == _vecStockTrade.end())
+			_vecStockTrade.push_back(_refStockTrade);
+	}
 }
 
 void JKStockTableViewer::initHeader()

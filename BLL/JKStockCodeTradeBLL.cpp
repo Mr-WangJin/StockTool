@@ -108,13 +108,13 @@ void JKStockCodeTradeBLL::upgradeDataVersion(int dataVersion)
 	 */
 	if (dataVersion < 1)
 	{
-		JKRef_Ptr<JKProjectBLL> _refProject = refContext->getProject();
-		float stampTax = _refProject->getStampTax();
-		float transfer = _refProject->getTransfer();
-		float commission = _refProject->getCommission();
-
 		if (this->getType() == TradeType::SELL)
 		{
+			JKRef_Ptr<JKProjectBLL> _refProject = refContext->getProject();
+			float stampTax = _refProject->getStampTax();
+			float transfer = _refProject->getTransfer();
+			float commission = _refProject->getCommission();
+
 			double sellPrice = this->getSellPrice();
 			size_t count = this->getCount();
 

@@ -23,6 +23,7 @@ public:
 
 	void setProject(JKRef_Ptr<JKProjectBLL> refProject);
 	void setShowType(TableShowType _showType);
+	JKRef_Ptr<JKStockCodeTradeBLL> getStockTradeByRow(int row);
 
 	int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 	int columnCount(const QModelIndex &parent = QModelIndex()) const override;

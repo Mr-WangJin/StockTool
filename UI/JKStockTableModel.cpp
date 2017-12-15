@@ -49,6 +49,14 @@ void JKStockTableModel::setShowType(TableShowType _showType)
 	showType = _showType;
 }
 
+JKRef_Ptr<JKStockCodeTradeBLL> JKStockTableModel::getStockTradeByRow(int row)
+{
+	if (row >= vecRefStockCodeTradeBLL.size())
+		return nullptr;
+
+	return vecRefStockCodeTradeBLL[row];
+}
+
 int JKStockTableModel::rowCount(const QModelIndex & parent) const
 {
 	return vecRefStockCodeTradeBLL.size();
@@ -61,14 +69,13 @@ int JKStockTableModel::columnCount(const QModelIndex & parent) const
 
 QVariant JKStockTableModel::data(const QModelIndex & index, int role) const
 {
-	if (!index.isValid() || (role != Qt::DisplayRole && role != Qt::BackgroundColorRole))
+	if (!index.isValid())
 		return QVariant();
-
-	double latestPrice = refProject->getCurStockCode()->getLatestPrice();
 
 	QVariant variant;
 	if (role == Qt::DisplayRole)
 	{
+		double latestPrice = refProject->getCurStockCode()->getLatestPrice();
 		JKStockTradeUtil tradeUtil(refProject);
 		JKRef_Ptr<JKStockCodeTradeBLL> var = vecRefStockCodeTradeBLL[index.row()];
 		switch (index.column())
@@ -103,8 +110,8 @@ QVariant JKStockTableModel::data(const QModelIndex & index, int role) const
 		break;
 		case 5:
 		{
-			double preRealEarning = tradeUtil.getExpactEarning(latestPrice, var);
-			variant.setValue(preRealEarning);
+			double expactEarning = tradeUtil.getExpactEarning(latestPrice, var);
+			variant.setValue(expactEarning);
 		}
 		break;
 		case 6:
@@ -126,11 +133,11 @@ QVariant JKStockTableModel::data(const QModelIndex & index, int role) const
 			break;
 		}
 	}
-	else if (role == Qt::UserRole)
-	{
-		JKRef_Ptr<JKStockCodeTradeBLL> var = vecRefStockCodeTradeBLL[index.row()];
-		variant.setValue(QString::fromStdString(var->getId()));
-	}
+// 	else if (role == Qt::UserRole)
+// 	{
+// 		JKRef_Ptr<JKStockCodeTradeBLL> var = vecRefStockCodeTradeBLL[index.row()];
+// 		variant.setValue(QString::fromStdString(var->getId()));
+// 	}
 	
 	return variant;
 }

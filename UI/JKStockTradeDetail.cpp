@@ -7,6 +7,7 @@ JKStockTradeDetail::JKStockTradeDetail(JKRef_Ptr<JKStockTradeUtil> refUtil, JKRe
 	: QDialog(parent)
 {
 	ui.setupUi(this);
+	this->setWindowFlags(Qt::WindowCloseButtonHint);
 
 	ui.lblBuyPrice->setText(QStringLiteral("买入价钱：") + QString("%1").arg(refStockTrade->getBuyPrice()));
 	ui.lblBuyCount->setText(QStringLiteral("买入数量：") + QString("%1").arg(refStockTrade->getCount()));

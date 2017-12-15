@@ -48,12 +48,12 @@ JKRef_Ptr<JKProjectBLL> JKProjectBLL::openProject(const JKString & path)
 		
 		try
 		{
-			refProjectBLL->upgradeDataVersion(JKSingleton<JKDatabase>::GetInstance().getDataVersion());
+			refProjectBLL->upgradeDataVersion(JKSingleton<JKDatabase>::GetInstance().getDbDataVersion());
 			JKSingleton<JKDatabase>::GetInstance().updateDbDataVersion();
 		}
 		catch (std::exception &e)
 		{
-
+			throw e;
 		}
 
 		return refProjectBLL;

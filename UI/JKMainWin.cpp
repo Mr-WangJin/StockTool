@@ -48,23 +48,6 @@ void JKMainWin::updateStatusBar(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 	
 }
 
-void JKMainWin::getSelectedStockTrade(std::vector<JKRef_Ptr<JKStockCodeTradeBLL>>& _vecStockTrade)
-{
-	if (!refProject.valid())
-		return;
-
-	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
-	if (_refStockCode.valid())
-	{
-		std::vector<JKString> vecStockTradeIDs;
-		ui.tableView->getSelectedStockCode(vecStockTradeIDs);
-		for (auto & var : vecStockTradeIDs)
-		{
-			_vecStockTrade.push_back(_refStockCode->getStockTradeById(var));
-		}
-	}
-}
-
 void JKMainWin::newProject()
 {
 	QString path = QFileDialog::getExistingDirectory(this, QStringLiteral("请选择新建工程路径......"));
@@ -109,8 +92,6 @@ void JKMainWin::openProject()
 
 		emit afterProjectChanged(refProject);
 		emit afterStockCodeChanged(refProject->getCurStockCode());
-
-
 	}
 }
 
@@ -248,7 +229,7 @@ void JKMainWin::onTableWgtPopMenu(QPoint pos)
 void JKMainWin::onDeleteTrade()
 {
 	vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecRefStockCodeTrade;
-	this->getSelectedStockTrade(_vecRefStockCodeTrade);
+	ui.tableView->getSelectedStockTrade(_vecRefStockCodeTrade);
 
 	if (_vecRefStockCodeTrade.size() > 0)
 	{
@@ -263,7 +244,7 @@ void JKMainWin::onDeleteTrade()
 void JKMainWin::onSellTrade()
 {
 	vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecRefStockCodeTrade;
-	this->getSelectedStockTrade(_vecRefStockCodeTrade);
+	ui.tableView->getSelectedStockTrade(_vecRefStockCodeTrade);
 
 	if (_vecRefStockCodeTrade.size() > 0)
 	{
@@ -280,16 +261,15 @@ void JKMainWin::onShowTradeInfo()
 	if (!refProject.valid())
 		return;
 
-	JKString stockTradeId = ui.tableView->currentIndex().data(Qt::UserRole).toString().toStdString();
-	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
-	if (_refStockCode.valid())
-	{
-		JKRef_Ptr<JKStockCodeTradeBLL> refStockTrade = _refStockCode->getStockTradeById(stockTradeId);
+	vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecRefStockCodeTrade;
+	ui.tableView->getSelectedStockTrade(_vecRefStockCodeTrade);
+	
+	if (_vecRefStockCodeTrade.size() == 0)
+		return;
 
-		JKRef_Ptr<JKStockTradeUtil> refTradeUtil = new JKStockTradeUtil(refProject);
-		JKStockTradeDetail detail(refTradeUtil, refStockTrade);
-		detail.exec();
-	}
+	JKRef_Ptr<JKStockTradeUtil> refTradeUtil = new JKStockTradeUtil(refProject);
+	JKStockTradeDetail detail(refTradeUtil, _vecRefStockCodeTrade[0], this);
+	detail.exec();
 
 }
 

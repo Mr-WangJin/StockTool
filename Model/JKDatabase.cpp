@@ -77,6 +77,8 @@ bool JKDatabase::openDatabase(JKString fullName)
 		db->registerBeanClass<JKStockCodeTradeModel>();
 		db->registerBeanClass<JKStockCodeTradeItemModel>();
 
+		this->checkModel();
+
 		return true;
 	}
 	else
@@ -137,7 +139,7 @@ void JKDatabase::upgradeDatabase(JKString fullFileName)
 			if (version < 4)
 			{
 				//添加字段DataVersion
-				QString sqlStr = "alter table JKProjectVersionModel add column DataVersion INTEGER default 0;";
+				QString sqlStr = "alter table JKProjectVersionModel add column dataVersion INTEGER default 0;";
 				QSqlQuery query(_db);
 				query.prepare(sqlStr);		
 				if (!query.exec())			
@@ -146,13 +148,33 @@ void JKDatabase::upgradeDatabase(JKString fullFileName)
 					throw std::exception(error.c_str());
 				}
 			}
+			if (version < 5)
+			{
+				QString sqlStr = "alter table JKStockCodeTradeItemModel add column realEarning REAL default -1;";
+				QSqlQuery query(_db);
+				query.prepare(sqlStr);
+				if (!query.exec())
+				{
+					JKString error = "add DataVersion Field error! " + query.lastError().text().toStdString();
+					throw std::exception(error.c_str());
+				}
+			}
 
+
+			// 更新数据表格式版本号
 			QString querySqlStr = QString("update JKProjectVersionModel Set version = %1").arg(maxVersion);
 			QSqlQuery query(querySqlStr, _db);
 			if (!query.exec())
 			{
 				throw std::exception("update ProjectVersion error!");
 			}
+			/**
+			CREATE TABLE temp (hiberlite_id INTEGER PRIMARY KEY AUTOINCREMENT, version INTEGER); --创建表
+			insert into temp(version) values(3);					--插入表
+			alter table temp rename to JKProjectVersionModel;		--重命名
+			drop table JKProjectVersionModel;						--删除表
+			
+			*/
 			
 		}
 		catch (const std::exception& e)
@@ -173,12 +195,12 @@ void JKDatabase::upgradeDatabase(JKString fullFileName)
 
 int JKDatabase::getDbDataVersion()
 {
-	assert(db == nullptr);
+	assert(db);
 	std::vector<sqlid_t> vecIds = SingleDB->getBeanIds<JKProjectVersionModel>();
 	if (vecIds.size() > 0)
 	{
 		hiberlite::bean_ptr<JKProjectVersionModel> ptrProjectVersionModel = SingleDB->loadBean<JKProjectVersionModel>(vecIds[0]);
-		return ptrProjectVersionModel->version;
+		return ptrProjectVersionModel->dataVersion;
 	}
 }
 
@@ -189,13 +211,13 @@ int JKDatabase::getDataVersion()
 
 void JKDatabase::updateDbDataVersion()
 {
-	assert(db == nullptr);
+	assert(db);
 	std::vector<sqlid_t> vecIds = SingleDB->getBeanIds<JKProjectVersionModel>();
 	if (vecIds.size() > 0)
 	{
 		hiberlite::bean_ptr<JKProjectVersionModel> ptrProjectVersionModel = SingleDB->loadBean<JKProjectVersionModel>(vecIds[0]);
 
-		ptrProjectVersionModel->version = dataVersion;
+		ptrProjectVersionModel->dataVersion = dataVersion;
 	}
 }
 

@@ -20,10 +20,7 @@ public:
 	JKMainWin(/*JKProjectBLL* _projectBLL, */QWidget *parent = 0);
 	~JKMainWin();
 
-
 	void updateStatusBar(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
-
-	void getSelectedStockTrade(std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> & _vecStockTrade);
 
 signals:
 	void beforeProjectChanged();
@@ -37,9 +34,6 @@ signals:
 	void afterAddedNewStockCode(JKRef_Ptr<JKStockCodeBLL>);
 	/*void beforeAddedNewStockTrade();
 	void afterAddedNewStockTrade(JKRef_Ptr<JKStockCodeTradeBLL>);*/
-
-	
-
 
 	private slots:
 	void newProject();
