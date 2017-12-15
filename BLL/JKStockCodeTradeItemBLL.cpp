@@ -11,3 +11,8 @@ void JKStockCodeTradeItemBLL::setParams(double sellPrice, size_t sellCount, size
 	refJKStockCodeTradeItemModel->transfer = transfer;
 	refJKStockCodeTradeItemModel->commission = commission;
 }
+
+void JKStockCodeTradeItemBLL::setRealEarning(double _realEarning)
+{
+	refJKStockCodeTradeItemModel->realEarning = _realEarning;
+}

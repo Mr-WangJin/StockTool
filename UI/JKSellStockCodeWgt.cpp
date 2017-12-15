@@ -24,11 +24,11 @@ void JKSellStockCodeWgt::initUI()
 	int lblBuyCount = 0;
 	for (auto &var : vecStockTrade)
 	{
-		lblBuyCount += var->getCount();
+		lblBuyCount += var->getCouldSellCount();
 	}
 	if (lblBuyCount == 0)
 		ui.spBxCount->setEnabled(false);
-	ui.lblBuyCount->setText(QString("%1").arg(lblBuyCount));
+	ui.lblBuyCount->setText(QString("%1:%2").arg(QStringLiteral("可卖出数量：")).arg(lblBuyCount));
 
 	connect(ui.pBtnOK, SIGNAL(clicked()), this, SLOT(onOK()));
 	connect(ui.pBtnCancel, SIGNAL(clicked()), this, SLOT(onCancel()));
@@ -49,9 +49,16 @@ void JKSellStockCodeWgt::onOK()
 		return;
 	}
 	int sellCount = ui.spBxCount->value();
+	double sellPrice = ui.dSpBxPrice->value();
 	for (auto &var : vecStockTrade)
 	{
-		//if (var->getCount() <)
+		if (sellCount <= 0)
+			continue;
+		int couldSellCount = var->getCouldSellCount();
+		int willSellCount = couldSellCount <= sellCount ? couldSellCount : sellCount;
+		var->sell(sellPrice, willSellCount, sellCount, 
+			refProject->getStampTax(), refProject->getTransfer(), refProject->getCommission());
+		sellCount -= willSellCount;
 	}
 	this->accept();
 }

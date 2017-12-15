@@ -23,6 +23,8 @@ public:
 
 	void updateStatusBar(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
 
+	void getSelectedStockTrade(std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> & _vecStockTrade);
+
 signals:
 	void beforeProjectChanged();
 	void afterProjectChanged(JKRef_Ptr<JKProjectBLL>);
@@ -80,7 +82,7 @@ private:
 	QMenu* tableWgtPopMenu;
 	QLabel* lblShowCurStock;
 	QLabel* lblLatestPrice;
-	JKStockTableModel* stockTableModel;
+	JKStockTableModel* tableModel;
 	JKRef_Ptr<JKProjectBLL> refProject;
 
 	JKCrawlPrice* crawlPrice = nullptr;

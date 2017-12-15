@@ -20,7 +20,7 @@ public:
 	void setLatestPrice(double latestPrice);
 
 	vector<JKRef_Ptr<JKStockCodeTradeBLL>> getAllTrades();
-	JKRef_Ptr<JKStockCodeTradeBLL> getTradeById(const JKString &id);
+	JKRef_Ptr<JKStockCodeTradeBLL> getStockTradeById(const JKString &id);
 	bool batchSellTrade(std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecStockTrade, size_t sellCount, float sellPrice);
 
 
@@ -29,6 +29,8 @@ public:
 
 	JKRef_Ptr<JKStockCodeTradeBLL> newStockCodeTrade();
 	bool deleteTrade(JKRef_Ptr<JKStockCodeTradeBLL>);
+
+	virtual void upgradeDataVersion(int dataVersion) override;
 
 };
 

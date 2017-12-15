@@ -55,7 +55,7 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QTableView" name="tableView"/>
+         <widget class="JKStockTableViewer" name="tableView"/>
         </item>
         <item>
          <widget class="QGroupBox" name="groupBox">
@@ -346,8 +346,13 @@
   <customwidget>
    <class>JKInfoWgt</class>
    <extends>QWidget</extends>
-   <header location="global">UI/jkinfowgt.h</header>
+   <header>UI/jkinfowgt.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>JKStockTableViewer</class>
+   <extends>QTableView</extends>
+   <header location="global">jkstocktableviewer.h</header>
   </customwidget>
  </customwidgets>
  <resources>

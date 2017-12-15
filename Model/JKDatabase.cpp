@@ -77,7 +77,6 @@ bool JKDatabase::openDatabase(JKString fullName)
 		db->registerBeanClass<JKStockCodeTradeModel>();
 		db->registerBeanClass<JKStockCodeTradeItemModel>();
 
-
 		return true;
 	}
 	else
@@ -116,32 +115,45 @@ void JKDatabase::upgradeDatabase(JKString fullFileName)
 				throw std::exception("Project version is bigger then program support version, you need update program!");
 			}
 			/** 按照版本更新依次添加 */
-			if (version < maxVersion)//3
+			if (version < 3)
 			{
+				//创建表  
 				QString sqlStr = "CREATE TABLE JKStockCodeTradeItemModel(commission REAL, hiberlite_id INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, sellCount INTEGER, sellPrice REAL, sellSumCount INTEGER, stampTax REAL, transfer REAL);";
 				QSqlQuery query(_db);
-				query.prepare(sqlStr);		//创建表  
-				if (!query.exec())			//查看创建表是否成功  
+				query.prepare(sqlStr);		
+				if (!query.exec())			
 				{
 					JKString error = "upgrade to 3 error! " + query.lastError().text().toStdString();
 					throw std::exception(error.c_str());
 				}
 				sqlStr = "CREATE TABLE JKStockCodeTradeModel_vecSellItem_items (hiberlite_entry_indx INTEGER, hiberlite_id INTEGER PRIMARY KEY AUTOINCREMENT, hiberlite_parent_id INTEGER, item_id INTEGER);";
 				query.prepare(sqlStr);
-				if (!query.exec())			//查看创建表是否成功  
+				if (!query.exec())			
 				{
 					JKString error = "upgrade to 3 error! " + query.lastError().text().toStdString();
 					throw std::exception(error.c_str());
 				}
-
 			}
-			
+			if (version < 4)
+			{
+				//添加字段DataVersion
+				QString sqlStr = "alter table JKProjectVersionModel add column DataVersion INTEGER default 0;";
+				QSqlQuery query(_db);
+				query.prepare(sqlStr);		
+				if (!query.exec())			
+				{
+					JKString error = "add DataVersion Field error! " + query.lastError().text().toStdString();
+					throw std::exception(error.c_str());
+				}
+			}
+
 			QString querySqlStr = QString("update JKProjectVersionModel Set version = %1").arg(maxVersion);
 			QSqlQuery query(querySqlStr, _db);
 			if (!query.exec())
 			{
 				throw std::exception("update ProjectVersion error!");
 			}
+			
 		}
 		catch (const std::exception& e)
 		{
@@ -157,6 +169,34 @@ void JKDatabase::upgradeDatabase(JKString fullFileName)
 		_db.close();
 	}
 	
+}
+
+int JKDatabase::getDbDataVersion()
+{
+	assert(db == nullptr);
+	std::vector<sqlid_t> vecIds = SingleDB->getBeanIds<JKProjectVersionModel>();
+	if (vecIds.size() > 0)
+	{
+		hiberlite::bean_ptr<JKProjectVersionModel> ptrProjectVersionModel = SingleDB->loadBean<JKProjectVersionModel>(vecIds[0]);
+		return ptrProjectVersionModel->version;
+	}
+}
+
+int JKDatabase::getDataVersion()
+{
+	return dataVersion;
+}
+
+void JKDatabase::updateDbDataVersion()
+{
+	assert(db == nullptr);
+	std::vector<sqlid_t> vecIds = SingleDB->getBeanIds<JKProjectVersionModel>();
+	if (vecIds.size() > 0)
+	{
+		hiberlite::bean_ptr<JKProjectVersionModel> ptrProjectVersionModel = SingleDB->loadBean<JKProjectVersionModel>(vecIds[0]);
+
+		ptrProjectVersionModel->version = dataVersion;
+	}
 }
 
 int JKDatabase::getDbVersion(JKString _dbFullFileName)

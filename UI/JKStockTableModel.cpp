@@ -56,7 +56,7 @@ int JKStockTableModel::rowCount(const QModelIndex & parent) const
 
 int JKStockTableModel::columnCount(const QModelIndex & parent) const
 {
-	return 8;
+	return colCount;
 }
 
 QVariant JKStockTableModel::data(const QModelIndex & index, int role) const
@@ -103,28 +103,33 @@ QVariant JKStockTableModel::data(const QModelIndex & index, int role) const
 		break;
 		case 5:
 		{
-			variant.setValue(var->getSellPrice());
+			double preRealEarning = tradeUtil.getExpactEarning(latestPrice, var);
+			variant.setValue(preRealEarning);
 		}
 		break;
 		case 6:
 		{
-			double preRealEarning = 0;
-			if (var->getType() == TradeType::BUY)
-				preRealEarning = tradeUtil.getExpactEarning(latestPrice, var);
-// 			else if (var->getType() == TradeType::SELL)
-// 				preRealEarning = tradeUtil.getRealEarning(var->getSellPrice(), var);
-
-			variant.setValue(preRealEarning);
+			variant.setValue(QString("%1%").arg(tradeUtil.getExpactEarningPercent(latestPrice, var) * 100));
 		}
 		break;
 		case 7:
 		{
-			variant.setValue(QString("%1%").arg(tradeUtil.getRealEarningPercent(var) * 100));
+			variant.setValue(var->getSoldCount());
+		}
+		break;
+		case 8:
+		{
+			variant.setValue(var->getRealEarning());
 		}
 		break;
 		default:
 			break;
 		}
+	}
+	else if (role == Qt::UserRole)
+	{
+		JKRef_Ptr<JKStockCodeTradeBLL> var = vecRefStockCodeTradeBLL[index.row()];
+		variant.setValue(QString::fromStdString(var->getId()));
 	}
 	
 	return variant;
@@ -161,21 +166,25 @@ QVariant JKStockTableModel::headerData(int section, Qt::Orientation orientation,
 		}
 		case 5:
 		{
-			return QVariant(QStringLiteral("卖出价"));
+			return QVariant(QStringLiteral("预计收益"));
 		}
 		case 6:
 		{
-			return QVariant(QStringLiteral("预计收益"));
+			return QVariant(QStringLiteral("收益百分比"));
 		}
 		case 7:
 		{
-			return QVariant(QStringLiteral("收益百分比"));
+			return QVariant(QStringLiteral("卖出数量"));
+		}
+		case 8:
+		{
+			return QVariant(QStringLiteral("卖出收益"));
 		}
 		default:
 			break;
 		}
 	}
-
+	
 	return QVariant();
 }
 

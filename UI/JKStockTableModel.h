@@ -40,6 +40,8 @@ private:
 	JKRef_Ptr<JKProjectBLL> refProject;
 	TableShowType showType;
 
+	int colCount = 9;
+
 
 	vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecRefStockCodeTradeBLL;
 };

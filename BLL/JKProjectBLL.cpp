@@ -4,6 +4,7 @@
 #include "JKStockCodeBLL.h"
 #include "JKStockCodeTradeBLL.h"
 #include "Model/JKModelFactory.h"
+#include "JKBLLContext.h"
 
 
 JKProjectBLL::JKProjectBLL(ProjectInitStatus status)
@@ -15,13 +16,17 @@ JKProjectBLL::JKProjectBLL(ProjectInitStatus status)
 		{
 			refJKProjectModel = SingleDB->loadBean<JKProjectModel>(vecIds[0]);
 			if (refJKProjectModel->vecStockCode.size() > 0)
-				refCurStockCode = new JKStockCodeBLL(refJKProjectModel->vecStockCode[0]);
+				refCurStockCode = new JKStockCodeBLL(refJKProjectModel->vecStockCode[0], refContext);
 		}
 		else
 		{
 			refJKProjectModel = SingleDB->createBean<JKProjectModel>();
 		}
 	}
+
+	JKBLLContext* context = new JKBLLContext();
+	context->setProject(this);
+	this->setContext(context);
 }
 
 JKRef_Ptr<JKProjectBLL> JKProjectBLL::newProject(const JKString &path)
@@ -40,6 +45,17 @@ JKRef_Ptr<JKProjectBLL> JKProjectBLL::openProject(const JKString & path)
 	if (JKSingleton<JKDatabase>::GetInstance().openDatabase(path))
 	{
 		JKRef_Ptr<JKProjectBLL> refProjectBLL = new JKProjectBLL(JKProjectBLL::ProjectInitStatus::DEFAULT_FirstOrNew);
+		
+		try
+		{
+			refProjectBLL->upgradeDataVersion(JKSingleton<JKDatabase>::GetInstance().getDataVersion());
+			JKSingleton<JKDatabase>::GetInstance().updateDbDataVersion();
+		}
+		catch (std::exception &e)
+		{
+
+		}
+
 		return refProjectBLL;
 	}
 	return nullptr;
@@ -49,14 +65,24 @@ JKProjectBLL::~JKProjectBLL()
 {
 }
 
-void JKProjectBLL::savePrject()
+void JKProjectBLL::upgradeDataVersion(int dataVersion)
 {
-	
+	vector<JKRef_Ptr<JKStockCodeBLL>> _vecStockCode = getAllStockCode();
+	for (auto &var : _vecStockCode)
+	{
+		var->upgradeDataVersion(dataVersion);
+	}
+
+	if (dataVersion < 1)
+	{
+
+	}
+
 }
+
 JKRef_Ptr<JKStockCodeBLL> JKProjectBLL::newStockCode()
 {
-	JKRef_Ptr<JKStockCodeBLL> _refStockCode = new JKStockCodeBLL();
-
+	JKRef_Ptr<JKStockCodeBLL> _refStockCode = new JKStockCodeBLL(refContext);
 	refJKProjectModel->addStockCode(_refStockCode->getModel());
 	return _refStockCode;
 }
@@ -77,7 +103,7 @@ vector<JKRef_Ptr<JKStockCodeBLL>> JKProjectBLL::getAllStockCode()
 
 	for (auto &var : refJKProjectModel->vecStockCode)
 	{
-		JKRef_Ptr<JKStockCodeBLL> _refStockCodeTradeBLL = new JKStockCodeBLL(var);
+		JKRef_Ptr<JKStockCodeBLL> _refStockCodeTradeBLL = new JKStockCodeBLL(var, refContext);
 		vecTrades.push_back(_refStockCodeTradeBLL);
 	}
 

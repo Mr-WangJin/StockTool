@@ -38,6 +38,9 @@ public:
 	double getRealEarning();
 
 	void getTradeItems(std::vector<JKRef_Ptr<JKStockCodeTradeItemBLL>> &vecTradeItems);
+
+	virtual void upgradeDataVersion(int dataVersion) override;
+
 };
 
 

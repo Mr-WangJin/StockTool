@@ -29,6 +29,7 @@ JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
 	emit afterProjectChanged(refProject);
 
 	this->about();
+
 }
 
 JKMainWin::~JKMainWin()
@@ -45,6 +46,23 @@ void JKMainWin::updateStatusBar(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 		lblLatestPrice->setText(QStringLiteral("当前股票最新交易价：") + QString::number(_refStockCode->getLatestPrice()));
 	}
 	
+}
+
+void JKMainWin::getSelectedStockTrade(std::vector<JKRef_Ptr<JKStockCodeTradeBLL>>& _vecStockTrade)
+{
+	if (!refProject.valid())
+		return;
+
+	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
+	if (_refStockCode.valid())
+	{
+		std::vector<JKString> vecStockTradeIDs;
+		ui.tableView->getSelectedStockCode(vecStockTradeIDs);
+		for (auto & var : vecStockTradeIDs)
+		{
+			_vecStockTrade.push_back(_refStockCode->getStockTradeById(var));
+		}
+	}
 }
 
 void JKMainWin::newProject()
@@ -143,7 +161,6 @@ void JKMainWin::sellStockCode()
 		JKSellStockCodeWgt sellStockCodeWgt(refProject, vecStockTrade);
 		if (sellStockCodeWgt.exec() == QDialog::Accepted)
 		{
-			//ui.trendChartWgt->updateTrendChart();
 			this->updateTableWidget();
 			this->updateInfoWgt(_refStockCode);
 		}
@@ -230,37 +247,27 @@ void JKMainWin::onTableWgtPopMenu(QPoint pos)
 
 void JKMainWin::onDeleteTrade()
 {
-	//删除有问题，需要改
-	if (!refProject.valid())
-		return;
+	vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecRefStockCodeTrade;
+	this->getSelectedStockTrade(_vecRefStockCodeTrade);
 
-// 	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
-// 	if (_refStockCode.valid())
-// 	{
-// 		vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecRefStockCodeTradeBLL = _refStockCode->getAllTrades();
-// 		int rowNum = ui.tableView->currentRow();
-// 		if (_refStockCode->deleteTrade(vecRefStockCodeTradeBLL[rowNum]))
-// 		{
-// 			this->stockCodeChanged(_refStockCode);
-// 		}
-// 	}
+	if (_vecRefStockCodeTrade.size() > 0)
+	{
+		JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
+		for (auto &var : _vecRefStockCodeTrade)
+		{
+			_refStockCode->deleteTrade(var);
+		}
+	}
 }
 
 void JKMainWin::onSellTrade()
 {
-	if (!refProject.valid())
-		return;
+	vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecRefStockCodeTrade;
+	this->getSelectedStockTrade(_vecRefStockCodeTrade);
 
-	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
-	if (_refStockCode.valid())
+	if (_vecRefStockCodeTrade.size() > 0)
 	{
-		std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecStockTrade;
-// 		for (auto & var : ui.tableView->selectedItems())
-// 		{
-// 
-// 		}
-
-		JKSellStockCodeWgt sellStockCodeWgt(refProject, vecStockTrade, this);
+		JKSellStockCodeWgt sellStockCodeWgt(refProject, _vecRefStockCodeTrade, this);
 		if (sellStockCodeWgt.exec() == QDialog::Accepted)
 		{
 			this->updateTableWidget();
@@ -277,7 +284,7 @@ void JKMainWin::onShowTradeInfo()
 	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
 	if (_refStockCode.valid())
 	{
-		JKRef_Ptr<JKStockCodeTradeBLL> refStockTrade = _refStockCode->getTradeById(stockTradeId);
+		JKRef_Ptr<JKStockCodeTradeBLL> refStockTrade = _refStockCode->getStockTradeById(stockTradeId);
 
 		JKRef_Ptr<JKStockTradeUtil> refTradeUtil = new JKStockTradeUtil(refProject);
 		JKStockTradeDetail detail(refTradeUtil, refStockTrade);
@@ -301,17 +308,17 @@ void JKMainWin::onAfterProjectChanged(JKRef_Ptr<JKProjectBLL> _refProject)
 
 void JKMainWin::onShowBuyOnly()
 {
-	stockTableModel->setShowType(Show_Buy_Only);
+	tableModel->setShowType(Show_Buy_Only);
 	this->updateTableWidget();
 }
 void JKMainWin::onShowSellOnly()
 {
-	stockTableModel->setShowType(Show_Sell_Only);
+	tableModel->setShowType(Show_Sell_Only);
 	this->updateTableWidget();
 }
 void JKMainWin::onShowAll()
 {
-	stockTableModel->setShowType(Show_All);
+	tableModel->setShowType(Show_All);
 	this->updateTableWidget();
 }
 
@@ -326,7 +333,7 @@ void JKMainWin::stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 
 void JKMainWin::updateTableWidget()
 {
-	stockTableModel->setProject(refProject);
+	tableModel->setProject(refProject);
 // 	ui.tableWidget->clearContents();
 // 
 // 	vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecRefStockCodeTradeBLLTemp = refProject->getCurStockCode()->getAllTrades();
@@ -449,7 +456,6 @@ void JKMainWin::initUI()
 {
 	tableWgtPopMenu = new QMenu(ui.tableView);
 	ui.tableView->setContextMenuPolicy(Qt::CustomContextMenu);
-	ui.tableView->setSizeAdjustPolicy(QAbstractScrollArea::SizeAdjustPolicy::AdjustToContents);
 
 	QAction* actDel = new QAction(QStringLiteral("删除"), this);
 	tableWgtPopMenu->addAction(actDel);
@@ -477,17 +483,10 @@ void JKMainWin::initUI()
 	ui.statusBar->addWidget(lblLatestPrice);
 
 	ui.m_pHSplitter->setSizes(QList<int>() << 100 << 500);
-	QHeaderView *headerGoods = ui.tableView->horizontalHeader();
-	//SortIndicator为水平标题栏文字旁边的三角指示器
-	headerGoods->setSortIndicator(0, Qt::AscendingOrder);
-	headerGoods->setSortIndicatorShown(true);
-	//headerGoods->setClickable(true);
-	connect(headerGoods, SIGNAL(sectionClicked(int)), ui.tableView, SLOT(sortByColumn(int)));
-
-	stockTableModel = new JKStockTableModel(refProject, this);
-	ui.tableView->setModel(stockTableModel);
-	ui.tableView->sortByColumn(1, Qt::SortOrder::AscendingOrder);
-	ui.tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+	
+	tableModel = new JKStockTableModel(refProject, this);
+	ui.tableView->setModel(tableModel);
+	
 // 	QItemSelectionModel *selectionModel = new QItemSelectionModel(stockTableModel);
 // 	ui.tableView->setSelectionModel(selectionModel);
 // 	

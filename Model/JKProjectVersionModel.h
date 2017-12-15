@@ -11,11 +11,13 @@ class JKProjectVersionModel : public JKBaseModel
 	void hibernate(Archive & ar)
 	{
 		ar & HIBERLITE_NVP(version);
+		ar & HIBERLITE_NVP(dataVersion);
 	}
 
 
 public:
 	int version;
+	int dataVersion;
 
 };
 

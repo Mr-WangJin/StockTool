@@ -20,12 +20,11 @@ public:
 
 	JKProjectBLL(ProjectInitStatus status);
 	~JKProjectBLL();
+
+	virtual void upgradeDataVersion(int dataVersion) override;
 	
 	static JKRef_Ptr<JKProjectBLL> newProject(const JKString &path);
 	static JKRef_Ptr<JKProjectBLL> openProject(const JKString &path);
-
-	void savePrject();
-
 
 	JKRef_Ptr<JKStockCodeBLL> newStockCode();
 	JKRef_Ptr<JKStockCodeBLL> getCurStockCode();
@@ -40,14 +39,9 @@ public:
 	float getCommission();
 	void setCommission(float);
 
-
-
 	void setCurStockCode(JKRef_Ptr<JKStockCodeBLL> stockCode);
-
 
 private:
 	JKRef_Ptr<JKStockCodeBLL> refCurStockCode;
-
-
 };
 

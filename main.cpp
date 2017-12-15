@@ -9,14 +9,10 @@ int main(int argc, char *argv[])
 
 	try {
 
-
-		//JKRef_Ptr<JKProjectBLL> projectBLL = new JKProjectBLL(JKProjectBLL::ProjectInitStatus::DEFAULT_FirstOrNew);
-
 		JKMainWin w;
 		w.show();
 
 		return a.exec();
-
 
 	}
 	catch (std::exception & e)
