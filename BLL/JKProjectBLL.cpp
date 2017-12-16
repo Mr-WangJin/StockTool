@@ -34,6 +34,7 @@ JKRef_Ptr<JKProjectBLL> JKProjectBLL::newProject(const JKString &path)
 	if (JKSingleton<JKDatabase>::GetInstance().newDatabase(path))
 	{
 		JKRef_Ptr<JKProjectBLL> refProjectBLL = new JKProjectBLL(JKProjectBLL::ProjectInitStatus::DEFAULT_FirstOrNew);
+
 		return refProjectBLL;
 	}
 	

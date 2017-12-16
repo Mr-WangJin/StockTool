@@ -21,6 +21,8 @@ JKSellStockCodeWgt::~JKSellStockCodeWgt()
 
 void JKSellStockCodeWgt::initUI()
 {
+	ui.lblInfo->setVisible(false);
+
 	int lblBuyCount = 0;
 	for (auto &var : vecStockTrade)
 	{
@@ -28,7 +30,7 @@ void JKSellStockCodeWgt::initUI()
 	}
 	if (lblBuyCount == 0)
 		ui.spBxCount->setEnabled(false);
-	ui.lblBuyCount->setText(QString("%1:%2").arg(QStringLiteral("可卖出数量：")).arg(lblBuyCount));
+	ui.lblBuyCount->setText(QString("%1").arg(lblBuyCount));
 
 	connect(ui.pBtnOK, SIGNAL(clicked()), this, SLOT(onOK()));
 	connect(ui.pBtnCancel, SIGNAL(clicked()), this, SLOT(onCancel()));

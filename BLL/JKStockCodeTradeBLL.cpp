@@ -33,11 +33,30 @@ void JKStockCodeTradeBLL::sell(double sellPrice, size_t sellCount, size_t sellSu
 	_refStockCodeTradeItem->setParams(sellPrice, sellCount, sellSumCount, stampTax, transfer, commission);
 	_refStockCodeTradeItem->setRealEarning(expactEarning);
 	refJKStockCodeTradeModel->addStockCodeTradeItem(_refStockCodeTradeItem->getModel());
+
+	this->updateType();
 }
 
 TradeType JKStockCodeTradeBLL::getType()
 {
 	return (TradeType)refJKStockCodeTradeModel->type;
+}
+void JKStockCodeTradeBLL::updateType()
+{
+	int couldSellCount = this->getCouldSellCount();
+
+	if (couldSellCount == 0)
+	{
+		refJKStockCodeTradeModel->type = (int)TradeType::SELL;
+	}
+	else if (couldSellCount == this->getCount())
+	{
+		refJKStockCodeTradeModel->type = (int)TradeType::BUY;
+	}
+	else
+	{
+		refJKStockCodeTradeModel->type = (int)TradeType::PART;
+	}
 }
 
 JKString JKStockCodeTradeBLL::getDate()

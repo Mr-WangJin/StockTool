@@ -30,7 +30,9 @@ public:
 
 public:
 	hiberlite::Database* db = nullptr;
+	/** 数据格式版本 */
 	static const int databaseVersion = 5;
+	/** 数据版本 */
 	static const int dataVersion = 1;
 	static const JKString dbName;
 

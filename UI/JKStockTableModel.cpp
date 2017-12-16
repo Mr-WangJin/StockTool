@@ -7,6 +7,9 @@
 
 Q_DECLARE_METATYPE(JKString);
 
+#define UP_EARNING QColor(255, 0, 0, 230)
+#define Down_EARNING QColor(0, 255, 0, 230)
+
 JKStockTableModel::JKStockTableModel(JKRef_Ptr<JKProjectBLL> _refProject, QObject* parent/* = nullptr*/)
 	: QAbstractTableModel(parent)
 	, showType(Show_All)
@@ -78,14 +81,18 @@ QVariant JKStockTableModel::data(const QModelIndex & index, int role) const
 		double latestPrice = refProject->getCurStockCode()->getLatestPrice();
 		JKStockTradeUtil tradeUtil(refProject);
 		JKRef_Ptr<JKStockCodeTradeBLL> var = vecRefStockCodeTradeBLL[index.row()];
+		TradeType type = var->getType();
 		switch (index.column())
 		{
 		case 0:
 		{
-			if (var->getType() == TradeType::BUY)
+			if (type == TradeType::BUY)
 				variant.setValue(QStringLiteral("买入"));
-			else if (var->getType() == TradeType::SELL)
+			else if (type == TradeType::SELL)
 				variant.setValue(QStringLiteral("卖出"));
+			else if (type == TradeType::PART)
+				variant.setValue(QStringLiteral("部分"));
+
 		}
 		break;
 		case 1:
@@ -110,27 +117,77 @@ QVariant JKStockTableModel::data(const QModelIndex & index, int role) const
 		break;
 		case 5:
 		{
+			if (type == TradeType::SELL)
+				break;
 			double expactEarning = tradeUtil.getExpactEarning(latestPrice, var);
 			variant.setValue(expactEarning);
 		}
 		break;
 		case 6:
 		{
+			if (type == TradeType::SELL)
+				break;
 			variant.setValue(QString("%1%").arg(tradeUtil.getExpactEarningPercent(latestPrice, var) * 100));
 		}
 		break;
 		case 7:
 		{
+			if (type == TradeType::BUY)
+				break;
 			variant.setValue(var->getSoldCount());
 		}
 		break;
 		case 8:
 		{
+			if (type == TradeType::BUY)
+				break;
 			variant.setValue(var->getRealEarning());
 		}
 		break;
 		default:
 			break;
+		}
+	}
+	else if (role == Qt::BackgroundColorRole)
+	{
+		JKRef_Ptr<JKStockCodeTradeBLL> var = vecRefStockCodeTradeBLL[index.row()];
+		TradeType type = var->getType();
+		JKStockTradeUtil tradeUtil(refProject);
+		double latestPrice = refProject->getCurStockCode()->getLatestPrice();
+
+		switch (index.column())
+		{
+		case 5:
+		case 6:
+		{
+			if (type == TradeType::SELL)
+				break;
+			double expactEarning = tradeUtil.getExpactEarning(latestPrice, var);
+
+			if (expactEarning >= 0)
+			{
+				variant.setValue(UP_EARNING);
+			}
+			else
+			{
+				variant.setValue(Down_EARNING);
+			}
+		}
+		case 8:
+		{
+			if (type == TradeType::BUY)
+				break;
+			if (var->getRealEarning() >= 0)
+			{
+				variant.setValue(UP_EARNING);
+			}
+			else
+			{
+				variant.setValue(Down_EARNING);
+			}
+		}
+		break;
+			
 		}
 	}
 // 	else if (role == Qt::UserRole)

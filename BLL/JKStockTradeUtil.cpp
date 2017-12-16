@@ -83,13 +83,13 @@ double JKStockTradeUtil::getRealEarningPercent(JKRef_Ptr<JKStockCodeTradeBLL> re
 
 double JKStockTradeUtil::getCommission(double buyCost)
 {
-	double commission = 0;
+	double _commission = 0;
 	if (buyCost <= 10000)
-		commission = 10000 * commission;
+		_commission = 10000 * commission;
 	else
-		commission = buyCost * commission;
+		_commission = buyCost * commission;
 
-	return commission; //Ó¶½ð
+	return _commission; //Ó¶½ð
 }
 
 double JKStockTradeUtil::getStampTax(double buyCost)

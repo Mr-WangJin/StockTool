@@ -23,6 +23,8 @@ void JKStockTableViewer::setModel(QAbstractItemModel * model)
 	this->setColumnWidth(0, 40);
 	this->setColumnWidth(1, 80);
 	this->setColumnWidth(2, 50);
+	this->setColumnWidth(3, 70);
+	this->setColumnWidth(4, 70);
 }
 
 void JKStockTableViewer::getSelectedStockTradeIds(std::vector<JKString>& _vecStockTradeIDs)

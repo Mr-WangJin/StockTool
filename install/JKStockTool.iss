@@ -4,7 +4,7 @@
 #define MyAppName "JKStockTool"
 #define MyAppVersion "0.0.1"
 #define MyAppPublisher "JK, Inc."
-#define MyAppExeName "StockTool.exe"
+#define MyAppExeName "JKStockTool.exe"
 
 #define AppSrcDir "exe\"
 
@@ -37,7 +37,7 @@ Name: "chinese"; MessagesFile: "compiler:Languages\Chinese.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: checkedonce
 
 [Files]
-; Source: "..\x64\Debug\StockTool.exe"; DestDir: "{app}"; Flags: ignoreversion
+; Source: "..\x64\Debug\JKStockTool.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#AppSrcDir}*"; DestDir: "{app}\"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

@@ -41,6 +41,10 @@ public:
 
 	virtual void upgradeDataVersion(int dataVersion) override;
 
+
+private:
+	void updateType();
+
 };
 
 

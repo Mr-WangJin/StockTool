@@ -15,9 +15,16 @@
   </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0">
-    <widget class="QLabel" name="lblBuyCount">
+    <widget class="QLabel" name="label22">
      <property name="text">
       <string>可卖出数量：</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="lblBuyCount">
+     <property name="text">
+      <string>数量</string>
      </property>
     </widget>
    </item>
@@ -30,16 +37,10 @@
    </item>
    <item row="1" column="1">
     <widget class="QSpinBox" name="spBxCount">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
      <property name="maximum">
-      <number>9999000</number>
+      <number>999999999</number>
      </property>
      <property name="singleStep">
-      <number>100</number>
-     </property>
-     <property name="value">
       <number>100</number>
      </property>
     </widget>

@@ -54,6 +54,7 @@ bool JKDatabase::newDatabase(JKString path)
 
 		bean_ptr<JKProjectVersionModel> refProjectVersion = db->createBean<JKProjectVersionModel>();
 		refProjectVersion->version = databaseVersion;
+		refProjectVersion->dataVersion = dataVersion;
 	}
 	return true;
 }
@@ -234,12 +235,12 @@ int JKDatabase::getDbVersion(JKString _dbFullFileName)
 	}
 	int version = -1;
 	try {
-		JKString querySqlStr = "select * from JKProjectVersionModel";
+		JKString querySqlStr = "select version from JKProjectVersionModel";
 		QSqlQuery query(QString::fromStdString(querySqlStr), _db);
 		if (query.exec())
 		{
 			query.next();
-			version = query.value(1).toInt();
+			version = query.value(0).toInt();
 		}
 		else
 		{

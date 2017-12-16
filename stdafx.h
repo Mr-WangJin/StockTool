@@ -23,5 +23,6 @@ enum class TradeType
 {
 	BUY = 1 << 0,
 	SELL = 1 << 1,
+	PART = 1 << 2,
 
 };

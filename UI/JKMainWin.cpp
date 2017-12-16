@@ -34,6 +34,8 @@ JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
 
 JKMainWin::~JKMainWin()
 {
+	if (refProject.valid())
+		refProject->unref();
 	JK_FreeAndNullptr(crawlPrice);
 }
 
