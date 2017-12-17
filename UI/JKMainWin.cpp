@@ -27,9 +27,6 @@ JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
 	this->updateInputUIEnable(nullptr);
 	
 	emit afterProjectChanged(refProject);
-
-	this->about();
-
 }
 
 JKMainWin::~JKMainWin()
@@ -43,33 +40,42 @@ void JKMainWin::updateStatusBar(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 {
 	if (_refStockCode.valid())
 	{
-		lblShowCurStock->setText(QStringLiteral("当前显示股票：") + QString(_refStockCode->getName().c_str()));
+//		lblShowCurStock->setText(QStringLiteral("当前显示股票：") + QString(_refStockCode->getName().c_str()));
 
 		lblLatestPrice->setText(QStringLiteral("当前股票最新交易价：") + QString::number(_refStockCode->getLatestPrice()));
 	}
 	
 }
 
+void JKMainWin::showAbout()
+{
+	this->about();
+}
+
 void JKMainWin::newProject()
 {
-	QString path = QFileDialog::getExistingDirectory(this, QStringLiteral("请选择新建工程路径......"));
-	if (path.isEmpty())
+	QString fileName = QFileDialog::getSaveFileName(this, QStringLiteral("新建工程......"), "", "JKProject (*.jk)");
+	if (fileName.isEmpty())
 		return;
-	QDir dir(path);
-	QStringList fileNames = dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot | QDir::Hidden);
-	if (fileNames.count() > 0)
-	{
-		QMessageBox::information(this, QStringLiteral("提示！"), QStringLiteral("文件夹不为空！"));
-		return;
-	}
-	else
+
+	//QString path = QFileDialog::getExistingDirectory(this, QStringLiteral("请选择新建工程路径......"));
+	//if (path.isEmpty())
+	//	return;
+	//QDir dir(path);
+	//QStringList fileNames = dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot | QDir::Hidden);
+	//if (fileNames.count() > 0)
+	//{
+	//	QMessageBox::information(this, QStringLiteral("提示！"), QStringLiteral("文件夹不为空！"));
+	//	return;
+	//}
+	//else
 	{
 		JKNewProject newProject(this);
 		if (newProject.exec() == QDialog::Accepted)
 		{
 			emit beforeProjectChanged();
 
-			refProject = JKProjectBLL::newProject(path.toStdString());
+			refProject = JKProjectBLL::newProject(fileName.toStdString());
 			refProject->setStampTax(newProject.getStampTax());
 			refProject->setTransfer(newProject.getTransfer());
 			refProject->setCommission(newProject.getCommission());
@@ -170,6 +176,8 @@ void JKMainWin::onSwitchCode()
 				crawlPrice->clearStoclCode();
 				crawlPrice->addStockCode(var);
 			}
+			lblLatestPrice->setText(QStringLiteral("当前股票最新交易价："));
+
 			break;
 		}
 	}
@@ -285,21 +293,28 @@ void JKMainWin::onAfterProjectChanged(JKRef_Ptr<JKProjectBLL> _refProject)
 	updateUIEnable(_refProject);
 	updateCmbBoxSwitch(_refProject);
 	refreshCrawler(_refProject);
+	this->updateTableWidget();
 	//crawlerOptChanged();
 }
 
-void JKMainWin::onShowBuyOnly()
+void JKMainWin::onShowBuyOnly(bool checked)
 {
+	if (!checked)
+		return;
 	tableModel->setShowType(Show_Buy_Only);
 	this->updateTableWidget();
 }
-void JKMainWin::onShowSellOnly()
+void JKMainWin::onShowSellOnly(bool checked)
 {
+	if (!checked)
+		return;
 	tableModel->setShowType(Show_Sell_Only);
 	this->updateTableWidget();
 }
-void JKMainWin::onShowAll()
+void JKMainWin::onShowAll(bool checked)
 {
+	if (!checked)
+		return;
 	tableModel->setShowType(Show_All);
 	this->updateTableWidget();
 }
@@ -415,20 +430,31 @@ void JKMainWin::updateInfoWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 
 				buySumEarning += preEarning;
 			}
-			else
+			else if (TradeType::SELL == var->getType())
 			{
-				sellSumPrice += var->getBuyPrice();
-				sellSumCount += var->getCount();
-				sellSumEarning += trackUtil.getExpactEarning(var->getSellPrice(), var);
+				sellSumPrice += var->getSoldCount()*var->getBuyPrice() + var->getRealEarning();
+				sellSumCount += var->getSoldCount();
+				sellSumEarning += var->getRealEarning();
+			}
+			else if (TradeType::PART == var->getType())
+			{
+				buySumPrice += var->getCouldSellCount()*var->getBuyPrice();
+				buySumCount += var->getCouldSellCount();
+				double preEarning = trackUtil.getExpactEarning(latestPrice, var);
+				buySumEarning += preEarning;
+
+				sellSumPrice += var->getSoldCount()*var->getBuyPrice() + var->getRealEarning();
+				sellSumCount += var->getSoldCount();
+				sellSumEarning += var->getRealEarning();
 			}
 		}
 	}
 
-	ui.lblBuySumPrice->setText(QStringLiteral("买入总支出：") + QString::number(buySumPrice));
-	ui.lblBuySumCount->setText(QStringLiteral("买入总数量：") + QString::number(buySumCount));
-	ui.lblBuySumEarning->setText(QStringLiteral("预计总收益：") + QString::number(buySumEarning));
+	ui.lblBuySumPrice->setText(QStringLiteral("买入总额：") + QString::number(buySumPrice));
+	ui.lblBuySumCount->setText(QStringLiteral("买入数量：") + QString::number(buySumCount));
+	ui.lblBuySumEarning->setText(QStringLiteral("预计收益：") + QString::number(buySumEarning));
 
-	ui.lblSellSumPrice->setText(QStringLiteral("卖出支出：") + QString::number(sellSumPrice));
+	ui.lblSellSumPrice->setText(QStringLiteral("卖出总额：") + QString::number(sellSumPrice));
 	ui.lblSellSumCount->setText(QStringLiteral("卖出数量：") + QString::number(sellSumCount));
 	ui.lblSellSumEarning->setText(QStringLiteral("卖出收益：") + QString::number(sellSumEarning));
 
@@ -448,7 +474,7 @@ void JKMainWin::initUI()
 	QAction* actShowDetail = new QAction(QStringLiteral("显示详情"), this);
 	tableWgtPopMenu->addAction(actShowDetail);
 	connect(actShowDetail, SIGNAL(triggered()), this, SLOT(onShowTradeInfo()));
-	QAction* actShowBuyOnly = new QAction(QStringLiteral("只显示买入"), this);
+	/*QAction* actShowBuyOnly = new QAction(QStringLiteral("只显示买入"), this);
 	tableWgtPopMenu->addAction(actShowBuyOnly);
 	connect(actShowBuyOnly, SIGNAL(triggered()), this, SLOT(onShowBuyOnly()));
 	QAction* actShowSellOnly = new QAction(QStringLiteral("只显示卖出"), this);
@@ -456,12 +482,15 @@ void JKMainWin::initUI()
 	connect(actShowSellOnly, SIGNAL(triggered()), this, SLOT(onShowSellOnly()));
 	QAction* actShowAll = new QAction(QStringLiteral("全部显示"), this);
 	tableWgtPopMenu->addAction(actShowAll);
-	connect(actShowAll, SIGNAL(triggered()), this, SLOT(onShowAll()));
+	connect(actShowAll, SIGNAL(triggered()), this, SLOT(onShowAll()));*/
 
-	lblShowCurStock = new QLabel(QStringLiteral("当前显示股票："));
-	ui.statusBar->addWidget(lblShowCurStock);
+	//lblShowCurStock = new QLabel(QStringLiteral("当前显示股票："));
+	//ui.statusBar->addWidget(lblShowCurStock);
 
 	lblLatestPrice = new QLabel(QStringLiteral("当前股票最新交易价："));
+	QPalette p = lblLatestPrice->palette();
+	p.setColor(QPalette::WindowText, Qt::red);
+	lblLatestPrice->setPalette(p);
 	ui.statusBar->addWidget(lblLatestPrice);
 
 	ui.m_pHSplitter->setSizes(QList<int>() << 100 << 500);
@@ -484,8 +513,21 @@ void JKMainWin::initUI()
 	connect(ui.actNewProject, SIGNAL(triggered()), this, SLOT(newProject()));
 	connect(ui.actOpenProject, SIGNAL(triggered()), this, SLOT(openProject()));
 	connect(ui.actExit, SIGNAL(triggered()), this, SLOT(close()));
+	/** 设置 */
 	connect(ui.actTaxSetting, SIGNAL(triggered()), this, SLOT(projectTaxSetting()));
 	connect(ui.actCrawlerOpt, SIGNAL(triggered()), this, SLOT(crawlerOptChanged()));
+	/** 显示 */
+	connect(ui.actOnlyShowBuy, SIGNAL(triggered(bool)), this, SLOT(onShowBuyOnly(bool)));
+	connect(ui.actOnlyShowSold, SIGNAL(triggered(bool)), this, SLOT(onShowSellOnly(bool)));
+	connect(ui.actShowAll, SIGNAL(triggered(bool)), this, SLOT(onShowAll(bool)));
+
+	QActionGroup* _showActionGrp = new QActionGroup(this);
+	_showActionGrp->addAction(ui.actOnlyShowBuy);
+	_showActionGrp->addAction(ui.actOnlyShowSold);
+	_showActionGrp->addAction(ui.actShowAll);
+	ui.actShowAll->setChecked(true);
+
+	/** 关于 */
 	connect(ui.actAbout, SIGNAL(triggered()), this, SLOT(about()));
 
 	connect(this, SIGNAL(beforeProjectChanged()), this, SLOT(onBeforeProjectChanged()));

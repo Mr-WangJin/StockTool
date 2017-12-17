@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "UI/JKMainWin.h"
 #include <QtWidgets/QApplication>
+//#include "Utils\MiniDump\JKMiniDump.h"
 
 int main(int argc, char *argv[])
 {
+
 	QApplication a(argc, argv);
 
 
@@ -11,6 +13,7 @@ int main(int argc, char *argv[])
 
 		JKMainWin w;
 		w.show();
+		w.showAbout();
 
 		return a.exec();
 

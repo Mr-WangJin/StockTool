@@ -29,16 +29,18 @@ JKProjectBLL::JKProjectBLL(ProjectInitStatus status)
 	this->setContext(context);
 }
 
-JKRef_Ptr<JKProjectBLL> JKProjectBLL::newProject(const JKString &path)
+JKRef_Ptr<JKProjectBLL> JKProjectBLL::newProject(const JKString &fileName)
 {
-	if (JKSingleton<JKDatabase>::GetInstance().newDatabase(path))
+	if (JKSingleton<JKDatabase>::GetInstance().newDatabase(fileName))
 	{
 		JKRef_Ptr<JKProjectBLL> refProjectBLL = new JKProjectBLL(JKProjectBLL::ProjectInitStatus::DEFAULT_FirstOrNew);
 
 		return refProjectBLL;
 	}
-	
-	return nullptr;
+	else
+	{
+		throw std::exception(QStringLiteral("创建工程失败!").toStdString().c_str());
+	}
 }
 
 JKRef_Ptr<JKProjectBLL> JKProjectBLL::openProject(const JKString & path)

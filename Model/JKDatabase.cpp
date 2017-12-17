@@ -25,13 +25,13 @@ JKDatabase::~JKDatabase()
 {
 }
 
-bool JKDatabase::newDatabase(JKString path)
+bool JKDatabase::newDatabase(JKString fileName)
 {
-	JKString fullFileName = path + "\\" + dbName;
-	QFile f(QString::fromStdString(fullFileName));
-	if (f.exists())
-		return false;
-	else
+	JKString fullFileName = fileName;// path + "\\" + dbName;
+	//QFile f(QString::fromStdString(fullFileName));
+	//if (f.exists())
+	//	return false;
+	//else
 	{
 		if (db)
 		{

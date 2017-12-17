@@ -172,6 +172,8 @@ const std::list<JKRef_Ptr<JKStockCodeBLL>>& JKCrawlPrice::getStockCodes()
 
 void JKCrawlPrice::addStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 {
+	if (_refStockCode.valid() == false)
+		return;
 	std::unique_lock<std::mutex> ulck(mtxListStockCode);
 
 	if (std::find(listStockCode.begin(), listStockCode.end(), _refStockCode) == listStockCode.end())

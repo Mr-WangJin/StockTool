@@ -22,6 +22,7 @@ public:
 
 	void updateStatusBar(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
 
+	void showAbout();
 signals:
 	void beforeProjectChanged();
 	void afterProjectChanged(JKRef_Ptr<JKProjectBLL>);
@@ -50,9 +51,9 @@ signals:
 	void onTableWgtPopMenu(QPoint pos);
 	void onDeleteTrade();
 	void onSellTrade();
-	void onShowBuyOnly();
-	void onShowSellOnly();
-	void onShowAll();
+	void onShowBuyOnly(bool checked);
+	void onShowSellOnly(bool checked);
+	void onShowAll(bool checked);
 	void onShowTradeInfo();
 	void onBeforeProjectChanged();
 	void onAfterProjectChanged(JKRef_Ptr<JKProjectBLL>);

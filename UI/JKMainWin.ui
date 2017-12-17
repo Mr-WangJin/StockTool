@@ -229,6 +229,9 @@
     <property name="title">
      <string>显示</string>
     </property>
+    <addaction name="actOnlyShowBuy"/>
+    <addaction name="actOnlyShowSold"/>
+    <addaction name="actShowAll"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -332,6 +335,39 @@
    </property>
    <property name="text">
     <string>开启爬虫</string>
+   </property>
+  </action>
+  <action name="actOnlyShowBuy">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>只显示买入</string>
+   </property>
+   <property name="toolTip">
+    <string>只显示买入</string>
+   </property>
+  </action>
+  <action name="actOnlyShowSold">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>只显示卖出</string>
+   </property>
+   <property name="toolTip">
+    <string>只显示卖出</string>
+   </property>
+  </action>
+  <action name="actShowAll">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>显示全部</string>
+   </property>
+   <property name="toolTip">
+    <string>显示全部</string>
    </property>
   </action>
  </widget>

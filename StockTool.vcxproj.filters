@@ -75,6 +75,9 @@
       <Extensions>qrc;*</Extensions>
       <ParseFiles>false</ParseFiles>
     </Filter>
+    <Filter Include="Utils\MiniDump">
+      <UniqueIdentifier>{367e13ab-78e8-4766-958b-f0596307dbff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\qrc_stocktool.cpp">
@@ -468,6 +471,9 @@
     </ClInclude>
     <ClInclude Include="BLL\JKBLLContext.h">
       <Filter>BLL</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\MiniDump\JKMiniDump.h">
+      <Filter>Utils\MiniDump</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
