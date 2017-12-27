@@ -17,7 +17,7 @@ JKCore https://github.com/Mr-WangJin/jk_cpp.git
 5. 输入当前股价，判断是否买入或者卖出。 
 
 
-
+  
 工程数据格式
 {
     "name": "",
