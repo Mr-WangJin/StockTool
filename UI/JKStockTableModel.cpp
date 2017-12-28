@@ -112,7 +112,7 @@ QVariant JKStockTableModel::data(const QModelIndex & index, int role) const
 		break;
 		case 4:
 		{
-			variant.setValue(tradeUtil.getTradeBuyCost(var));
+			variant.setValue(tradeUtil.getTradeBuyCostPrice(var));
 		}
 		break;
 		case 5:

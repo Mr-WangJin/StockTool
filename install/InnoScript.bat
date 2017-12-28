@@ -1,8 +1,8 @@
 cd /d %~dp0 
 
 set Platform=x64
-#set Configuration=Debug
-set Configuration=Release
+set Configuration=Debug
+#set Configuration=Release
 set OutPutExeFile=exe
 if exist %OutPutExeFile% (
     del /S /Q %OutPutExeFile%
