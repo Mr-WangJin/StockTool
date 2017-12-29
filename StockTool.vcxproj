@@ -304,6 +304,7 @@
     <ClCompile Include="UI\JKMainWin.cpp" />
     <ClCompile Include="UI\JKUiEventDispatcher.cpp" />
     <ClCompile Include="Utils\JKCrawlPrice.cpp" />
+    <ClCompile Include="Utils\MiniDump\JKMiniDump.cpp" />
     <ClCompile Include="Utils\ThreadUtil\JKThreadUtil.cpp" />
     <ClCompile Include="Utils\XMLParser\JKTagContextBase.cpp" />
     <ClCompile Include="Utils\XMLParser\JKTagTextContext.cpp" />

@@ -286,6 +286,9 @@
     <ClCompile Include="BLL\JKBLLContext.cpp">
       <Filter>BLL</Filter>
     </ClCompile>
+    <ClCompile Include="Utils\MiniDump\JKMiniDump.cpp">
+      <Filter>Utils\MiniDump</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\JKMainWin.h">
