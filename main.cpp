@@ -14,11 +14,7 @@ int main(int argc, char *argv[])
 		w.show();
 		w.showAbout();
 
-		JKMainWin* aa = nullptr;
-		aa->show();
-
 		return a.exec();
-
 	}
 	catch (std::exception & e)
 	{

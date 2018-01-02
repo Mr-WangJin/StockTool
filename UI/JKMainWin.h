@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "ui_JKMainWin.h"
+#include <QSystemTrayIcon>
 #include <JKFramework/SmartPtr/JKRef_Ptr.h>
 #include "BLL/JKProjectBLL.h"
 #include "BLL/JKStockCodeBLL.h"
@@ -11,6 +12,7 @@
 #include "JKStockTableModel.h"
 
 class QLabel;
+class QSystemTrayIcon;
 
 
 class JKMainWin : public QMainWindow
@@ -21,6 +23,10 @@ public:
 	~JKMainWin();
 
 	void updateStatusBar(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
+
+	/** 激活windows窗口 */
+	void setActivateWindow();
+	
 
 	void showAbout();
 signals:
@@ -47,6 +53,9 @@ signals:
 	void projectTaxSetting();
 	void crawlerOptChanged();
 	void about();
+	void onSystemTrayIconActive(QSystemTrayIcon::ActivationReason);
+	void onExitApp();
+	void onShowApp();
 
 	void onTableWgtPopMenu(QPoint pos);
 	void onDeleteTrade();
@@ -69,11 +78,23 @@ signals:
 	void refreshCrawler(JKRef_Ptr<JKProjectBLL>);
 	void stockCodePriceChanged(JKString);
 
+protected:
+	virtual void resizeEvent(QResizeEvent*event) override;
+
+	virtual void moveEvent(QMoveEvent *event) override;
+
+	virtual void closeEvent(QCloseEvent *event) override;
+
 private:
 	void initUI();
 
 private:
 	Ui::JKMainWin ui;
+
+	QSystemTrayIcon* systemTrayIcon = nullptr;
+	/** 窗口坐标 */
+	QRect curGemRect;
+
 	QMenu* tableWgtPopMenu;
 	QLabel* lblShowCurStock;
 	QLabel* lblLatestPrice;
