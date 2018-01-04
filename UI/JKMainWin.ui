@@ -199,10 +199,18 @@
     <property name="title">
      <string> 文件</string>
     </property>
+    <widget class="QMenu" name="menuRecentOpen">
+     <property name="title">
+      <string>最近打开项目</string>
+     </property>
+    </widget>
     <addaction name="actNewProject"/>
     <addaction name="actOpenProject"/>
     <addaction name="actNewStockCode"/>
     <addaction name="actSave"/>
+    <addaction name="separator"/>
+    <addaction name="menuRecentOpen"/>
+    <addaction name="separator"/>
     <addaction name="actExit"/>
    </widget>
    <widget class="QMenu" name="menu_2">
@@ -368,6 +376,14 @@
    </property>
    <property name="toolTip">
     <string>显示全部</string>
+   </property>
+  </action>
+  <action name="actShowWindows">
+   <property name="text">
+    <string>显示主界面</string>
+   </property>
+   <property name="toolTip">
+    <string>显示主界面</string>
    </property>
   </action>
  </widget>

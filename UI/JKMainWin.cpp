@@ -47,6 +47,20 @@ void JKMainWin::updateStatusBar(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 	
 }
 
+void JKMainWin::setActivateWindow()
+{
+	Qt::WindowStates winStatus = Qt::WindowNoState;
+	if (windowState() & Qt::WindowMaximized)
+	{
+		winStatus = Qt::WindowMaximized;
+	}
+	setWindowState(Qt::WindowMinimized);
+	setWindowState(Qt::WindowActive | winStatus);
+	setGeometry(curGemRect);
+	activateWindow();
+	raise();
+}
+
 void JKMainWin::showAbout()
 {
 	this->about();
@@ -229,6 +243,32 @@ void JKMainWin::about()
 {
 	JKAbout about(this);
 	about.exec();
+}
+
+void JKMainWin::onSystemTrayIconActive(QSystemTrayIcon::ActivationReason reason)
+{
+	switch (reason)
+	{
+	case QSystemTrayIcon::Trigger:
+// 		systemTrayIcon->showMessage(QStringLiteral("JKStockTool"), 
+// 			QStringLiteral("感谢您的支持......"), QSystemTrayIcon::Information, 1000);
+		break;
+	case QSystemTrayIcon::DoubleClick:
+		this->show();
+		break;
+	default:
+		break;
+	}
+}
+
+void JKMainWin::onExitApp()
+{
+	exit(0);
+}
+
+void JKMainWin::onShowApp()
+{
+	this->show();
 }
 
 void JKMainWin::onTableWgtPopMenu(QPoint pos)
@@ -462,6 +502,9 @@ void JKMainWin::updateInfoWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 
 void JKMainWin::initUI()
 {
+	/** 初始化最新打开工程 */
+	ui.menuRecentOpen->addAction(new QAction("aa"));
+
 	tableWgtPopMenu = new QMenu(ui.tableView);
 	ui.tableView->setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -474,18 +517,6 @@ void JKMainWin::initUI()
 	QAction* actShowDetail = new QAction(QStringLiteral("显示详情"), this);
 	tableWgtPopMenu->addAction(actShowDetail);
 	connect(actShowDetail, SIGNAL(triggered()), this, SLOT(onShowTradeInfo()));
-	/*QAction* actShowBuyOnly = new QAction(QStringLiteral("只显示买入"), this);
-	tableWgtPopMenu->addAction(actShowBuyOnly);
-	connect(actShowBuyOnly, SIGNAL(triggered()), this, SLOT(onShowBuyOnly()));
-	QAction* actShowSellOnly = new QAction(QStringLiteral("只显示卖出"), this);
-	tableWgtPopMenu->addAction(actShowSellOnly);
-	connect(actShowSellOnly, SIGNAL(triggered()), this, SLOT(onShowSellOnly()));
-	QAction* actShowAll = new QAction(QStringLiteral("全部显示"), this);
-	tableWgtPopMenu->addAction(actShowAll);
-	connect(actShowAll, SIGNAL(triggered()), this, SLOT(onShowAll()));*/
-
-	//lblShowCurStock = new QLabel(QStringLiteral("当前显示股票："));
-	//ui.statusBar->addWidget(lblShowCurStock);
 
 	lblLatestPrice = new QLabel(QStringLiteral("当前股票最新交易价："));
 	QPalette p = lblLatestPrice->palette();
@@ -597,6 +628,53 @@ void JKMainWin::stockCodePriceChanged(JKString price)
 
 			emit afterStockCodeChanged(_refStockCode);
 		}
+	}
+}
+
+void JKMainWin::resizeEvent(QResizeEvent*event)
+{
+	curGemRect = geometry();
+
+	QMainWindow::resizeEvent(event);
+}
+
+void JKMainWin::moveEvent(QMoveEvent *event)
+{
+	curGemRect = geometry();
+
+	QMainWindow::moveEvent(event);
+}
+
+void JKMainWin::closeEvent(QCloseEvent * event)
+{
+	if (this->sender() == ui.actExit)
+	{
+		QMainWindow::closeEvent(event);
+	}
+	else
+	{
+		this->hide();
+		if (!systemTrayIcon)
+		{
+			systemTrayIcon = new QSystemTrayIcon(this);
+
+			QIcon icon = QIcon(":/StockTool/JKStockTool.ico");
+			systemTrayIcon->setIcon(icon);
+			systemTrayIcon->setToolTip(QObject::trUtf8("测试系统托盘图标"));
+
+			QMenu* menuTray = new QMenu(this);
+			menuTray->addAction(ui.actShowWindows);
+			menuTray->addSeparator();
+			menuTray->addAction(ui.actExit);
+			systemTrayIcon->setContextMenu(menuTray);
+
+			systemTrayIcon->show();
+
+			connect(ui.actShowWindows, SIGNAL(triggered()), this, SLOT(onShowApp()));
+			connect(systemTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+				this, SLOT(onSystemTrayIconActive(QSystemTrayIcon::ActivationReason)));
+		}
+		event->ignore();
 	}
 }
 
