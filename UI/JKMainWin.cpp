@@ -318,7 +318,7 @@ void JKMainWin::onShowTradeInfo()
 		return;
 
 	JKRef_Ptr<JKStockTradeUtil> refTradeUtil = new JKStockTradeUtil(refProject);
-	JKStockTradeDetail detail(refTradeUtil, _vecRefStockCodeTrade[0], this);
+	JKStockTradeDetail detail(refTradeUtil, _vecRefStockCodeTrade[0]);
 	detail.exec();
 
 }

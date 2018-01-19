@@ -91,6 +91,16 @@
 //
 //}
 
+QString getUrlByCode(QString code)
+{
+	if (code.isEmpty())
+		return "";
+	if (code[0] == '0')
+		return QString("https://gupiao.baidu.com/stock/sz%1.html").arg(code);
+	else 
+		return QString("https://gupiao.baidu.com/stock/sh%1.html").arg(code);
+}
+
 void runCrawlPriceThread(JKCrawlPrice* pCrawlPrice)
 {
 	//JKCrawlPrice* pCrawlPrice = (JKCrawlPrice*)ptr;
@@ -108,7 +118,7 @@ void runCrawlPriceThread(JKCrawlPrice* pCrawlPrice)
 		for (auto var : listStockCodes)
 		{
 			JKRequestWebData requestWebData;
-			QString url = QString("https://gupiao.baidu.com/stock/sh%1.html").arg(var->getCode().c_str());
+			QString url = getUrlByCode(QString::fromStdString(var->getCode()));
 			JKHtmlData* htmlData = requestWebData.getHtmlData(url.toStdString());
 			if (htmlData == nullptr)
 			{
@@ -120,7 +130,6 @@ void runCrawlPriceThread(JKCrawlPrice* pCrawlPrice)
 			JKString strHtmlData = JKString(htmlData->getMemory());
 			strHtmlData = JKStringUtil::UTF8ToANSI(strHtmlData);
 #endif // _DEBUG
-
 
 			JKTagTextContext tagTextContext("strong");
 			if (JKParserHtmlData::parserTagTextAttribute(htmlData, &tagTextContext))

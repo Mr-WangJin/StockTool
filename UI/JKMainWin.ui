@@ -17,6 +17,9 @@
    <iconset resource="../stocktool.qrc">
     <normaloff>:/StockTool/JKStockTool.ico</normaloff>:/StockTool/JKStockTool.ico</iconset>
   </property>
+  <property name="toolTip">
+   <string>炒股工具</string>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="leftMargin">
