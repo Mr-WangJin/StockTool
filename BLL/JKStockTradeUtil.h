@@ -21,6 +21,7 @@ public:
 	//double getTradeSellCost(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL>);
 	//获取预期卖出收益
 	double getExpactEarning(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL>);
+	double getExpactEarning(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL>, size_t count);
 	//获取预期卖出收益百分比
 	double getExpactEarningPercent(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL> refStockCodeTrade);
 	//获取卖出真实收益

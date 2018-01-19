@@ -33,7 +33,7 @@ void JKStockTableModel::setProject(JKRef_Ptr<JKProjectBLL> _refProject)
 
 		for (auto &var : vecRefStockCodeTradeBLLTemp)
 		{
-			if (showType & Show_Buy_Only && var->getType() == TradeType::BUY)
+			if (showType & Show_Buy_Only && (var->getType() == TradeType::BUY || var->getType() == TradeType::PART))
 			{
 				vecRefStockCodeTradeBLL.push_back(var);
 			}
@@ -102,7 +102,7 @@ QVariant JKStockTableModel::data(const QModelIndex & index, int role) const
 		break;
 		case 2:
 		{
-			variant.setValue(var->getCount());
+			variant.setValue(var->getCouldSellCount());
 		}
 		break;
 		case 3:
@@ -162,7 +162,7 @@ QVariant JKStockTableModel::data(const QModelIndex & index, int role) const
 		{
 			if (type == TradeType::SELL)
 				break;
-			double expactEarning = tradeUtil.getExpactEarning(latestPrice, var);
+			double expactEarning = tradeUtil.getExpactEarning(latestPrice, var, var->getCouldSellCount());
 
 			if (expactEarning >= 0)
 			{
@@ -173,6 +173,7 @@ QVariant JKStockTableModel::data(const QModelIndex & index, int role) const
 				variant.setValue(Down_EARNING);
 			}
 		}
+		break;
 		case 8:
 		{
 			if (type == TradeType::BUY)

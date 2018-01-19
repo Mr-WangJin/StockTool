@@ -27,7 +27,7 @@ void JKStockCodeTradeBLL::sell(double sellPrice, size_t sellCount, size_t sellSu
 		return;
 
 	JKStockTradeUtil stockTrackUtil(stampTax, transfer, commission);
-	double expactEarning = stockTrackUtil.getExpactEarning(sellPrice, JKRef_Ptr<JKStockCodeTradeBLL>(this));
+	double expactEarning = stockTrackUtil.getExpactEarning(sellPrice, JKRef_Ptr<JKStockCodeTradeBLL>(this), sellCount);
 	
 	JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = new JKStockCodeTradeItemBLL(refContext);
 	_refStockCodeTradeItem->setParams(sellPrice, sellCount, sellSumCount, stampTax, transfer, commission);
