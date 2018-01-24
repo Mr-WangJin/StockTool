@@ -92,7 +92,14 @@ double JKStockCodeTradeBLL::getBuyPrice()
 
 double JKStockCodeTradeBLL::getSellPrice()
 {
-	return refJKStockCodeTradeModel->sellPrice;
+	double total = .0f;
+	JKUInt64 count = 0;
+	for (auto &var : refJKStockCodeTradeModel->vecSellItem)
+	{
+		total += var->sellCount* var->sellPrice;
+		count += var->sellCount;
+	}
+	return total / count;
 }
 
 double JKStockCodeTradeBLL::getBuyPureCost()

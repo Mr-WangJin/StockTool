@@ -42,10 +42,15 @@ signals:
 	/*void beforeAddedNewStockTrade();
 	void afterAddedNewStockTrade(JKRef_Ptr<JKStockCodeTradeBLL>);*/
 
+	void beforeDeleteStockCode(JKRef_Ptr<JKStockCodeBLL>);
+	void afterDeleteStockCode();
+
+
 	private slots:
 	void newProject();
 	void openProject();
 	void newStockCode();
+	void deleteCurrentStock();
 	void buyStockCode();
 	void sellStockCode();
 	void onSwitchCode();
@@ -74,6 +79,7 @@ signals:
 	void updateUIEnable(JKRef_Ptr<JKProjectBLL>);
 	void updateCmbBoxSwitch(JKRef_Ptr<JKProjectBLL>);
 	void addedCmbBoxSwitch(JKRef_Ptr<JKStockCodeBLL>);
+//	void deleteCmbBoxSwitch(JKRef_Ptr<JKStockCodeBLL>);
 
 	void refreshCrawler(JKRef_Ptr<JKProjectBLL>);
 	void stockCodePriceChanged(JKString);

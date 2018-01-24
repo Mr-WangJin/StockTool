@@ -113,6 +113,11 @@ vector<JKRef_Ptr<JKStockCodeBLL>> JKProjectBLL::getAllStockCode()
 	return vecTrades;
 }
 
+void JKProjectBLL::deleteStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
+{
+	refJKProjectModel->deleteStockCode(_refStockCode->getModel());
+}
+
 float JKProjectBLL::getStampTax()
 {
 	return refJKProjectModel->stampTax;

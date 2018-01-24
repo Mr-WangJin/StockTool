@@ -50,6 +50,8 @@ void JKStockTableModel::setProject(JKRef_Ptr<JKProjectBLL> _refProject)
 void JKStockTableModel::setShowType(TableShowType _showType)
 {
 	showType = _showType;
+
+
 }
 
 JKRef_Ptr<JKStockCodeTradeBLL> JKStockTableModel::getStockTradeByRow(int row)
@@ -102,7 +104,10 @@ QVariant JKStockTableModel::data(const QModelIndex & index, int role) const
 		break;
 		case 2:
 		{
-			variant.setValue(var->getCouldSellCount());
+			if (showType == Show_Sell_Only)
+				variant.setValue(var->getSoldCount());
+			else
+				variant.setValue(var->getCouldSellCount());
 		}
 		break;
 		case 3:
@@ -112,7 +117,10 @@ QVariant JKStockTableModel::data(const QModelIndex & index, int role) const
 		break;
 		case 4:
 		{
-			variant.setValue(tradeUtil.getTradeBuyCostPrice(var));
+			if (showType == Show_Sell_Only)
+				variant.setValue(var->getSellPrice());
+			else
+				variant.setValue(tradeUtil.getTradeBuyCostPrice(var));
 		}
 		break;
 		case 5:
@@ -227,7 +235,10 @@ QVariant JKStockTableModel::headerData(int section, Qt::Orientation orientation,
 		}
 		case 4:
 		{
-			return QVariant(QStringLiteral("成本价"));
+			if (showType == Show_Sell_Only)
+				return QVariant(QStringLiteral("卖出价"));
+			else
+				return QVariant(QStringLiteral("成本价"));
 		}
 		case 5:
 		{

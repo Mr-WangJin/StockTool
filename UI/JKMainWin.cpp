@@ -132,6 +132,27 @@ void JKMainWin::newStockCode()
 	}
 }
 
+void JKMainWin::deleteCurrentStock()
+{
+	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
+	if (_refStockCode.valid() == false)
+		return;
+
+	emit beforeDeleteStockCode(_refStockCode);
+
+	refProject->deleteStockCode(_refStockCode);
+
+	emit afterDeleteStockCode();
+
+	this->updateCmbBoxSwitch(refProject);
+	if (ui.cmbBxSwitch->count() >0 )
+		this->onSwitchCode();
+	else
+	{
+
+	}
+}
+
 void JKMainWin::buyStockCode()
 {
 	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
@@ -535,15 +556,20 @@ void JKMainWin::initUI()
 // 	QStyledItemDelegate* pTableDelegate = new QStyledItemDelegate;
 // 	ui.tableView->setItemDelegate(pTableDelegate);
 
-	connect(ui.actNewStockCode, SIGNAL(triggered()), this, SLOT(newStockCode()));
-	connect(ui.actBuyStock, SIGNAL(triggered()), this, SLOT(buyStockCode()));
-	connect(ui.actSellStock, SIGNAL(triggered()), this, SLOT(sellStockCode()));
+	
+	
 	connect(ui.tableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onTableWgtPopMenu(QPoint)));
 	connect(ui.cmbBxSwitch, SIGNAL(currentIndexChanged(int)), this, SLOT(onSwitchCode()), Qt::UniqueConnection);
 	//connect(ui.pBtnSetCurPrice, SIGNAL(clicked()), this, SLOT(setCurrentStockPrice()));
 	connect(ui.actNewProject, SIGNAL(triggered()), this, SLOT(newProject()));
 	connect(ui.actOpenProject, SIGNAL(triggered()), this, SLOT(openProject()));
 	connect(ui.actExit, SIGNAL(triggered()), this, SLOT(close()));
+	/** ±‡º≠ */
+	connect(ui.actBuyStock, SIGNAL(triggered()), this, SLOT(buyStockCode()));
+	connect(ui.actSellStock, SIGNAL(triggered()), this, SLOT(sellStockCode()));
+	connect(ui.actNewStockCode, SIGNAL(triggered()), this, SLOT(newStockCode()));
+	connect(ui.actDeleteStockCode, SIGNAL(triggered()), this, SLOT(deleteCurrentStock()));
+
 	/** …Ë÷√ */
 	connect(ui.actTaxSetting, SIGNAL(triggered()), this, SLOT(projectTaxSetting()));
 	connect(ui.actCrawlerOpt, SIGNAL(triggered()), this, SLOT(crawlerOptChanged()));
@@ -570,7 +596,6 @@ void JKMainWin::initUI()
 	connect(this, SIGNAL(afterAddedNewStockCode(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(addedCmbBoxSwitch(JKRef_Ptr<JKStockCodeBLL>)));
 	connect(this, SIGNAL(afterAddedNewStockCode(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(updateInputUIEnable(JKRef_Ptr<JKStockCodeBLL>)));
 
-
 }
 
 void JKMainWin::updateCmbBoxSwitch(JKRef_Ptr<JKProjectBLL> _refProject)
@@ -587,9 +612,7 @@ void JKMainWin::updateCmbBoxSwitch(JKRef_Ptr<JKProjectBLL> _refProject)
 		ui.cmbBxSwitch->addItem(QString(var->getName().c_str()), QVariant(QString(var->getCode().c_str())));
 	}
 
-
 	connect(ui.cmbBxSwitch, SIGNAL(currentIndexChanged(int)), this, SLOT(onSwitchCode()));
-
 }
 
 void JKMainWin::addedCmbBoxSwitch(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
@@ -686,6 +709,7 @@ void JKMainWin::updateUIEnable(JKRef_Ptr<JKProjectBLL> _refProject)
 	ui.cmbBxSwitch->setEnabled(bUIEnable);
 
 	ui.actNewStockCode->setEnabled(bUIEnable);
+	ui.actDeleteStockCode->setEnabled(bUIEnable);
 	ui.actTaxSetting->setEnabled(bUIEnable);
 }
 

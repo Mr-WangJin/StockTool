@@ -209,7 +209,6 @@
     </widget>
     <addaction name="actNewProject"/>
     <addaction name="actOpenProject"/>
-    <addaction name="actNewStockCode"/>
     <addaction name="actSave"/>
     <addaction name="separator"/>
     <addaction name="menuRecentOpen"/>
@@ -218,10 +217,13 @@
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
-     <string>录入</string>
+     <string>编辑</string>
     </property>
     <addaction name="actBuyStock"/>
     <addaction name="actSellStock"/>
+    <addaction name="separator"/>
+    <addaction name="actNewStockCode"/>
+    <addaction name="actDeleteStockCode"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -387,6 +389,14 @@
    </property>
    <property name="toolTip">
     <string>显示主界面</string>
+   </property>
+  </action>
+  <action name="actDeleteStockCode">
+   <property name="text">
+    <string>删除当前股票</string>
+   </property>
+   <property name="toolTip">
+    <string>删除当前股票</string>
    </property>
   </action>
  </widget>

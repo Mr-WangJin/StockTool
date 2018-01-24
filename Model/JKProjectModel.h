@@ -23,6 +23,7 @@ class JKProjectModel : public JKBaseModel
 
 public:
 	void addStockCode(bean_ptr<JKStockCodeModel> stockCode);
+	void deleteStockCode(bean_ptr<JKStockCodeModel> stockCode);
 
 public:
 	JKString id;
