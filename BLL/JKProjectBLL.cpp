@@ -115,6 +115,8 @@ vector<JKRef_Ptr<JKStockCodeBLL>> JKProjectBLL::getAllStockCode()
 
 void JKProjectBLL::deleteStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 {
+	if (refCurStockCode == _refStockCode)
+		refCurStockCode = nullptr;
 	refJKProjectModel->deleteStockCode(_refStockCode->getModel());
 }
 

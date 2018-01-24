@@ -122,12 +122,11 @@ void JKMainWin::newStockCode()
 	JKNewStockCodeWgt newStockCodeWgt(refProject);
 	if (QDialog::Accepted == newStockCodeWgt.exec())
 	{
-		emit beforeAddedNewStockCode();
 
 		JKRef_Ptr<JKStockCodeBLL> refCurStockCode = newStockCodeWgt.getStockCode();
 		refProject->setCurStockCode(refCurStockCode);
 
-		emit afterAddedNewStockCode(refCurStockCode);
+		addedNewStockCode(refCurStockCode);
 		emit afterStockCodeChanged(refCurStockCode);
 	}
 }
@@ -138,18 +137,14 @@ void JKMainWin::deleteCurrentStock()
 	if (_refStockCode.valid() == false)
 		return;
 
-	emit beforeDeleteStockCode(_refStockCode);
-
 	refProject->deleteStockCode(_refStockCode);
-
-	emit afterDeleteStockCode();
 
 	this->updateCmbBoxSwitch(refProject);
 	if (ui.cmbBxSwitch->count() >0 )
 		this->onSwitchCode();
 	else
 	{
-
+		onAfterStockChanged(nullptr);
 	}
 }
 
@@ -380,15 +375,6 @@ void JKMainWin::onShowAll(bool checked)
 	this->updateTableWidget();
 }
 
-void JKMainWin::stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
-{
-	if (!_refStockCode.valid())
-		return;
-	this->updateStatusBar(_refStockCode);
-	//ui.trendChartWgt->setStockCode(_refStockCode);
-	this->updateTableWidget();
-}
-
 void JKMainWin::updateTableWidget()
 {
 	tableModel->setProject(refProject);
@@ -465,6 +451,26 @@ void JKMainWin::updateTableWidget()
 // 	}
 // 	ui.tableWidget->sortByColumn(1, Qt::SortOrder::AscendingOrder);
 // 
+}
+
+void JKMainWin::onAfterStockChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
+{
+	//if (_refStockCode.valid())
+	{
+		this->updateInfoWgt(_refStockCode);
+		
+		this->updateStatusBar(_refStockCode);
+		this->updateTableWidget();
+
+		this->updateInputUIEnable(_refStockCode);
+	}
+	
+}
+
+void JKMainWin::addedNewStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
+{
+	addedCmbBoxSwitch(_refStockCode);
+	updateInputUIEnable(_refStockCode);
 }
 
 void JKMainWin::updateInfoWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
@@ -590,12 +596,7 @@ void JKMainWin::initUI()
 	connect(this, SIGNAL(beforeProjectChanged()), this, SLOT(onBeforeProjectChanged()));
 	connect(this, SIGNAL(afterProjectChanged(JKRef_Ptr<JKProjectBLL>)), this, SLOT(onAfterProjectChanged(JKRef_Ptr<JKProjectBLL>)));
 
-	connect(this, SIGNAL(afterStockCodeChanged(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(updateInfoWgt(JKRef_Ptr<JKStockCodeBLL>)));
-	connect(this, SIGNAL(afterStockCodeChanged(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(stockCodeChanged(JKRef_Ptr<JKStockCodeBLL>)));
-	connect(this, SIGNAL(afterStockCodeChanged(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(updateInputUIEnable(JKRef_Ptr<JKStockCodeBLL>)));
-	connect(this, SIGNAL(afterAddedNewStockCode(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(addedCmbBoxSwitch(JKRef_Ptr<JKStockCodeBLL>)));
-	connect(this, SIGNAL(afterAddedNewStockCode(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(updateInputUIEnable(JKRef_Ptr<JKStockCodeBLL>)));
-
+	connect(this, SIGNAL(afterStockCodeChanged(JKRef_Ptr<JKStockCodeBLL>)), this, SLOT(onAfterStockChanged(JKRef_Ptr<JKStockCodeBLL>)));
 }
 
 void JKMainWin::updateCmbBoxSwitch(JKRef_Ptr<JKProjectBLL> _refProject)

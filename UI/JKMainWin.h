@@ -35,16 +35,6 @@ signals:
 	void beforeStockCodeChanged();
 	void afterStockCodeChanged(JKRef_Ptr<JKStockCodeBLL>);
 
-	void beforeAddedNewProject();
-	void afterAddedNewProject(JKRef_Ptr<JKProjectBLL>);
-	void beforeAddedNewStockCode();
-	void afterAddedNewStockCode(JKRef_Ptr<JKStockCodeBLL>);
-	/*void beforeAddedNewStockTrade();
-	void afterAddedNewStockTrade(JKRef_Ptr<JKStockCodeTradeBLL>);*/
-
-	void beforeDeleteStockCode(JKRef_Ptr<JKStockCodeBLL>);
-	void afterDeleteStockCode();
-
 
 	private slots:
 	void newProject();
@@ -72,14 +62,11 @@ signals:
 	void onBeforeProjectChanged();
 	void onAfterProjectChanged(JKRef_Ptr<JKProjectBLL>);
 
-	void stockCodeChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
 	void updateTableWidget();
-	void updateInfoWgt(JKRef_Ptr<JKStockCodeBLL>);
-	void updateInputUIEnable(JKRef_Ptr<JKStockCodeBLL>);
+	void onAfterStockChanged(JKRef_Ptr<JKStockCodeBLL>);
+
 	void updateUIEnable(JKRef_Ptr<JKProjectBLL>);
 	void updateCmbBoxSwitch(JKRef_Ptr<JKProjectBLL>);
-	void addedCmbBoxSwitch(JKRef_Ptr<JKStockCodeBLL>);
-//	void deleteCmbBoxSwitch(JKRef_Ptr<JKStockCodeBLL>);
 
 	void refreshCrawler(JKRef_Ptr<JKProjectBLL>);
 	void stockCodePriceChanged(JKString);
@@ -93,6 +80,12 @@ protected:
 
 private:
 	void initUI();
+	void updateInfoWgt(JKRef_Ptr<JKStockCodeBLL>);
+	void updateInputUIEnable(JKRef_Ptr<JKStockCodeBLL>);
+
+	void addedCmbBoxSwitch(JKRef_Ptr<JKStockCodeBLL>);
+	void addedNewStockCode(JKRef_Ptr<JKStockCodeBLL>);
+
 
 private:
 	Ui::JKMainWin ui;
