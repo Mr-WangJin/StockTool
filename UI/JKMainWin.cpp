@@ -12,6 +12,8 @@
 #include "BLL/JKStockTradeUtil.h"
 #include "JKStockTradeDetail.h"
 #include "JKAbout.h"
+#include "Utils/JKRecentProject.h"
+#include "JKUiContext.h"
 
 
 JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
@@ -99,6 +101,20 @@ void JKMainWin::newProject()
 	}
 }
 
+void JKMainWin::openRecentProject()
+{
+	QAction* pAct = dynamic_cast<QAction*>(sender());
+	if (pAct == nullptr)
+		return;
+
+	emit beforeProjectChanged();
+
+	refProject = JKProjectBLL::openProject(pAct->data().toString().toStdString());
+
+	emit afterProjectChanged(refProject);
+	emit afterStockCodeChanged(refProject->getCurStockCode());
+}
+
 void JKMainWin::openProject()
 {
 	QString fullName = QFileDialog::getOpenFileName(this, QStringLiteral("请选择工程文件......"));
@@ -111,6 +127,11 @@ void JKMainWin::openProject()
 		emit beforeProjectChanged();
 
 		refProject = JKProjectBLL::openProject(fullName.toStdString());
+
+		/** 更新最近打开的项目 */
+		JKRecentProject recentProject(JKSingleton<JKUiContext>::GetInstance().getRecentFilePath());
+		recentProject.addRecentProject(QFileInfo(fullName).baseName().toStdString(), fullName.toStdString());
+		recentProject.saveToFile(JKSingleton<JKUiContext>::GetInstance().getRecentFilePath());
 
 		emit afterProjectChanged(refProject);
 		emit afterStockCodeChanged(refProject->getCurStockCode());
@@ -530,7 +551,17 @@ void JKMainWin::updateInfoWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 void JKMainWin::initUI()
 {
 	/** 初始化最新打开工程 */
-	ui.menuRecentOpen->addAction(new QAction("aa"));
+	JKRecentProject recentProject(JKSingleton<JKUiContext>::GetInstance().getRecentFilePath());
+	int itemCount = recentProject.getCount();
+	for (int i = 0; i< itemCount; ++i)
+	{
+		QAction* pAct = new QAction(QString::fromStdString(recentProject.getNameByIndex(i)));
+		pAct->setData(QString::fromStdString(recentProject.getFilePathByIndex(i)));
+		connect(pAct, SIGNAL(triggered()), this, SLOT(openRecentProject()));
+		ui.menuRecentOpen->addAction(pAct);
+	}
+
+	JKSingleton<JKUiContext>::GetInstance();
 
 	tableWgtPopMenu = new QMenu(ui.tableView);
 	ui.tableView->setContextMenuPolicy(Qt::CustomContextMenu);

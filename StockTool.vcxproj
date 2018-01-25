@@ -302,8 +302,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="UI\JKInfoWgt.cpp" />
     <ClCompile Include="UI\JKMainWin.cpp" />
+    <ClCompile Include="UI\JKUiContext.cpp" />
     <ClCompile Include="UI\JKUiEventDispatcher.cpp" />
     <ClCompile Include="Utils\JKCrawlPrice.cpp" />
+    <ClCompile Include="Utils\JKRecentProject.cpp" />
     <ClCompile Include="Utils\MiniDump\JKMiniDump.cpp" />
     <ClCompile Include="Utils\ThreadUtil\JKThreadUtil.cpp" />
     <ClCompile Include="Utils\XMLParser\JKTagContextBase.cpp" />
@@ -458,6 +460,8 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_CHARTS_LIB -DQT_SQL_LIB -D_MBCS  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I$(CurlDir)\include" "-I$(JKCore)\." "-I$(LibXML2DIR)\include" "-I$(LibiconvDIR)\include" "-I$(JSONCPP_HOME)\include" "-I.\UI" "-I$(HiberliteDir)\include" "-I$(HiberliteDir)\sqlite-amalgamation" "-I$(QTDIR)\include\QtCharts" "-I$(QTDIR)\include\QtSql" "-I$(PythonDir)\include" "-fstdafx.h" "-f../../UI/JKStockTableViewer.h"</Command>
     </CustomBuild>
+    <ClInclude Include="UI\JKUiContext.h" />
+    <ClInclude Include="Utils\JKRecentProject.h" />
     <ClInclude Include="Utils\MiniDump\JKMiniDump.h" />
     <ClInclude Include="Utils\ThreadUtil\JKThreadUtil.h" />
     <ClInclude Include="Utils\XMLParser\JKTagContextBase.h" />

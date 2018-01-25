@@ -289,6 +289,12 @@
     <ClCompile Include="Utils\MiniDump\JKMiniDump.cpp">
       <Filter>Utils\MiniDump</Filter>
     </ClCompile>
+    <ClCompile Include="Utils\JKRecentProject.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\JKUiContext.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\JKMainWin.h">
@@ -477,6 +483,12 @@
     </ClInclude>
     <ClInclude Include="Utils\MiniDump\JKMiniDump.h">
       <Filter>Utils\MiniDump</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\JKRecentProject.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\JKUiContext.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

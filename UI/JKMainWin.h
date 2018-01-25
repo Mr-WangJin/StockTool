@@ -26,7 +26,6 @@ public:
 
 	/** ¼¤»îwindows´°¿Ú */
 	void setActivateWindow();
-	
 
 	void showAbout();
 signals:
@@ -38,6 +37,7 @@ signals:
 
 	private slots:
 	void newProject();
+	void openRecentProject();
 	void openProject();
 	void newStockCode();
 	void deleteCurrentStock();
