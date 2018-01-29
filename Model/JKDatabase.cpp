@@ -175,7 +175,7 @@ void JKDatabase::upgradeDatabase(JKString fullFileName)
 			}
 			if (version < 7)
 			{
-				QString sqlStr = "CREATE TABLE JKProjectSettingModel (hiberlite_id INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, isAlert INTEGER, isStartCrawl INTEGER);";
+				QString sqlStr = "CREATE TABLE JKProjectSettingModel (alertPercent REAL, hiberlite_id INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, isAlert INTEGER, isStartCrawl INTEGER);";
 				QSqlQuery query(_db);
 				query.prepare(sqlStr);
 				if (!query.exec())
