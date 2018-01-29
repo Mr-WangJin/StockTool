@@ -1,6 +1,7 @@
 #pragma once
 #include "JKBaseModel.h"
 #include "JKStockCodeModel.h"
+#include "JKProjectSettingModel.h"
 
 
 class JKProjectModel : public JKBaseModel
@@ -18,6 +19,7 @@ class JKProjectModel : public JKBaseModel
 		ar & HIBERLITE_NVP(stampTax);
 		ar & HIBERLITE_NVP(transfer);
 		ar & HIBERLITE_NVP(commission);
+		ar & HIBERLITE_NVP(projectSetting);
 	}
 
 
@@ -34,8 +36,7 @@ public:
 	float transfer;			//¹ý»§
 	float commission;		//Ó¶½ð
 
-
 	vector<bean_ptr<JKStockCodeModel>> vecStockCode;
-
+	bean_ptr<JKProjectSettingModel> projectSetting;
 };
 

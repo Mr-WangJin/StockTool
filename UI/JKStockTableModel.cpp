@@ -8,7 +8,9 @@
 Q_DECLARE_METATYPE(JKString);
 
 #define UP_EARNING QColor(255, 0, 0, 230)
-#define Down_EARNING QColor(0, 255, 0, 230)
+#define DOWN_EARNING QColor(0, 255, 0, 230)
+
+
 
 JKStockTableModel::JKStockTableModel(JKRef_Ptr<JKProjectBLL> _refProject, QObject* parent/* = nullptr*/)
 	: QAbstractTableModel(parent)
@@ -165,6 +167,10 @@ QVariant JKStockTableModel::data(const QModelIndex & index, int role) const
 
 		switch (index.column())
 		{
+		case 0:
+			
+
+			break;
 		case 5:
 		case 6:
 		{
@@ -178,7 +184,7 @@ QVariant JKStockTableModel::data(const QModelIndex & index, int role) const
 			}
 			else
 			{
-				variant.setValue(Down_EARNING);
+				variant.setValue(DOWN_EARNING);
 			}
 		}
 		break;
@@ -192,7 +198,7 @@ QVariant JKStockTableModel::data(const QModelIndex & index, int role) const
 			}
 			else
 			{
-				variant.setValue(Down_EARNING);
+				variant.setValue(DOWN_EARNING);
 			}
 		}
 		break;

@@ -151,6 +151,7 @@
     <ClCompile Include="BLL\JKBaseBLL.cpp" />
     <ClCompile Include="BLL\JKBLLCommon.cpp" />
     <ClCompile Include="BLL\JKBLLContext.cpp" />
+    <ClCompile Include="BLL\JKProjectSettingBLL.cpp" />
     <ClCompile Include="BLL\JKStockCodeTradeItemBLL.cpp" />
     <ClCompile Include="BLL\JKStockTradeUtil.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_JKAbout.cpp">
@@ -290,6 +291,7 @@
     <ClCompile Include="Model\JKBaseModel.cpp" />
     <ClCompile Include="Model\JKModelFactory.cpp" />
     <ClCompile Include="Model\JKProjectModel.cpp" />
+    <ClCompile Include="Model\JKProjectSettingModel.cpp" />
     <ClCompile Include="Model\JKProjectVersionModel.cpp" />
     <ClCompile Include="Model\JKStockCodeModel.cpp" />
     <ClCompile Include="Model\JKStockCodeSettingModel.cpp" />
@@ -388,6 +390,7 @@
     <ClInclude Include="BLL\JKBaseBLL.h" />
     <ClInclude Include="BLL\JKBLLCommon.h" />
     <ClInclude Include="BLL\JKBLLContext.h" />
+    <ClInclude Include="BLL\JKProjectSettingBLL.h" />
     <ClInclude Include="BLL\JKStockCodeTradeItemBLL.h" />
     <ClInclude Include="BLL\JKStockTradeUtil.h" />
     <ClInclude Include="GeneratedFiles\ui_JKAbout.h" />
@@ -408,6 +411,7 @@
     <ClInclude Include="Model\JKBaseModel.h" />
     <ClInclude Include="Model\JKModelFactory.h" />
     <ClInclude Include="Model\JKProjectModel.h" />
+    <ClInclude Include="Model\JKProjectSettingModel.h" />
     <ClInclude Include="Model\JKProjectVersionModel.h" />
     <ClInclude Include="Model\JKStockCodeModel.h" />
     <ClInclude Include="Model\JKStockCodeSettingModel.h" />

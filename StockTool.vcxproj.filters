@@ -289,6 +289,12 @@
     <ClCompile Include="UI\JKSetTradeProperty.cpp">
       <Filter>UI\Setting</Filter>
     </ClCompile>
+    <ClCompile Include="Model\JKProjectSettingModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="BLL\JKProjectSettingBLL.cpp">
+      <Filter>BLL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\JKMainWin.h">
@@ -492,6 +498,12 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_JKSetTradeProperty.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\JKProjectSettingModel.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="BLL\JKProjectSettingBLL.h">
+      <Filter>BLL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

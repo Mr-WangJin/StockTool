@@ -60,7 +60,7 @@ void JKMainWin::setActivateWindow()
 	}
 	setWindowState(Qt::WindowMinimized);
 	setWindowState(Qt::WindowActive | winStatus);
-	setGeometry(curGemRect);
+	//setGeometry(curGemRect);
 	activateWindow();
 	raise();
 }
@@ -234,7 +234,8 @@ void JKMainWin::onSwitchCode()
 				crawlPrice->clearStoclCode();
 				crawlPrice->addStockCode(var);
 			}
-			lblLatestPrice->setText(QStringLiteral("当前股票最新交易价："));
+			
+			lblLatestPrice->setText(QString("%1%2").arg(QStringLiteral("当前股票最新交易价：")).arg(var->getLatestPrice()));
 
 			break;
 		}
@@ -505,6 +506,11 @@ void JKMainWin::onAfterStockChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 		this->updateTableWidget();
 
 		this->updateInputUIEnable(_refStockCode);
+
+		if (systemTrayIcon)
+		{
+			systemTrayIcon->setToolTip(QString("JKStockTool\n%1%2").arg(QStringLiteral("最新价：")).arg(_refStockCode->getLatestPrice()));
+		}
 	}
 	
 }
@@ -704,6 +710,9 @@ void JKMainWin::stockCodePriceChanged(JKString price)
 			_refStockCode->setLatestPrice(laterPrice);
 
 			emit afterStockCodeChanged(_refStockCode);
+
+			this->activateWindow();
+			this->raise();
 		}
 	}
 }
@@ -734,10 +743,9 @@ void JKMainWin::closeEvent(QCloseEvent * event)
 		if (!systemTrayIcon)
 		{
 			systemTrayIcon = new QSystemTrayIcon(this);
-
+			systemTrayIcon->setToolTip(QStringLiteral("JKStockTool"));
 			QIcon icon = QIcon(":/StockTool/JKStockTool.ico");
 			systemTrayIcon->setIcon(icon);
-			systemTrayIcon->setToolTip(QObject::trUtf8("测试系统托盘图标"));
 
 			QMenu* menuTray = new QMenu(this);
 			menuTray->addAction(ui.actShowWindows);
