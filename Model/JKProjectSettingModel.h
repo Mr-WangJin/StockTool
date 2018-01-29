@@ -12,12 +12,14 @@ class JKProjectSettingModel : public JKBaseModel
 		ar & HIBERLITE_NVP(id);
 		ar & HIBERLITE_NVP(isStartCrawl);
 		ar & HIBERLITE_NVP(isAlert);
+		ar & HIBERLITE_NVP(alertPercent);
 	}
 
 
 public:
 	JKString id;
-	int isStartCrawl;
-	int isAlert;
+	int isStartCrawl = 0;
+	int isAlert = 0;
+	double alertPercent = 0.05f;
 };
 

@@ -44,6 +44,7 @@ bool JKDatabase::newDatabase(JKString fileName)
 
 		db->registerBeanClass<JKProjectVersionModel>();
 		db->registerBeanClass<JKProjectModel>();
+		db->registerBeanClass<JKProjectSettingModel>();
 		db->registerBeanClass<JKStockCodeModel>();
 		db->registerBeanClass<JKStockCodeSettingModel>();
 		db->registerBeanClass<JKStockCodeTradeModel>();
@@ -73,6 +74,7 @@ bool JKDatabase::openDatabase(JKString fullName)
 
 		db->registerBeanClass<JKProjectVersionModel>();
 		db->registerBeanClass<JKProjectModel>();
+		db->registerBeanClass<JKProjectSettingModel>();
 		db->registerBeanClass<JKStockCodeModel>();
 		db->registerBeanClass<JKStockCodeSettingModel>();
 		db->registerBeanClass<JKStockCodeTradeModel>();
@@ -171,7 +173,24 @@ void JKDatabase::upgradeDatabase(JKString fullFileName)
 					throw std::exception(error.c_str());
 				}
 			}
-
+			if (version < 7)
+			{
+				QString sqlStr = "CREATE TABLE JKProjectSettingModel (hiberlite_id INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, isAlert INTEGER, isStartCrawl INTEGER);";
+				QSqlQuery query(_db);
+				query.prepare(sqlStr);
+				if (!query.exec())
+				{
+					JKString error = "create table JKProjectSettingModel is error! " + query.lastError().text().toStdString();
+					throw std::exception(error.c_str());
+				}
+				sqlStr = "alter table JKProjectModel add column projectSetting_id integer default -1;";
+				query.prepare(sqlStr);
+				if (!query.exec())
+				{
+					JKString error = "add projectSetting_id Field error! " + query.lastError().text().toStdString();
+					throw std::exception(error.c_str());
+				}
+			}
 
 			// 更新数据表格式版本号
 			QString querySqlStr = QString("update JKProjectVersionModel Set version = %1").arg(maxVersion);

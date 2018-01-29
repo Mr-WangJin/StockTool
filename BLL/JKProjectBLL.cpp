@@ -5,6 +5,7 @@
 #include "JKStockCodeTradeBLL.h"
 #include "Model/JKModelFactory.h"
 #include "JKBLLContext.h"
+#include "JKProjectSettingBLL.h"
 
 
 JKProjectBLL::JKProjectBLL(ProjectInitStatus status)
@@ -34,6 +35,8 @@ JKRef_Ptr<JKProjectBLL> JKProjectBLL::newProject(const JKString &fileName)
 	if (JKSingleton<JKDatabase>::GetInstance().newDatabase(fileName))
 	{
 		JKRef_Ptr<JKProjectBLL> refProjectBLL = new JKProjectBLL(JKProjectBLL::ProjectInitStatus::DEFAULT_FirstOrNew);
+		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = new JKProjectSettingBLL();
+		refProjectBLL->setProjectSetting(_refProjectSetting);
 
 		return refProjectBLL;
 	}
@@ -100,6 +103,11 @@ JKRef_Ptr<JKStockCodeBLL> JKProjectBLL::getCurStockCode()
 	return refCurStockCode;
 }
 
+void JKProjectBLL::setProjectSetting(JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting)
+{
+	refJKProjectModel->projectSetting = _refProjectSetting->getModel();
+}
+
 vector<JKRef_Ptr<JKStockCodeBLL>> JKProjectBLL::getAllStockCode()
 {
 	vector<JKRef_Ptr<JKStockCodeBLL>> vecTrades;
@@ -111,6 +119,18 @@ vector<JKRef_Ptr<JKStockCodeBLL>> JKProjectBLL::getAllStockCode()
 	}
 
 	return vecTrades;
+}
+
+JKRef_Ptr<JKProjectSettingBLL> JKProjectBLL::getProjectSetting()
+{
+	if (refJKProjectModel->projectSetting.get_id() == -1)
+	{
+		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = new JKProjectSettingBLL();
+		refJKProjectModel->projectSetting = _refProjectSetting->getModel();
+	}
+
+	JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = new JKProjectSettingBLL(refJKProjectModel->projectSetting, refContext);
+	return _refProjectSetting;
 }
 
 void JKProjectBLL::deleteStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode)

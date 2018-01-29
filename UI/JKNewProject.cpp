@@ -2,6 +2,7 @@
 #include "JKNewProject.h"
 #include "BLL\JKProjectBLL.h"
 #include "BLL\JKStockCodeBLL.h"
+#include "BLL\JKProjectSettingBLL.h"
 
 JKNewProject::JKNewProject(QWidget *parent)
 	: QDialog(parent)
@@ -31,12 +32,20 @@ double JKNewProject::getCommission()
 	return ui.dSpBxCommission->value() / 1000.0f;
 }
 
+double JKNewProject::getAlertPercent()
+{
+	return ui.dSpBxAlertPercent->value() / 100.0f;
+}
+
 void JKNewProject::setProject(JKRef_Ptr<JKProjectBLL> _refProject)
 {
 	assert(_refProject.valid());
 	ui.dSpBxStampTax->setValue(_refProject->getStampTax() * 1000.0f);
 	ui.dSpBxCommission->setValue(_refProject->getCommission() * 1000.0f);
 	ui.dSpBxTransfer->setValue(_refProject->getTransfer()* 1000.0f);
+	
+	JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = _refProject->getProjectSetting();
+	ui.dSpBxAlertPercent->setValue(_refProjectSetting->getAlertPercent()*100.0f);
 }
 
 void JKNewProject::onOkClick()

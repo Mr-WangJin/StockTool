@@ -30,6 +30,9 @@ public:
 	JKRef_Ptr<JKStockCodeBLL> getCurStockCode();
 	vector<JKRef_Ptr<JKStockCodeBLL>> getAllStockCode();
 
+	void setProjectSetting(JKRef_Ptr<JKProjectSettingBLL>);
+	JKRef_Ptr<JKProjectSettingBLL> getProjectSetting();
+
 	void deleteStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
 	//获取印花税
 	float getStampTax();

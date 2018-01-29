@@ -47,7 +47,8 @@ signals:
 	void onSwitchCode();
 	void projectTaxSetting();
 	void setTradeProperty();
-	void crawlerOptChanged();
+	void crawlerOptChanged(bool);
+	void alertChanged(bool);
 	void about();
 	void onSystemTrayIconActive(QSystemTrayIcon::ActivationReason);
 	void onExitApp();

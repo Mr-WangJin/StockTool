@@ -11,7 +11,15 @@ class JKProjectSettingBLL : public JKBaseBLL
 	JK_BLL_INIT(JKProjectSetting);
 
 public:
+	JKProjectSettingBLL();
 
-	
+	bool getIsStartCrawl();
+	void setIsStartCrawl(bool);
+
+	bool getIsAlert();
+	void setIsAlert(bool);
+
+	double getAlertPercent();
+	void setAlertPercent(double _alertPercent);
 };
 

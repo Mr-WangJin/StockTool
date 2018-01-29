@@ -230,6 +230,7 @@
     </property>
     <addaction name="actTaxSetting"/>
     <addaction name="actCrawlerOpt"/>
+    <addaction name="actAlert"/>
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="title">
@@ -407,6 +408,17 @@
    </property>
    <property name="toolTip">
     <string>设置交易属性</string>
+   </property>
+  </action>
+  <action name="actAlert">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>是否预警</string>
+   </property>
+   <property name="toolTip">
+    <string>是否预警</string>
    </property>
   </action>
  </widget>

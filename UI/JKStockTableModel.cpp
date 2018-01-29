@@ -31,7 +31,8 @@ void JKStockTableModel::setProject(JKRef_Ptr<JKProjectBLL> _refProject)
 	refProject = _refProject;
 	if (refProject.valid() && refProject->getCurStockCode().valid())
 	{
-		vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecRefStockCodeTradeBLLTemp = refProject->getCurStockCode()->getAllTrades();
+		vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecRefStockCodeTradeBLLTemp;
+		refProject->getCurStockCode()->getAllTrades(vecRefStockCodeTradeBLLTemp);
 
 		for (auto &var : vecRefStockCodeTradeBLLTemp)
 		{

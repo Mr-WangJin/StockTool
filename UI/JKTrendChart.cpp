@@ -32,7 +32,8 @@ void JKTrendChart::updateTrendChart()
 	if (!refStockCode.valid())
 		return;
 
-	vector<JKRef_Ptr<JKStockCodeTradeBLL>> _refStockCodeTradeBLL = refStockCode->getAllTrades();
+	vector<JKRef_Ptr<JKStockCodeTradeBLL>> _refStockCodeTradeBLL;
+	refStockCode->getAllTrades(_refStockCodeTradeBLL);
 
 	chart->removeAllSeries();
 	

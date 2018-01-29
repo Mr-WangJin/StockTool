@@ -15,6 +15,7 @@
 #include "Utils/JKRecentProject.h"
 #include "JKUiContext.h"
 #include "JKSetTradeProperty.h"
+#include "BLL/JKProjectSettingBLL.h"
 
 
 JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
@@ -102,6 +103,9 @@ void JKMainWin::newProject()
 			refProject->setStampTax(newProject.getStampTax());
 			refProject->setTransfer(newProject.getTransfer());
 			refProject->setCommission(newProject.getCommission());
+
+			JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = refProject->getProjectSetting();
+			_refProjectSetting->setAlertPercent(newProject.getAlertPercent());
 
 			emit afterProjectChanged(refProject);
 		}
@@ -287,14 +291,28 @@ void JKMainWin::setTradeProperty()
 	dlg.exec();
 }
 
-void JKMainWin::crawlerOptChanged()
+void JKMainWin::crawlerOptChanged(bool checked)
 {
+	if (refProject)
+	{
+		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = refProject->getProjectSetting();
+		_refProjectSetting->setIsStartCrawl(checked);
+	}
 	if (crawlPrice)
 	{
-		if (ui.actCrawlerOpt->isChecked())
+		if (checked)
 			crawlPrice->startRunCraw();
 		else
 			crawlPrice->stopRunCraw();
+	}
+}
+
+void JKMainWin::alertChanged(bool checked)
+{
+	if (refProject)
+	{
+		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = refProject->getProjectSetting();
+		_refProjectSetting->setIsAlert(checked);
 	}
 }
 
@@ -393,7 +411,27 @@ void JKMainWin::onAfterProjectChanged(JKRef_Ptr<JKProjectBLL> _refProject)
 	updateCmbBoxSwitch(_refProject);
 	refreshCrawler(_refProject);
 	this->updateTableWidget();
-	//crawlerOptChanged();
+
+	if (_refProject == nullptr)
+		return;
+	JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = _refProject->getProjectSetting();
+	if (_refProjectSetting->getIsStartCrawl())
+	{
+		ui.actCrawlerOpt->setChecked(Qt::Checked);
+	}
+	else
+	{
+		ui.actCrawlerOpt->setChecked(Qt::Unchecked);
+	}
+
+	if (_refProjectSetting->getIsAlert())
+	{
+		ui.actAlert->setChecked(Qt::Checked);
+	}
+	else
+	{
+		ui.actAlert->setChecked(Qt::Unchecked);
+	}
 }
 
 void JKMainWin::onShowBuyOnly(bool checked)
@@ -535,7 +573,9 @@ void JKMainWin::updateInfoWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 		double latestPrice = _refStockCode->getLatestPrice();
 
 		JKStockTradeUtil trackUtil(refProject);
-		for (auto &var : _refStockCode->getAllTrades())
+		std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecStockCodeTrade;
+		_refStockCode->getAllTrades(_vecStockCodeTrade);
+		for (auto &var : _vecStockCodeTrade)
 		{
 			if (TradeType::BUY == var->getType())
 			{
@@ -637,7 +677,8 @@ void JKMainWin::initUI()
 
 	/** ÉèÖÃ */
 	connect(ui.actTaxSetting, SIGNAL(triggered()), this, SLOT(projectTaxSetting()));
-	connect(ui.actCrawlerOpt, SIGNAL(triggered()), this, SLOT(crawlerOptChanged()));
+	connect(ui.actCrawlerOpt, SIGNAL(toggled(bool)), this, SLOT(crawlerOptChanged(bool)));
+	connect(ui.actAlert, SIGNAL(toggled(bool)), this, SLOT(alertChanged(bool)));
 	/** ÏÔÊ¾ */
 	connect(ui.actOnlyShowBuy, SIGNAL(triggered(bool)), this, SLOT(onShowBuyOnly(bool)));
 	connect(ui.actOnlyShowSold, SIGNAL(triggered(bool)), this, SLOT(onShowSellOnly(bool)));
@@ -711,8 +752,32 @@ void JKMainWin::stockCodePriceChanged(JKString price)
 
 			emit afterStockCodeChanged(_refStockCode);
 
-			this->activateWindow();
-			this->raise();
+			JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = refProject->getProjectSetting();
+			if (_refProjectSetting->getIsAlert())
+			{
+				vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecRefStockCodeTradeBLLTemp;
+				_refStockCode->getTradesByType((int)TradeType::BUY | (int)TradeType::PART, vecRefStockCodeTradeBLLTemp);
+				if (vecRefStockCodeTradeBLLTemp.size() > 0)
+				{
+					std::sort(vecRefStockCodeTradeBLLTemp.begin(), vecRefStockCodeTradeBLLTemp.end(),
+						[&](JKRef_Ptr<JKStockCodeTradeBLL> first, JKRef_Ptr<JKStockCodeTradeBLL> second) ->bool {
+						bool bSort = false;
+
+						if (first->getDate() == second->getDate())
+							return false;
+						bSort = first->getDate() > second->getDate();
+						return bSort;
+					});
+					double percent = (vecRefStockCodeTradeBLLTemp[0]->getBuyPrice() - laterPrice)/ vecRefStockCodeTradeBLLTemp[0]->getBuyPrice();
+					percent = fabs(percent);
+					if (percent > _refProjectSetting->getAlertPercent())
+					{
+						this->show();
+						this->activateWindow();
+						this->raise();
+					}
+				}
+			}
 		}
 	}
 }

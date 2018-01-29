@@ -19,7 +19,9 @@ public:
 
 	void setLatestPrice(double latestPrice);
 
-	vector<JKRef_Ptr<JKStockCodeTradeBLL>> getAllTrades();
+	void getAllTrades(vector<JKRef_Ptr<JKStockCodeTradeBLL>> &_vecStockTrade);
+	void getTradesByType(int type, vector<JKRef_Ptr<JKStockCodeTradeBLL>> &_vecStockTrade);
+	
 	JKRef_Ptr<JKStockCodeTradeBLL> getStockTradeById(const JKString &id);
 	bool batchSellTrade(std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecStockTrade, size_t sellCount, float sellPrice);
 
