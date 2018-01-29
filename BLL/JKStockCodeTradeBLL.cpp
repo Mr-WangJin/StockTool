@@ -41,6 +41,14 @@ TradeType JKStockCodeTradeBLL::getType()
 {
 	return (TradeType)refJKStockCodeTradeModel->type;
 }
+HoldStockType JKStockCodeTradeBLL::getHoldType()
+{
+	return (HoldStockType)refJKStockCodeTradeModel->holdType;
+}
+void JKStockCodeTradeBLL::setHoldType(HoldStockType type)
+{
+	refJKStockCodeTradeModel->holdType = (int)type;
+}
 void JKStockCodeTradeBLL::updateType()
 {
 	int couldSellCount = this->getCouldSellCount();

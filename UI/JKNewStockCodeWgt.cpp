@@ -8,6 +8,7 @@ JKNewStockCodeWgt::JKNewStockCodeWgt(JKRef_Ptr<JKProjectBLL> project, QWidget *p
 	, refProject(project)
 {
 	ui.setupUi(this);
+	this->setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint | Qt::WindowMinMaxButtonsHint);
 
 	connect(ui.pBtnOK, SIGNAL(clicked()), this, SLOT(slotOKClicked()));
 }

@@ -14,6 +14,7 @@
 #include "JKAbout.h"
 #include "Utils/JKRecentProject.h"
 #include "JKUiContext.h"
+#include "JKSetTradeProperty.h"
 
 
 JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
@@ -25,6 +26,7 @@ JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
 	ui.trendChartWgt->setVisible(false);
 	refProject = nullptr;
 
+	JKSingleton<JKUiContext>::GetInstance().setMainWin(this);
 	this->initUI();
 	this->updateInputUIEnable(nullptr);
 	
@@ -66,6 +68,11 @@ void JKMainWin::setActivateWindow()
 void JKMainWin::showAbout()
 {
 	this->about();
+}
+
+JKRef_Ptr<JKProjectBLL> JKMainWin::getProjectBLL()
+{
+	return refProject;
 }
 
 void JKMainWin::newProject()
@@ -263,6 +270,20 @@ void JKMainWin::projectTaxSetting()
 
 		emit afterProjectChanged(refProject);
 	}
+}
+
+void JKMainWin::setTradeProperty()
+{
+	vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecRefStockCodeTrade;
+	ui.tableView->getSelectedStockTrade(_vecRefStockCodeTrade);
+
+	if (_vecRefStockCodeTrade.size() == 0)
+		return;
+
+
+	JKSetTradeProperty dlg(this);
+	dlg.setStockCodeTrade(_vecRefStockCodeTrade[0]);
+	dlg.exec();
 }
 
 void JKMainWin::crawlerOptChanged()
@@ -575,6 +596,8 @@ void JKMainWin::initUI()
 	QAction* actShowDetail = new QAction(QStringLiteral("显示详情"), this);
 	tableWgtPopMenu->addAction(actShowDetail);
 	connect(actShowDetail, SIGNAL(triggered()), this, SLOT(onShowTradeInfo()));
+	tableWgtPopMenu->addAction(ui.actSetProperty);
+	connect(ui.actSetProperty, SIGNAL(triggered()), this, SLOT(setTradeProperty()));
 
 	lblLatestPrice = new QLabel(QStringLiteral("当前股票最新交易价："));
 	QPalette p = lblLatestPrice->palette();
@@ -597,7 +620,6 @@ void JKMainWin::initUI()
 	
 	connect(ui.tableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onTableWgtPopMenu(QPoint)));
 	connect(ui.cmbBxSwitch, SIGNAL(currentIndexChanged(int)), this, SLOT(onSwitchCode()), Qt::UniqueConnection);
-	//connect(ui.pBtnSetCurPrice, SIGNAL(clicked()), this, SLOT(setCurrentStockPrice()));
 	connect(ui.actNewProject, SIGNAL(triggered()), this, SLOT(newProject()));
 	connect(ui.actOpenProject, SIGNAL(triggered()), this, SLOT(openProject()));
 	connect(ui.actExit, SIGNAL(triggered()), this, SLOT(close()));

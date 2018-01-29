@@ -22,6 +22,8 @@ public:
 	void sell(double sellPrice, size_t sellCount, size_t sellSumCount, float stampTax, float transfer, float commission);
 
 	TradeType getType();
+	HoldStockType getHoldType();
+	void setHoldType(HoldStockType type);
 	JKString getDate();
 	JKUInt64 getCount();
 	//获取已经卖出的数量

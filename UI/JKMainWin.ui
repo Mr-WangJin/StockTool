@@ -221,7 +221,6 @@
     </property>
     <addaction name="actBuyStock"/>
     <addaction name="actSellStock"/>
-    <addaction name="separator"/>
     <addaction name="actNewStockCode"/>
     <addaction name="actDeleteStockCode"/>
    </widget>
@@ -397,6 +396,17 @@
    </property>
    <property name="toolTip">
     <string>删除当前股票</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actSetProperty">
+   <property name="text">
+    <string>设置交易属性</string>
+   </property>
+   <property name="toolTip">
+    <string>设置交易属性</string>
    </property>
   </action>
  </widget>

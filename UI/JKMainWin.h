@@ -28,6 +28,7 @@ public:
 	void setActivateWindow();
 
 	void showAbout();
+	JKRef_Ptr<JKProjectBLL> getProjectBLL();
 signals:
 	void beforeProjectChanged();
 	void afterProjectChanged(JKRef_Ptr<JKProjectBLL>);
@@ -44,8 +45,8 @@ signals:
 	void buyStockCode();
 	void sellStockCode();
 	void onSwitchCode();
-	void setCurrentStockPrice();
 	void projectTaxSetting();
+	void setTradeProperty();
 	void crawlerOptChanged();
 	void about();
 	void onSystemTrayIconActive(QSystemTrayIcon::ActivationReason);
@@ -62,12 +63,7 @@ signals:
 	void onBeforeProjectChanged();
 	void onAfterProjectChanged(JKRef_Ptr<JKProjectBLL>);
 
-	void updateTableWidget();
 	void onAfterStockChanged(JKRef_Ptr<JKStockCodeBLL>);
-
-	void updateUIEnable(JKRef_Ptr<JKProjectBLL>);
-	void updateCmbBoxSwitch(JKRef_Ptr<JKProjectBLL>);
-
 	void refreshCrawler(JKRef_Ptr<JKProjectBLL>);
 	void stockCodePriceChanged(JKString);
 
@@ -82,10 +78,14 @@ private:
 	void initUI();
 	void updateInfoWgt(JKRef_Ptr<JKStockCodeBLL>);
 	void updateInputUIEnable(JKRef_Ptr<JKStockCodeBLL>);
+	void updateUIEnable(JKRef_Ptr<JKProjectBLL>);
+	void updateCmbBoxSwitch(JKRef_Ptr<JKProjectBLL>);
+	void updateTableWidget();
 
 	void addedCmbBoxSwitch(JKRef_Ptr<JKStockCodeBLL>);
 	void addedNewStockCode(JKRef_Ptr<JKStockCodeBLL>);
 
+	void setCurrentStockPrice();
 
 private:
 	Ui::JKMainWin ui;
@@ -101,7 +101,6 @@ private:
 	JKRef_Ptr<JKProjectBLL> refProject;
 
 	JKCrawlPrice* crawlPrice = nullptr;
-	//TableShowType tbShowType;
 
 
 };

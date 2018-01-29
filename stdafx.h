@@ -26,3 +26,10 @@ enum class TradeType
 	PART = 1 << 2,
 
 };
+
+enum class HoldStockType
+{
+	LONG_TIME,
+	MID_TIME,
+	SHORT_TIME
+};

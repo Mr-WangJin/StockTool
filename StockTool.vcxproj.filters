@@ -34,21 +34,6 @@
     <Filter Include="UI\Setting">
       <UniqueIdentifier>{a68ca047-e021-4239-a765-2319c2ef63df}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;cxx;c;def</Extensions>
-      <ParseFiles>true</ParseFiles>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h</Extensions>
-      <ParseFiles>true</ParseFiles>
-    </Filter>
-    <Filter Include="Form Files">
-      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
-      <Extensions>ui</Extensions>
-      <ParseFiles>true</ParseFiles>
-    </Filter>
     <Filter Include="Utils">
       <UniqueIdentifier>{4df405c4-5949-4226-850c-92081e9193b8}</UniqueIdentifier>
     </Filter>
@@ -295,6 +280,15 @@
     <ClCompile Include="UI\JKUiContext.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_JKSetTradeProperty.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_JKSetTradeProperty.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\JKSetTradeProperty.cpp">
+      <Filter>UI\Setting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\JKMainWin.h">
@@ -369,6 +363,12 @@
     </CustomBuild>
     <CustomBuild Include="UI\JKStockTableViewer.h">
       <Filter>UI</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKSetTradeProperty.ui">
+      <Filter>UI\Setting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKSetTradeProperty.h">
+      <Filter>UI\Setting</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -489,6 +489,9 @@
     </ClInclude>
     <ClInclude Include="UI\JKUiContext.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_JKSetTradeProperty.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

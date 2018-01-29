@@ -7,7 +7,8 @@ JKNewProject::JKNewProject(QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
-	
+	this->setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint | Qt::WindowMinMaxButtonsHint);
+
 	connect(ui.pBtnOK, SIGNAL(clicked()), this, SLOT(onOkClick()));
 	connect(ui.pBtnCancel, SIGNAL(clicked()), this, SLOT(onCancelClick()));
 }

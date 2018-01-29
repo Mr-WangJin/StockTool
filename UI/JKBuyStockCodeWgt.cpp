@@ -35,6 +35,7 @@ void JKBuyStockCodeWgt::okClicked()
 
 	refStockCodeTrade = refStockCode->newStockCodeTrade();
 	refStockCodeTrade->setParams(TradeType::BUY, buyDate.toStdString(), count, price);
+	refStockCodeTrade->setHoldType(HoldStockType::SHORT_TIME);
 
 	this->accept();
 
