@@ -421,19 +421,23 @@ void JKMainWin::onAfterProjectChanged(JKRef_Ptr<JKProjectBLL> _refProject)
 	if (_refProjectSetting->getIsStartCrawl())
 	{
 		ui.actCrawlerOpt->setChecked(Qt::Checked);
+		crawlerOptChanged(true);
 	}
 	else
 	{
 		ui.actCrawlerOpt->setChecked(Qt::Unchecked);
+		crawlerOptChanged(false);
 	}
 
 	if (_refProjectSetting->getIsAlert())
 	{
 		ui.actAlert->setChecked(Qt::Checked);
+		alertChanged(true);
 	}
 	else
 	{
 		ui.actAlert->setChecked(Qt::Unchecked);
+		alertChanged(false);
 	}
 }
 
@@ -680,8 +684,8 @@ void JKMainWin::initUI()
 
 	/** …Ë÷√ */
 	connect(ui.actTaxSetting, SIGNAL(triggered()), this, SLOT(projectTaxSetting()));
-	connect(ui.actCrawlerOpt, SIGNAL(toggled(bool)), this, SLOT(crawlerOptChanged(bool)));
-	connect(ui.actAlert, SIGNAL(toggled(bool)), this, SLOT(alertChanged(bool)));
+	connect(ui.actCrawlerOpt, SIGNAL(triggered(bool)), this, SLOT(crawlerOptChanged(bool)));
+	connect(ui.actAlert, SIGNAL(triggered(bool)), this, SLOT(alertChanged(bool)));
 	/** œ‘ æ */
 	connect(ui.actOnlyShowBuy, SIGNAL(triggered(bool)), this, SLOT(onShowBuyOnly(bool)));
 	connect(ui.actOnlyShowSold, SIGNAL(triggered(bool)), this, SLOT(onShowSellOnly(bool)));

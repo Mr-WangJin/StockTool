@@ -171,6 +171,7 @@ JKCrawlPrice::~JKCrawlPrice()
 	if (!bIsStartCraw)
 		this->startRunCraw();
 	threadCrawler[0].join();
+	JK_FreeAndNullptr(varIsDelete);
 }
 
 const std::list<JKRef_Ptr<JKStockCodeBLL>>& JKCrawlPrice::getStockCodes()

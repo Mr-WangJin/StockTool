@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "JKStockTool"
-#define MyAppVersion "0.0.1"
+#define MyAppVersion "0.7.1"
 #define MyAppPublisher "JK, Inc."
 #define MyAppExeName "JKStockTool.exe"
 
