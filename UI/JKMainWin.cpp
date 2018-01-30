@@ -273,6 +273,9 @@ void JKMainWin::projectTaxSetting()
 		refProject->setTransfer(newProject.getTransfer());
 		refProject->setCommission(newProject.getCommission());
 
+		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = refProject->getProjectSetting();
+		_refProjectSetting->setAlertPercent(newProject.getAlertPercent());
+
 		emit afterProjectChanged(refProject);
 	}
 }
@@ -402,7 +405,7 @@ void JKMainWin::onShowTradeInfo()
 
 void JKMainWin::onBeforeProjectChanged()
 {
-	ui.actCrawlerOpt->setChecked(false);
+	//ui.actCrawlerOpt->setChecked(false);
 }
 
 void JKMainWin::onAfterProjectChanged(JKRef_Ptr<JKProjectBLL> _refProject)
@@ -740,15 +743,15 @@ void JKMainWin::refreshCrawler(JKRef_Ptr<JKProjectBLL> _refProject)
 
 void JKMainWin::stockCodePriceChanged(JKString price)
 {
-	float laterPrice = QString(price.c_str()).toFloat();
+	float latestPrice = QString(price.c_str()).toFloat();
 	if (refProject.valid())
 	{
 		JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
 		if (_refStockCode.valid())
 		{
-			if (_refStockCode->getLatestPrice() == laterPrice)
+			if (_refStockCode->getLatestPrice() == latestPrice)
 				return;
-			_refStockCode->setLatestPrice(laterPrice);
+			_refStockCode->setLatestPrice(latestPrice);
 
 			emit afterStockCodeChanged(_refStockCode);
 
@@ -768,7 +771,8 @@ void JKMainWin::stockCodePriceChanged(JKString price)
 						bSort = first->getDate() > second->getDate();
 						return bSort;
 					});
-					double percent = (vecRefStockCodeTradeBLLTemp[0]->getBuyPrice() - laterPrice)/ vecRefStockCodeTradeBLLTemp[0]->getBuyPrice();
+					JKStockTradeUtil tradeUtil(refProject);
+					double percent = tradeUtil.getExpactEarningPercent(latestPrice, vecRefStockCodeTradeBLLTemp[0]);
 					percent = fabs(percent);
 					if (percent > _refProjectSetting->getAlertPercent())
 					{

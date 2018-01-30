@@ -5,6 +5,7 @@ JKAbout::JKAbout(QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
+
 }
 
 JKAbout::~JKAbout()
