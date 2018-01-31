@@ -37,3 +37,13 @@ void JKProjectSettingBLL::setAlertPercent(double _alertPercent)
 {
 	refJKProjectSettingModel->alertPercent = _alertPercent;
 }
+
+int JKProjectSettingBLL::getTableShowType()
+{
+	return refJKProjectSettingModel->tableShowType;
+}
+
+void JKProjectSettingBLL::setTableShowType(int type)
+{
+	refJKProjectSettingModel->tableShowType = type;
+}

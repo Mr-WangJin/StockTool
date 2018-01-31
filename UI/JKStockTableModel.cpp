@@ -4,6 +4,7 @@
 #include "BLL/JKStockCodeTradeBLL.h"
 #include "BLL/JKStockCodeBLL.h"
 #include "BLL/JKStockTradeUtil.h"
+#include "BLL/JKProjectSettingBLL.h"
 
 Q_DECLARE_METATYPE(JKString);
 
@@ -53,7 +54,11 @@ void JKStockTableModel::setProject(JKRef_Ptr<JKProjectBLL> _refProject)
 void JKStockTableModel::setShowType(TableShowType _showType)
 {
 	showType = _showType;
-
+	if (refProject.valid())
+	{
+		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = refProject->getProjectSetting();
+		_refProjectSetting->setTableShowType((int)_showType);
+	}
 
 }
 

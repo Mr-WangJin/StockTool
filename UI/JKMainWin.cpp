@@ -439,6 +439,25 @@ void JKMainWin::onAfterProjectChanged(JKRef_Ptr<JKProjectBLL> _refProject)
 		ui.actAlert->setChecked(Qt::Unchecked);
 		alertChanged(false);
 	}
+
+	TableShowType tableShowType = (TableShowType)_refProjectSetting->getTableShowType();
+	switch (tableShowType)
+	{
+	case Show_Buy_Only:
+		ui.actOnlyShowBuy->setChecked(true);
+		this->onShowBuyOnly(true);
+		break;
+	case Show_Sell_Only:
+		ui.actOnlyShowSold->setChecked(true);
+		this->onShowSellOnly(true);
+		break;
+	case Show_All:
+		ui.actShowAll->setChecked(true);
+		this->onShowAll(true);
+		break;
+	default:
+		break;
+	}
 }
 
 void JKMainWin::onShowBuyOnly(bool checked)

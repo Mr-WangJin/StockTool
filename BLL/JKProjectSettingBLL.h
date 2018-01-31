@@ -21,5 +21,8 @@ public:
 
 	double getAlertPercent();
 	void setAlertPercent(double _alertPercent);
+
+	int getTableShowType();
+	void setTableShowType(int type);
 };
 
