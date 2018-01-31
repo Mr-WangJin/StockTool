@@ -13,6 +13,7 @@ class JKProjectSettingModel : public JKBaseModel
 		ar & HIBERLITE_NVP(isStartCrawl);
 		ar & HIBERLITE_NVP(isAlert);
 		ar & HIBERLITE_NVP(alertPercent);
+		ar & HIBERLITE_NVP(tableShowType);
 	}
 
 
@@ -21,5 +22,6 @@ public:
 	int isStartCrawl = 0;
 	int isAlert = 0;
 	double alertPercent = 0.05f;
+	int tableShowType = 1;
 };
 

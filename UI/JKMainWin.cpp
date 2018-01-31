@@ -771,7 +771,12 @@ void JKMainWin::stockCodePriceChanged(JKString price)
 						bool bSort = false;
 
 						if (first->getDate() == second->getDate())
-							return false;
+						{
+							if (first->getBuyPrice() < second->getBuyPrice())
+								return true;
+							else
+								return false;
+						}
 						bSort = first->getDate() > second->getDate();
 						return bSort;
 					});
