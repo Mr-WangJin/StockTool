@@ -103,7 +103,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\JKStockTool.exe</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;$(JKCore)\..\..\build\bin\$(Configuration)\;$(JSONCPP_HOME)\$(Platform)\$(Configuration)\;$(HiberliteDir)\bin\hiberlite\$(Configuration)\;$(HiberliteDir)\bin\sqlite\$(Configuration);$(JSONCPP_HOME)\lib;$(CurlDir)\lib\$(Configuration)\;$(LibXML2DIR)\lib\$(Configuration)\;$(LibiconvDIR)\lib\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
