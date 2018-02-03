@@ -27,6 +27,9 @@ public:
 	/** 激活windows窗口 */
 	void setActivateWindow();
 
+	/** 设置开机自动启动 */
+	void setAutoStartExe(bool is_auto_start);
+
 	void showAbout();
 	JKRef_Ptr<JKProjectBLL> getProjectBLL();
 signals:
@@ -53,6 +56,7 @@ signals:
 	void onSystemTrayIconActive(QSystemTrayIcon::ActivationReason);
 	void onExitApp();
 	void onShowApp();
+	
 
 	void onTableWgtPopMenu(QPoint pos);
 	void onDeleteTrade();

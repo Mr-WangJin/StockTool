@@ -16,6 +16,10 @@
 #include "JKUiContext.h"
 #include "JKSetTradeProperty.h"
 #include "BLL/JKProjectSettingBLL.h"
+#include <QSettings>
+
+#define REG_RUN "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+
 
 
 JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
@@ -30,6 +34,7 @@ JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
 	JKSingleton<JKUiContext>::GetInstance().setMainWin(this);
 	this->initUI();
 	this->updateInputUIEnable(nullptr);
+	this->setAutoStartExe(true);
 	
 	emit afterProjectChanged(refProject);
 }
@@ -64,6 +69,22 @@ void JKMainWin::setActivateWindow()
 	//setGeometry(curGemRect);
 	activateWindow();
 	raise();
+}
+
+void JKMainWin::setAutoStartExe(bool is_auto_start)
+{
+	QString application_name = QApplication::applicationName();
+	QSettings *settings = new QSettings(REG_RUN, QSettings::NativeFormat);
+	if (is_auto_start)
+	{
+		QString application_path = QApplication::applicationFilePath();
+		settings->setValue(application_name, application_path.replace("/", "\\"));
+	}
+	else
+	{
+		settings->remove(application_name);
+	}
+	delete settings;
 }
 
 void JKMainWin::showAbout()
