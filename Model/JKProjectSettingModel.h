@@ -13,15 +13,17 @@ class JKProjectSettingModel : public JKBaseModel
 		ar & HIBERLITE_NVP(isStartCrawl);
 		ar & HIBERLITE_NVP(isAlert);
 		ar & HIBERLITE_NVP(alertPercent);
+		ar & HIBERLITE_NVP(downAlertPercent);
 		ar & HIBERLITE_NVP(tableShowType);
 	}
 
 
 public:
 	JKString id;
-	int isStartCrawl = 0;
-	int isAlert = 0;
-	double alertPercent = 0.05f;
-	int tableShowType = 1;
+	int isStartCrawl = 0;				//是否开启爬虫
+	int isAlert = 0;					//是否预警
+	double alertPercent = 0.03f;		//上升百分比
+	double downAlertPercent = -0.03f;	//下降百分比
+	int tableShowType = 1;				//显示类型
 };
 

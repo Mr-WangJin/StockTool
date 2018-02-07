@@ -126,7 +126,8 @@ void JKMainWin::newProject()
 			refProject->setCommission(newProject.getCommission());
 
 			JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = refProject->getProjectSetting();
-			_refProjectSetting->setAlertPercent(newProject.getAlertPercent());
+			_refProjectSetting->setUpAlertPercent(newProject.getUpAlertPercent());
+			_refProjectSetting->setUpAlertPercent(newProject.getDownAlertPercent());
 
 			emit afterProjectChanged(refProject);
 		}
@@ -295,7 +296,8 @@ void JKMainWin::projectTaxSetting()
 		refProject->setCommission(newProject.getCommission());
 
 		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = refProject->getProjectSetting();
-		_refProjectSetting->setAlertPercent(newProject.getAlertPercent());
+		_refProjectSetting->setUpAlertPercent(newProject.getUpAlertPercent());
+		_refProjectSetting->setDownAlertPercent(newProject.getDownAlertPercent());
 
 		emit afterProjectChanged(refProject);
 	}
@@ -822,8 +824,8 @@ void JKMainWin::stockCodePriceChanged(JKString price)
 					});
 					JKStockTradeUtil tradeUtil(refProject);
 					double percent = tradeUtil.getExpactEarningPercent(latestPrice, vecRefStockCodeTradeBLLTemp[0]);
-					percent = fabs(percent);
-					if (percent > _refProjectSetting->getAlertPercent())
+					//percent = fabs(percent);
+					if (percent > _refProjectSetting->getUpAlertPercent() || percent < _refProjectSetting->getDownAlertPercent())
 					{
 						this->show();
 						this->activateWindow();

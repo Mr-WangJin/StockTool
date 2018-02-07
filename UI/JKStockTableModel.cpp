@@ -361,3 +361,8 @@ void JKStockTableModel::sort(int column, Qt::SortOrder order /*= Qt::AscendingOr
 
 	endResetModel();
 }
+
+bool JKStockTableModel::hasChildren(const QModelIndex & parent) const
+{
+	return true;
+}

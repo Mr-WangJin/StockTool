@@ -32,9 +32,14 @@ double JKNewProject::getCommission()
 	return ui.dSpBxCommission->value() / 1000.0f;
 }
 
-double JKNewProject::getAlertPercent()
+double JKNewProject::getUpAlertPercent()
 {
-	return ui.dSpBxAlertPercent->value() / 100.0f;
+	return ui.dSpBxUpAlertPercent->value() / 100.0f;
+}
+
+double JKNewProject::getDownAlertPercent()
+{
+	return ui.dSpBxDownAlertPercent->value() / 100.0f;
 }
 
 void JKNewProject::setProject(JKRef_Ptr<JKProjectBLL> _refProject)
@@ -45,7 +50,8 @@ void JKNewProject::setProject(JKRef_Ptr<JKProjectBLL> _refProject)
 	ui.dSpBxTransfer->setValue(_refProject->getTransfer()* 1000.0f);
 	
 	JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = _refProject->getProjectSetting();
-	ui.dSpBxAlertPercent->setValue(_refProjectSetting->getAlertPercent()*100.0f);
+	ui.dSpBxUpAlertPercent->setValue(_refProjectSetting->getUpAlertPercent()*100.0f);
+	ui.dSpBxDownAlertPercent->setValue(_refProjectSetting->getDownAlertPercent()*100.0f);
 }
 
 void JKNewProject::onOkClick()

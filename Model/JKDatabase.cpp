@@ -202,6 +202,17 @@ void JKDatabase::upgradeDatabase(JKString fullFileName)
 					throw std::exception(error.c_str());
 				}
 			}
+			if (version < 9)
+			{
+				QString sqlStr = "alter table JKProjectSettingModel add column downAlertPercent float default -0.03;";
+				QSqlQuery query(_db);
+				query.prepare(sqlStr);
+				if (!query.exec())
+				{
+					JKString error = "add downAlertPercent Field error! " + query.lastError().text().toStdString();
+					throw std::exception(error.c_str());
+				}
+			}
 
 			// 更新数据表格式版本号
 			QString querySqlStr = QString("update JKProjectVersionModel Set version = %1").arg(maxVersion);

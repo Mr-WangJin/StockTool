@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>250</width>
-    <height>175</height>
+    <width>304</width>
+    <height>163</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -54,20 +54,49 @@
     </widget>
    </item>
    <item>
-    <widget class="QDoubleSpinBox" name="dSpBxAlertPercent">
-     <property name="buttonSymbols">
-      <enum>QAbstractSpinBox::NoButtons</enum>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="spacing">
+      <number>0</number>
      </property>
-     <property name="prefix">
-      <string>预警百分比</string>
-     </property>
-     <property name="decimals">
-      <number>1</number>
-     </property>
-     <property name="value">
-      <double>3.000000000000000</double>
-     </property>
-    </widget>
+     <item>
+      <widget class="QDoubleSpinBox" name="dSpBxUpAlertPercent">
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="prefix">
+        <string>预警上升百分比</string>
+       </property>
+       <property name="decimals">
+        <number>1</number>
+       </property>
+       <property name="value">
+        <double>3.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="dSpBxDownAlertPercent">
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="prefix">
+        <string>预警下降百分比</string>
+       </property>
+       <property name="decimals">
+        <number>1</number>
+       </property>
+       <property name="minimum">
+        <double>-100.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>0.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>0.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">

@@ -17,7 +17,8 @@ public:
 	double getStampTax();
 	double getTransfer();
 	double getCommission();
-	double getAlertPercent();
+	double getUpAlertPercent();
+	double getDownAlertPercent();
 
 	void setProject(JKRef_Ptr<JKProjectBLL> _refProject);
 

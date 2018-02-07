@@ -28,14 +28,23 @@ void JKProjectSettingBLL::setIsAlert(bool _isAlert)
 	refJKProjectSettingModel->isAlert = _isAlert;
 }
 
-double JKProjectSettingBLL::getAlertPercent()
+double JKProjectSettingBLL::getUpAlertPercent()
 {
 	return refJKProjectSettingModel->alertPercent;
 }
 
-void JKProjectSettingBLL::setAlertPercent(double _alertPercent)
+void JKProjectSettingBLL::setUpAlertPercent(double _alertPercent)
 {
 	refJKProjectSettingModel->alertPercent = _alertPercent;
+}
+
+double JKProjectSettingBLL::getDownAlertPercent()
+{
+	return refJKProjectSettingModel->downAlertPercent;
+}
+void JKProjectSettingBLL::setDownAlertPercent(double _downAlertPercent)
+{
+	refJKProjectSettingModel->downAlertPercent = _downAlertPercent;
 }
 
 int JKProjectSettingBLL::getTableShowType()

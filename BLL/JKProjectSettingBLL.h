@@ -19,8 +19,11 @@ public:
 	bool getIsAlert();
 	void setIsAlert(bool);
 
-	double getAlertPercent();
-	void setAlertPercent(double _alertPercent);
+	double getUpAlertPercent();
+	void setUpAlertPercent(double _upAlertPercent);
+
+	double getDownAlertPercent();
+	void setDownAlertPercent(double _downAlertPercent);
 
 	int getTableShowType();
 	void setTableShowType(int type);

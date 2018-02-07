@@ -37,6 +37,9 @@ public:
 
 	virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder) override;
 
+protected:
+	virtual bool hasChildren(const QModelIndex &parent = QModelIndex()) const;
+
 private:
 	JKRef_Ptr<JKProjectBLL> refProject;
 	TableShowType showType;
