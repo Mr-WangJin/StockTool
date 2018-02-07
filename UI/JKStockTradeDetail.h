@@ -12,7 +12,7 @@ class JKStockTradeDetail : public QDialog
 	Q_OBJECT
 
 public:
-	JKStockTradeDetail(JKRef_Ptr<JKStockTradeUtil> refUtil, JKRef_Ptr<JKStockCodeTradeBLL> refStockTrade, QWidget *parent = 0);
+	JKStockTradeDetail(JKRef_Ptr<JKStockTradeUtil> refUtil, JKRef_Ptr<JKStockCodeTradeBLL> refStockTrade,double latestPrice, QWidget *parent = 0);
 	~JKStockTradeDetail();
 
 
