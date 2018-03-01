@@ -505,6 +505,9 @@
     <ClInclude Include="BLL\JKProjectSettingBLL.h">
       <Filter>BLL</Filter>
     </ClInclude>
+    <ClInclude Include="BLL\JKBLLContainer.h">
+      <Filter>BLL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="StockTool.rc" />

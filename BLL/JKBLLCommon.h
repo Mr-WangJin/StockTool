@@ -1,16 +1,11 @@
 #pragma once
 
-#include <JKCommon\JKGuid.h>
-
-
 
 #define JK_BLL_INIT(T) \
+template<typename T>\
+friend class JKBLLContainer;\
 protected:\
-	T##BLL(JKRef_Ptr<JKBLLContext> _refContext) : JKBaseBLL<T##Model>(_refContext) \
-	{\
-		ptrModel = SingleDB->createBean<T##Model>(); \
-		ptrModel->id = JKGuid::GuidToString(JKGuid::CreateGuid());\
-	};\
+	T##BLL(JKRef_Ptr<JKBLLContext> _refContext) : JKBaseBLL<T##Model>(_refContext) {};\
 	T##BLL(bean_ptr<T##Model> _refModel, JKRef_Ptr<JKBLLContext> _refContext) : JKBaseBLL<T##Model>(_refContext) \
 	{ \
 		ptrModel = _refModel; \

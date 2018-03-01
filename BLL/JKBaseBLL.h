@@ -5,8 +5,13 @@
 #include "JKBLLContext.h"
 
 template<typename T>
+class JKBLLContainer;
+
+template<typename T>
 class JKBaseBLL : public JKReferenced
 {
+	template<typename T>
+	friend class JKBLLContainer;
 public:
 	JKBaseBLL()	{}
 	JKBaseBLL(JKRef_Ptr<JKBLLContext> _refContext){	this->setContext(_refContext);}
@@ -14,6 +19,7 @@ public:
 
 public:
 	const JKString & getId() {return ptrModel->id; }
+	JKInt getOriginID() { return ptrModel.get_id(); }
 
 	/** Éý¼¶Êý¾Ý */
 	virtual void upgradeDataVersion(int dataVersion) {}
@@ -22,16 +28,22 @@ public:
 	virtual void destory();
 	virtual bool destoried();
 
-protected:
-	bean_ptr<T> getModel() { return ptrModel; };
-
 	JKRef_Ptr<JKBLLContext> getContext() { return refContext; }
 	void setContext(JKRef_Ptr<JKBLLContext> _refContext) { refContext = _refContext; }
+
+protected:
+	bean_ptr<T> getModel() { return ptrModel; };
+	void setModel(bean_ptr<T> model) { ptrModel = model; }
+
+	
 
 protected:
 	JKRef_Ptr<JKBLLContext> refContext;
 	
 	bean_ptr<T> ptrModel; 
+// 
+// private:
+// 	std::string className;
 };
 
 

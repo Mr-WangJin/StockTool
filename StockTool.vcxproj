@@ -389,6 +389,7 @@
   <ItemGroup>
     <ClInclude Include="BLL\JKBaseBLL.h" />
     <ClInclude Include="BLL\JKBLLCommon.h" />
+    <ClInclude Include="BLL\JKBLLContainer.h" />
     <ClInclude Include="BLL\JKBLLContext.h" />
     <ClInclude Include="BLL\JKProjectSettingBLL.h" />
     <ClInclude Include="BLL\JKStockCodeTradeItemBLL.h" />

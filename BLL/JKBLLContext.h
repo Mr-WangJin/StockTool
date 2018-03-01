@@ -18,6 +18,5 @@ private:
 	JKRef_Ptr<JKProjectBLL> refProject;
 
 
-
 };
 

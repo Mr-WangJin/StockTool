@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "JKProjectSettingBLL.h"
+#include "JKBLLContainer.h"
 
 
 JKProjectSettingBLL::JKProjectSettingBLL()

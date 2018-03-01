@@ -9,7 +9,6 @@ class JKStockCodeTradeBLL;
 class JKStockCodeBLL : public JKBaseBLL<JKStockCodeModel>
 {
 	friend class JKProjectBLL;
-	
 	JK_BLL_INIT(JKStockCode)
 
 public:
