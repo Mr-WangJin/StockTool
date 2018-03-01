@@ -24,7 +24,7 @@ public:
 	virtual void upgradeDataVersion(int dataVersion) {}
 
 	virtual void save();
-	virtual void destory();
+	//virtual void destory();
 	virtual bool destoried();
 
 
@@ -44,11 +44,11 @@ void JKBaseBLL<T>::save()
 	ptrModel.save();
 }
 
-template<typename T>
-void JKBaseBLL<T>::destory()
-{
-	ptrModel.destroy();
-}
+//template<typename T>
+//void JKBaseBLL<T>::destory()
+//{
+//	ptrModel.destroy();
+//}
 
 template<typename T>
 bool JKBaseBLL<T>::destoried()

@@ -5,6 +5,7 @@
 #include <JKCommon\JKGuid.h>
 #include <map>
 #include <typeinfo>
+#include <assert.h>
 
 template<typename ModelType>
 class JKBLLContainer
@@ -32,6 +33,9 @@ public:
 
 	template<typename BLLType>
 	inline void add(JKRef_Ptr<BLLType> refBLLObject);
+
+	template<typename BLLType>
+	inline void destory(JKRef_Ptr<BLLType> refBLLObject);
 
 public:
 	JKBLLContainer() {};
@@ -94,4 +98,16 @@ inline void JKBLLContainer<ModelType>::add(JKRef_Ptr<BLLType> refBLLObject)
 	{
 		mapBLLObject.insert(std::make_pair(refBLLObject->getOriginID(), refBLLObject));
 	}
+}
+
+template<typename ModelType>
+template<typename BLLType>
+inline void JKBLLContainer<ModelType>::destory(JKRef_Ptr<BLLType> refBLLObject)
+{
+	assert(refBLLObject->getOriginID() == mapBLLObject.end());
+	if (mapBLLObject.find(refBLLObject->getOriginID()) == mapBLLObject.end());
+	{
+		mapBLLObject.erase(refBLLObject->getOriginID());
+	}
+
 }
