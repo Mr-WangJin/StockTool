@@ -5,7 +5,7 @@
 #include "Model/JKStockCodeTradeItemModel.h"
 
 
-class JKStockCodeTradeItemBLL : public JKBaseBLL
+class JKStockCodeTradeItemBLL : public JKBaseBLL<JKStockCodeTradeItemModel>
 {
 	friend class JKStockCodeTradeBLL;
 
@@ -17,8 +17,6 @@ public:
 
 	/** 设置真实收益 */
 	void setRealEarning(double _realEarning);
-
-
 };
 
 

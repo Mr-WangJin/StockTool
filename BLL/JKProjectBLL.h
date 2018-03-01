@@ -5,7 +5,7 @@
 
 class JKStockCodeBLL;
 
-class JKProjectBLL : public JKBaseBLL
+class JKProjectBLL : public JKBaseBLL<JKProjectModel>
 {
 	JK_BLL_INIT(JKProject);
 

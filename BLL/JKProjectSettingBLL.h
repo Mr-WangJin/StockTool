@@ -4,7 +4,7 @@
 #include "Model/JKProjectSettingModel.h"
 
 
-class JKProjectSettingBLL : public JKBaseBLL
+class JKProjectSettingBLL : public JKBaseBLL<JKProjectSettingModel>
 {
 	friend class JKProjectBLL;
 

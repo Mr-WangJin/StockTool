@@ -4,15 +4,15 @@
 
 void JKStockCodeTradeItemBLL::setParams(double sellPrice, size_t sellCount, size_t sellSumCount, float stampTax, float transfer, float commission)
 {
-	refJKStockCodeTradeItemModel->sellPrice = sellPrice;
-	refJKStockCodeTradeItemModel->sellCount = sellCount;
-	refJKStockCodeTradeItemModel->sellSumCount = sellSumCount;
-	refJKStockCodeTradeItemModel->stampTax = stampTax;
-	refJKStockCodeTradeItemModel->transfer = transfer;
-	refJKStockCodeTradeItemModel->commission = commission;
+	ptrModel->sellPrice = sellPrice;
+	ptrModel->sellCount = sellCount;
+	ptrModel->sellSumCount = sellSumCount;
+	ptrModel->stampTax = stampTax;
+	ptrModel->transfer = transfer;
+	ptrModel->commission = commission;
 }
 
 void JKStockCodeTradeItemBLL::setRealEarning(double _realEarning)
 {
-	refJKStockCodeTradeItemModel->realEarning = _realEarning;
+	ptrModel->realEarning = _realEarning;
 }

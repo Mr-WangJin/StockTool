@@ -15,13 +15,13 @@ JKProjectBLL::JKProjectBLL(ProjectInitStatus status)
 		std::vector<sqlid_t> vecIds = SingleDB->getBeanIds<JKProjectModel>();
 		if (vecIds.size() > 0)
 		{
-			refJKProjectModel = SingleDB->loadBean<JKProjectModel>(vecIds[0]);
-			if (refJKProjectModel->vecStockCode.size() > 0)
-				refCurStockCode = new JKStockCodeBLL(refJKProjectModel->vecStockCode[0], refContext);
+			ptrModel = SingleDB->loadBean<JKProjectModel>(vecIds[0]);
+			if (ptrModel->vecStockCode.size() > 0)
+				refCurStockCode = new JKStockCodeBLL(ptrModel->vecStockCode[0], refContext);
 		}
 		else
 		{
-			refJKProjectModel = SingleDB->createBean<JKProjectModel>();
+			ptrModel = SingleDB->createBean<JKProjectModel>();
 		}
 	}
 
@@ -89,7 +89,7 @@ void JKProjectBLL::upgradeDataVersion(int dataVersion)
 JKRef_Ptr<JKStockCodeBLL> JKProjectBLL::newStockCode()
 {
 	JKRef_Ptr<JKStockCodeBLL> _refStockCode = new JKStockCodeBLL(refContext);
-	refJKProjectModel->addStockCode(_refStockCode->getModel());
+	ptrModel->addStockCode(_refStockCode->getModel());
 	return _refStockCode;
 }
 
@@ -105,14 +105,14 @@ JKRef_Ptr<JKStockCodeBLL> JKProjectBLL::getCurStockCode()
 
 void JKProjectBLL::setProjectSetting(JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting)
 {
-	refJKProjectModel->projectSetting = _refProjectSetting->getModel();
+	ptrModel->projectSetting = _refProjectSetting->getModel();
 }
 
 vector<JKRef_Ptr<JKStockCodeBLL>> JKProjectBLL::getAllStockCode()
 {
 	vector<JKRef_Ptr<JKStockCodeBLL>> vecTrades;
 
-	for (auto &var : refJKProjectModel->vecStockCode)
+	for (auto &var : ptrModel->vecStockCode)
 	{
 		JKRef_Ptr<JKStockCodeBLL> _refStockCodeTradeBLL = new JKStockCodeBLL(var, refContext);
 		vecTrades.push_back(_refStockCodeTradeBLL);
@@ -123,13 +123,13 @@ vector<JKRef_Ptr<JKStockCodeBLL>> JKProjectBLL::getAllStockCode()
 
 JKRef_Ptr<JKProjectSettingBLL> JKProjectBLL::getProjectSetting()
 {
-	if (refJKProjectModel->projectSetting.get_id() == -1)
+	if (ptrModel->projectSetting.get_id() == -1)
 	{
 		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = new JKProjectSettingBLL();
-		refJKProjectModel->projectSetting = _refProjectSetting->getModel();
+		ptrModel->projectSetting = _refProjectSetting->getModel();
 	}
 
-	JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = new JKProjectSettingBLL(refJKProjectModel->projectSetting, refContext);
+	JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = new JKProjectSettingBLL(ptrModel->projectSetting, refContext);
 	return _refProjectSetting;
 }
 
@@ -137,30 +137,32 @@ void JKProjectBLL::deleteStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 {
 	if (refCurStockCode == _refStockCode)
 		refCurStockCode = nullptr;
-	refJKProjectModel->deleteStockCode(_refStockCode->getModel());
+
+	ptrModel->deleteStockCode(_refStockCode->getModel());
+	
 }
 
 float JKProjectBLL::getStampTax()
 {
-	return refJKProjectModel->stampTax;
+	return ptrModel->stampTax;
 }
 float JKProjectBLL::getTransfer()
 {
-	return refJKProjectModel->transfer;
+	return ptrModel->transfer;
 }
 float JKProjectBLL::getCommission()
 {
-	return refJKProjectModel->commission;
+	return ptrModel->commission;
 }
 void JKProjectBLL::setStampTax(float stampTax)
 {
-	refJKProjectModel->stampTax = stampTax;
+	ptrModel->stampTax = stampTax;
 }
 void JKProjectBLL::setTransfer(float transfer)
 {
-	refJKProjectModel->transfer = transfer;
+	ptrModel->transfer = transfer;
 }
 void JKProjectBLL::setCommission(float commission)
 {
-	refJKProjectModel->commission = commission;
+	ptrModel->commission = commission;
 }

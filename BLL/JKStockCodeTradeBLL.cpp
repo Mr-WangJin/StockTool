@@ -9,16 +9,16 @@
 
 void JKStockCodeTradeBLL::setParams(TradeType type, JKString date, JKUInt64 count, double buyPrice)
 {
-	refJKStockCodeTradeModel->type = (JKUInt)type;
-	refJKStockCodeTradeModel->date = date;
-	refJKStockCodeTradeModel->buyCount = count;
-	refJKStockCodeTradeModel->buyPrice = buyPrice;
+	ptrModel->type = (JKUInt)type;
+	ptrModel->date = date;
+	ptrModel->buyCount = count;
+	ptrModel->buyPrice = buyPrice;
 }
 
 // void JKStockCodeTradeBLL::sell(double price)
 // {
-// 	refJKStockCodeTradeModel->type = (JKUInt)TradeType::SELL;
-// 	refJKStockCodeTradeModel->sellPrice = price;
+// 	ptrModel->type = (JKUInt)TradeType::SELL;
+// 	ptrModel->sellPrice = price;
 // }
 
 void JKStockCodeTradeBLL::sell(double sellPrice, size_t sellCount, size_t sellSumCount, float stampTax, float transfer, float commission)
@@ -32,22 +32,22 @@ void JKStockCodeTradeBLL::sell(double sellPrice, size_t sellCount, size_t sellSu
 	JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = new JKStockCodeTradeItemBLL(refContext);
 	_refStockCodeTradeItem->setParams(sellPrice, sellCount, sellSumCount, stampTax, transfer, commission);
 	_refStockCodeTradeItem->setRealEarning(expactEarning);
-	refJKStockCodeTradeModel->addStockCodeTradeItem(_refStockCodeTradeItem->getModel());
+	ptrModel->addStockCodeTradeItem(_refStockCodeTradeItem->getModel());
 
 	this->updateType();
 }
 
 TradeType JKStockCodeTradeBLL::getType()
 {
-	return (TradeType)refJKStockCodeTradeModel->type;
+	return (TradeType)ptrModel->type;
 }
 HoldStockType JKStockCodeTradeBLL::getHoldType()
 {
-	return (HoldStockType)refJKStockCodeTradeModel->holdType;
+	return (HoldStockType)ptrModel->holdType;
 }
 void JKStockCodeTradeBLL::setHoldType(HoldStockType type)
 {
-	refJKStockCodeTradeModel->holdType = (int)type;
+	ptrModel->holdType = (int)type;
 }
 void JKStockCodeTradeBLL::updateType()
 {
@@ -55,30 +55,30 @@ void JKStockCodeTradeBLL::updateType()
 
 	if (couldSellCount == 0)
 	{
-		refJKStockCodeTradeModel->type = (int)TradeType::SELL;
+		ptrModel->type = (int)TradeType::SELL;
 	}
 	else if (couldSellCount == this->getCount())
 	{
-		refJKStockCodeTradeModel->type = (int)TradeType::BUY;
+		ptrModel->type = (int)TradeType::BUY;
 	}
 	else
 	{
-		refJKStockCodeTradeModel->type = (int)TradeType::PART;
+		ptrModel->type = (int)TradeType::PART;
 	}
 }
 
 JKString JKStockCodeTradeBLL::getDate()
 {
-	return refJKStockCodeTradeModel->date;
+	return ptrModel->date;
 }
 JKUInt64 JKStockCodeTradeBLL::getCount()
 {
-	return refJKStockCodeTradeModel->buyCount;
+	return ptrModel->buyCount;
 }
 JKUInt64 JKStockCodeTradeBLL::getSoldCount()
 {
 	JKUInt64 count = 0;
-	for (auto &var : refJKStockCodeTradeModel->vecSellItem)
+	for (auto &var : ptrModel->vecSellItem)
 	{
 		count += var->sellCount;
 	}
@@ -87,22 +87,22 @@ JKUInt64 JKStockCodeTradeBLL::getSoldCount()
 JKUInt64 JKStockCodeTradeBLL::getCouldSellCount()
 {
 	JKUInt64 count = 0;
-	for (auto &var : refJKStockCodeTradeModel->vecSellItem)
+	for (auto &var : ptrModel->vecSellItem)
 	{
 		count += var->sellCount;
 	}
-	return refJKStockCodeTradeModel->buyCount - count;
+	return ptrModel->buyCount - count;
 }
 double JKStockCodeTradeBLL::getBuyPrice()
 {
-	return refJKStockCodeTradeModel->buyPrice;
+	return ptrModel->buyPrice;
 }
 
 double JKStockCodeTradeBLL::getSellPrice()
 {
 	double total = .0f;
 	JKUInt64 count = 0;
-	for (auto &var : refJKStockCodeTradeModel->vecSellItem)
+	for (auto &var : ptrModel->vecSellItem)
 	{
 		total += var->sellCount* var->sellPrice;
 		count += var->sellCount;
@@ -112,13 +112,13 @@ double JKStockCodeTradeBLL::getSellPrice()
 
 double JKStockCodeTradeBLL::getBuyPureCost()
 {
-	return refJKStockCodeTradeModel->buyPrice * refJKStockCodeTradeModel->buyCount;
+	return ptrModel->buyPrice * ptrModel->buyCount;
 }
 
 double JKStockCodeTradeBLL::getRealEarning()
 {
 	double realEarning = 0;
-	for (auto &var : refJKStockCodeTradeModel->vecSellItem)
+	for (auto &var : ptrModel->vecSellItem)
 	{
 		realEarning += var->realEarning;
 	}
@@ -127,7 +127,7 @@ double JKStockCodeTradeBLL::getRealEarning()
 
 void JKStockCodeTradeBLL::getTradeItems(std::vector<JKRef_Ptr<JKStockCodeTradeItemBLL>>& vecTradeItems)
 {
-	for (auto &var : refJKStockCodeTradeModel->vecSellItem)
+	for (auto &var : ptrModel->vecSellItem)
 	{
 		JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = new JKStockCodeTradeItemBLL(var, refContext);
 		vecTradeItems.push_back(_refStockCodeTradeItem);

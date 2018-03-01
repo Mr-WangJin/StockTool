@@ -6,7 +6,7 @@
 
 class JKStockCodeTradeBLL;
 
-class JKStockCodeBLL : public JKBaseBLL
+class JKStockCodeBLL : public JKBaseBLL<JKStockCodeModel>
 {
 	friend class JKProjectBLL;
 	

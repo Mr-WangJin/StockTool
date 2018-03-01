@@ -6,13 +6,16 @@
 
 #define JK_BLL_INIT(T) \
 protected:\
-T##BLL(JKRef_Ptr<JKBLLContext> _refContext) : JKBaseBLL(_refContext) { ref##T##Model = SingleDB->createBean<T##Model>(); \
-ref##T##Model->id = JKGuid::GuidToString(JKGuid::CreateGuid());};\
-T##BLL(bean_ptr<T##Model> _refModel, JKRef_Ptr<JKBLLContext> _refContext) : JKBaseBLL(_refContext) { ref##T##Model = _refModel; }\
-bean_ptr<T##Model> getModel() { return ref##T##Model; };\
-bean_ptr<T##Model> ref##T##Model;\
-public:\
-const JKString & getId() { return ref##T##Model->id; }\
+	T##BLL(JKRef_Ptr<JKBLLContext> _refContext) : JKBaseBLL<T##Model>(_refContext) \
+	{\
+		ptrModel = SingleDB->createBean<T##Model>(); \
+		ptrModel->id = JKGuid::GuidToString(JKGuid::CreateGuid());\
+	};\
+	T##BLL(bean_ptr<T##Model> _refModel, JKRef_Ptr<JKBLLContext> _refContext) : JKBaseBLL<T##Model>(_refContext) \
+	{ \
+		ptrModel = _refModel; \
+	}\
+
 
 
 #define NewBLLObject(obj) JKRef_Ptr<JK##obj##BLL> _ref##obj = new JK##obj##BLL();\

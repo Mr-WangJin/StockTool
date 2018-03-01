@@ -9,19 +9,19 @@
 
 JKString JKStockCodeBLL::getName()
 {
-	return refJKStockCodeModel->name;
+	return ptrModel->name;
 }
 
 JKString JKStockCodeBLL::getCode()
 {
-	return refJKStockCodeModel->code;
+	return ptrModel->code;
 }
 
 JKRef_Ptr<JKStockCodeTradeBLL> JKStockCodeBLL::newStockCodeTrade()
 {
 	JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTrade = new JKStockCodeTradeBLL(refContext);
 
-	refJKStockCodeModel->addStockCodeTrade(_refStockCodeTrade->getModel());
+	ptrModel->addStockCodeTrade(_refStockCodeTrade->getModel());
 	return _refStockCodeTrade;
 }
 
@@ -30,7 +30,7 @@ bool JKStockCodeBLL::deleteTrade(JKRef_Ptr<JKStockCodeTradeBLL> _refTradeBll)
 	if (!_refTradeBll.valid())
 		return false;
 
-	return refJKStockCodeModel->delStockCodeTrade(_refTradeBll->getModel());
+	return ptrModel->delStockCodeTrade(_refTradeBll->getModel());
 }
 
 void JKStockCodeBLL::upgradeDataVersion(int dataVersion)
@@ -45,7 +45,7 @@ void JKStockCodeBLL::upgradeDataVersion(int dataVersion)
 
 void JKStockCodeBLL::getAllTrades(vector<JKRef_Ptr<JKStockCodeTradeBLL>> &_vecStockTrade)
 {
-	for (auto &var : refJKStockCodeModel->vecCodeTrade)
+	for (auto &var : ptrModel->vecCodeTrade)
 	{
 		JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTradeBLL = new JKStockCodeTradeBLL(var, refContext);
 		_vecStockTrade.push_back(_refStockCodeTradeBLL);
@@ -54,7 +54,7 @@ void JKStockCodeBLL::getAllTrades(vector<JKRef_Ptr<JKStockCodeTradeBLL>> &_vecSt
 
 void JKStockCodeBLL::getTradesByType(int type, vector<JKRef_Ptr<JKStockCodeTradeBLL>>& _vecStockTrade)
 {
-	for (auto &var : refJKStockCodeModel->vecCodeTrade)
+	for (auto &var : ptrModel->vecCodeTrade)
 	{
 		JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTradeBLL = new JKStockCodeTradeBLL(var, refContext);
 		if ((int)_refStockCodeTradeBLL->getType() & type)
@@ -64,7 +64,7 @@ void JKStockCodeBLL::getTradesByType(int type, vector<JKRef_Ptr<JKStockCodeTrade
 
 JKRef_Ptr<JKStockCodeTradeBLL> JKStockCodeBLL::getStockTradeById(const JKString &id)
 {
-	for (auto &var : refJKStockCodeModel->vecCodeTrade)
+	for (auto &var : ptrModel->vecCodeTrade)
 	{
 		if (var->id != id)
 			continue;
@@ -93,17 +93,17 @@ bool JKStockCodeBLL::batchSellTrade(std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> 
 
 void JKStockCodeBLL::setParams(JKString name, JKString code, double latestPrice)
 {
-	refJKStockCodeModel->name = name;
-	refJKStockCodeModel->code = code;
-	refJKStockCodeModel->latestPrice = latestPrice;
+	ptrModel->name = name;
+	ptrModel->code = code;
+	ptrModel->latestPrice = latestPrice;
 }
 
 double JKStockCodeBLL::getLatestPrice() 
 {
-	return refJKStockCodeModel->latestPrice;
+	return ptrModel->latestPrice;
 }
 
 void JKStockCodeBLL::setLatestPrice(double latestPrice)
 {
-	refJKStockCodeModel->latestPrice = latestPrice;
+	ptrModel->latestPrice = latestPrice;
 }

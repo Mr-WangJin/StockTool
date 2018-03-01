@@ -4,55 +4,55 @@
 
 JKProjectSettingBLL::JKProjectSettingBLL()
 {
-	refJKProjectSettingModel = SingleDB->createBean<JKProjectSettingModel>();
-	refJKProjectSettingModel->id = JKGuid::GuidToString(JKGuid::CreateGuid());
+	ptrModel = SingleDB->createBean<JKProjectSettingModel>();
+	ptrModel->id = JKGuid::GuidToString(JKGuid::CreateGuid());
 }
 
 bool JKProjectSettingBLL::getIsStartCrawl()
 {
-	return refJKProjectSettingModel->isStartCrawl;
+	return ptrModel->isStartCrawl;
 }
 
 void JKProjectSettingBLL::setIsStartCrawl(bool _isStartCrawl)
 {
-	refJKProjectSettingModel->isStartCrawl = _isStartCrawl;
+	ptrModel->isStartCrawl = _isStartCrawl;
 }
 
 bool JKProjectSettingBLL::getIsAlert()
 {
-	return refJKProjectSettingModel->isAlert;
+	return ptrModel->isAlert;
 }
 
 void JKProjectSettingBLL::setIsAlert(bool _isAlert)
 {
-	refJKProjectSettingModel->isAlert = _isAlert;
+	ptrModel->isAlert = _isAlert;
 }
 
 double JKProjectSettingBLL::getUpAlertPercent()
 {
-	return refJKProjectSettingModel->alertPercent;
+	return ptrModel->alertPercent;
 }
 
 void JKProjectSettingBLL::setUpAlertPercent(double _alertPercent)
 {
-	refJKProjectSettingModel->alertPercent = _alertPercent;
+	ptrModel->alertPercent = _alertPercent;
 }
 
 double JKProjectSettingBLL::getDownAlertPercent()
 {
-	return refJKProjectSettingModel->downAlertPercent;
+	return ptrModel->downAlertPercent;
 }
 void JKProjectSettingBLL::setDownAlertPercent(double _downAlertPercent)
 {
-	refJKProjectSettingModel->downAlertPercent = _downAlertPercent;
+	ptrModel->downAlertPercent = _downAlertPercent;
 }
 
 int JKProjectSettingBLL::getTableShowType()
 {
-	return refJKProjectSettingModel->tableShowType;
+	return ptrModel->tableShowType;
 }
 
 void JKProjectSettingBLL::setTableShowType(int type)
 {
-	refJKProjectSettingModel->tableShowType = type;
+	ptrModel->tableShowType = type;
 }
