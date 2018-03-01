@@ -4,13 +4,22 @@
 #include "JKCommon/JKCommon.h"
 #include <JKCommon\JKGuid.h>
 #include <map>
+#include <typeinfo>
 
 template<typename ModelType>
 class JKBLLContainer
 {
 	friend class JKSingleton<JKBLLContainer>;
 public:
-	~JKBLLContainer() {};
+	virtual ~JKBLLContainer()
+	{
+		/*std::map<JKInt, JKRef_Ptr<JKBaseBLL<ModelType>>>::iterator bb = mapBLLObject.begin();
+		JKString ccc = typeid(ModelType).name();
+		for (; bb != mapBLLObject.end(); ++bb)
+		{
+			bb->second.release();
+		}*/
+	}
 
 	template<typename BLLType>
 	inline JKRef_Ptr<BLLType> newBLL();
@@ -24,14 +33,13 @@ public:
 	template<typename BLLType>
 	inline void add(JKRef_Ptr<BLLType> refBLLObject);
 
-private:
+public:
 	JKBLLContainer() {};
-
-
 
 private:
 	std::map<JKInt, JKRef_Ptr<JKBaseBLL<ModelType>>> mapBLLObject;
 };
+
 
 template<typename ModelType>
 template<typename BLLType>

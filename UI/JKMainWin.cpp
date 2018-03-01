@@ -37,12 +37,11 @@ JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
 	this->setAutoStartExe(true);
 	
 	emit afterProjectChanged(refProject);
+
 }
 
 JKMainWin::~JKMainWin()
 {
-	if (refProject.valid())
-		refProject->unref();
 	JK_FreeAndNullptr(crawlPrice);
 }
 

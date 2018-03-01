@@ -48,3 +48,4 @@ private:
 	JKRef_Ptr<JKStockCodeBLL> refCurStockCode;
 };
 
+using JKProjectBLLPtr = JKRef_Ptr<JKProjectBLL>;

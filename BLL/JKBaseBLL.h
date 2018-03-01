@@ -35,9 +35,6 @@ protected:
 protected:
 	
 	bean_ptr<T> ptrModel; 
-// 
-// private:
-// 	std::string className;
 };
 
 
