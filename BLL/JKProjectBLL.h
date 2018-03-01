@@ -17,8 +17,6 @@ public:
 		DEFAULT_FirstOrNew
 	};
 public:
-
-	JKProjectBLL(ProjectInitStatus status);
 	~JKProjectBLL();
 
 	virtual void upgradeDataVersion(int dataVersion) override;

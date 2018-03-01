@@ -19,7 +19,7 @@ JKString JKStockCodeBLL::getCode()
 
 JKRef_Ptr<JKStockCodeTradeBLL> JKStockCodeBLL::newStockCodeTrade()
 {
-	JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTrade = new JKStockCodeTradeBLL(refContext);
+	JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTrade = new JKStockCodeTradeBLL();
 
 	ptrModel->addStockCodeTrade(_refStockCodeTrade->getModel());
 	return _refStockCodeTrade;
@@ -47,7 +47,7 @@ void JKStockCodeBLL::getAllTrades(vector<JKRef_Ptr<JKStockCodeTradeBLL>> &_vecSt
 {
 	for (auto &var : ptrModel->vecCodeTrade)
 	{
-		JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTradeBLL = new JKStockCodeTradeBLL(var, refContext);
+		JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTradeBLL = new JKStockCodeTradeBLL(var);
 		_vecStockTrade.push_back(_refStockCodeTradeBLL);
 	}
 }
@@ -56,7 +56,7 @@ void JKStockCodeBLL::getTradesByType(int type, vector<JKRef_Ptr<JKStockCodeTrade
 {
 	for (auto &var : ptrModel->vecCodeTrade)
 	{
-		JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTradeBLL = new JKStockCodeTradeBLL(var, refContext);
+		JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTradeBLL = new JKStockCodeTradeBLL(var);
 		if ((int)_refStockCodeTradeBLL->getType() & type)
 			_vecStockTrade.push_back(_refStockCodeTradeBLL);
 	}
@@ -68,7 +68,7 @@ JKRef_Ptr<JKStockCodeTradeBLL> JKStockCodeBLL::getStockTradeById(const JKString 
 	{
 		if (var->id != id)
 			continue;
-		JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTradeBLL = new JKStockCodeTradeBLL(var, refContext);
+		JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTradeBLL = new JKStockCodeTradeBLL(var);
 		return _refStockCodeTradeBLL;
 	}
 	return nullptr;

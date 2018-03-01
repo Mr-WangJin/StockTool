@@ -29,7 +29,7 @@ void JKStockCodeTradeBLL::sell(double sellPrice, size_t sellCount, size_t sellSu
 	JKStockTradeUtil stockTrackUtil(stampTax, transfer, commission);
 	double expactEarning = stockTrackUtil.getExpactEarning(sellPrice, JKRef_Ptr<JKStockCodeTradeBLL>(this), sellCount);
 	
-	JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = new JKStockCodeTradeItemBLL(refContext);
+	JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = new JKStockCodeTradeItemBLL();
 	_refStockCodeTradeItem->setParams(sellPrice, sellCount, sellSumCount, stampTax, transfer, commission);
 	_refStockCodeTradeItem->setRealEarning(expactEarning);
 	ptrModel->addStockCodeTradeItem(_refStockCodeTradeItem->getModel());
@@ -129,7 +129,7 @@ void JKStockCodeTradeBLL::getTradeItems(std::vector<JKRef_Ptr<JKStockCodeTradeIt
 {
 	for (auto &var : ptrModel->vecSellItem)
 	{
-		JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = new JKStockCodeTradeItemBLL(var, refContext);
+		JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = new JKStockCodeTradeItemBLL(var);
 		vecTradeItems.push_back(_refStockCodeTradeItem);
 	}
 }
@@ -144,7 +144,7 @@ void JKStockCodeTradeBLL::upgradeDataVersion(int dataVersion)
 	{
 		if (this->getType() == TradeType::SELL)
 		{
-			JKRef_Ptr<JKProjectBLL> _refProject = refContext->getProject();
+			JKRef_Ptr<JKProjectBLL> _refProject = BLLContext.getProject();
 			float stampTax = _refProject->getStampTax();
 			float transfer = _refProject->getTransfer();
 			float commission = _refProject->getCommission();

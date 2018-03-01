@@ -9,42 +9,16 @@
 #include "JKBLLContainer.h"
 
 
-JKProjectBLL::JKProjectBLL(ProjectInitStatus status)
-{
-	if (status == ProjectInitStatus::DEFAULT_FirstOrNew)
-	{
-		std::vector<sqlid_t> vecIds = SingleDB->getBeanIds<JKProjectModel>();
-		if (vecIds.size() > 0)
-		{
-			ptrModel = SingleDB->loadBean<JKProjectModel>(vecIds[0]);
-			if (ptrModel->vecStockCode.size() > 0)
-			{
-				refCurStockCode = BLLContainer(JKStockCodeModel).load<JKStockCodeBLL>(ptrModel->vecStockCode[0].get_id());
-				refCurStockCode->setContext(refContext);
-				//refCurStockCode = new JKStockCodeBLL(ptrModel->vecStockCode[0], refContext);
-			}
-		}
-		else
-		{
-			ptrModel = SingleDB->createBean<JKProjectModel>();
-		}
-	}
-
-	JKBLLContext* context = new JKBLLContext();
-	context->setProject(this);
-	this->setContext(context);
-
-}
-
 JKRef_Ptr<JKProjectBLL> JKProjectBLL::newProject(const JKString &fileName)
 {
 	if (JKSingleton<JKDatabase>::GetInstance().newDatabase(fileName))
 	{
-		JKRef_Ptr<JKProjectBLL> refProjectBLL = new JKProjectBLL(JKProjectBLL::ProjectInitStatus::DEFAULT_FirstOrNew);
-		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = new JKProjectSettingBLL();
-		refProjectBLL->setProjectSetting(_refProjectSetting);
+		JKRef_Ptr<JKProjectBLL> refProject = BLLContainer(JKProjectModel).newBLL<JKProjectBLL>();
 
-		return refProjectBLL;
+		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = BLLContainer(JKProjectSettingModel).newBLL<JKProjectSettingBLL>();
+		refProject->setProjectSetting(_refProjectSetting);
+
+		return refProject;
 	}
 	else
 	{
@@ -56,11 +30,28 @@ JKRef_Ptr<JKProjectBLL> JKProjectBLL::openProject(const JKString & path)
 {
 	if (JKSingleton<JKDatabase>::GetInstance().openDatabase(path))
 	{
-		JKRef_Ptr<JKProjectBLL> refProjectBLL = new JKProjectBLL(JKProjectBLL::ProjectInitStatus::DEFAULT_FirstOrNew);
-		
+		JKRef_Ptr<JKProjectBLL> refProject;
+
+		std::list<JKRef_Ptr<JKProjectBLL>> listBll =  BLLContainer(JKProjectModel).loadAll<JKProjectBLL>();
+		if (listBll.size() > 0)
+		{
+			refProject = *listBll.begin();
+			bean_ptr<JKProjectModel> ptrModel = refProject->getModel();
+			if (ptrModel->vecStockCode.size() > 0)
+			{
+				JKRef_Ptr<JKStockCodeBLL> refCurStockCode = BLLContainer(JKStockCodeModel).load<JKStockCodeBLL>(ptrModel->vecStockCode[0].get_id());
+				refProject->setCurStockCode(refCurStockCode);
+			}
+		}
+		else
+		{
+			refProject = BLLContainer(JKProjectModel).newBLL<JKProjectBLL>();
+		}
+		BLLContext.setProject(refProject);
+
 		try
 		{
-			refProjectBLL->upgradeDataVersion(JKSingleton<JKDatabase>::GetInstance().getDbDataVersion());
+			refProject->upgradeDataVersion(JKSingleton<JKDatabase>::GetInstance().getDbDataVersion());
 			JKSingleton<JKDatabase>::GetInstance().updateDbDataVersion();
 		}
 		catch (std::exception &e)
@@ -68,7 +59,7 @@ JKRef_Ptr<JKProjectBLL> JKProjectBLL::openProject(const JKString & path)
 			throw e;
 		}
 
-		return refProjectBLL;
+		return refProject;
 	}
 	return nullptr;
 }
@@ -125,7 +116,6 @@ vector<JKRef_Ptr<JKStockCodeBLL>> JKProjectBLL::getAllStockCode()
 	for (auto &var : ptrModel->vecStockCode)
 	{
 		JKRef_Ptr<JKStockCodeBLL> _refStockCodeTradeBLL = BLLContainer(JKStockCodeModel).load<JKStockCodeBLL>(var.get_id());
-		_refStockCodeTradeBLL->setContext(refContext);
 		vecTrades.push_back(_refStockCodeTradeBLL);
 	}
 
@@ -134,13 +124,17 @@ vector<JKRef_Ptr<JKStockCodeBLL>> JKProjectBLL::getAllStockCode()
 
 JKRef_Ptr<JKProjectSettingBLL> JKProjectBLL::getProjectSetting()
 {
+	JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting;
 	if (ptrModel->projectSetting.get_id() == -1)
 	{
-		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = new JKProjectSettingBLL();
+		_refProjectSetting = BLLContainer(JKProjectSettingModel).newBLL<JKProjectSettingBLL>();
 		ptrModel->projectSetting = _refProjectSetting->getModel();
 	}
+	else
+	{
+		_refProjectSetting = BLLContainer(JKProjectSettingModel).load<JKProjectSettingBLL>(ptrModel->projectSetting.get_id());
+	}
 
-	JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = new JKProjectSettingBLL(ptrModel->projectSetting, refContext);
 	return _refProjectSetting;
 }
 

@@ -11,8 +11,6 @@ class JKProjectSettingBLL : public JKBaseBLL<JKProjectSettingModel>
 	JK_BLL_INIT(JKProjectSetting);
 
 public:
-	JKProjectSettingBLL();
-
 	bool getIsStartCrawl();
 	void setIsStartCrawl(bool);
 

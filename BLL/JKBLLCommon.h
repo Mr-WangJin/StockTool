@@ -5,8 +5,8 @@
 template<typename T>\
 friend class JKBLLContainer;\
 protected:\
-	T##BLL(JKRef_Ptr<JKBLLContext> _refContext) : JKBaseBLL<T##Model>(_refContext) {};\
-	T##BLL(bean_ptr<T##Model> _refModel, JKRef_Ptr<JKBLLContext> _refContext) : JKBaseBLL<T##Model>(_refContext) \
+	T##BLL() : JKBaseBLL<T##Model>() {};\
+	T##BLL(bean_ptr<T##Model> _refModel) : JKBaseBLL<T##Model>() \
 	{ \
 		ptrModel = _refModel; \
 	}\

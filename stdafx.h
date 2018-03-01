@@ -18,6 +18,7 @@ using namespace hiberlite;
 
 #define SingleDB JKSingleton<JKDatabase>::GetInstance().db
 #define BLLContainer(T) JKSingleton<JKBLLContainer<T>>::GetInstance()
+#define BLLContext JKSingleton<JKBLLContext>::GetInstance()
 
 
 enum class TradeType

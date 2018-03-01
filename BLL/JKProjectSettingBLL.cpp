@@ -3,12 +3,6 @@
 #include "JKBLLContainer.h"
 
 
-JKProjectSettingBLL::JKProjectSettingBLL()
-{
-	ptrModel = SingleDB->createBean<JKProjectSettingModel>();
-	ptrModel->id = JKGuid::GuidToString(JKGuid::CreateGuid());
-}
-
 bool JKProjectSettingBLL::getIsStartCrawl()
 {
 	return ptrModel->isStartCrawl;
