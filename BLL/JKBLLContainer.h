@@ -147,8 +147,8 @@ template<typename ModelType>
 template<typename BLLType>
 inline void JKBLLContainer<ModelType>::save(JKRef_Ptr<BLLType> refBLLObject)
 {
-	assert(mapBLLObject.find(refBLLObject->getOriginID()) == mapBLLObject.end());
-	if (mapBLLObject.find(refBLLObject->getOriginID()) == mapBLLObject.end());
+	assert(mapBLLObject.find(refBLLObject->getOriginID()) != mapBLLObject.end());
+	if (mapBLLObject.find(refBLLObject->getOriginID()) != mapBLLObject.end());
 	{
 		refBLLObject->save();
 	}
@@ -173,8 +173,8 @@ template<typename ModelType>
 template<typename BLLType>
 inline void JKBLLContainer<ModelType>::destroy(JKRef_Ptr<BLLType> refBLLObject)
 {
-	assert(mapBLLObject.find(refBLLObject->getOriginID()) == mapBLLObject.end());
-	if (mapBLLObject.find(refBLLObject->getOriginID()) == mapBLLObject.end());
+	assert(mapBLLObject.find(refBLLObject->getOriginID()) != mapBLLObject.end());
+	if (mapBLLObject.find(refBLLObject->getOriginID()) != mapBLLObject.end())
 	{
 		mapBLLObject.erase(refBLLObject->getOriginID());
 		refBLLObject->destroy();

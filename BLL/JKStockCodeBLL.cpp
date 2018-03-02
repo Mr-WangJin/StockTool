@@ -31,7 +31,9 @@ bool JKStockCodeBLL::deleteTrade(JKRef_Ptr<JKStockCodeTradeBLL> _refTradeBll)
 	if (!_refTradeBll.valid())
 		return false;
 
-	return ptrModel->delStockCodeTrade(_refTradeBll->getModel());
+	ptrModel->delStockCodeTrade(_refTradeBll->getModel());
+	DestroyBLL(JKStockCodeTradeBLL, JKStockCodeTradeModel, _refTradeBll);
+	return true;
 }
 
 void JKStockCodeBLL::upgradeDataVersion(int dataVersion)

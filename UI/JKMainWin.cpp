@@ -390,6 +390,7 @@ void JKMainWin::onDeleteTrade()
 		{
 			_refStockCode->deleteTrade(var);
 		}
+		emit afterStockCodeChanged(_refStockCode);
 	}
 }
 
