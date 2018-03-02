@@ -80,12 +80,12 @@ void JKProjectBLL::upgradeDataVersion(int dataVersion)
 	{
 
 	}
-
 }
 
 JKRef_Ptr<JKStockCodeBLL> JKProjectBLL::newStockCode()
 {
 	JKRef_Ptr<JKStockCodeBLL> _refStockCode = NewBLL(JKStockCodeBLL, JKStockCodeModel);
+	_refStockCode->setParentID(parentID);
 
 	ptrModel->addStockCode(_refStockCode->getModel());
 	return _refStockCode;
@@ -94,25 +94,6 @@ JKRef_Ptr<JKStockCodeBLL> JKProjectBLL::newStockCode()
 void JKProjectBLL::setCurStockCode(JKRef_Ptr<JKStockCodeBLL> stockCode)
 {
 	refCurStockCode = stockCode;
-}
-
-void JKProjectBLL::save()
-{
-	SaveBean(JKProjectSettingBLL, JKProjectSettingModel, ptrModel->projectSetting);
-	for (int i = 0; i< ptrModel->vecStockCode.size(); ++i)
-	{
-		SaveBean(JKStockCodeBLL, JKStockCodeModel, ptrModel->vecStockCode[i]);
-	}
-}
-
-void JKProjectBLL::destroy()
-{
-	refCurStockCode = nullptr;
-	DestroyBean(JKProjectSettingBLL, JKProjectSettingModel, ptrModel->projectSetting);
-	for (int i = 0; i < ptrModel->vecStockCode.size(); ++i)
-	{
-		DestroyBean(JKStockCodeBLL, JKStockCodeModel, ptrModel->vecStockCode[i]);
-	}
 }
 
 JKRef_Ptr<JKStockCodeBLL> JKProjectBLL::getCurStockCode()
@@ -160,7 +141,7 @@ void JKProjectBLL::deleteStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 		refCurStockCode = nullptr;
 
 	ptrModel->deleteStockCode(_refStockCode->getModel());
-	
+	DestroyBLL(JKStockCodeBLL, JKStockCodeModel, refCurStockCode);
 }
 
 float JKProjectBLL::getStampTax()
@@ -186,4 +167,23 @@ void JKProjectBLL::setTransfer(float transfer)
 void JKProjectBLL::setCommission(float commission)
 {
 	ptrModel->commission = commission;
+}
+
+void JKProjectBLL::save()
+{
+	SaveBean(JKProjectSettingBLL, JKProjectSettingModel, ptrModel->projectSetting);
+	for (int i = 0; i < ptrModel->vecStockCode.size(); ++i)
+	{
+		SaveBean(JKStockCodeBLL, JKStockCodeModel, ptrModel->vecStockCode[i]);
+	}
+}
+
+void JKProjectBLL::destroy()
+{
+	refCurStockCode = nullptr;
+	DestroyBean(JKProjectSettingBLL, JKProjectSettingModel, ptrModel->projectSetting);
+	for (int i = 0; i < ptrModel->vecStockCode.size(); ++i)
+	{
+		DestroyBean(JKStockCodeBLL, JKStockCodeModel, ptrModel->vecStockCode[i]);
+	}
 }

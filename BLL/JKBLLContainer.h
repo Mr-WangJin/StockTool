@@ -23,13 +23,13 @@ public:
 	}
 
 	template<typename BLLType>
-	inline JKRef_Ptr<BLLType> newBLL();
+	inline JKRef_Ptr<BLLType> newBLL(JKInt _parentID = -1);
 
 	template<typename BLLType>
-	inline JKRef_Ptr<BLLType> load(JKInt id);
+	inline JKRef_Ptr<BLLType> load(JKInt id, JKInt _parentID = -1);
 
 	template<typename BLLType>
-	inline std::list<JKRef_Ptr<BLLType>> loadAll();
+	inline std::list<JKRef_Ptr<BLLType>> loadAll(JKInt _parentID = -1);
 
 	template<typename BLLType>
 	inline JKRef_Ptr<BLLType> find(JKInt id);
@@ -59,7 +59,7 @@ private:
 
 template<typename ModelType>
 template<typename BLLType>
-inline JKRef_Ptr<BLLType> JKBLLContainer<ModelType>::newBLL()
+inline JKRef_Ptr<BLLType> JKBLLContainer<ModelType>::newBLL(JKInt _parentID = -1)
 {
 	JKRef_Ptr<BLLType> refBLLObject = new BLLType();
 
@@ -73,7 +73,7 @@ inline JKRef_Ptr<BLLType> JKBLLContainer<ModelType>::newBLL()
 
 template<typename ModelType>
 template<typename BLLType>
-inline JKRef_Ptr<BLLType> JKBLLContainer<ModelType>::load(JKInt id)
+inline JKRef_Ptr<BLLType> JKBLLContainer<ModelType>::load(JKInt id, JKInt _parentID = -1)
 {
 	if (mapBLLObject.find(id) == mapBLLObject.end())
 	{
@@ -91,25 +91,25 @@ inline JKRef_Ptr<BLLType> JKBLLContainer<ModelType>::load(JKInt id)
 
 template<typename ModelType>
 template<typename BLLType>
-inline JKRef_Ptr<BLLType>  JKBLLContainer<ModelType>::find(JKInt id) 
+inline std::list<JKRef_Ptr<BLLType>> JKBLLContainer<ModelType>::loadAll(JKInt _parentID = -1)
 {
-	if (mapBLLObject.find(id) == mapBLLObject.end())
-		return nullptr;
-	
-	return JKRef_Ptr<BLLType>(dynamic_cast<BLLType*>(mapBLLObject[id].get()));
-}
-
-template<typename ModelType>
-template<typename BLLType>
-inline std::list<JKRef_Ptr<BLLType>> JKBLLContainer<ModelType>::loadAll()
-{
-	std::vector<sqlid_t> vecIds = SingleDB->getBeanIds<JKProjectModel>();
+	std::vector<sqlid_t> vecIds = SingleDB->getBeanIds<ModelType>();
 	std::list<JKRef_Ptr<BLLType>> listRefBll;
 	for (auto id : vecIds)
 	{
 		listRefBll.emplace_back(this->load<BLLType>(id));
 	}
 	return listRefBll;
+}
+
+template<typename ModelType>
+template<typename BLLType>
+inline JKRef_Ptr<BLLType>  JKBLLContainer<ModelType>::find(JKInt id) 
+{
+	if (mapBLLObject.find(id) == mapBLLObject.end())
+		return nullptr;
+	
+	return JKRef_Ptr<BLLType>(dynamic_cast<BLLType*>(mapBLLObject[id].get()));
 }
 
 template<typename ModelType>

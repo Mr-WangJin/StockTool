@@ -34,6 +34,7 @@ using namespace hiberlite;
 #define DestroyBean(BLLType, ModelType, Model) BLLContainer(ModelType).destroy<BLLType>(Model)
 
 
+
 enum class TradeType
 {
 	BUY = 1 << 0,

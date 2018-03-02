@@ -20,6 +20,9 @@ public:
 	const JKString & getId() {return ptrModel->id; }
 	JKInt getOriginID() { return ptrModel.get_id(); }
 
+	JKInt getParentID() { return parentID; };
+	void setParentID(JKInt pID) { parentID = pID; };
+
 	/** Éý¼¶Êý¾Ý */
 	virtual void upgradeDataVersion(int dataVersion) {}
 
@@ -33,7 +36,7 @@ protected:
 	virtual void destroy();
 
 protected:
-	
+	JKInt parentID = -1;
 	bean_ptr<T> ptrModel; 
 };
 
