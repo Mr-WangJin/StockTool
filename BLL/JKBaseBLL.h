@@ -13,7 +13,7 @@ class JKBaseBLL : public JKReferenced
 	template<typename T>
 	friend class JKBLLContainer;
 public:
-	JKBaseBLL()	{}
+	JKBaseBLL(JKInt _parentID = -1) { parentID = _parentID; }
 	virtual ~JKBaseBLL() {}
 
 public:

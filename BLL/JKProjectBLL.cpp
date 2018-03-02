@@ -13,9 +13,9 @@ JKRef_Ptr<JKProjectBLL> JKProjectBLL::newProject(const JKString &fileName)
 {
 	if (JKSingleton<JKDatabase>::GetInstance().newDatabase(fileName))
 	{
-		JKRef_Ptr<JKProjectBLL> refProject = NewBLL(JKProjectBLL, JKProjectModel);
+		JKRef_Ptr<JKProjectBLL> refProject = NewBLL(JKProjectBLL, JKProjectModel, -1);
 
-		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = NewBLL(JKProjectSettingBLL, JKProjectSettingModel);
+		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = NewBLL(JKProjectSettingBLL, JKProjectSettingModel, refProject->getOriginID());
 		refProject->setProjectSetting(_refProjectSetting);
 
 		return refProject;
@@ -39,7 +39,7 @@ JKRef_Ptr<JKProjectBLL> JKProjectBLL::openProject(const JKString & path)
 			bean_ptr<JKProjectModel> ptrModel = refProject->getModel();
 			if (ptrModel->vecStockCode.size() > 0)
 			{
-				JKRef_Ptr<JKStockCodeBLL> refCurStockCode = LoadBLL(JKStockCodeBLL, JKStockCodeModel, ptrModel->vecStockCode[0].get_id());
+				JKRef_Ptr<JKStockCodeBLL> refCurStockCode = LoadBLL(JKStockCodeBLL, JKStockCodeModel, ptrModel->vecStockCode[0].get_id(), -1);
 				refProject->setCurStockCode(refCurStockCode);
 			}
 		}
@@ -112,7 +112,7 @@ vector<JKRef_Ptr<JKStockCodeBLL>> JKProjectBLL::getAllStockCode()
 
 	for (auto &var : ptrModel->vecStockCode)
 	{
-		JKRef_Ptr<JKStockCodeBLL> _refStockCodeTradeBLL = LoadBLL(JKStockCodeBLL, JKStockCodeModel, var.get_id());
+		JKRef_Ptr<JKStockCodeBLL> _refStockCodeTradeBLL = LoadBLL(JKStockCodeBLL, JKStockCodeModel, var.get_id(), parentID);
 		vecTrades.push_back(_refStockCodeTradeBLL);
 	}
 
@@ -129,7 +129,7 @@ JKRef_Ptr<JKProjectSettingBLL> JKProjectBLL::getProjectSetting()
 	}
 	else
 	{
-		_refProjectSetting = LoadBLL(JKProjectSettingBLL, JKProjectSettingModel, ptrModel->projectSetting.get_id());
+		_refProjectSetting = LoadBLL(JKProjectSettingBLL, JKProjectSettingModel, ptrModel->projectSetting.get_id(), parentID);
 	}
 
 	return _refProjectSetting;

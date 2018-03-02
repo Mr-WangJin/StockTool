@@ -20,10 +20,10 @@ using namespace hiberlite;
 #define BLLContainer(T) JKSingleton<JKBLLContainer<T>>::GetInstance()
 #define BLLContext JKSingleton<JKBLLContext>::GetInstance()
 
-#define NewBLL(BLLType, ModelType) BLLContainer(ModelType).newBLL<BLLType>()
+#define NewBLL(BLLType, ModelType, pID) BLLContainer(ModelType).newBLL<BLLType>(pID)
 
-#define LoadBLL(BLLType, ModelType, ID) BLLContainer(ModelType).load<BLLType>(ID)
-#define LoadALLBLL(BLLType, ModelType) BLLContainer(ModelType).loadAll<BLLType>()
+#define LoadBLL(BLLType, ModelType, ID, pID) BLLContainer(ModelType).load<BLLType>(ID, pID)
+#define LoadALLBLL(BLLType, ModelType, pID) BLLContainer(ModelType).loadAll<BLLType>(pID)
 
 #define FindBLL(BLLType, ModelType, ID) BLLContainer(ModelType).find<BLLType>(ID)
 

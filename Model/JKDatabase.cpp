@@ -23,6 +23,8 @@ JKDatabase::JKDatabase()
 
 JKDatabase::~JKDatabase()
 {
+	if (db)
+		db->close();
 }
 
 bool JKDatabase::newDatabase(JKString fileName)
@@ -81,6 +83,7 @@ bool JKDatabase::openDatabase(JKString fullName)
 		db->registerBeanClass<JKStockCodeTradeItemModel>();
 
 		this->checkModel();
+
 
 		return true;
 	}

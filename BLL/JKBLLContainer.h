@@ -25,8 +25,11 @@ public:
 	template<typename BLLType>
 	inline JKRef_Ptr<BLLType> newBLL(JKInt _parentID = -1);
 
+// 	template<typename BLLType>
+// 	inline JKRef_Ptr<BLLType> load(JKInt id);
+
 	template<typename BLLType>
-	inline JKRef_Ptr<BLLType> load(JKInt id, JKInt _parentID = -1);
+	inline JKRef_Ptr<BLLType> load(JKInt id, JKInt _parentID);
 
 	template<typename BLLType>
 	inline std::list<JKRef_Ptr<BLLType>> loadAll(JKInt _parentID = -1);
@@ -59,7 +62,7 @@ private:
 
 template<typename ModelType>
 template<typename BLLType>
-inline JKRef_Ptr<BLLType> JKBLLContainer<ModelType>::newBLL(JKInt _parentID = -1)
+inline JKRef_Ptr<BLLType> JKBLLContainer<ModelType>::newBLL(JKInt _parentID)
 {
 	JKRef_Ptr<BLLType> refBLLObject = new BLLType();
 
@@ -71,14 +74,32 @@ inline JKRef_Ptr<BLLType> JKBLLContainer<ModelType>::newBLL(JKInt _parentID = -1
 	return refBLLObject;
 }
 
+// template<typename ModelType>
+// template<typename BLLType>
+// inline JKRef_Ptr<BLLType> JKBLLContainer<ModelType>::load(JKInt id)
+// {
+// 	if (mapBLLObject.find(id) == mapBLLObject.end())
+// 	{
+// 		bean_ptr<ModelType> ptrModel = SingleDB->loadBean<ModelType>(id);
+// 		JKRef_Ptr<BLLType> refBLLObject = new BLLType();
+// 		refBLLObject->setModel(ptrModel);
+// 		this->add(refBLLObject);
+// 		return refBLLObject;
+// 	}
+// 	else
+// 	{
+// 		return JKRef_Ptr<BLLType>(dynamic_cast<BLLType*>(mapBLLObject[id].get()));
+// 	}
+// }
+
 template<typename ModelType>
 template<typename BLLType>
-inline JKRef_Ptr<BLLType> JKBLLContainer<ModelType>::load(JKInt id, JKInt _parentID = -1)
+inline JKRef_Ptr<BLLType> JKBLLContainer<ModelType>::load(JKInt id, JKInt _parentID)
 {
 	if (mapBLLObject.find(id) == mapBLLObject.end())
 	{
 		bean_ptr<ModelType> ptrModel = SingleDB->loadBean<ModelType>(id);
-		JKRef_Ptr<BLLType> refBLLObject = new BLLType();
+		JKRef_Ptr<BLLType> refBLLObject = new BLLType(_parentID);
 		refBLLObject->setModel(ptrModel);
 		this->add(refBLLObject);
 		return refBLLObject;
@@ -91,13 +112,13 @@ inline JKRef_Ptr<BLLType> JKBLLContainer<ModelType>::load(JKInt id, JKInt _paren
 
 template<typename ModelType>
 template<typename BLLType>
-inline std::list<JKRef_Ptr<BLLType>> JKBLLContainer<ModelType>::loadAll(JKInt _parentID = -1)
+inline std::list<JKRef_Ptr<BLLType>> JKBLLContainer<ModelType>::loadAll(JKInt _parentID)
 {
 	std::vector<sqlid_t> vecIds = SingleDB->getBeanIds<ModelType>();
 	std::list<JKRef_Ptr<BLLType>> listRefBll;
 	for (auto id : vecIds)
 	{
-		listRefBll.emplace_back(this->load<BLLType>(id));
+		listRefBll.emplace_back(this->load<BLLType>(id, _parentID));
 	}
 	return listRefBll;
 }
@@ -141,7 +162,7 @@ inline void JKBLLContainer<ModelType>::save(bean_ptr<ModelType> ptrModel)
 		return;
 	ptrModel.save();
 
-	JKRef_Ptr<BLLType> refBLL = FindBLL(BLLType, ModelType, ptrModel.get_id());
+	JKRef_Ptr<BLLType> refBLL = this->find<BLLType>(ptrModel.get_id());
 	if (refBLL)
 	{
 		refBLL->save();
@@ -166,7 +187,14 @@ inline void JKBLLContainer<ModelType>::destroy(bean_ptr<ModelType> ptrModel)
 {
 	if (ptrModel.destroyed())
 		return;
-	JKRef_Ptr<BLLType> refBLL = LoadBLL(BLLType, ModelType, ptrModel.get_id());
+
+	JKRef_Ptr<BLLType> refBLL = this->find<BLLType>(ptrModel.get_id());
+	if (refBLL == nullptr)
+	{
+		JKRef_Ptr<BLLType> refBLLObject = new BLLType();
+		refBLLObject->setModel(ptrModel);
+		this->add<BLLType>(refBLLObject);
+	}
 	DestroyBLL(BLLType, ModelType, refBLL);
 }
 

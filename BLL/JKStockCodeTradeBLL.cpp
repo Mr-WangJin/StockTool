@@ -130,7 +130,7 @@ void JKStockCodeTradeBLL::getTradeItems(std::vector<JKRef_Ptr<JKStockCodeTradeIt
 {
 	for (auto &var : ptrModel->vecSellItem)
 	{
-		JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = LoadBLL(JKStockCodeTradeItemBLL, JKStockCodeTradeItemModel, var.get_id());
+		JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = LoadBLL(JKStockCodeTradeItemBLL, JKStockCodeTradeItemModel, var.get_id(), parentID);
 		vecTradeItems.push_back(_refStockCodeTradeItem);
 	}
 }
