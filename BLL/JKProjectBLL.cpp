@@ -109,7 +109,10 @@ void JKProjectBLL::destroy()
 {
 	refCurStockCode = nullptr;
 	DestroyBean(JKProjectSettingBLL, JKProjectSettingModel, ptrModel->projectSetting);
-
+	for (int i = 0; i < ptrModel->vecStockCode.size(); ++i)
+	{
+		DestroyBean(JKStockCodeBLL, JKStockCodeModel, ptrModel->vecStockCode[i]);
+	}
 }
 
 JKRef_Ptr<JKStockCodeBLL> JKProjectBLL::getCurStockCode()

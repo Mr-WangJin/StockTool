@@ -157,3 +157,22 @@ void JKStockCodeTradeBLL::upgradeDataVersion(int dataVersion)
 		}
 	}
 }
+
+void JKStockCodeTradeBLL::save()
+{
+	//SaveBean(JKStockCodeSettingBLL, JKStockCodeSettingModel, ptrModel->codeSetting);
+	for (int i = 0; i < ptrModel->vecSellItem.size(); ++i)
+	{
+		SaveBean(JKStockCodeTradeItemBLL, JKStockCodeTradeItemModel, ptrModel->vecSellItem[i]);
+	}
+}
+
+void JKStockCodeTradeBLL::destroy()
+{
+	//DestroyBean(JKStockCodeSettingBLL, JKStockCodeSettingModel, ptrModel->codeSetting);
+
+	for (int i = 0; i < ptrModel->vecSellItem.size(); ++i)
+	{
+		DestroyBean(JKStockCodeTradeItemBLL, JKStockCodeTradeItemModel, ptrModel->vecSellItem[i]);
+	}
+}

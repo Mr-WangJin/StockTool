@@ -108,3 +108,22 @@ void JKStockCodeBLL::setLatestPrice(double latestPrice)
 {
 	ptrModel->latestPrice = latestPrice;
 }
+
+void JKStockCodeBLL::save()
+{
+	//SaveBean(JKStockCodeSettingBLL, JKStockCodeSettingModel, ptrModel->codeSetting);
+	for (int i = 0; i < ptrModel->vecCodeTrade.size(); ++i)
+	{
+		SaveBean(JKStockCodeTradeBLL, JKStockCodeTradeModel, ptrModel->vecCodeTrade[i]);
+	}
+}
+
+void JKStockCodeBLL::destroy()
+{
+	//DestroyBean(JKStockCodeSettingBLL, JKStockCodeSettingModel, ptrModel->codeSetting);
+
+	for (int i = 0; i < ptrModel->vecCodeTrade.size(); ++i)
+	{
+		DestroyBean(JKStockCodeTradeBLL, JKStockCodeTradeModel, ptrModel->vecCodeTrade[i]);
+	}
+}

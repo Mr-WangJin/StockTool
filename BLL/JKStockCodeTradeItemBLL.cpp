@@ -16,3 +16,13 @@ void JKStockCodeTradeItemBLL::setRealEarning(double _realEarning)
 {
 	ptrModel->realEarning = _realEarning;
 }
+
+void JKStockCodeTradeItemBLL::save()
+{
+
+}
+
+void JKStockCodeTradeItemBLL::destroy()
+{
+
+}

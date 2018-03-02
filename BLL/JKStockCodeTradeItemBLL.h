@@ -17,6 +17,10 @@ public:
 
 	/** 设置真实收益 */
 	void setRealEarning(double _realEarning);
+
+protected:
+	virtual void save() override;
+	virtual void destroy() override;
 };
 
 

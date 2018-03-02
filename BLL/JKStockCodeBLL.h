@@ -33,6 +33,10 @@ public:
 
 	virtual void upgradeDataVersion(int dataVersion) override;
 
+protected:
+	virtual void save() override;
+	virtual void destroy() override;
+
 };
 
 
