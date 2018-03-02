@@ -20,6 +20,19 @@ using namespace hiberlite;
 #define BLLContainer(T) JKSingleton<JKBLLContainer<T>>::GetInstance()
 #define BLLContext JKSingleton<JKBLLContext>::GetInstance()
 
+#define NewBLL(BLLType, ModelType) BLLContainer(ModelType).newBLL<BLLType>()
+
+#define LoadBLL(BLLType, ModelType, ID) BLLContainer(ModelType).load<BLLType>(ID)
+#define LoadALLBLL(BLLType, ModelType) BLLContainer(ModelType).loadAll<BLLType>()
+
+#define FindBLL(BLLType, ModelType, ID) BLLContainer(ModelType).find<BLLType>(ID)
+
+#define SaveBLL(BLLType, ModelType, BLL) BLLContainer(ModelType).save<BLLType>(BLL)
+#define SaveBean(BLLType, ModelType, Model) BLLContainer(ModelType).save<BLLType>(Model)
+
+#define DestroyBLL(BLLType, ModelType, BLL) BLLContainer(ModelType).destroy<BLLType>(BLL)
+#define DestroyBean(BLLType, ModelType, Model) BLLContainer(ModelType).destroy<BLLType>(Model)
+
 
 enum class TradeType
 {

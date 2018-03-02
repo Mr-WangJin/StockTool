@@ -44,6 +44,11 @@ public:
 
 	void setCurStockCode(JKRef_Ptr<JKStockCodeBLL> stockCode);
 
+protected:
+	virtual void save() override;
+	virtual void destroy() override;
+
+
 private:
 	JKRef_Ptr<JKStockCodeBLL> refCurStockCode;
 };

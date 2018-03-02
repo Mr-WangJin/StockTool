@@ -5,6 +5,7 @@
 #include "JKStockTradeUtil.h"
 #include "JKProjectBLL.h"
 #include "JKStockCodeBLL.h"
+#include "JKBLLContainer.h"
 
 
 void JKStockCodeTradeBLL::setParams(TradeType type, JKString date, JKUInt64 count, double buyPrice)
@@ -29,7 +30,7 @@ void JKStockCodeTradeBLL::sell(double sellPrice, size_t sellCount, size_t sellSu
 	JKStockTradeUtil stockTrackUtil(stampTax, transfer, commission);
 	double expactEarning = stockTrackUtil.getExpactEarning(sellPrice, JKRef_Ptr<JKStockCodeTradeBLL>(this), sellCount);
 	
-	JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = new JKStockCodeTradeItemBLL();
+	JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = NewBLL(JKStockCodeTradeItemBLL, JKStockCodeTradeItemModel);
 	_refStockCodeTradeItem->setParams(sellPrice, sellCount, sellSumCount, stampTax, transfer, commission);
 	_refStockCodeTradeItem->setRealEarning(expactEarning);
 	ptrModel->addStockCodeTradeItem(_refStockCodeTradeItem->getModel());
@@ -129,7 +130,7 @@ void JKStockCodeTradeBLL::getTradeItems(std::vector<JKRef_Ptr<JKStockCodeTradeIt
 {
 	for (auto &var : ptrModel->vecSellItem)
 	{
-		JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = new JKStockCodeTradeItemBLL(var);
+		JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = LoadBLL(JKStockCodeTradeItemBLL, JKStockCodeTradeItemModel, var.get_id());
 		vecTradeItems.push_back(_refStockCodeTradeItem);
 	}
 }

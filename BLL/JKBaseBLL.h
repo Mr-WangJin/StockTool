@@ -24,13 +24,13 @@ public:
 	virtual void upgradeDataVersion(int dataVersion) {}
 
 	virtual void save();
-	//virtual void destory();
 	virtual bool destoried();
-
 
 protected:
 	bean_ptr<T> getModel() { return ptrModel; };
 	void setModel(bean_ptr<T> model) { ptrModel = model; }
+
+	virtual void destroy();
 
 protected:
 	
@@ -44,11 +44,11 @@ void JKBaseBLL<T>::save()
 	ptrModel.save();
 }
 
-//template<typename T>
-//void JKBaseBLL<T>::destory()
-//{
-//	ptrModel.destroy();
-//}
+template<typename T>
+void JKBaseBLL<T>::destroy()
+{
+	ptrModel.destroy();
+}
 
 template<typename T>
 bool JKBaseBLL<T>::destoried()

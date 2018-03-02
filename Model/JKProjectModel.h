@@ -22,7 +22,6 @@ class JKProjectModel : public JKBaseModel
 		ar & HIBERLITE_NVP(projectSetting);
 	}
 
-
 public:
 	void addStockCode(bean_ptr<JKStockCodeModel> stockCode);
 	void deleteStockCode(bean_ptr<JKStockCodeModel> stockCode);

@@ -32,10 +32,22 @@ public:
 	inline std::list<JKRef_Ptr<BLLType>> loadAll();
 
 	template<typename BLLType>
+	inline JKRef_Ptr<BLLType> find(JKInt id);
+
+	template<typename BLLType>
 	inline void add(JKRef_Ptr<BLLType> refBLLObject);
 
 	template<typename BLLType>
-	inline void destory(JKRef_Ptr<BLLType> refBLLObject);
+	inline void save(JKRef_Ptr<BLLType> refBLLObject);
+
+	template<typename BLLType>
+	inline void save(bean_ptr<ModelType> ptrModel);
+
+	template<typename BLLType>
+	inline void destroy(JKRef_Ptr<BLLType> refBLLObject);
+
+	template<typename BLLType>
+	inline void destroy(bean_ptr<ModelType> ptrModel);
 
 public:
 	JKBLLContainer() {};
@@ -79,6 +91,16 @@ inline JKRef_Ptr<BLLType> JKBLLContainer<ModelType>::load(JKInt id)
 
 template<typename ModelType>
 template<typename BLLType>
+inline JKRef_Ptr<BLLType>  JKBLLContainer<ModelType>::find(JKInt id) 
+{
+	if (mapBLLObject.find(id) == mapBLLObject.end())
+		return nullptr;
+	
+	return JKRef_Ptr<BLLType>(dynamic_cast<BLLType*>(mapBLLObject[id].get()));
+}
+
+template<typename ModelType>
+template<typename BLLType>
 inline std::list<JKRef_Ptr<BLLType>> JKBLLContainer<ModelType>::loadAll()
 {
 	std::vector<sqlid_t> vecIds = SingleDB->getBeanIds<JKProjectModel>();
@@ -102,12 +124,50 @@ inline void JKBLLContainer<ModelType>::add(JKRef_Ptr<BLLType> refBLLObject)
 
 template<typename ModelType>
 template<typename BLLType>
-inline void JKBLLContainer<ModelType>::destory(JKRef_Ptr<BLLType> refBLLObject)
+inline void JKBLLContainer<ModelType>::save(JKRef_Ptr<BLLType> refBLLObject)
 {
-	assert(refBLLObject->getOriginID() == mapBLLObject.end());
+	assert(mapBLLObject.find(refBLLObject->getOriginID()) == mapBLLObject.end());
+	if (mapBLLObject.find(refBLLObject->getOriginID()) == mapBLLObject.end());
+	{
+		refBLLObject->save();
+	}
+}
+
+template<typename ModelType>
+template<typename BLLType>
+inline void JKBLLContainer<ModelType>::save(bean_ptr<ModelType> ptrModel)
+{
+	if (ptrModel.destroyed())
+		return;
+	ptrModel.save();
+
+	JKRef_Ptr<BLLType> refBLL = FindBLL(BLLType, ModelType, ptrModel.get_id());
+	if (refBLL)
+	{
+		refBLL->save();
+	}
+}
+
+template<typename ModelType>
+template<typename BLLType>
+inline void JKBLLContainer<ModelType>::destroy(JKRef_Ptr<BLLType> refBLLObject)
+{
+	assert(mapBLLObject.find(refBLLObject->getOriginID()) == mapBLLObject.end());
 	if (mapBLLObject.find(refBLLObject->getOriginID()) == mapBLLObject.end());
 	{
 		mapBLLObject.erase(refBLLObject->getOriginID());
+		refBLLObject->destroy();
 	}
-
 }
+
+template<typename ModelType>
+template<typename BLLType>
+inline void JKBLLContainer<ModelType>::destroy(bean_ptr<ModelType> ptrModel)
+{
+	if (ptrModel.destroyed())
+		return;
+	JKRef_Ptr<BLLType> refBLL = LoadBLL(BLLType, ModelType, ptrModel.get_id());
+	DestroyBLL(BLLType, ModelType, refBLL);
+}
+
+
