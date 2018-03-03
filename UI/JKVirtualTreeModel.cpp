@@ -4,32 +4,24 @@
 class JKVirtualModelInterfaceImpl : public JKVirtualModelInterface
 {
 public:
-  JKVirtualModelInterfaceImpl(JKVirtualTreeModel &model);
-  void beginUpdate() override;
-  void endUpdate() override;
-  void QueuedUpdate() override;
+	JKVirtualModelInterfaceImpl(JKVirtualTreeModel &model) : m_model(model) {};
+	virtual ~JKVirtualModelInterfaceImpl() {};
+
+	void beginUpdate() override
+	{
+		m_model.beginUpdate();
+	}
+	void endUpdate() override
+	{
+		m_model.endUpdate();
+	}
+	void QueuedUpdate() override
+	{
+		m_model.QueuedUpdate();
+	}
 private:
-  JKVirtualTreeModel &m_model;
+	JKVirtualTreeModel &m_model;
 };
-
-
-JKVirtualModelInterfaceImpl::JKVirtualModelInterfaceImpl(JKVirtualTreeModel &model) : m_model(model)
-{
-
-}
-
-void JKVirtualModelInterfaceImpl::beginUpdate() {
-  m_model.beginUpdate();
-}
-
-void JKVirtualModelInterfaceImpl::endUpdate() {
-  m_model.endUpdate();
-}
-
-void JKVirtualModelInterfaceImpl::QueuedUpdate()
-{
-  m_model.QueuedUpdate();
-}
 
 typedef std::vector<std::unique_ptr<InternalNode>> InternalChildren;
 
@@ -37,9 +29,9 @@ typedef std::vector<std::unique_ptr<InternalNode>> InternalChildren;
 class InternalNode
 {
 public:
-  InternalNode(InternalNode *parent, void *obj, size_t index) : parent(parent), item(obj), parentIndex(index) {}
+  InternalNode(InternalNode *parent, BaseObjectConstRefPtr obj, size_t index) : parent(parent), item(obj), parentIndex(index) {}
   InternalNode *parent;
-  void *item;
+  BaseObjectConstRefPtr item;
   size_t parentIndex;  
   InternalChildren children;
   bool hasChildrenQueryed = false;
@@ -114,7 +106,7 @@ JKVirtualTreeModel::~JKVirtualTreeModel()
   delete m_intf;
 }
 
-void JKVirtualTreeModel::syncNodeList(InternalNode &node, void *parent)
+void JKVirtualTreeModel::syncNodeList(InternalNode &node, BaseObjectConstRefPtr parent)
 {
   InternalChildren &nodes = node.children;
   int srcStart = 0;
@@ -153,10 +145,10 @@ void JKVirtualTreeModel::syncNodeList(InternalNode &node, void *parent)
         beginInsertRows(index, srcCur, srcCur + insertCount - 1);
         for (int i = 0, cur = srcCur; i < insertCount; i++, cur++)
         {
-          void *obj = m_adapter->getItem(parent, destStart + i);
-          auto newNode = new InternalNode(&node, obj, cur);
-          // just add new node we shouldn't sync its children yet
-          nodes.emplace(nodes.begin() + cur, newNode);
+			BaseObjectConstRefPtr obj = m_adapter->getItem(parent, destStart + i);
+			auto newNode = new InternalNode(&node, obj, cur);
+			// just add new node we shouldn't sync its children yet
+			nodes.emplace(nodes.begin() + cur, newNode);
         }
         node.insertedChildren(srcCur + insertCount);
         endInsertRows();
@@ -185,8 +177,8 @@ QVariant JKVirtualTreeModel::data(const QModelIndex &index, int role) const
   if (m_updating > 0 || m_adapter == nullptr)
     return QVariant();
 
-  void *item = getNode(index).item;
-  return m_adapter->data(item, role);
+  BaseObjectConstRefPtr item = getNode(index).item;
+  return m_adapter->data(item, role, index);
 }
 
 QModelIndex JKVirtualTreeModel::index(int row, int column, const QModelIndex &parent) const
@@ -241,11 +233,11 @@ InternalNode & JKVirtualTreeModel::getNode(const QModelIndex &index) const
     return *m_root;
 }
 
-InternalNode *JKVirtualTreeModel::getItemNode(void *item) const
+InternalNode *JKVirtualTreeModel::getItemNode(BaseObjectConstRefPtr item) const
 {
   if (m_adapter == nullptr)
     return nullptr;
-  void * parentItem = m_adapter->getItemParent(item);
+  BaseObjectConstRefPtr parentItem = m_adapter->getItemParent(item);
   if (parentItem == item)
     return nullptr;
   if (parentItem == nullptr)
@@ -299,12 +291,12 @@ bool JKVirtualTreeModel::hasChildren(const QModelIndex &parent) const
     return false;
 }
 
-void *JKVirtualTreeModel::getItem(const QModelIndex &index) const
+BaseObjectConstRefPtr JKVirtualTreeModel::getItem(const QModelIndex &index) const
 {
   return getNode(index).item;
 }
 
-QModelIndex JKVirtualTreeModel::getItemIndex(void *item) const
+QModelIndex JKVirtualTreeModel::getItemIndex(BaseObjectConstRefPtr item) const
 {
   auto node = getItemNode(item);
   if (node)

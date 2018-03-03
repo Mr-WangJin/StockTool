@@ -17,6 +17,7 @@
 #include "JKSetTradeProperty.h"
 #include "BLL/JKProjectSettingBLL.h"
 #include <QSettings>
+#include "JKBuyStockTableWidget.h"
 
 #define REG_RUN "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 
@@ -132,6 +133,8 @@ void JKMainWin::newProject()
 		}
 	}
 }
+
+#include "JKVirtualTreeModel.h"
 
 void JKMainWin::openRecentProject()
 {
@@ -597,6 +600,12 @@ void JKMainWin::onAfterStockChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 		{
 			systemTrayIcon->setToolTip(QString("JKStockTool\n%1%2").arg(QStringLiteral("×îÐÂ¼Û£º")).arg(_refStockCode->getLatestPrice()));
 		}
+
+		JKBuyStockTableViewer* view = new JKBuyStockTableViewer;
+		JKBuyStockTableAdapter* add = new JKBuyStockTableAdapter(refProject->getCurStockCode());
+		JKVirtualTreeModel* model = new JKVirtualTreeModel(add);
+		view->setModel(model);
+		view->show();
 	}
 	
 }

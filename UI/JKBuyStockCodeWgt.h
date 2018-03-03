@@ -14,7 +14,7 @@ public:
 	JKBuyStockCodeWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode, QWidget* parent = nullptr);
 	~JKBuyStockCodeWgt();
 
-	JKRef_Ptr<JKStockCodeTradeBLL> getNewStockCodeTrade();
+	StockCodeTradeBLLConstRefPtr getNewStockCodeTrade();
 
 	private slots:
 	void okClicked();

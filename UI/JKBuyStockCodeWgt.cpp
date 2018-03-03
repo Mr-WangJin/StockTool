@@ -19,7 +19,7 @@ JKBuyStockCodeWgt::~JKBuyStockCodeWgt()
 
 }
 
-JKRef_Ptr<JKStockCodeTradeBLL> JKBuyStockCodeWgt::getNewStockCodeTrade()
+StockCodeTradeBLLConstRefPtr JKBuyStockCodeWgt::getNewStockCodeTrade()
 {
 	return refStockCodeTrade;
 };

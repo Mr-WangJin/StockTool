@@ -18,15 +18,15 @@ JKString JKStockCodeBLL::getCode()
 	return ptrModel->code;
 }
 
-JKRef_Ptr<JKStockCodeTradeBLL> JKStockCodeBLL::newStockCodeTrade()
+StockCodeTradeBLLConstRefPtr JKStockCodeBLL::newStockCodeTrade()
 {
-	JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTrade = NewBLL(JKStockCodeTradeBLL, JKStockCodeTradeModel);
+	StockCodeTradeBLLConstRefPtr _refStockCodeTrade = NewBLL(JKStockCodeTradeBLL, JKStockCodeTradeModel, getOriginID());
 
 	ptrModel->addStockCodeTrade(_refStockCodeTrade->getModel());
 	return _refStockCodeTrade;
 }
 
-bool JKStockCodeBLL::deleteTrade(JKRef_Ptr<JKStockCodeTradeBLL> _refTradeBll)
+bool JKStockCodeBLL::deleteTrade(StockCodeTradeBLLConstRefPtr _refTradeBll)
 {
 	if (!_refTradeBll.valid())
 		return false;
@@ -50,7 +50,7 @@ void JKStockCodeBLL::getAllTrades(vector<JKRef_Ptr<JKStockCodeTradeBLL>> &_vecSt
 {
 	for (auto &var : ptrModel->vecCodeTrade)
 	{
-		JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTradeBLL = LoadBLL( JKStockCodeTradeBLL,JKStockCodeTradeModel, var.get_id(), parentID);
+		StockCodeTradeBLLConstRefPtr _refStockCodeTradeBLL = LoadBLL( JKStockCodeTradeBLL,JKStockCodeTradeModel, var.get_id(), getOriginID());
 		_vecStockTrade.push_back(_refStockCodeTradeBLL);
 	}
 }
@@ -59,19 +59,35 @@ void JKStockCodeBLL::getTradesByType(int type, vector<JKRef_Ptr<JKStockCodeTrade
 {
 	for (auto &var : ptrModel->vecCodeTrade)
 	{
-		JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTradeBLL = LoadBLL(JKStockCodeTradeBLL, JKStockCodeTradeModel, var.get_id(), parentID);
+		StockCodeTradeBLLConstRefPtr _refStockCodeTradeBLL = LoadBLL(JKStockCodeTradeBLL, JKStockCodeTradeModel, var.get_id(), getOriginID());
 		if ((int)_refStockCodeTradeBLL->getType() & type)
 			_vecStockTrade.push_back(_refStockCodeTradeBLL);
 	}
 }
 
-JKRef_Ptr<JKStockCodeTradeBLL> JKStockCodeBLL::getStockTradeById(const JKString &id)
+//StockCodeTradeBLLConstRefPtr JKStockCodeBLL::getTradeByIndex(int index)
+//{
+//	assert(index < ptrModel->vecCodeTrade.size());
+//
+//	StockCodeTradeBLLConstRefPtr _refStockCodeTradeBLL = LoadBLL(JKStockCodeTradeBLL, JKStockCodeTradeModel, ptrModel->vecCodeTrade[index].get_id(), getOriginID());
+//	return _refStockCodeTradeBLL;
+//}
+
+int JKStockCodeBLL::getTradeCountByType(int type)
+{
+	vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecStockCodeTrade;
+	this->getTradesByType(type, vecStockCodeTrade);
+
+	return vecStockCodeTrade.size();
+}
+
+StockCodeTradeBLLConstRefPtr JKStockCodeBLL::getStockTradeById(const JKString &id)
 {
 	for (auto &var : ptrModel->vecCodeTrade)
 	{
 		if (var->id != id)
 			continue;
-		JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTradeBLL = LoadBLL(JKStockCodeTradeBLL, JKStockCodeTradeModel, var.get_id(), parentID);
+		StockCodeTradeBLLConstRefPtr _refStockCodeTradeBLL = LoadBLL(JKStockCodeTradeBLL, JKStockCodeTradeModel, var.get_id(), getOriginID());
 		return _refStockCodeTradeBLL;
 	}
 	return nullptr;

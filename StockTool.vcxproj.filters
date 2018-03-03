@@ -63,6 +63,9 @@
     <Filter Include="Utils\MiniDump">
       <UniqueIdentifier>{367e13ab-78e8-4766-958b-f0596307dbff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\Framework">
+      <UniqueIdentifier>{5a3d651f-0219-40fc-9939-01b2aa90ea04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\qrc_stocktool.cpp">
@@ -295,6 +298,27 @@
     <ClCompile Include="BLL\JKProjectSettingBLL.cpp">
       <Filter>BLL</Filter>
     </ClCompile>
+    <ClCompile Include="UI\JKVirtualTreeAdapter.cpp">
+      <Filter>UI\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\JKVirtualTreeModel.cpp">
+      <Filter>UI\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_JKVirtualTreeModel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_JKVirtualTreeModel.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_JKBuyStockTableWidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_JKBuyStockTableWidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\JKBuyStockTableWidget.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\JKMainWin.h">
@@ -375,6 +399,12 @@
     </CustomBuild>
     <CustomBuild Include="UI\JKSetTradeProperty.h">
       <Filter>UI\Setting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKVirtualTreeModel.h">
+      <Filter>UI\Framework</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKBuyStockTableWidget.h">
+      <Filter>UI</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -507,6 +537,9 @@
     </ClInclude>
     <ClInclude Include="BLL\JKBLLContainer.h">
       <Filter>BLL</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\JKVirtualTreeAdapter.h">
+      <Filter>UI\Framework</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

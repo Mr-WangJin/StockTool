@@ -18,18 +18,21 @@ public:
 
 	void setLatestPrice(double latestPrice);
 
-	void getAllTrades(vector<JKRef_Ptr<JKStockCodeTradeBLL>> &_vecStockTrade);
-	void getTradesByType(int type, vector<JKRef_Ptr<JKStockCodeTradeBLL>> &_vecStockTrade);
+
+	void getAllTrades(vector<StockCodeTradeBLLPtr> &_vecStockTrade);
+	void getTradesByType(int type, vector<StockCodeTradeBLLPtr> &_vecStockTrade);
+	//StockCodeTradeBLLConstRefPtr getTradeByIndex(int index);
+	int getTradeCountByType(int type);
 	
-	JKRef_Ptr<JKStockCodeTradeBLL> getStockTradeById(const JKString &id);
+	StockCodeTradeBLLConstRefPtr getStockTradeById(const JKString &id);
 	bool batchSellTrade(std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecStockTrade, size_t sellCount, float sellPrice);
 
 
 	//设置股票参数
 	void setParams(JKString name, JKString code, double latestPrice);
 
-	JKRef_Ptr<JKStockCodeTradeBLL> newStockCodeTrade();
-	bool deleteTrade(JKRef_Ptr<JKStockCodeTradeBLL>);
+	StockCodeTradeBLLConstRefPtr newStockCodeTrade();
+	bool deleteTrade(StockCodeTradeBLLConstRefPtr);
 
 	virtual void upgradeDataVersion(int dataVersion) override;
 

@@ -14,20 +14,20 @@ public:
 	virtual ~JKStockTradeUtil();
 
 	//获取买入成本
-	double getTradeBuyCost(JKRef_Ptr<JKStockCodeTradeBLL>);
+	double getTradeBuyCost(StockCodeTradeBLLConstRefPtr);
 	//获取买入成本单价
-	double getTradeBuyCostPrice(JKRef_Ptr<JKStockCodeTradeBLL>);
+	double getTradeBuyCostPrice(StockCodeTradeBLLConstRefPtr);
 	////获取卖出成本
-	//double getTradeSellCost(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL>);
+	//double getTradeSellCost(double latestPrice, StockCodeTradeBLLConstRefPtr);
 	//获取预期卖出收益
-	double getExpactEarning(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL>);
-	double getExpactEarning(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL>, size_t count);
+	double getExpactEarning(double latestPrice, StockCodeTradeBLLConstRefPtr);
+	double getExpactEarning(double latestPrice, StockCodeTradeBLLConstRefPtr, size_t count);
 	//获取预期卖出收益百分比
-	double getExpactEarningPercent(double latestPrice, JKRef_Ptr<JKStockCodeTradeBLL> refStockCodeTrade);
+	double getExpactEarningPercent(double latestPrice, StockCodeTradeBLLConstRefPtr refStockCodeTrade);
 	//获取卖出真实收益
-	double getRealEarning(JKRef_Ptr<JKStockCodeTradeBLL>);
+	double getRealEarning(StockCodeTradeBLLConstRefPtr);
 	//获取卖出真实收益百分比
-	double getRealEarningPercent(JKRef_Ptr<JKStockCodeTradeBLL>);
+	double getRealEarningPercent(StockCodeTradeBLLConstRefPtr);
 
 	//获取佣金
 	double getCommission(double buyCost);

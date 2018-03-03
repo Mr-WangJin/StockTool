@@ -7,13 +7,29 @@
 USING_JK_NAMESPACE
 
 #include "Model\JKDatabase.h"
-
-
 #include <hiberlite.h>
+using namespace hiberlite;
+
+
+#include "BLL\JKBaseBLL.h"
 #include <QMessageBox>
 
+#define DefTypePtr(obj) \
+class JK##obj;\
+using obj##Ptr = JKRef_Ptr<JK##obj>;\
+using obj##ConstRefPtr = JKRef_Ptr<JK##obj>;
+//using obj##ConstRefPtr = const JKRef_Ptr<JK##obj> &;
+//using obj##RefPtr = JKRef_Ptr<JK##obj> &; \
 
-using namespace hiberlite;
+DefTypePtr(BaseObject)
+//using BaseObjectPtr = JKRef_Ptr<JKBaseObject>;
+//using BaseObjectRefPtr = JKRef_Ptr<JKBaseObject> &;
+//using BaseObjectConstRefPtr = const JKRef_Ptr<JKBaseObject> &;
+
+DefTypePtr(StockCodeBLL)
+DefTypePtr(StockCodeTradeBLL)
+
+
 
 
 #define SingleDB JKSingleton<JKDatabase>::GetInstance().db
@@ -40,7 +56,6 @@ enum class TradeType
 	BUY = 1 << 0,
 	SELL = 1 << 1,
 	PART = 1 << 2,
-
 };
 
 enum class HoldStockType

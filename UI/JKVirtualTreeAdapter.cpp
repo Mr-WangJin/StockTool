@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "JKVirtualTreeAdapter.h"
 
-int JKVirtualModelAdapter::indexOf(void *parent, void *item, int start)
+int JKVirtualModelAdapter::indexOf(BaseObjectConstRefPtr parent, BaseObjectConstRefPtr item, int start)
 {
   int count = getItemsCount(parent);
   for (int i = start; i < count; ++i)
@@ -10,12 +10,12 @@ int JKVirtualModelAdapter::indexOf(void *parent, void *item, int start)
   return -1;
 }
 
-bool JKVirtualModelAdapter::hasItems(void *parent)
+bool JKVirtualModelAdapter::hasItems(BaseObjectConstRefPtr parent)
 {
   return getItemsCount(parent) > 0;
 }
 
-void *JKVirtualModelAdapter::getItemParent(void *item)
+BaseObjectConstRefPtr JKVirtualModelAdapter::getItemParent(BaseObjectConstRefPtr item)
 {
   return item;
 }

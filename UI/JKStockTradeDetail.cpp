@@ -3,7 +3,7 @@
 #include "BLL\JKStockTradeUtil.h"
 #include "BLL\JKStockCodeTradeBLL.h"
 
-JKStockTradeDetail::JKStockTradeDetail(JKRef_Ptr<JKStockTradeUtil> refUtil, JKRef_Ptr<JKStockCodeTradeBLL> refStockTrade, double latestPrice, QWidget *parent)
+JKStockTradeDetail::JKStockTradeDetail(JKRef_Ptr<JKStockTradeUtil> refUtil, StockCodeTradeBLLConstRefPtr refStockTrade, double latestPrice, QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);

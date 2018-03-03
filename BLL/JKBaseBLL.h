@@ -2,13 +2,24 @@
 
 #include "JKBLLCommon.h"
 #include <JKFramework/SmartPtr/JKReferenced.h>
-#include "JKBLLContext.h"
+
+class JKBaseObject : public JKReferenced
+{
+public: 
+	JKBaseObject();
+	virtual ~JKBaseObject();
+
+	const char* getClassName();
+
+	const JKRef_Ptr<JKBaseObject> & toBaseObject() { return JKRef_Ptr<JKBaseObject>(this); };
+
+};
 
 template<typename T>
 class JKBLLContainer;
 
 template<typename T>
-class JKBaseBLL : public JKReferenced
+class JKBaseBLL : public JKBaseObject
 {
 	template<typename T>
 	friend class JKBLLContainer;
@@ -18,10 +29,13 @@ public:
 
 public:
 	const JKString & getId() {return ptrModel->id; }
-	JKInt getOriginID() { return ptrModel.get_id(); }
+	inline JKInt getOriginID() { return ptrModel.get_id(); }
 
 	JKInt getParentID() { return parentID; };
 	void setParentID(JKInt pID) { parentID = pID; };
+
+	//virtual const JKRef_Ptr<JKBaseObject> & getParent() { return nullptr; };
+	//virtual BaseObjectConstRefPtr getParents() { return BaseObjectPtr(); };
 
 	/** Éý¼¶Êý¾Ý */
 	virtual void upgradeDataVersion(int dataVersion) {}

@@ -24,8 +24,8 @@ public:
   int columnCount(const QModelIndex &parent = QModelIndex()) const override;
   bool hasChildren(const QModelIndex &parent = QModelIndex()) const override;
 
-  void * getItem(const QModelIndex &index) const;
-  QModelIndex getItemIndex(void *item) const;
+  BaseObjectConstRefPtr getItem(const QModelIndex &index) const;
+  QModelIndex getItemIndex(BaseObjectConstRefPtr item) const;
 
   JKVirtualModelAdapter * setModelAdapter(JKVirtualModelAdapter *adapter);
   JKVirtualModelAdapter * getModelAdapter() const;
@@ -46,10 +46,10 @@ private:
   int m_updating;
 
   InternalNode & getNode(const QModelIndex &index) const;
-  InternalNode *getItemNode(void *item) const;
+  InternalNode *getItemNode(BaseObjectConstRefPtr item) const;
   QModelIndex getIndex(const InternalNode &node, int column = 0) const;
 
-  void syncNodeList(InternalNode &node, void *parent);
+  void syncNodeList(InternalNode &node, BaseObjectConstRefPtr parent);
   bool m_syncing;
   void syncTree();
 

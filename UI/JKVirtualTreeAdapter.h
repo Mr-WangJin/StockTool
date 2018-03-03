@@ -1,21 +1,22 @@
 #ifndef VIRTUALMODELADAPTER_H
 #define VIRTUALMODELADAPTER_H
 
-#include "QVariant"
+#include "BLL\JKBaseBLL.h"
+#include <QVariant>
 
 class JKVirtualModelInterface;
 
 class JKVirtualModelAdapter {
 public:
-  virtual int getItemsCount(void *parent) = 0;
-  virtual void * getItem(void *parent, int index) = 0;
-  virtual QVariant data(void *item, int role) = 0;
+  virtual int getItemsCount(BaseObjectConstRefPtr parent) = 0;
+  virtual BaseObjectConstRefPtr getItem(BaseObjectConstRefPtr parent, int index) = 0;
+  virtual QVariant data(BaseObjectConstRefPtr item, int role, const QModelIndex &index) = 0;
 
   // reimplement if you can optimize them
-  virtual int indexOf(void *parent, void *item, int start = 0);
-  virtual bool hasItems(void *parent);
+  virtual int indexOf(BaseObjectConstRefPtr parent, BaseObjectConstRefPtr item, int start = 0);
+  virtual bool hasItems(BaseObjectConstRefPtr parent);
   // needed to map item to QIndex by VirtualTreeModel::getItemIndex only
-  virtual void * getItemParent(void *item);
+  virtual BaseObjectConstRefPtr getItemParent(BaseObjectConstRefPtr item);
 
   void beginUpdate();
   void endUpdate();

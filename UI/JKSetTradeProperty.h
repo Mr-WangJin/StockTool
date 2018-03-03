@@ -14,7 +14,7 @@ public:
 	JKSetTradeProperty(QWidget *parent = 0);
 	~JKSetTradeProperty();
 
-	void setStockCodeTrade(JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTrade);
+	void setStockCodeTrade(StockCodeTradeBLLConstRefPtr _refStockCodeTrade);
 
 	private slots:
 	void onOkClick();

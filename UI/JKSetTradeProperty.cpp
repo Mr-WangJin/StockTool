@@ -17,7 +17,7 @@ JKSetTradeProperty::~JKSetTradeProperty()
 
 }
 
-void JKSetTradeProperty::setStockCodeTrade(JKRef_Ptr<JKStockCodeTradeBLL> _refStockCodeTrade)
+void JKSetTradeProperty::setStockCodeTrade(StockCodeTradeBLLConstRefPtr _refStockCodeTrade)
 {
 	refStockCodeTrade = _refStockCodeTrade;
 

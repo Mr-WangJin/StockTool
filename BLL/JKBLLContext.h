@@ -1,10 +1,10 @@
 #pragma once
 
-#include <JKFramework/SmartPtr/JKReferenced.h>
+#include "JKBaseBLL.h"
 
 class JKProjectBLL;
 
-class JKBLLContext : public JKReferenced
+class JKBLLContext : public JKBaseObject
 {
 	friend class JKSingleton<JKBLLContext>;
 public:

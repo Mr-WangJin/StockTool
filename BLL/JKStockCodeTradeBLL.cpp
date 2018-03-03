@@ -3,9 +3,8 @@
 #include "JKStockCodeTradeItemBLL.h"
 #include "Model/JKStockCodeTradeModel.h"
 #include "JKStockTradeUtil.h"
-#include "JKProjectBLL.h"
-#include "JKStockCodeBLL.h"
 #include "JKBLLContainer.h"
+#include "JKBLLContext.h"
 
 
 void JKStockCodeTradeBLL::setParams(TradeType type, JKString date, JKUInt64 count, double buyPrice)
@@ -28,7 +27,7 @@ void JKStockCodeTradeBLL::sell(double sellPrice, size_t sellCount, size_t sellSu
 		return;
 
 	JKStockTradeUtil stockTrackUtil(stampTax, transfer, commission);
-	double expactEarning = stockTrackUtil.getExpactEarning(sellPrice, JKRef_Ptr<JKStockCodeTradeBLL>(this), sellCount);
+	double expactEarning = stockTrackUtil.getExpactEarning(sellPrice, StockCodeTradeBLLConstRefPtr(this), sellCount);
 	
 	JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = NewBLL(JKStockCodeTradeItemBLL, JKStockCodeTradeItemModel);
 	_refStockCodeTradeItem->setParams(sellPrice, sellCount, sellSumCount, stampTax, transfer, commission);
@@ -130,7 +129,7 @@ void JKStockCodeTradeBLL::getTradeItems(std::vector<JKRef_Ptr<JKStockCodeTradeIt
 {
 	for (auto &var : ptrModel->vecSellItem)
 	{
-		JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = LoadBLL(JKStockCodeTradeItemBLL, JKStockCodeTradeItemModel, var.get_id(), parentID);
+		JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = LoadBLL(JKStockCodeTradeItemBLL, JKStockCodeTradeItemModel, var.get_id(), getOriginID());
 		vecTradeItems.push_back(_refStockCodeTradeItem);
 	}
 }
@@ -141,21 +140,21 @@ void JKStockCodeTradeBLL::upgradeDataVersion(int dataVersion)
 	 *	之前版本卖出没有创建JKStockCodeTradeItemModel，
 	 *	后来添加上之后，需要对之前的工程创建JKStockCodeTradeItem
 	 */
-	if (dataVersion < 1)
-	{
-		if (this->getType() == TradeType::SELL)
-		{
-			JKRef_Ptr<JKProjectBLL> _refProject = BLLContext.getProject();
-			float stampTax = _refProject->getStampTax();
-			float transfer = _refProject->getTransfer();
-			float commission = _refProject->getCommission();
+	//if (dataVersion < 1)
+	//{
+	//	if (this->getType() == TradeType::SELL)
+	//	{
+	//		JKRef_Ptr<JKProjectBLL> _refProject = BLLContext.getProject();
+	//		float stampTax = _refProject->getStampTax();
+	//		float transfer = _refProject->getTransfer();
+	//		float commission = _refProject->getCommission();
 
-			double sellPrice = this->getSellPrice();
-			size_t count = this->getCount();
+	//		double sellPrice = this->getSellPrice();
+	//		size_t count = this->getCount();
 
-			this->sell(sellPrice, count, count, stampTax, transfer, commission);
-		}
-	}
+	//		this->sell(sellPrice, count, count, stampTax, transfer, commission);
+	//	}
+	//}
 }
 
 void JKStockCodeTradeBLL::save()
