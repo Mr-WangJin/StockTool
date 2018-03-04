@@ -91,7 +91,7 @@ JKRef_Ptr<JKStockCodeBLL> JKProjectBLL::newStockCode()
 	return _refStockCode;
 }
 
-void JKProjectBLL::setCurStockCode(JKRef_Ptr<JKStockCodeBLL> stockCode)
+void JKProjectBLL::setCurStockCode(StockCodeBLLConstRefPtr stockCode)
 {
 	refCurStockCode = stockCode;
 }
@@ -135,7 +135,7 @@ JKRef_Ptr<JKProjectSettingBLL> JKProjectBLL::getProjectSetting()
 	return _refProjectSetting;
 }
 
-void JKProjectBLL::deleteStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
+void JKProjectBLL::deleteStockCode(StockCodeBLLConstRefPtr _refStockCode)
 {
 	if (refCurStockCode == _refStockCode)
 		refCurStockCode = nullptr;

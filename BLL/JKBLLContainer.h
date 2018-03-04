@@ -23,7 +23,7 @@ public:
 	}
 
 	template<typename BLLType>
-	inline const JKRef_Ptr<BLLType> & newBLL(JKInt _parentID = -1);
+	inline JKRef_Ptr<BLLType> newBLL(JKInt _parentID = -1);
 
 	// 	template<typename BLLType>
 	// 	inline JKRef_Ptr<BLLType> load(JKInt id);
@@ -35,7 +35,7 @@ public:
 	inline std::list<JKRef_Ptr<BLLType>> loadAll(JKInt _parentID = -1);
 
 	template<typename BLLType>
-	inline const JKRef_Ptr<BLLType> & find(JKInt id);
+	inline JKRef_Ptr<BLLType> find(JKInt id);
 
 	template<typename BLLType>
 	inline void add(const JKRef_Ptr<BLLType> & refBLLObject);
@@ -62,7 +62,7 @@ private:
 
 template<typename ModelType>
 template<typename BLLType>
-inline const JKRef_Ptr<BLLType> & JKBLLContainer<ModelType>::newBLL(JKInt _parentID)
+inline JKRef_Ptr<BLLType> JKBLLContainer<ModelType>::newBLL(JKInt _parentID)
 {
 	JKRef_Ptr<BLLType> refBLLObject = new BLLType();
 
@@ -118,14 +118,14 @@ inline std::list<JKRef_Ptr<BLLType>> JKBLLContainer<ModelType>::loadAll(JKInt _p
 	std::list<JKRef_Ptr<BLLType>> listRefBll;
 	for (auto id : vecIds)
 	{
-		listRefBll.push_back(this->load<BLLType>(id, _parentID));
+		listRefBll.emplace_back(this->load<BLLType>(id, _parentID));
 	}
 	return listRefBll;
 }
 
 template<typename ModelType>
 template<typename BLLType>
-inline const JKRef_Ptr<BLLType> & JKBLLContainer<ModelType>::find(JKInt id) 
+inline JKRef_Ptr<BLLType> JKBLLContainer<ModelType>::find(JKInt id) 
 {
 	if (mapBLLObject.find(id) == mapBLLObject.end())
 		return nullptr;

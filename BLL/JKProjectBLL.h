@@ -21,17 +21,17 @@ public:
 
 	virtual void upgradeDataVersion(int dataVersion) override;
 	
-	static JKRef_Ptr<JKProjectBLL> newProject(const JKString &path);
-	static JKRef_Ptr<JKProjectBLL> openProject(const JKString &path);
+	static ProjectBLLPtr newProject(const JKString &path);
+	static ProjectBLLPtr openProject(const JKString &path);
 
-	JKRef_Ptr<JKStockCodeBLL> newStockCode();
-	JKRef_Ptr<JKStockCodeBLL> getCurStockCode();
+	StockCodeBLLPtr newStockCode();
+	StockCodeBLLPtr getCurStockCode();
 	vector<JKRef_Ptr<JKStockCodeBLL>> getAllStockCode();
 
 	void setProjectSetting(JKRef_Ptr<JKProjectSettingBLL>);
-	JKRef_Ptr<JKProjectSettingBLL> getProjectSetting();
+	ProjectSettingBLLPtr getProjectSetting();
 
-	void deleteStockCode(JKRef_Ptr<JKStockCodeBLL> _refStockCode);
+	void deleteStockCode(StockCodeBLLConstRefPtr _refStockCode);
 	//获取印花税
 	float getStampTax();
 	void setStampTax(float);
@@ -42,7 +42,7 @@ public:
 	float getCommission();
 	void setCommission(float);
 
-	void setCurStockCode(JKRef_Ptr<JKStockCodeBLL> stockCode);
+	void setCurStockCode(StockCodeBLLConstRefPtr stockCode);
 
 protected:
 	virtual void save() override;

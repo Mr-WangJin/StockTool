@@ -20,6 +20,9 @@ void JKBuyStockTableViewer::setModel(QAbstractItemModel * model)
 }
 
 ///////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////
 JKBuyStockTableAdapter::JKBuyStockTableAdapter(BaseObjectConstRefPtr _root)
 	: JKVirtualModelAdapter()
 {
@@ -37,13 +40,16 @@ int JKBuyStockTableAdapter::getItemsCount(BaseObjectConstRefPtr parent)
 	StockCodeBLLConstRefPtr _stockCodeBll = dynamic_cast<JKStockCodeBLL*>(_baseObject.get());
 	if (_stockCodeBll != nullptr)
 	{
+		//typedef int (JKStockCodeBLL::*ptr_fun)(int);
+		//ptr_fun f = static_cast<ptr_fun>(&JKStockCodeBLL::getTradeCountByType);
+		//return (_stockCodeBll.get()->*f)((int)tradeType);
+
 		return _stockCodeBll->getTradeCountByType((int)tradeType);
 	}
-
 }
 
 
-BaseObjectConstRefPtr JKBuyStockTableAdapter::getItem(BaseObjectConstRefPtr parent, int index)
+BaseObjectPtr JKBuyStockTableAdapter::getItem(BaseObjectConstRefPtr parent, int index)
 {
 	BaseObjectConstRefPtr _baseObject = getValue(parent);
 	StockCodeBLLConstRefPtr _stockCodeBll = dynamic_cast<JKStockCodeBLL*>(_baseObject.get());
@@ -70,6 +76,7 @@ BaseObjectConstRefPtr JKBuyStockTableAdapter::getItem(BaseObjectConstRefPtr pare
 
 		return item;
 	}
+	return BaseObjectPtr();
 }
 
 
@@ -83,6 +90,15 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 		{
 			return _stockCodeBll->getClassName();
 		}
+		StockCodeTradeBLLConstRefPtr _stockCodeTradeBll = dynamic_cast<JKStockCodeTradeBLL*>(_baseObject.get());
+		if (_stockCodeTradeBll)
+		{
+			if (index.column() == 1)
+				return _stockCodeTradeBll->getBuyPrice();
+			else
+				return _stockCodeTradeBll->getCount();
+
+		}
 		return QVariant("aaaa");
 
 	}
@@ -92,7 +108,60 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 	}
 }
 
-BaseObjectConstRefPtr JKBuyStockTableAdapter::getItemParent(BaseObjectConstRefPtr item)
+QVariant JKBuyStockTableAdapter::headerData(int section, Qt::Orientation orientation, int role)
+{
+	if (orientation != Qt::Horizontal)
+		return QVariant();
+
+	if (role == Qt::DisplayRole)
+	{
+		switch (section)
+		{
+		case 0:
+		{
+			return QVariant(QStringLiteral("买卖"));
+		}
+		case 1:
+		{
+			return QVariant(QStringLiteral("时间"));
+		}
+		case 2:
+		{
+			return QVariant(QStringLiteral("数量"));
+		}
+		case 3:
+		{
+			return QVariant(QStringLiteral("买入价"));
+		}
+		case 4:
+		{
+				return QVariant(QStringLiteral("成本价"));
+		}
+		case 5:
+		{
+			return QVariant(QStringLiteral("预计收益"));
+		}
+		case 6:
+		{
+			return QVariant(QStringLiteral("收益百分比"));
+		}
+		case 7:
+		{
+			return QVariant(QStringLiteral("卖出数量"));
+		}
+		case 8:
+		{
+			return QVariant(QStringLiteral("卖出收益"));
+		}
+		default:
+			break;
+		}
+	}
+
+	return QVariant();
+}
+
+BaseObjectPtr JKBuyStockTableAdapter::getItemParent(BaseObjectConstRefPtr item)
 {
 	if (item == root)
 		return nullptr;
@@ -107,7 +176,12 @@ BaseObjectConstRefPtr JKBuyStockTableAdapter::getItemParent(BaseObjectConstRefPt
 	//return item ? reinterpret_cast<Part*>(item)->parent : nullptr;
 }
 
-BaseObjectConstRefPtr JKBuyStockTableAdapter::getValue(BaseObjectConstRefPtr data)
+int JKBuyStockTableAdapter::getColumnCount()
+{
+	return 9;
+}
+
+BaseObjectPtr JKBuyStockTableAdapter::getValue(BaseObjectConstRefPtr data)
 {
 	return data ? data : root;
 }

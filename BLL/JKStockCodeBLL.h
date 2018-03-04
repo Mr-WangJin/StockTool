@@ -24,14 +24,14 @@ public:
 	//StockCodeTradeBLLConstRefPtr getTradeByIndex(int index);
 	int getTradeCountByType(int type);
 	
-	StockCodeTradeBLLConstRefPtr getStockTradeById(const JKString &id);
+	StockCodeTradeBLLPtr getStockTradeById(const JKString &id);
 	bool batchSellTrade(std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecStockTrade, size_t sellCount, float sellPrice);
 
 
 	//设置股票参数
 	void setParams(JKString name, JKString code, double latestPrice);
 
-	StockCodeTradeBLLConstRefPtr newStockCodeTrade();
+	StockCodeTradeBLLPtr newStockCodeTrade();
 	bool deleteTrade(StockCodeTradeBLLConstRefPtr);
 
 	virtual void upgradeDataVersion(int dataVersion) override;

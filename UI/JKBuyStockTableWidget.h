@@ -35,15 +35,21 @@ public:
 
 	int getItemsCount(BaseObjectConstRefPtr parent) override;
 
-	BaseObjectConstRefPtr getItem(BaseObjectConstRefPtr parent, int index) override;
 	QVariant data(BaseObjectConstRefPtr item, int role, const QModelIndex &index) override;
-	BaseObjectConstRefPtr getItemParent(BaseObjectConstRefPtr item) override;
+	QVariant headerData(int section, Qt::Orientation orientation, int role) override;
 
-	BaseObjectConstRefPtr getValue(BaseObjectConstRefPtr data);
+	BaseObjectPtr getItem(BaseObjectConstRefPtr parent, int index) override;
+	BaseObjectPtr getItemParent(BaseObjectConstRefPtr item) override;
+
+	virtual int getColumnCount() override;
+
+	inline BaseObjectPtr getValue(BaseObjectConstRefPtr data);
+
 private:
 	BaseObjectPtr root;
 
 	int tradeType = (int)TradeType::BUY;
+
 };
 
 

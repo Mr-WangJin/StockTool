@@ -15,7 +15,7 @@ bool JKVirtualModelAdapter::hasItems(BaseObjectConstRefPtr parent)
   return getItemsCount(parent) > 0;
 }
 
-BaseObjectConstRefPtr JKVirtualModelAdapter::getItemParent(BaseObjectConstRefPtr item)
+BaseObjectPtr JKVirtualModelAdapter::getItemParent(BaseObjectConstRefPtr item)
 {
   return item;
 }

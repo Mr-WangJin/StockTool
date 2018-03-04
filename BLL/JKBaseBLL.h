@@ -9,7 +9,7 @@ public:
 	JKBaseObject();
 	virtual ~JKBaseObject();
 
-	const char* getClassName();
+	virtual const char* getClassName();
 
 	const JKRef_Ptr<JKBaseObject> & toBaseObject() { return JKRef_Ptr<JKBaseObject>(this); };
 
@@ -45,7 +45,7 @@ public:
 
 protected:
 	bean_ptr<T> getModel() { return ptrModel; };
-	void setModel(bean_ptr<T> model) { ptrModel = model; }
+	void setModel(const bean_ptr<T> & model) { ptrModel = model; }
 
 	virtual void destroy();
 

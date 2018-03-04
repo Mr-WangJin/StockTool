@@ -18,7 +18,7 @@ JKString JKStockCodeBLL::getCode()
 	return ptrModel->code;
 }
 
-StockCodeTradeBLLConstRefPtr JKStockCodeBLL::newStockCodeTrade()
+StockCodeTradeBLLPtr JKStockCodeBLL::newStockCodeTrade()
 {
 	StockCodeTradeBLLConstRefPtr _refStockCodeTrade = NewBLL(JKStockCodeTradeBLL, JKStockCodeTradeModel, getOriginID());
 
@@ -81,7 +81,7 @@ int JKStockCodeBLL::getTradeCountByType(int type)
 	return vecStockCodeTrade.size();
 }
 
-StockCodeTradeBLLConstRefPtr JKStockCodeBLL::getStockTradeById(const JKString &id)
+StockCodeTradeBLLPtr JKStockCodeBLL::getStockTradeById(const JKString &id)
 {
 	for (auto &var : ptrModel->vecCodeTrade)
 	{

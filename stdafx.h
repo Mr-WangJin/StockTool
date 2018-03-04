@@ -17,7 +17,7 @@ using namespace hiberlite;
 #define DefTypePtr(obj) \
 class JK##obj;\
 using obj##Ptr = JKRef_Ptr<JK##obj>;\
-using obj##ConstRefPtr = JKRef_Ptr<JK##obj>;
+using obj##ConstRefPtr = const JKRef_Ptr<JK##obj> &;
 //using obj##ConstRefPtr = const JKRef_Ptr<JK##obj> &;
 //using obj##RefPtr = JKRef_Ptr<JK##obj> &; \
 
@@ -26,8 +26,12 @@ DefTypePtr(BaseObject)
 //using BaseObjectRefPtr = JKRef_Ptr<JKBaseObject> &;
 //using BaseObjectConstRefPtr = const JKRef_Ptr<JKBaseObject> &;
 
+DefTypePtr(ProjectBLL)
+DefTypePtr(ProjectSettingBLL)
 DefTypePtr(StockCodeBLL)
 DefTypePtr(StockCodeTradeBLL)
+
+
 
 
 
