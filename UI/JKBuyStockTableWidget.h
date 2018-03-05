@@ -6,33 +6,14 @@
 
 class JKStockCodeBLL;
 
-class JKBuyStockTableViewer : public QTableView
-{
-	Q_OBJECT
-
-public:
-	JKBuyStockTableViewer(QWidget* parent = nullptr);
-	virtual ~JKBuyStockTableViewer();
-
-	virtual void setModel(QAbstractItemModel *model) override;
-
-	/*void getSelectedStockTradeIds(std::vector<JKString> &_vecStockTradeIDs);
-	void getSelectedStockTrade(std::vector<StockCodeTradeBLLConstRefPtr> &_vecStockTrade);*/
-
-
-private:
-	/*void initHeader();
-	void initUI();*/
-
-};
-
-
 class JKBuyStockTableAdapter : public JKVirtualModelAdapter
 {
 public:
 	JKBuyStockTableAdapter(BaseObjectConstRefPtr _stockCodeBll);
+	JKBuyStockTableAdapter(const JKBuyStockTableAdapter *);
 	~JKBuyStockTableAdapter();
 
+	void setRoot(BaseObjectConstRefPtr _root) { root = _root; };
 	int getItemsCount(BaseObjectConstRefPtr parent) override;
 
 	QVariant data(BaseObjectConstRefPtr item, int role, const QModelIndex &index) override;

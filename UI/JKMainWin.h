@@ -13,6 +13,7 @@
 
 class QLabel;
 class QSystemTrayIcon;
+class JKBuyStockTableAdapter;
 
 
 class JKMainWin : public QMainWindow
@@ -106,6 +107,7 @@ private:
 	JKRef_Ptr<JKProjectBLL> refProject;
 
 	JKCrawlPrice* crawlPrice = nullptr;
+	std::shared_ptr<JKBuyStockTableAdapter> buyStockTableAdapterPtr;
 
 
 };

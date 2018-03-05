@@ -4,20 +4,6 @@
 #include "BLL\JKStockCodeTradeBLL.h"
 #include "BLL\JKBLLContainer.h"
 
-JKBuyStockTableViewer::JKBuyStockTableViewer(QWidget* parent/* = nullptr*/)
-{
-
-}
-JKBuyStockTableViewer::~JKBuyStockTableViewer()
-{
-
-}
-
-void JKBuyStockTableViewer::setModel(QAbstractItemModel * model)
-{
-	QTableView::setModel(model);
-
-}
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -27,6 +13,11 @@ JKBuyStockTableAdapter::JKBuyStockTableAdapter(BaseObjectConstRefPtr _root)
 	: JKVirtualModelAdapter()
 {
 	root = _root;
+}
+
+JKBuyStockTableAdapter::JKBuyStockTableAdapter(const JKBuyStockTableAdapter *)
+{
+
 }
 
 JKBuyStockTableAdapter::~JKBuyStockTableAdapter()
@@ -47,7 +38,6 @@ int JKBuyStockTableAdapter::getItemsCount(BaseObjectConstRefPtr parent)
 		return _stockCodeBll->getTradeCountByType((int)tradeType);
 	}
 }
-
 
 BaseObjectPtr JKBuyStockTableAdapter::getItem(BaseObjectConstRefPtr parent, int index)
 {

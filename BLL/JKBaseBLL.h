@@ -11,7 +11,7 @@ public:
 
 	virtual const char* getClassName();
 
-	const JKRef_Ptr<JKBaseObject> & toBaseObject() { return JKRef_Ptr<JKBaseObject>(this); };
+	JKRef_Ptr<JKBaseObject> toBaseObject() { return JKRef_Ptr<JKBaseObject>(this); };
 
 };
 
