@@ -12,6 +12,11 @@ void JKStockCodeTradeItemBLL::setParams(double sellPrice, size_t sellCount, size
 	ptrModel->commission = commission;
 }
 
+void JKStockCodeTradeItemBLL::setSoldDate(JKString soldDate)
+{
+	ptrModel->soldDate = soldDate;
+}
+
 void JKStockCodeTradeItemBLL::setRealEarning(double _realEarning)
 {
 	ptrModel->realEarning = _realEarning;

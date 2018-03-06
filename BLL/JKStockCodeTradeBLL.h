@@ -19,7 +19,8 @@ public:
 	/** 卖出 */
 	void sell(double price) = delete;
 	/** 卖出股票 */
-	void sell(double sellPrice, size_t sellCount, size_t sellSumCount, float stampTax, float transfer, float commission);
+	void sell(double sellPrice, size_t sellCount, size_t sellSumCount, JKString soldDate,
+		float stampTax, float transfer, float commission);
 
 	TradeType getType();
 	HoldStockType getHoldType();
@@ -28,8 +29,10 @@ public:
 	JKUInt64 getCount();
 	//获取已经卖出的数量
 	JKUInt64 getSoldCount();
-	//
+	//获取可卖出数量
 	JKUInt64 getCouldSellCount();
+	//获取卖出时间
+	JKString getSoldDate();
 	//获取买入单价
 	double getBuyPrice();
 	//获取买入总价

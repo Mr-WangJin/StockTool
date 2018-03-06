@@ -3,6 +3,7 @@
 #include "BLL/JKProjectBll.h"
 #include "BLL/JKStockCodeBLL.h"
 #include "BLL/JKStockCodeTradeBLL.h"
+#include <qdatetime.h>
 
 JKSellStockCodeWgt::JKSellStockCodeWgt(JKRef_Ptr<JKProjectBLL> _refProject, std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecStockTrade, QWidget *parent)
 	: QDialog(parent)
@@ -58,7 +59,7 @@ void JKSellStockCodeWgt::onOK()
 			continue;
 		int couldSellCount = var->getCouldSellCount();
 		int willSellCount = couldSellCount <= sellCount ? couldSellCount : sellCount;
-		var->sell(sellPrice, willSellCount, sellCount, 
+		var->sell(sellPrice, willSellCount, sellCount, QDate::currentDate().toString(Qt::ISODate).toStdString(),
 			refProject->getStampTax(), refProject->getTransfer(), refProject->getCommission());
 		sellCount -= willSellCount;
 	}

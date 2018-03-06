@@ -8,23 +8,27 @@
 JKStockTableViewer::JKStockTableViewer(QWidget* parent/* = nullptr*/)
 	: QTableView(parent)
 {
-	this->initUI();
-	
+	this->initUI();	
 }
 
 JKStockTableViewer::~JKStockTableViewer()
 {
 }
 
+void JKStockTableViewer::resizeColumnsWidth()
+{
+	this->resizeColumnsToContents();
+	this->resizeRowsToContents();
+	//获取表头列数  
+	for (int i = 0; i < this->horizontalHeader()->count(); i++)
+	{
+		this->setColumnWidth(i, this->columnWidth(i) + 20);  //多一些空余控件，不然每列内容很挤  
+	}
+}
+
 void JKStockTableViewer::setModel(QAbstractItemModel * model)
 {
 	QTableView::setModel(model);
-
-	this->setColumnWidth(0, 40);
-	this->setColumnWidth(1, 80);
-	this->setColumnWidth(2, 50);
-	this->setColumnWidth(3, 70);
-	this->setColumnWidth(4, 70);
 }
 
 void JKStockTableViewer::getSelectedStockTradeIds(std::vector<JKString>& _vecStockTradeIDs)

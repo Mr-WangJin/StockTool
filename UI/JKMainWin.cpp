@@ -527,6 +527,7 @@ void JKMainWin::updateTableWidget()
 		curStockTableAdapter->setProjectBLL(project);
 		curStockTableAdapter->setRoot(project->getCurStockCode()->toBaseObject());
 		stockTableModel->setModelAdapter(curStockTableAdapter);
+		ui.tableView->resizeColumnsWidth();
 	}
 }
 

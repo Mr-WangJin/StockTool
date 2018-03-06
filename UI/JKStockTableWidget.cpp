@@ -137,6 +137,7 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 			}
 			break;
 			}
+			return variant;
 		}
 	}
 	return QVariant();
@@ -176,7 +177,7 @@ BaseObjectPtr JKBuyStockTableAdapter::getItemParent(BaseObjectConstRefPtr item)
 
 int JKBuyStockTableAdapter::getColumnCount()
 {
-	return 9;
+	return columnCount;
 }
 
 BaseObjectPtr JKBuyStockTableAdapter::getValue(BaseObjectConstRefPtr data)
@@ -270,11 +271,11 @@ QVariant JKSellStockTableAdapter::data(BaseObjectConstRefPtr item, int role, con
 			case 0:
 				return QStringLiteral("Âô³ö");
 			case 1:
-				return _stockCodeTradeBll->getCouldSellCount();
+				return _stockCodeTradeBll->getSoldCount();
 			case 2:
 				return _stockCodeTradeBll->getBuyPrice();
 			case 3:
-				return tradeUtil.getTradeBuyCostPrice(_stockCodeTradeBll);
+				return (int)((tradeUtil.getTradeBuyCostPrice(_stockCodeTradeBll)+0.005)*100)/100.0f;
 			case 4:
 				return QString::fromStdString(_stockCodeTradeBll->getDate());
 			case 5:
@@ -288,6 +289,7 @@ QVariant JKSellStockTableAdapter::data(BaseObjectConstRefPtr item, int role, con
 			case 9:
 				return _stockCodeTradeBll->getRealEarning();
 			case 10:
+				return tradeUtil.getRealEarningPercent(_stockCodeTradeBll);
 				break;
 			default:
 				break;
@@ -313,6 +315,7 @@ QVariant JKSellStockTableAdapter::data(BaseObjectConstRefPtr item, int role, con
 			}
 			break;
 			}
+			return variant;
 		}
 	}
 	return QVariant();
@@ -352,7 +355,7 @@ BaseObjectPtr JKSellStockTableAdapter::getItemParent(BaseObjectConstRefPtr item)
 
 int JKSellStockTableAdapter::getColumnCount()
 {
-	return 9;
+	return columnCount;
 }
 
 BaseObjectPtr JKSellStockTableAdapter::getValue(BaseObjectConstRefPtr data)

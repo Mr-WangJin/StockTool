@@ -21,7 +21,8 @@ void JKStockCodeTradeBLL::setParams(TradeType type, JKString date, JKUInt64 coun
 // 	ptrModel->sellPrice = price;
 // }
 
-void JKStockCodeTradeBLL::sell(double sellPrice, size_t sellCount, size_t sellSumCount, float stampTax, float transfer, float commission)
+void JKStockCodeTradeBLL::sell(double sellPrice, size_t sellCount, size_t sellSumCount, JKString soldDate,
+	float stampTax, float transfer, float commission)
 {
 	if (this->getCouldSellCount() < sellCount || sellCount <= 0 || sellSumCount < sellCount)
 		return;
@@ -31,6 +32,7 @@ void JKStockCodeTradeBLL::sell(double sellPrice, size_t sellCount, size_t sellSu
 	
 	JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = NewBLL(JKStockCodeTradeItemBLL, JKStockCodeTradeItemModel);
 	_refStockCodeTradeItem->setParams(sellPrice, sellCount, sellSumCount, stampTax, transfer, commission);
+	_refStockCodeTradeItem->setSoldDate(soldDate);
 	_refStockCodeTradeItem->setRealEarning(expactEarning);
 	ptrModel->addStockCodeTradeItem(_refStockCodeTradeItem->getModel());
 
@@ -93,6 +95,15 @@ JKUInt64 JKStockCodeTradeBLL::getCouldSellCount()
 	}
 	return ptrModel->buyCount - count;
 }
+
+JKString JKStockCodeTradeBLL::getSoldDate()
+{
+	if (ptrModel->vecSellItem.size() == 0)
+	{
+		return ptrModel->vecSellItem[0]->soldDate;
+	}
+}
+
 double JKStockCodeTradeBLL::getBuyPrice()
 {
 	return ptrModel->buyPrice;

@@ -12,6 +12,7 @@ public:
 	JKStockTableViewer(QWidget* parent = nullptr);
 	virtual ~JKStockTableViewer();
 
+	void resizeColumnsWidth();
 	virtual void setModel(QAbstractItemModel *model) override;
 
 	void getSelectedStockTradeIds(std::vector<JKString> &_vecStockTradeIDs);

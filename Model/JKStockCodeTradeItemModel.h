@@ -12,6 +12,7 @@ class JKStockCodeTradeItemModel : public JKBaseModel
 		ar & HIBERLITE_NVP(id);
 		ar & HIBERLITE_NVP(sellPrice);
 		ar & HIBERLITE_NVP(sellCount);
+		ar & HIBERLITE_NVP(soldDate);
 		ar & HIBERLITE_NVP(sellSumCount);
 		ar & HIBERLITE_NVP(realEarning);
 		ar & HIBERLITE_NVP(stampTax);
@@ -26,6 +27,7 @@ public:
 	JKString id;
 	double sellPrice;		//卖出单价
 	size_t sellCount;		//卖出数量
+	JKString soldDate;		//卖出时间
 	size_t sellSumCount;	//总计卖出数量
 	double realEarning;		//真实收益
 
