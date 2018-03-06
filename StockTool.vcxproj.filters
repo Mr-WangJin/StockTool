@@ -310,7 +310,7 @@
     <ClCompile Include="GeneratedFiles\Release\moc_JKVirtualTreeModel.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="UI\JKBuyStockTableWidget.cpp">
+    <ClCompile Include="UI\JKStockTableWidget.cpp">
       <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -396,9 +396,6 @@
     </CustomBuild>
     <CustomBuild Include="UI\JKVirtualTreeModel.h">
       <Filter>UI\Framework</Filter>
-    </CustomBuild>
-    <CustomBuild Include="UI\JKBuyStockTableWidget.h">
-      <Filter>UI</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -534,6 +531,12 @@
     </ClInclude>
     <ClInclude Include="UI\JKVirtualTreeAdapter.h">
       <Filter>UI\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\JKUiCommon.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\JKStockTableWidget.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,13 +2,19 @@
 #define VIRTUALMODELADAPTER_H
 
 #include "BLL\JKBaseBLL.h"
+
 #include <QVariant>
 
+class JKProjectBLL;
+class JKStockCodeBLL;
 class JKVirtualModelInterface;
 
 class JKVirtualModelAdapter 
 {
 public:
+	JKVirtualModelAdapter(ProjectBLLConstRefPtr _projectBll, BaseObjectConstRefPtr _root);
+	virtual ~JKVirtualModelAdapter();
+
 	virtual int getItemsCount(BaseObjectConstRefPtr parent) = 0;
 	virtual BaseObjectPtr getItem(BaseObjectConstRefPtr parent, int index) = 0;
 	
@@ -28,8 +34,18 @@ public:
 	
 	void setModel(JKVirtualModelInterface *intf) { m_modelIntf = intf; }
 	JKVirtualModelInterface * getModel() { return m_modelIntf; }
+
+	void setProjectBLL(ProjectBLLConstRefPtr _projectBll);
+	void setRoot(BaseObjectConstRefPtr _root);
+
+protected:
+	ProjectBLLPtr projectBll;
+	BaseObjectPtr root;
+
 private:
 	JKVirtualModelInterface *m_modelIntf;
+
+
 };
 
 // link to VirtualTreeModel

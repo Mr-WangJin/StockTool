@@ -14,7 +14,9 @@
 class QLabel;
 class QSystemTrayIcon;
 class JKBuyStockTableAdapter;
+class JKSellStockTableAdapter;
 class JKVirtualTreeModel;
+class JKVirtualModelAdapter;
 
 
 class JKMainWin : public QMainWindow
@@ -46,33 +48,36 @@ signals:
 	void openRecentProject();
 	void openProject();
 	void newStockCode();
+	void save();
 	void deleteCurrentStock();
 	void buyStockCode();
 	void sellStockCode();
 	void onSwitchCode();
+	void onShowBuyOnly(bool checked);
+	void onShowSellOnly(bool checked);
+	void onShowAll(bool checked);
 	void projectTaxSetting();
 	void setTradeProperty();
 	void crawlerOptChanged(bool);
 	void alertChanged(bool);
 	void about();
+
 	void onSystemTrayIconActive(QSystemTrayIcon::ActivationReason);
 	void onExitApp();
 	void onShowApp();
 	
-
 	void onTableWgtPopMenu(QPoint pos);
 	void onDeleteTrade();
 	void onSellTrade();
-	void onShowBuyOnly(bool checked);
-	void onShowSellOnly(bool checked);
-	void onShowAll(bool checked);
 	void onShowTradeInfo();
+
 	void onBeforeProjectChanged();
 	void onAfterProjectChanged(JKRef_Ptr<JKProjectBLL>);
 
 	void onAfterStockChanged(JKRef_Ptr<JKStockCodeBLL>);
-	void refreshCrawler(JKRef_Ptr<JKProjectBLL>);
 	void stockCodePriceChanged(JKString);
+
+	void refreshCrawler(JKRef_Ptr<JKProjectBLL>);
 
 protected:
 	virtual void resizeEvent(QResizeEvent*event) override;
@@ -96,20 +101,23 @@ private:
 
 private:
 	Ui::JKMainWin ui;
-
 	QSystemTrayIcon* systemTrayIcon = nullptr;
 	/** ´°¿Ú×ø±ê */
 	QRect curGemRect;
-
 	QMenu* tableWgtPopMenu;
 	QLabel* lblShowCurStock;
 	QLabel* lblLatestPrice;
-	JKStockTableModel* tableModel;
-	JKRef_Ptr<JKProjectBLL> refProject;
+
+	JKRef_Ptr<JKProjectBLL> project;
 
 	JKCrawlPrice* crawlPrice = nullptr;
-	std::shared_ptr<JKBuyStockTableAdapter> buyStockTableAdapterPtr;
+
 	JKVirtualTreeModel* stockTableModel;
+	std::shared_ptr<JKBuyStockTableAdapter> buyStockTableAdapter;
+	std::shared_ptr<JKSellStockTableAdapter> sellStockTableAdapter;
+	std::shared_ptr<JKVirtualModelAdapter> curStockTableAdapter;
+
+	
 
 };
 

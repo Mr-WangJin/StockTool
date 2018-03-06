@@ -308,7 +308,6 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="UI\JKAbout.cpp" />
     <ClCompile Include="UI\JKBuyStockCodeWgt.cpp" />
-    <ClCompile Include="UI\JKBuyStockTableWidget.cpp" />
     <ClCompile Include="UI\JKEventType.cpp" />
     <ClCompile Include="UI\JKNewProject.cpp" />
     <ClCompile Include="UI\JKNewStockCodeWgt.cpp" />
@@ -317,6 +316,7 @@
     <ClCompile Include="UI\JKSetTradeProperty.cpp" />
     <ClCompile Include="UI\JKStockTableModel.cpp" />
     <ClCompile Include="UI\JKStockTableViewer.cpp" />
+    <ClCompile Include="UI\JKStockTableWidget.cpp" />
     <ClCompile Include="UI\JKStockTradeDetail.cpp" />
     <ClCompile Include="UI\JKTrendChart.cpp" />
     <ClCompile Include="main.cpp" />
@@ -449,32 +449,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_CHARTS_LIB -DQT_SQL_LIB -D_MBCS  "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I$(CurlDir)\include" "-I$(JKCore)\." "-I$(LibXML2DIR)\include" "-I$(LibiconvDIR)\include" "-I$(JSONCPP_HOME)\include" "-I.\UI" "-I$(HiberliteDir)\include" "-I$(HiberliteDir)\sqlite-amalgamation" "-I$(QTDIR)\include\QtCharts" "-I$(QTDIR)\include\QtSql" "-I$(PythonDir)\include" "-fstdafx.h" "-f../../UI/JKAbout.h"</Command>
     </CustomBuild>
-    <CustomBuild Include="UI\JKBuyStockTableWidget.h">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </Command>
-    </CustomBuild>
     <ClInclude Include="UI\JKEventType.h" />
     <CustomBuild Include="UI\JKStockTableModel.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
@@ -530,6 +504,8 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../UI/JKSetTradeProperty.h"  -DUNICODE -DWIN32 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_CHARTS_LIB -DQT_SQL_LIB -D_MBCS "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I$(CurlDir)\include" "-I$(JKCore)\." "-I$(LibXML2DIR)\include" "-I$(LibiconvDIR)\include" "-I$(JSONCPP_HOME)\include" "-I.\UI" "-I$(HiberliteDir)\include" "-I$(HiberliteDir)\sqlite-amalgamation" "-I$(QTDIR)\include\QtCharts" "-I$(QTDIR)\include\QtSql" "-I$(PythonDir)\include"</Command>
     </CustomBuild>
+    <ClInclude Include="UI\JKStockTableWidget.h" />
+    <ClInclude Include="UI\JKUiCommon.h" />
     <ClInclude Include="UI\JKUiContext.h" />
     <ClInclude Include="UI\JKVirtualTreeAdapter.h" />
     <CustomBuild Include="UI\JKVirtualTreeModel.h">

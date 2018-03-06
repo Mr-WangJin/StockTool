@@ -8,6 +8,9 @@
 #include "JKProjectSettingBLL.h"
 #include "JKBLLContainer.h"
 
+JKProjectBLL::~JKProjectBLL()
+{
+}
 
 JKRef_Ptr<JKProjectBLL> JKProjectBLL::newProject(const JKString &fileName)
 {
@@ -64,8 +67,9 @@ JKRef_Ptr<JKProjectBLL> JKProjectBLL::openProject(const JKString & path)
 	return nullptr;
 }
 
-JKProjectBLL::~JKProjectBLL()
+void JKProjectBLL::saveProject()
 {
+	this->save();
 }
 
 void JKProjectBLL::upgradeDataVersion(int dataVersion)

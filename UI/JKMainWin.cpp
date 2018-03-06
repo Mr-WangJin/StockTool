@@ -17,7 +17,7 @@
 #include "JKSetTradeProperty.h"
 #include "BLL/JKProjectSettingBLL.h"
 #include <QSettings>
-#include "JKBuyStockTableWidget.h"
+#include "JKStockTableWidget.h"
 
 #define REG_RUN "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 
@@ -30,14 +30,14 @@ JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
 
 	ui.setupUi(this);
 	ui.trendChartWgt->setVisible(false);
-	refProject = nullptr;
+	project = nullptr;
 
 	JKSingleton<JKUiContext>::GetInstance().setMainWin(this);
 	this->initUI();
 	this->updateInputUIEnable(nullptr);
 	this->setAutoStartExe(true);
 	
-	emit afterProjectChanged(refProject);
+	emit afterProjectChanged(project);
 
 }
 
@@ -94,7 +94,7 @@ void JKMainWin::showAbout()
 
 JKRef_Ptr<JKProjectBLL> JKMainWin::getProjectBLL()
 {
-	return refProject;
+	return project;
 }
 
 void JKMainWin::newProject()
@@ -120,16 +120,16 @@ void JKMainWin::newProject()
 		{
 			emit beforeProjectChanged();
 
-			refProject = JKProjectBLL::newProject(fileName.toStdString());
-			refProject->setStampTax(newProject.getStampTax());
-			refProject->setTransfer(newProject.getTransfer());
-			refProject->setCommission(newProject.getCommission());
+			project = JKProjectBLL::newProject(fileName.toStdString());
+			project->setStampTax(newProject.getStampTax());
+			project->setTransfer(newProject.getTransfer());
+			project->setCommission(newProject.getCommission());
 
-			JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = refProject->getProjectSetting();
+			JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = project->getProjectSetting();
 			_refProjectSetting->setUpAlertPercent(newProject.getUpAlertPercent());
 			_refProjectSetting->setUpAlertPercent(newProject.getDownAlertPercent());
 
-			emit afterProjectChanged(refProject);
+			emit afterProjectChanged(project);
 		}
 	}
 }
@@ -144,10 +144,10 @@ void JKMainWin::openRecentProject()
 
 	emit beforeProjectChanged();
 
-	refProject = JKProjectBLL::openProject(pAct->data().toString().toStdString());
+	project = JKProjectBLL::openProject(pAct->data().toString().toStdString());
 
-	emit afterProjectChanged(refProject);
-	emit afterStockCodeChanged(refProject->getCurStockCode());
+	emit afterProjectChanged(project);
+	emit afterStockCodeChanged(project->getCurStockCode());
 }
 
 void JKMainWin::openProject()
@@ -161,41 +161,47 @@ void JKMainWin::openProject()
 	{
 		emit beforeProjectChanged();
 
-		refProject = JKProjectBLL::openProject(fullName.toStdString());
+		project = JKProjectBLL::openProject(fullName.toStdString());
 
 		/** 更新最近打开的项目 */
 		JKRecentProject recentProject(JKSingleton<JKUiContext>::GetInstance().getRecentFilePath());
 		recentProject.addRecentProject(QFileInfo(fullName).baseName().toStdString(), fullName.toStdString());
 		recentProject.saveToFile(JKSingleton<JKUiContext>::GetInstance().getRecentFilePath());
 
-		emit afterProjectChanged(refProject);
-		emit afterStockCodeChanged(refProject->getCurStockCode());
+		emit afterProjectChanged(project);
+		emit afterStockCodeChanged(project->getCurStockCode());
 	}
 }
 
 void JKMainWin::newStockCode()
 {
-	JKNewStockCodeWgt newStockCodeWgt(refProject);
+	JKNewStockCodeWgt newStockCodeWgt(project);
 	if (QDialog::Accepted == newStockCodeWgt.exec())
 	{
 
 		JKRef_Ptr<JKStockCodeBLL> refCurStockCode = newStockCodeWgt.getStockCode();
-		refProject->setCurStockCode(refCurStockCode);
+		project->setCurStockCode(refCurStockCode);
 
 		addedNewStockCode(refCurStockCode);
 		emit afterStockCodeChanged(refCurStockCode);
 	}
 }
 
+void JKMainWin::save()
+{
+// 	if (project)
+// 		project->saveProject();
+}
+
 void JKMainWin::deleteCurrentStock()
 {
-	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
+	JKRef_Ptr<JKStockCodeBLL> _refStockCode = project->getCurStockCode();
 	if (_refStockCode.valid() == false)
 		return;
 
-	refProject->deleteStockCode(_refStockCode);
+	project->deleteStockCode(_refStockCode);
 
-	this->updateCmbBoxSwitch(refProject);
+	this->updateCmbBoxSwitch(project);
 	if (ui.cmbBxSwitch->count() >0 )
 		this->onSwitchCode();
 	else
@@ -206,7 +212,7 @@ void JKMainWin::deleteCurrentStock()
 
 void JKMainWin::buyStockCode()
 {
-	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
+	JKRef_Ptr<JKStockCodeBLL> _refStockCode = project->getCurStockCode();
 	if (!_refStockCode.valid())
 	{
 		QMessageBox::information(this, QStringLiteral("提示！"), QStringLiteral("请新建股票代码"));
@@ -225,7 +231,7 @@ void JKMainWin::buyStockCode()
 
 void JKMainWin::sellStockCode()
 {
-	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
+	JKRef_Ptr<JKStockCodeBLL> _refStockCode = project->getCurStockCode();
 	if (!_refStockCode.valid())
 	{
 		QMessageBox::information(this, QStringLiteral("提示！"), QStringLiteral("请新建股票代码"));
@@ -233,7 +239,7 @@ void JKMainWin::sellStockCode()
 	else
 	{
 		std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecStockTrade;
-		JKSellStockCodeWgt sellStockCodeWgt(refProject, vecStockTrade);
+		JKSellStockCodeWgt sellStockCodeWgt(project, vecStockTrade);
 		if (sellStockCodeWgt.exec() == QDialog::Accepted)
 		{
 			this->updateTableWidget();
@@ -246,14 +252,14 @@ void JKMainWin::onSwitchCode()
 {
 	QString code = ui.cmbBxSwitch->currentData(Qt::UserRole).toString();
 
-	vector<JKRef_Ptr<JKStockCodeBLL>> vecRefStockCodeBLL = refProject->getAllStockCode();
+	vector<JKRef_Ptr<JKStockCodeBLL>> vecRefStockCodeBLL = project->getAllStockCode();
 	for (auto var : vecRefStockCodeBLL)
 	{
 		if (QString(var->getCode().c_str()) == code)
 		{
 			emit beforeStockCodeChanged();
 
-			refProject->setCurStockCode(var);
+			project->setCurStockCode(var);
 
 			emit afterStockCodeChanged(var);
 
@@ -272,7 +278,7 @@ void JKMainWin::onSwitchCode()
 
 void JKMainWin::setCurrentStockPrice()
 {
-	JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
+	JKRef_Ptr<JKStockCodeBLL> _refStockCode = project->getCurStockCode();
 	if (_refStockCode.valid())
 	{
 		JKSettingLatestPrice setting(_refStockCode, this);
@@ -288,20 +294,20 @@ void JKMainWin::setCurrentStockPrice()
 void JKMainWin::projectTaxSetting()
 {
 	JKNewProject newProject(this);
-	newProject.setProject(refProject);
+	newProject.setProject(project);
 	if (newProject.exec() == QDialog::Accepted)
 	{
 		emit beforeProjectChanged();
 
-		refProject->setStampTax(newProject.getStampTax());
-		refProject->setTransfer(newProject.getTransfer());
-		refProject->setCommission(newProject.getCommission());
+		project->setStampTax(newProject.getStampTax());
+		project->setTransfer(newProject.getTransfer());
+		project->setCommission(newProject.getCommission());
 
-		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = refProject->getProjectSetting();
+		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = project->getProjectSetting();
 		_refProjectSetting->setUpAlertPercent(newProject.getUpAlertPercent());
 		_refProjectSetting->setDownAlertPercent(newProject.getDownAlertPercent());
 
-		emit afterProjectChanged(refProject);
+		emit afterProjectChanged(project);
 	}
 }
 
@@ -321,9 +327,9 @@ void JKMainWin::setTradeProperty()
 
 void JKMainWin::crawlerOptChanged(bool checked)
 {
-	if (refProject)
+	if (project)
 	{
-		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = refProject->getProjectSetting();
+		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = project->getProjectSetting();
 		_refProjectSetting->setIsStartCrawl(checked);
 	}
 	if (crawlPrice)
@@ -337,9 +343,9 @@ void JKMainWin::crawlerOptChanged(bool checked)
 
 void JKMainWin::alertChanged(bool checked)
 {
-	if (refProject)
+	if (project)
 	{
-		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = refProject->getProjectSetting();
+		JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = project->getProjectSetting();
 		_refProjectSetting->setIsAlert(checked);
 	}
 }
@@ -388,7 +394,7 @@ void JKMainWin::onDeleteTrade()
 
 	if (_vecRefStockCodeTrade.size() > 0)
 	{
-		JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
+		JKRef_Ptr<JKStockCodeBLL> _refStockCode = project->getCurStockCode();
 		for (auto &var : _vecRefStockCodeTrade)
 		{
 			_refStockCode->deleteTrade(var);
@@ -404,7 +410,7 @@ void JKMainWin::onSellTrade()
 
 	if (_vecRefStockCodeTrade.size() > 0)
 	{
-		JKSellStockCodeWgt sellStockCodeWgt(refProject, _vecRefStockCodeTrade, this);
+		JKSellStockCodeWgt sellStockCodeWgt(project, _vecRefStockCodeTrade, this);
 		if (sellStockCodeWgt.exec() == QDialog::Accepted)
 		{
 			this->updateTableWidget();
@@ -414,7 +420,7 @@ void JKMainWin::onSellTrade()
 
 void JKMainWin::onShowTradeInfo()
 {
-	if (!refProject.valid())
+	if (!project.valid())
 		return;
 
 	vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecRefStockCodeTrade;
@@ -423,8 +429,8 @@ void JKMainWin::onShowTradeInfo()
 	if (_vecRefStockCodeTrade.size() == 0)
 		return;
 
-	JKRef_Ptr<JKStockTradeUtil> refTradeUtil = new JKStockTradeUtil(refProject);
-	JKStockTradeDetail detail(refTradeUtil, _vecRefStockCodeTrade[0], refProject->getCurStockCode()->getLatestPrice());
+	JKRef_Ptr<JKStockTradeUtil> refTradeUtil = new JKStockTradeUtil(project);
+	JKStockTradeDetail detail(refTradeUtil, _vecRefStockCodeTrade[0], project->getCurStockCode()->getLatestPrice());
 	detail.exec();
 }
 
@@ -438,7 +444,6 @@ void JKMainWin::onAfterProjectChanged(JKRef_Ptr<JKProjectBLL> _refProject)
 	updateUIEnable(_refProject);
 	updateCmbBoxSwitch(_refProject);
 	refreshCrawler(_refProject);
-	this->updateTableWidget();
 
 	if (_refProject == nullptr)
 		return;
@@ -489,106 +494,40 @@ void JKMainWin::onShowBuyOnly(bool checked)
 {
 	if (!checked)
 		return;
-	tableModel->setShowType(Show_Buy_Only);
+
+	if (buyStockTableAdapter == nullptr)
+		buyStockTableAdapter.reset(new JKBuyStockTableAdapter(project, BaseObjectPtr()));
+
+	curStockTableAdapter = buyStockTableAdapter;
 	this->updateTableWidget();
 }
 void JKMainWin::onShowSellOnly(bool checked)
 {
 	if (!checked)
 		return;
-	tableModel->setShowType(Show_Sell_Only);
+	if (sellStockTableAdapter == nullptr)
+		sellStockTableAdapter.reset(new JKSellStockTableAdapter(project, BaseObjectPtr()));
+
+	curStockTableAdapter = sellStockTableAdapter;
 	this->updateTableWidget();
 }
 void JKMainWin::onShowAll(bool checked)
 {
 	if (!checked)
 		return;
-	tableModel->setShowType(Show_All);
-	this->updateTableWidget();
+	//tableModel->setShowType(Show_All);
+	//this->updateTableWidget();
 }
 
 void JKMainWin::updateTableWidget()
 {
 	//tableModel->setProject(refProject);
-	if (refProject)
+	if (project)
 	{
-		buyStockTableAdapterPtr->beginUpdate();
-		buyStockTableAdapterPtr->setRoot(refProject->getCurStockCode()->toBaseObject());
-		buyStockTableAdapterPtr->endUpdate();
+		curStockTableAdapter->setProjectBLL(project);
+		curStockTableAdapter->setRoot(project->getCurStockCode()->toBaseObject());
+		stockTableModel->setModelAdapter(curStockTableAdapter);
 	}
-// 	ui.tableWidget->clearContents();
-// 
-// 	vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecRefStockCodeTradeBLLTemp = refProject->getCurStockCode()->getAllTrades();
-// 	double latestPrice = refProject->getCurStockCode()->getLatestPrice();
-// 
-// 	vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecRefStockCodeTradeBLL;
-// 	for (auto &var :vecRefStockCodeTradeBLLTemp)
-// 	{
-// 		if (type & Show_Buy_Only && var->getType() == TradeType::BUY)
-// 		{
-// 			vecRefStockCodeTradeBLL.push_back(var);
-// 		}
-// 		if (type & Show_Sell_Only && var->getType() == TradeType::SELL)
-// 		{
-// 			vecRefStockCodeTradeBLL.push_back(var);
-// 		}
-// 		
-// 	}
-// 
-// 	ui.tableWidget->setRowCount(vecRefStockCodeTradeBLL.size());
-// 	int i = 0;
-// 	JKStockTradeUtil tradeUtil(refProject);
-// 	for (auto &var : vecRefStockCodeTradeBLL)
-// 	{
-// 		int j = 0;
-// 
-// 		QTableWidgetItem* tbItem = new QTableWidgetItem();
-// 		tbItem->setData(Qt::UserRole, QString::fromStdString(var->getId()));
-// 		switch ((int)var->getType())
-// 		{
-// 		case 1:
-// 			tbItem->setData(Qt::DisplayRole, QStringLiteral("买入"));
-// 			break;
-// 		case 2:
-// 			tbItem->setData(Qt::DisplayRole, QStringLiteral("卖出"));
-// 			break;
-// 		default:
-// 			break;
-// 		}
-// 		ui.tableWidget->setItem(i, j++, tbItem);
-// 		tbItem = new QTableWidgetItem();
-// 		tbItem->setData(Qt::DisplayRole, var->getDate().c_str()); tbItem->setData(Qt::UserRole, QString::fromStdString(var->getId()));
-// 		ui.tableWidget->setItem(i, j++, tbItem);
-// 		tbItem = new QTableWidgetItem();
-// 		tbItem->setData(Qt::DisplayRole, var->getCount()); tbItem->setData(Qt::UserRole, QString::fromStdString(var->getId()));
-// 		ui.tableWidget->setItem(i, j++, tbItem);
-// 		tbItem = new QTableWidgetItem();
-// 		tbItem->setData(Qt::DisplayRole, var->getBuyPrice()); tbItem->setData(Qt::UserRole, QString::fromStdString(var->getId()));
-// 		ui.tableWidget->setItem(i, j++, tbItem);
-// 		tbItem = new QTableWidgetItem();
-// 		tbItem->setData(Qt::DisplayRole, tradeUtil.getTradeBuyCost(var)); tbItem->setData(Qt::UserRole, QString::fromStdString(var->getId()));
-// 		ui.tableWidget->setItem(i, j++, tbItem);
-// 		tbItem = new QTableWidgetItem();
-// 		tbItem->setData(Qt::DisplayRole, var->getSellPrice()); tbItem->setData(Qt::UserRole, QString::fromStdString(var->getId()));
-// 		ui.tableWidget->setItem(i, j++, tbItem);
-// 
-// 		tbItem = new QTableWidgetItem();
-// 		double preRealEarning = 0;
-// 		if (var->getType() == TradeType::BUY)
-// 			preRealEarning = tradeUtil.getRealEarning(latestPrice, var);
-// 		else if (var->getType() == TradeType::SELL)
-// 			preRealEarning = tradeUtil.getRealEarning(var->getSellPrice(), var);
-// 		tbItem->setData(Qt::DisplayRole, preRealEarning); tbItem->setData(Qt::UserRole, QString::fromStdString(var->getId()));
-// 		ui.tableWidget->setItem(i, j++, tbItem);
-// 		tbItem = new QTableWidgetItem();
-// 		tbItem->setData(Qt::DisplayRole, QString("%1%").arg(tradeUtil.getRealEarningPercent(latestPrice, var)*100));
-// 		tbItem->setData(Qt::UserRole, QString::fromStdString(var->getId()));
-// 		ui.tableWidget->setItem(i, j++, tbItem);
-// 
-// 		i++;
-// 	}
-// 	ui.tableWidget->sortByColumn(1, Qt::SortOrder::AscendingOrder);
-// 
 }
 
 void JKMainWin::onAfterStockChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
@@ -630,14 +569,14 @@ void JKMainWin::updateInfoWgt(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 	{
 		double latestPrice = _refStockCode->getLatestPrice();
 
-		JKStockTradeUtil trackUtil(refProject);
+		JKStockTradeUtil trackUtil(project);
 		std::vector<JKRef_Ptr<JKStockCodeTradeBLL>> _vecStockCodeTrade;
 		_refStockCode->getAllTrades(_vecStockCodeTrade);
 		for (auto &var : _vecStockCodeTrade)
 		{
 			if (TradeType::BUY == var->getType())
 			{
-				buySumPrice += var->getBuyPureCost();
+				buySumPrice += var->getBuyAmount();
 				buySumCount += var->getCount();
 				double preEarning = trackUtil.getExpactEarning(latestPrice, var);
 
@@ -711,9 +650,9 @@ void JKMainWin::initUI()
 
 	ui.m_pHSplitter->setSizes(QList<int>() << 100 << 500);
 	
-	buyStockTableAdapterPtr = std::make_shared<JKBuyStockTableAdapter>(new JKBuyStockTableAdapter(BaseObjectPtr()));
-	stockTableModel = new JKVirtualTreeModel(buyStockTableAdapterPtr, this);
-	//tableModel = new JKStockTableModel(refProject, this);
+	buyStockTableAdapter.reset(new JKBuyStockTableAdapter(project, BaseObjectPtr()));
+	curStockTableAdapter = buyStockTableAdapter;
+	stockTableModel = new JKVirtualTreeModel(curStockTableAdapter, this);
 	ui.tableView->setModel(stockTableModel);
 	
 // 	QItemSelectionModel *selectionModel = new QItemSelectionModel(stockTableModel);
@@ -722,12 +661,11 @@ void JKMainWin::initUI()
 // 	QStyledItemDelegate* pTableDelegate = new QStyledItemDelegate;
 // 	ui.tableView->setItemDelegate(pTableDelegate);
 
-	
-	
 	connect(ui.tableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onTableWgtPopMenu(QPoint)));
 	connect(ui.cmbBxSwitch, SIGNAL(currentIndexChanged(int)), this, SLOT(onSwitchCode()), Qt::UniqueConnection);
 	connect(ui.actNewProject, SIGNAL(triggered()), this, SLOT(newProject()));
 	connect(ui.actOpenProject, SIGNAL(triggered()), this, SLOT(openProject()));
+	connect(ui.actSave, SIGNAL(triggered()), this, SLOT(save()));
 	connect(ui.actExit, SIGNAL(triggered()), this, SLOT(close()));
 	/** 编辑 */
 	connect(ui.actBuyStock, SIGNAL(triggered()), this, SLOT(buyStockCode()));
@@ -767,7 +705,7 @@ void JKMainWin::updateCmbBoxSwitch(JKRef_Ptr<JKProjectBLL> _refProject)
 	disconnect(ui.cmbBxSwitch, SIGNAL(currentIndexChanged(int)), this, SLOT(onSwitchCode()));
 
 	ui.cmbBxSwitch->clear();
-	vector<JKRef_Ptr<JKStockCodeBLL>> vecRefStockCodeBLL = refProject->getAllStockCode();
+	vector<JKRef_Ptr<JKStockCodeBLL>> vecRefStockCodeBLL = project->getAllStockCode();
 	for (auto var : vecRefStockCodeBLL)
 	{
 		ui.cmbBxSwitch->addItem(QString(var->getName().c_str()), QVariant(QString(var->getCode().c_str())));
@@ -801,9 +739,9 @@ void JKMainWin::refreshCrawler(JKRef_Ptr<JKProjectBLL> _refProject)
 void JKMainWin::stockCodePriceChanged(JKString price)
 {
 	float latestPrice = QString(price.c_str()).toFloat();
-	if (refProject.valid())
+	if (project.valid())
 	{
-		JKRef_Ptr<JKStockCodeBLL> _refStockCode = refProject->getCurStockCode();
+		JKRef_Ptr<JKStockCodeBLL> _refStockCode = project->getCurStockCode();
 		if (_refStockCode.valid())
 		{
 			if (_refStockCode->getLatestPrice() == latestPrice)
@@ -812,7 +750,7 @@ void JKMainWin::stockCodePriceChanged(JKString price)
 
 			emit afterStockCodeChanged(_refStockCode);
 
-			JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = refProject->getProjectSetting();
+			JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting = project->getProjectSetting();
 			if (_refProjectSetting->getIsAlert())
 			{
 				vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecRefStockCodeTradeBLLTemp;
@@ -833,7 +771,7 @@ void JKMainWin::stockCodePriceChanged(JKString price)
 						bSort = first->getDate() > second->getDate();
 						return bSort;
 					});
-					JKStockTradeUtil tradeUtil(refProject);
+					JKStockTradeUtil tradeUtil(project);
 					double percent = tradeUtil.getExpactEarningPercent(latestPrice, vecRefStockCodeTradeBLLTemp[0]);
 					//percent = fabs(percent);
 					if (percent > _refProjectSetting->getUpAlertPercent() || percent < _refProjectSetting->getDownAlertPercent())

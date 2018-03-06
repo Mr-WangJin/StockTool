@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "JKStockTableViewer.h"
 #include <QHeaderView>
-#include "JKStockTableModel.h"
 #include "BLL/JKStockCodeTradeBLL.h"
+#include "JKVirtualTreeModel.h"
 
 
 JKStockTableViewer::JKStockTableViewer(QWidget* parent/* = nullptr*/)
@@ -29,12 +29,12 @@ void JKStockTableViewer::setModel(QAbstractItemModel * model)
 
 void JKStockTableViewer::getSelectedStockTradeIds(std::vector<JKString>& _vecStockTradeIDs)
 {
-	JKStockTableModel* _tableModel = qobject_cast<JKStockTableModel*>(model());
+	JKVirtualTreeModel* _tableModel = qobject_cast<JKVirtualTreeModel*>(model());
 	QModelIndexList indexList = selectionModel()->selectedIndexes();
 
 	for each(auto& index in indexList)
 	{
-		JKRef_Ptr<JKStockCodeTradeBLL> _refStockTrade = _tableModel->getStockTradeByRow(index.row());
+		JKRef_Ptr<JKStockCodeTradeBLL> _refStockTrade = _tableModel->getItem(index)->toTypeObject<JKStockCodeTradeBLL*>();
 		if (!_refStockTrade.valid())
 			continue;
 		JKString id = _refStockTrade->getId();
@@ -47,12 +47,12 @@ void JKStockTableViewer::getSelectedStockTradeIds(std::vector<JKString>& _vecSto
 
 void JKStockTableViewer::getSelectedStockTrade(std::vector<JKRef_Ptr<JKStockCodeTradeBLL>>& _vecStockTrade)
 {
-	JKStockTableModel* _tableModel = qobject_cast<JKStockTableModel*>(model());
+	JKVirtualTreeModel* _tableModel = qobject_cast<JKVirtualTreeModel*>(model());
 	QModelIndexList indexList = selectionModel()->selectedIndexes();
 
 	for each(auto& index in indexList)
 	{
-		JKRef_Ptr<JKStockCodeTradeBLL> _refStockTrade = _tableModel->getStockTradeByRow(index.row());
+		JKRef_Ptr<JKStockCodeTradeBLL> _refStockTrade = _tableModel->getItem(index)->toTypeObject<JKStockCodeTradeBLL*>();
 		if (!_refStockTrade.valid())
 			continue;
 

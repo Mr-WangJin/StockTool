@@ -26,7 +26,7 @@ private:
 private:
 	Ui::JKSetTradeProperty ui;
 
-	JKRef_Ptr<JKStockCodeTradeBLL> refStockCodeTrade;
+	StockCodeTradeBLLPtr refStockCodeTrade;
 };
 
 #endif // JKSETTRADEPROPERTY_H

@@ -26,7 +26,6 @@ void JKSetTradeProperty::setStockCodeTrade(StockCodeTradeBLLConstRefPtr _refStoc
 
 void JKSetTradeProperty::onOkClick()
 {
-
 	if (refStockCodeTrade.valid())
 	{
 		int holdType = ui.cmbBxHoldType->currentIndex();

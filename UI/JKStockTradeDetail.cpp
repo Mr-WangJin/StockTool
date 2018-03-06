@@ -15,7 +15,7 @@ JKStockTradeDetail::JKStockTradeDetail(JKRef_Ptr<JKStockTradeUtil> refUtil, Stoc
 	double buyCost = .0f;
 	double sellCost = .0f;
 
-	buyCost = refStockTrade->getBuyPureCost();
+	buyCost = refStockTrade->getBuyAmount();
 
 	if (refStockTrade->getType() == TradeType::SELL)
 	{

@@ -12,6 +12,8 @@ public:
 	virtual const char* getClassName();
 
 	JKRef_Ptr<JKBaseObject> toBaseObject() { return JKRef_Ptr<JKBaseObject>(this); };
+	template<typename T>
+	T toTypeObject() { return dynamic_cast<T>(this); };
 
 };
 

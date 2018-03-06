@@ -24,6 +24,7 @@ public:
 	static ProjectBLLPtr newProject(const JKString &path);
 	static ProjectBLLPtr openProject(const JKString &path);
 
+	void saveProject();
 	StockCodeBLLPtr newStockCode();
 	StockCodeBLLPtr getCurStockCode();
 	vector<JKRef_Ptr<JKStockCodeBLL>> getAllStockCode();

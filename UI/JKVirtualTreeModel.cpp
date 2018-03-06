@@ -304,6 +304,11 @@ bool JKVirtualTreeModel::hasChildren(const QModelIndex &parent) const
 	  return false;
 }
 
+void JKVirtualTreeModel::sort(int column, Qt::SortOrder order /*= Qt::AscendingOrder*/)
+{
+
+}
+
 BaseObjectPtr JKVirtualTreeModel::getItem(const QModelIndex &index) const
 {
 	return getNode(index).item;

@@ -5,11 +5,10 @@
 #include "BLL/JKStockCodeBLL.h"
 #include "BLL/JKStockTradeUtil.h"
 #include "BLL/JKProjectSettingBLL.h"
+#include "JKUiCommon.h"
 
 Q_DECLARE_METATYPE(JKString);
 
-#define UP_EARNING QColor(255, 0, 0, 230)
-#define DOWN_EARNING QColor(0, 255, 0, 230)
 
 
 

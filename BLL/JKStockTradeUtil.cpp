@@ -28,14 +28,14 @@ JKStockTradeUtil::~JKStockTradeUtil()
 
 double JKStockTradeUtil::getTradeBuyCost(StockCodeTradeBLLConstRefPtr refStockCodeTrade)
 {
-	double buyPureCost = refStockCodeTrade->getBuyPureCost();
+	double buyPureCost = refStockCodeTrade->getBuyAmount();
 	double buyTax = this->getBuyTax(buyPureCost);
 	return  (buyPureCost + buyTax);
 }
 
 double JKStockTradeUtil::getTradeBuyCostPrice(StockCodeTradeBLLConstRefPtr refStockCodeTrade)
 {
-	double buyPureCost = refStockCodeTrade->getBuyPureCost();
+	double buyPureCost = refStockCodeTrade->getBuyAmount();
 	double buyTax = this->getBuyTax(buyPureCost);
 	
 	return  (buyPureCost + buyTax) / refStockCodeTrade->getCount();
@@ -81,7 +81,7 @@ double JKStockTradeUtil::getExpactEarningPercent(double latestPrice, StockCodeTr
 {
 	size_t soldCount = refStockCodeTrade->getCouldSellCount();
 	size_t sumCount = refStockCodeTrade->getCount();
-	return getExpactEarning(latestPrice, refStockCodeTrade) / refStockCodeTrade->getBuyPureCost();
+	return getExpactEarning(latestPrice, refStockCodeTrade) / refStockCodeTrade->getBuyAmount();
 }
 
 double JKStockTradeUtil::getRealEarning(StockCodeTradeBLLConstRefPtr refStockCodeTrade)
@@ -94,7 +94,7 @@ double JKStockTradeUtil::getRealEarningPercent(StockCodeTradeBLLConstRefPtr refS
 	size_t soldCount = refStockCodeTrade->getSoldCount();
 	size_t sumCount = refStockCodeTrade->getCount();
 
-	return getRealEarning(refStockCodeTrade) / (refStockCodeTrade->getBuyPureCost()*soldCount/sumCount);
+	return getRealEarning(refStockCodeTrade) / (refStockCodeTrade->getBuyAmount()*soldCount/sumCount);
 }
 
 double JKStockTradeUtil::getCommission(double buyCost)

@@ -1,5 +1,18 @@
 #include "stdafx.h"
 #include "JKVirtualTreeAdapter.h"
+#include "BLL/JKProjectBLL.h"
+#include "BLL/JKStockCodeBLL.h"
+
+JKVirtualModelAdapter::JKVirtualModelAdapter(ProjectBLLConstRefPtr _projectBll, BaseObjectConstRefPtr _root)
+{
+	this->setProjectBLL(_projectBll);
+	this->setRoot(_root);
+}
+
+JKVirtualModelAdapter::~JKVirtualModelAdapter()
+{
+
+}
 
 int JKVirtualModelAdapter::indexOf(BaseObjectConstRefPtr parent, BaseObjectConstRefPtr item, int start)
 {
@@ -36,6 +49,16 @@ void JKVirtualModelAdapter::QueuedUpdate()
 {
   if (m_modelIntf)
     m_modelIntf->QueuedUpdate();
+}
+
+void JKVirtualModelAdapter::setProjectBLL(ProjectBLLConstRefPtr _projectBll)
+{
+	projectBll = _projectBll; 
+}
+
+void JKVirtualModelAdapter::setRoot(BaseObjectConstRefPtr _root)
+{
+	root = _root;
 }
 
 

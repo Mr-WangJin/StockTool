@@ -32,10 +32,12 @@ public:
 	JKUInt64 getCouldSellCount();
 	//获取买入单价
 	double getBuyPrice();
+	//获取买入总价
+	double getBuyAmount();
 	//获取卖出单价
 	double getSellPrice();
-	//获取买入纯成本
-	double getBuyPureCost();
+	//获取买入总价
+	double getSellAmount();
 	//获取真实收益
 	double getRealEarning();
 
