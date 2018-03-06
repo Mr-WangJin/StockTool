@@ -39,150 +39,147 @@ public:
 	bool childInitialized = false;
 	BaseObjectPtr item;
 
-	bool isInitialized(JKVirtualModelAdapter *adapter)
-  {
-    if (!childInitialized)
-    {
-      // if node children have not been added to model
-      // but model asks node by hasChildren()
-      // the only way to notify model about changes is to initialize node children
-      if (hasChildrenQueryed) {
-        if (hasChildren != (adapter->getItemsCount(item) > 0))
-          childInitialized = true;
-      }
-      return childInitialized;
-    }
-    else
-      return true;
-  }
+	bool isInitialized(const std::shared_ptr<JKVirtualModelAdapter>& _modelAdapter)
+	{
+		if (!childInitialized)
+		{
+			// if node children have not been added to model
+			// but model asks node by hasChildren()
+			// the only way to notify model about changes is to initialize node children
+			if (hasChildrenQueryed) {
+				if (hasChildren != (_modelAdapter->getItemsCount(item) > 0))
+					childInitialized = true;
+			}
+			return childInitialized;
+		}
+		else
+			return true;
+	}
 	
-	void loadChildren(JKVirtualModelAdapter *adapter)
-  {
-    if (!childInitialized)
-    {
-      if (adapter->hasItems(item))
-      {
-        int childCount = adapter->getItemsCount(item);
-        for (int k = 0; k < childCount; ++k)
-          children.emplace_back(new InternalNode(this, adapter->getItem(item, k), k));
-      }
-      childInitialized = true;
-    }
-  }
+	void loadChildren(const std::shared_ptr<JKVirtualModelAdapter>& _modelAdapter)
+	{
+		if (!childInitialized)
+		{
+			if (_modelAdapter->hasItems(item))
+			{
+				int childCount = _modelAdapter->getItemsCount(item);
+				for (int k = 0; k < childCount; ++k)
+					children.emplace_back(new InternalNode(this, _modelAdapter->getItem(item, k), k));
+			}
+			childInitialized = true;
+		}
+	}
 	
-	int childCount(JKVirtualModelAdapter *adapter)
-  {
-    loadChildren(adapter);
-    return static_cast<int>(children.size());
-  }
+	int childCount(const std::shared_ptr<JKVirtualModelAdapter>& _modelAdapter)
+	{
+		loadChildren(_modelAdapter);
+		return static_cast<int>(children.size());
+	}
 	
 	void eraseChildren(const InternalChildren::iterator &begin, const InternalChildren::iterator &end)
-  {
-    size_t curParent = begin->get()->parentIndex;
-    auto newEnd = children.erase(begin, end);
-    for (auto it = newEnd; it != children.end(); ++it)
-      it->get()->parentIndex = curParent++;
-  }
+	{
+		size_t curParent = begin->get()->parentIndex;
+		auto newEnd = children.erase(begin, end);
+		for (auto it = newEnd; it != children.end(); ++it)
+			it->get()->parentIndex = curParent++;
+	}
 	
 	void insertedChildren(size_t lastIndex)
-  {
-    for (auto index = lastIndex; index < children.size(); ++index)
-      children[index]->parentIndex = index;
-  }
-
-
-
+	{
+	  for (auto index = lastIndex; index < children.size(); ++index)
+	    children[index]->parentIndex = index;
+	}
 };
 
-JKVirtualTreeModel::JKVirtualTreeModel(JKVirtualModelAdapter *adapter, QObject *parent) :
-  QAbstractItemModel(parent), modelAdapter(adapter), m_updating(0), m_syncing(false)
+JKVirtualTreeModel::JKVirtualTreeModel(const std::shared_ptr<JKVirtualModelAdapter>& _modelAdapter, QObject *parent) :
+  QAbstractItemModel(parent), modelAdapter(_modelAdapter), m_updating(0), m_syncing(false)
 {
-  m_root = new InternalNode(nullptr, nullptr, 0);
-  m_intf = new JKVirtualModelInterfaceImpl(*this);
-  if (modelAdapter)
-    adapter->setModel(m_intf);
-  syncTree();
+	rootNode = new InternalNode(nullptr, nullptr, 0);
+	m_intf = new JKVirtualModelInterfaceImpl(*this);
+	if (modelAdapter)
+		modelAdapter->setModel(m_intf);
+	syncTree();
 }
 
 JKVirtualTreeModel::~JKVirtualTreeModel()
 {
-  delete m_root;
-  delete m_intf;
+	delete rootNode;
+	delete m_intf;
 }
 
 void JKVirtualTreeModel::syncNodeList(InternalNode &node, BaseObjectConstRefPtr parent)
 {
-  InternalChildren &nodes = node.children;
-  int srcStart = 0;
-  int srcCur = srcStart;
-  int destStart = 0;
+	InternalChildren &nodes = node.children;
+	int srcStart = 0;
+	int srcCur = srcStart;
+	int destStart = 0;
 
-  auto index = getIndex(node);
-  while (srcCur <= static_cast<int>(nodes.size()))
-  {
-    bool finishing = srcCur >= static_cast<int>(nodes.size());
-    int destCur = 0;
-    InternalNode *curNode = nullptr;
-    if (!finishing) {
-      curNode = nodes[srcCur].get();
-      destCur = modelAdapter->indexOf(parent, curNode->item, destStart);
-    }
-    if (destCur >= 0)
-    {
-      // remove skipped source nodes
-      if (srcCur > srcStart)
-      {
-        beginRemoveRows(index, srcStart, srcCur - 1);
-        node.eraseChildren(nodes.begin() + srcStart, nodes.begin() + srcCur);
-        if (!finishing)
-          srcCur = srcStart;
-        endRemoveRows();
-      }
-      srcStart = srcCur + 1;
+	auto index = getIndex(node);
+	while (srcCur <= static_cast<int>(nodes.size()))
+	{
+	  bool finishing = srcCur >= static_cast<int>(nodes.size());
+	  int destCur = 0;
+	  InternalNode *curNode = nullptr;
+	  if (!finishing) {
+	    curNode = nodes[srcCur].get();
+	    destCur = modelAdapter->indexOf(parent, curNode->item, destStart);
+	  }
+	  if (destCur >= 0)
+	  {
+	    // remove skipped source nodes
+	    if (srcCur > srcStart)
+	    {
+	      beginRemoveRows(index, srcStart, srcCur - 1);
+	      node.eraseChildren(nodes.begin() + srcStart, nodes.begin() + srcCur);
+	      if (!finishing)
+	        srcCur = srcStart;
+	      endRemoveRows();
+	    }
+	    srcStart = srcCur + 1;
 
-      if (finishing)
-        destCur = modelAdapter->getItemsCount(parent);
-      // insert skipped new nodes
-      if (destCur > destStart)
-      {
-        int insertCount = destCur - destStart;
-        beginInsertRows(index, srcCur, srcCur + insertCount - 1);
-        for (int i = 0, cur = srcCur; i < insertCount; i++, cur++)
-        {
-			BaseObjectConstRefPtr obj = modelAdapter->getItem(parent, destStart + i);
-			auto newNode = new InternalNode(&node, obj, cur);
-			// just add new node we shouldn't sync its children yet
-			nodes.emplace(nodes.begin() + cur, newNode);
-        }
-        node.insertedChildren(srcCur + insertCount);
-        endInsertRows();
+	    if (finishing)
+	      destCur = modelAdapter->getItemsCount(parent);
+	    // insert skipped new nodes
+	    if (destCur > destStart)
+	    {
+	      int insertCount = destCur - destStart;
+	      beginInsertRows(index, srcCur, srcCur + insertCount - 1);
+	      for (int i = 0, cur = srcCur; i < insertCount; i++, cur++)
+	      {
+				BaseObjectConstRefPtr obj = modelAdapter->getItem(parent, destStart + i);
+				auto newNode = new InternalNode(&node, obj, cur);
+				// just add new node we shouldn't sync its children yet
+				nodes.emplace(nodes.begin() + cur, newNode);
+	      }
+	      node.insertedChildren(srcCur + insertCount);
+	      endInsertRows();
 
-        srcCur += insertCount;
-        destStart += insertCount;
-      }
-      destStart = destCur + 1;
+	      srcCur += insertCount;
+	      destStart += insertCount;
+	    }
+	    destStart = destCur + 1;
 
-      if (curNode && curNode->isInitialized(modelAdapter))
-      {
-        syncNodeList(*curNode, curNode->item);
-        srcStart = srcCur + 1;
-      }
-    }
-    srcCur++;
-  }
-  node.childInitialized = true;
+	    if (curNode && curNode->isInitialized(modelAdapter))
+	    {
+	      syncNodeList(*curNode, curNode->item);
+	      srcStart = srcCur + 1;
+	    }
+	  }
+	  srcCur++;
+	}
+	node.childInitialized = true;
 }
 
 QVariant JKVirtualTreeModel::data(const QModelIndex &index, int role) const
 {  
-  if (!index.isValid())
-    return QVariant();
+	if (!index.isValid())
+	  return QVariant();
 
-  if (m_updating > 0 || modelAdapter == nullptr)
-    return QVariant();
+	if (m_updating > 0 || modelAdapter == nullptr)
+	  return QVariant();
 
-  BaseObjectPtr item = getNode(index).item;
-  return modelAdapter->data(item, role, index);
+	BaseObjectPtr item = getNode(index).item;
+	return modelAdapter->data(item, role, index);
 }
 
 QVariant JKVirtualTreeModel::headerData(int section, Qt::Orientation orientation, int role /*= Qt::DisplayRole*/) const
@@ -195,40 +192,40 @@ QVariant JKVirtualTreeModel::headerData(int section, Qt::Orientation orientation
 
 QModelIndex JKVirtualTreeModel::index(int row, int column, const QModelIndex &parent) const
 {  
-  InternalNode &parentItem = getNode(parent);
-  if (row < static_cast<int>(parentItem.children.size()))
-  {
-    InternalNode *childItem = parentItem.children.at(row).get();
-    return getIndex(*childItem, column);
-  }
-  else
-    return QModelIndex();
+	InternalNode &parentItem = getNode(parent);
+	if (row < static_cast<int>(parentItem.children.size()))
+	{
+	  InternalNode *childItem = parentItem.children.at(row).get();
+	  return getIndex(*childItem, column);
+	}
+	else
+	  return QModelIndex();
 }
 
 QModelIndex JKVirtualTreeModel::parent(const QModelIndex &index) const
 {
-  if (!index.isValid() || !modelAdapter)
-    return QModelIndex();
+	if (!index.isValid() || !modelAdapter)
+	  return QModelIndex();
 
-  InternalNode &childItem = getNode(index);
-  InternalNode *parentItem = childItem.parent;
-  if (parentItem == nullptr || parentItem == m_root)
-    return QModelIndex();
-  return getIndex(*parentItem);
+	InternalNode &childItem = getNode(index);
+	InternalNode *parentItem = childItem.parent;
+	if (parentItem == nullptr || parentItem == rootNode)
+	  return QModelIndex();
+	return getIndex(*parentItem);
 }
 
 int JKVirtualTreeModel::rowCount(const QModelIndex &parent) const
 {
-  if (parent.isValid() && !this->parent(parent).isValid())
-    parent.internalId();
-  InternalNode &parentItem = getNode(parent);
-  if (m_syncing)
-    return static_cast<int>(parentItem.children.size());
-  else if (modelAdapter)
-    // lazy children loading
-    return parentItem.childCount(modelAdapter);
-  else
-    return 0;
+	if (parent.isValid() && !this->parent(parent).isValid())
+		parent.internalId();
+	InternalNode &parentItem = getNode(parent);
+	if (m_syncing)
+		return static_cast<int>(parentItem.children.size());
+	else if (modelAdapter)
+	  // lazy children loading
+		return parentItem.childCount(modelAdapter);
+	else
+		return 0;
 }
 
 int JKVirtualTreeModel::columnCount(const QModelIndex &parent) const
@@ -243,140 +240,138 @@ int JKVirtualTreeModel::columnCount(const QModelIndex &parent) const
 
 InternalNode & JKVirtualTreeModel::getNode(const QModelIndex &index) const
 {
-  if (index.isValid())
-    return *(InternalNode*)index.internalPointer();
-  else
-    return *m_root;
+	if (index.isValid())
+	  return *(InternalNode*)index.internalPointer();
+	else
+	  return *rootNode;
 }
 
 InternalNode *JKVirtualTreeModel::getItemNode(BaseObjectConstRefPtr item) const
 {
-  if (modelAdapter == nullptr)
-    return nullptr;
-  BaseObjectConstRefPtr parentItem = modelAdapter->getItemParent(item);
-  if (parentItem == item)
-    return nullptr;
-  if (parentItem == nullptr)
-    return m_root;
-  else
-  {
-    auto parentNode = getItemNode(parentItem);
-    int index = modelAdapter->indexOf(parentItem, item);
-    if (index >= 0)
-    {
-      parentNode->loadChildren(modelAdapter);
-      return parentNode->children[index].get();
-    }
-    else
-    {
-      return nullptr;
-    }
-  }
+	if (modelAdapter == nullptr)
+	  return nullptr;
+	BaseObjectConstRefPtr parentItem = modelAdapter->getItemParent(item);
+	if (parentItem == item)
+	  return nullptr;
+	if (parentItem == nullptr)
+	  return rootNode;
+	else
+	{
+	  auto parentNode = getItemNode(parentItem);
+	  int index = modelAdapter->indexOf(parentItem, item);
+	  if (index >= 0)
+	  {
+	    parentNode->loadChildren(modelAdapter);
+	    return parentNode->children[index].get();
+	  }
+	  else
+	  {
+	    return nullptr;
+	  }
+	}
 }
 
 QModelIndex JKVirtualTreeModel::getIndex(const InternalNode &node, int column) const
 {
-  if (&node == m_root)
-    return QModelIndex();
-  else
-    return createIndex(static_cast<int>(node.parentIndex), column, quintptr(&node));
+	if (&node == rootNode)
+	  return QModelIndex();
+	else
+	  return createIndex(static_cast<int>(node.parentIndex), column, quintptr(&node));
 }
 
 void JKVirtualTreeModel::doQueuedUpdate()
 {
-  endUpdate();
+	endUpdate();
 }
 
 bool JKVirtualTreeModel::hasChildren(const QModelIndex &parent) const
 {
-  if (!parent.isValid())
-    return true;
-  InternalNode &node = getNode(parent);
-  if (node.childInitialized)
-  {
-    return node.children.size() > 0;
-  }
-  else if (modelAdapter)
-  {
-	  node.hasChildrenQueryed = true;
-    bool has = modelAdapter->hasItems(node.item);
-	node.hasChildren = has;
-    return has;
-  }
-  else
-    return false;
+	if (!parent.isValid())
+	  return true;
+	InternalNode &node = getNode(parent);
+	if (node.childInitialized)
+	{
+	  return node.children.size() > 0;
+	}
+	else if (modelAdapter)
+	{
+		  node.hasChildrenQueryed = true;
+	  bool has = modelAdapter->hasItems(node.item);
+		node.hasChildren = has;
+	  return has;
+	}
+	else
+	  return false;
 }
 
 BaseObjectPtr JKVirtualTreeModel::getItem(const QModelIndex &index) const
 {
-  return getNode(index).item;
+	return getNode(index).item;
 }
 
 QModelIndex JKVirtualTreeModel::getItemIndex(BaseObjectConstRefPtr item) const
 {
-  auto node = getItemNode(item);
-  if (node)
-    return getIndex(*node);
-  else
-    return QModelIndex();
+	auto node = getItemNode(item);
+	if (node)
+	  return getIndex(*node);
+	else
+	  return QModelIndex();
 }
 
-JKVirtualModelAdapter * JKVirtualTreeModel::setModelAdapter(JKVirtualModelAdapter *adapter)
+void JKVirtualTreeModel::setModelAdapter(const std::shared_ptr<JKVirtualModelAdapter>& _modelAdapter)
 {
-  JKVirtualModelAdapter *oldAdapter = modelAdapter;
-  beginUpdate();
-  if (modelAdapter)
-    modelAdapter->setModel(nullptr);
-  modelAdapter = adapter;
-  beginResetModel();
-  m_root->children.clear();
-  endResetModel();
-  if (modelAdapter)  
-    modelAdapter->setModel(m_intf);
-  endUpdate();
-  return oldAdapter;
+	beginUpdate();
+	if (modelAdapter)
+		modelAdapter->setModel(nullptr);
+	modelAdapter = _modelAdapter;
+	beginResetModel();
+	rootNode->children.clear();
+	endResetModel();
+	if (modelAdapter)
+		modelAdapter->setModel(m_intf);
+	endUpdate();
 }
 
-JKVirtualModelAdapter *JKVirtualTreeModel::getModelAdapter() const
+const std::shared_ptr<JKVirtualModelAdapter>& JKVirtualTreeModel::getModelAdapter() const
 {
-  return modelAdapter;
+	return modelAdapter;
 }
 
 void JKVirtualTreeModel::beginUpdate()
 {
-  ++m_updating;
+	++m_updating;
 }
 
 void JKVirtualTreeModel::endUpdate()
 {
-  if (m_updating == 1)
-    syncTree();
-  --m_updating;
-  // force tree to repaint all nodes
-  if (m_updating == 0)
-    emit dataChanged(QModelIndex(), QModelIndex());
+	if (m_updating == 1)
+	  syncTree();
+	--m_updating;
+	// force tree to repaint all nodes
+	if (m_updating == 0)
+	  emit dataChanged(QModelIndex(), QModelIndex());
 }
 
 bool JKVirtualTreeModel::isUpdating() const
 {
-  return m_updating > 0 || m_syncing;
+	return m_updating > 0 || m_syncing;
 }
 
 void JKVirtualTreeModel::QueuedUpdate()
 {
-  if (m_updating == 0)
-  {
-    beginUpdate();
-    QMetaObject::invokeMethod(this, "doQueuedUpdate", Qt::QueuedConnection);
-  }
+	if (m_updating == 0)
+	{
+	  beginUpdate();
+	  QMetaObject::invokeMethod(this, "doQueuedUpdate", Qt::QueuedConnection);
+	}
 }
 
 void JKVirtualTreeModel::syncTree()
 {
-  if (modelAdapter)
-  {
-    m_syncing = true;
-    syncNodeList(*m_root, nullptr);
-    m_syncing = false;
-  }
+	if (modelAdapter)
+	{
+		m_syncing = true;
+		syncNodeList(*rootNode, nullptr);
+		m_syncing = false;
+	}
 }

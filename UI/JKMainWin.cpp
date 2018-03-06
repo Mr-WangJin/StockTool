@@ -712,9 +712,9 @@ void JKMainWin::initUI()
 	ui.m_pHSplitter->setSizes(QList<int>() << 100 << 500);
 	
 	buyStockTableAdapterPtr = std::make_shared<JKBuyStockTableAdapter>(new JKBuyStockTableAdapter(BaseObjectPtr()));
-	JKVirtualTreeModel* model = new JKVirtualTreeModel(buyStockTableAdapterPtr.get());
+	stockTableModel = new JKVirtualTreeModel(buyStockTableAdapterPtr, this);
 	//tableModel = new JKStockTableModel(refProject, this);
-	ui.tableView->setModel(model);
+	ui.tableView->setModel(stockTableModel);
 	
 // 	QItemSelectionModel *selectionModel = new QItemSelectionModel(stockTableModel);
 // 	ui.tableView->setSelectionModel(selectionModel);

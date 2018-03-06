@@ -12,7 +12,7 @@ class JKVirtualTreeModel : public QAbstractItemModel
 {
 	Q_OBJECT
 public:
-	JKVirtualTreeModel(JKVirtualModelAdapter *adapter, QObject *parent = 0);
+	JKVirtualTreeModel(const std::shared_ptr<JKVirtualModelAdapter>& _modelAdapter, QObject *parent = 0);
 	~JKVirtualTreeModel();
 	
 	QVariant data(const QModelIndex &index, int role) const override;
@@ -29,8 +29,8 @@ public:
 	BaseObjectPtr getItem(const QModelIndex &index) const;
 	QModelIndex getItemIndex(BaseObjectConstRefPtr item) const;
 	
-	JKVirtualModelAdapter * setModelAdapter(JKVirtualModelAdapter *adapter);
-	JKVirtualModelAdapter * getModelAdapter() const;
+	void setModelAdapter(const std::shared_ptr<JKVirtualModelAdapter>& _modelAdapter);
+	const std::shared_ptr<JKVirtualModelAdapter>& getModelAdapter() const;
 	
 	void beginUpdate();
 	void endUpdate();
@@ -52,9 +52,9 @@ private:
 
 private:
 
-	JKVirtualModelAdapter *modelAdapter;
+	std::shared_ptr<JKVirtualModelAdapter> modelAdapter;
 	JKVirtualModelInterfaceImpl *m_intf;
-	mutable InternalNode *m_root;
+	mutable InternalNode *rootNode = nullptr;
 
 	int m_updating;
 	bool m_syncing;

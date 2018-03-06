@@ -37,6 +37,7 @@ int JKBuyStockTableAdapter::getItemsCount(BaseObjectConstRefPtr parent)
 
 		return _stockCodeBll->getTradeCountByType((int)tradeType);
 	}
+	return 0;
 }
 
 BaseObjectPtr JKBuyStockTableAdapter::getItem(BaseObjectConstRefPtr parent, int index)

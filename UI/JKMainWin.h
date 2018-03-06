@@ -14,6 +14,7 @@
 class QLabel;
 class QSystemTrayIcon;
 class JKBuyStockTableAdapter;
+class JKVirtualTreeModel;
 
 
 class JKMainWin : public QMainWindow
@@ -108,7 +109,7 @@ private:
 
 	JKCrawlPrice* crawlPrice = nullptr;
 	std::shared_ptr<JKBuyStockTableAdapter> buyStockTableAdapterPtr;
-
+	JKVirtualTreeModel* stockTableModel;
 
 };
 
