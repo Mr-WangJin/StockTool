@@ -509,7 +509,13 @@ void JKMainWin::onShowAll(bool checked)
 
 void JKMainWin::updateTableWidget()
 {
-	tableModel->setProject(refProject);
+	//tableModel->setProject(refProject);
+	if (refProject)
+	{
+		buyStockTableAdapterPtr->beginUpdate();
+		buyStockTableAdapterPtr->setRoot(refProject->getCurStockCode()->toBaseObject());
+		buyStockTableAdapterPtr->endUpdate();
+	}
 // 	ui.tableWidget->clearContents();
 // 
 // 	vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecRefStockCodeTradeBLLTemp = refProject->getCurStockCode()->getAllTrades();
@@ -601,11 +607,6 @@ void JKMainWin::onAfterStockChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 			systemTrayIcon->setToolTip(QString("JKStockTool\n%1%2").arg(QStringLiteral("×îÐÂ¼Û£º")).arg(_refStockCode->getLatestPrice()));
 		}
 
-		JKBuyStockTableViewer* view = new JKBuyStockTableViewer;
-		JKBuyStockTableAdapter* add = new JKBuyStockTableAdapter(refProject->getCurStockCode());
-		JKVirtualTreeModel* model = new JKVirtualTreeModel(add);
-		view->setModel(model);
-		view->show();
 	}
 	
 }
@@ -710,8 +711,10 @@ void JKMainWin::initUI()
 
 	ui.m_pHSplitter->setSizes(QList<int>() << 100 << 500);
 	
-	tableModel = new JKStockTableModel(refProject, this);
-	ui.tableView->setModel(tableModel);
+	buyStockTableAdapterPtr = std::make_shared<JKBuyStockTableAdapter>(new JKBuyStockTableAdapter(BaseObjectPtr()));
+	JKVirtualTreeModel* model = new JKVirtualTreeModel(buyStockTableAdapterPtr.get());
+	//tableModel = new JKStockTableModel(refProject, this);
+	ui.tableView->setModel(model);
 	
 // 	QItemSelectionModel *selectionModel = new QItemSelectionModel(stockTableModel);
 // 	ui.tableView->setSelectionModel(selectionModel);
