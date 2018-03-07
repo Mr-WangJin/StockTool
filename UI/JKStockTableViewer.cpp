@@ -6,7 +6,7 @@
 
 
 JKStockTableViewer::JKStockTableViewer(QWidget* parent/* = nullptr*/)
-	: QTableView(parent)
+	: QTreeView(parent)
 {
 	this->initUI();	
 }
@@ -17,18 +17,23 @@ JKStockTableViewer::~JKStockTableViewer()
 
 void JKStockTableViewer::resizeColumnsWidth()
 {
-	this->resizeColumnsToContents();
-	this->resizeRowsToContents();
-	//获取表头列数  
-	for (int i = 0; i < this->horizontalHeader()->count(); i++)
+	//this->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+	
+	//this->resizeColumnToContents();
+	//this->resizeColumnToContents();
+	//setSectionResizeMode
+	//this->resizeRowsToContents();
+	////获取表头列数  
+	for (int i = 0; i < this->header()->count(); i++)
 	{
+		this->resizeColumnToContents(i);
 		this->setColumnWidth(i, this->columnWidth(i) + 20);  //多一些空余控件，不然每列内容很挤  
 	}
 }
 
 void JKStockTableViewer::setModel(QAbstractItemModel * model)
 {
-	QTableView::setModel(model);
+	QTreeView::setModel(model);
 }
 
 void JKStockTableViewer::getSelectedStockTradeIds(std::vector<JKString>& _vecStockTradeIDs)
@@ -67,14 +72,14 @@ void JKStockTableViewer::getSelectedStockTrade(std::vector<JKRef_Ptr<JKStockCode
 
 void JKStockTableViewer::initHeader()
 {
-	QHeaderView *headerGoods = this->horizontalHeader();
-	//SortIndicator为水平标题栏文字旁边的三角指示器
-	headerGoods->setSortIndicator(0, Qt::AscendingOrder);
-	headerGoods->setSortIndicatorShown(true);
-	//headerGoods->setClickable(true);
-	connect(headerGoods, SIGNAL(sectionClicked(int)), this, SLOT(sortByColumn(int)));
+	//QHeaderView *headerGoods = this->horizontalHeader();
+	////SortIndicator为水平标题栏文字旁边的三角指示器
+	//headerGoods->setSortIndicator(0, Qt::AscendingOrder);
+	//headerGoods->setSortIndicatorShown(true);
+	////headerGoods->setClickable(true);
+	//connect(headerGoods, SIGNAL(sectionClicked(int)), this, SLOT(sortByColumn(int)));
 
-	this->sortByColumn(1, Qt::SortOrder::AscendingOrder);
+	//this->sortByColumn(1, Qt::SortOrder::AscendingOrder);
 }
 
 void JKStockTableViewer::initUI()

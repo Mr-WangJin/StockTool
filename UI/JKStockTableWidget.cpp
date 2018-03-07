@@ -30,11 +30,6 @@ JKBuyStockTableAdapter::JKBuyStockTableAdapter(ProjectBLLConstRefPtr _projectBll
 	columnCount = c;
 }
 
-// JKBuyStockTableAdapter::JKBuyStockTableAdapter(const JKBuyStockTableAdapter *)
-// {
-// 
-// }
-
 JKBuyStockTableAdapter::~JKBuyStockTableAdapter()
 {
 
@@ -43,18 +38,22 @@ JKBuyStockTableAdapter::~JKBuyStockTableAdapter()
 int JKBuyStockTableAdapter::getItemsCount(BaseObjectConstRefPtr parent)
 {
 	BaseObjectPtr _baseObject = getValue(parent);
-	StockCodeBLLConstRefPtr _stockCodeBll = dynamic_cast<JKStockCodeBLL*>(_baseObject.get());
+	if (_baseObject == nullptr)
+		return 0;
+	StockCodeBLLPtr _stockCodeBll = _baseObject->toTypeObject<JKStockCodeBLL*>();
 	if (_stockCodeBll)
 	{
 		//typedef int (JKStockCodeBLL::*ptr_fun)(int);
 		//ptr_fun f = static_cast<ptr_fun>(&JKStockCodeBLL::getTradeCountByType);
 		//return (_stockCodeBll.get()->*f)((int)tradeType);
+		int itemCount = 0;
+		itemCount += _stockCodeBll->getTradeCountByType((int)tradeType);
 
-		return _stockCodeBll->getTradeCountByType((int)tradeType);
+		return itemCount;
 	}
 
 	QString name = _baseObject->getClassName();
-	StockCodeTradeBLLConstRefPtr _stockCodeTrade = _baseObject->toTypeObject<JKStockCodeTradeBLL*>();
+	StockCodeTradeBLLPtr _stockCodeTrade = _baseObject->toTypeObject<JKStockCodeTradeBLL*>();
 	if (_stockCodeTrade)
 	{
 		return _stockCodeTrade->getTradeItemsCount();
@@ -67,8 +66,8 @@ int JKBuyStockTableAdapter::getItemsCount(BaseObjectConstRefPtr parent)
 BaseObjectPtr JKBuyStockTableAdapter::getItem(BaseObjectConstRefPtr parent, int index)
 {
 	BaseObjectPtr _baseObject = getValue(parent);
-	StockCodeBLLConstRefPtr _stockCodeBll = _baseObject->toTypeObject<JKStockCodeBLL*>();
-	if (_stockCodeBll != nullptr)
+	StockCodeBLLPtr _stockCodeBll = _baseObject->toTypeObject<JKStockCodeBLL*>();
+	if (_stockCodeBll)
 	{
 		vector<JKRef_Ptr<JKStockCodeTradeBLL>> vecStockCodeTrade;
 		_stockCodeBll->getTradesByType(tradeType, vecStockCodeTrade);
@@ -153,10 +152,10 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 			}
 		}
 
-		auto _stockCodeTradeItem = _baseObject->toTypeObject<JKStockCodeTradeItemBLL*>();
+		StockCodeTradeItemBLLPtr _stockCodeTradeItem = _baseObject->toTypeObject<JKStockCodeTradeItemBLL*>();
 		if (_stockCodeTradeItem)
 		{
-			return QString::fromStdString(_stockCodeTradeItem->getSoldDate());
+			return 1;
 		}
 	}
 	else if (role == Qt::BackgroundColorRole)
@@ -219,16 +218,16 @@ BaseObjectPtr JKBuyStockTableAdapter::getItemParent(BaseObjectConstRefPtr item)
 	if (item == root)
 		return nullptr;
 	
-	auto _stockCodeTradeBll = dynamic_cast<JKStockCodeTradeBLL*>(item.get());
-	if (_stockCodeTradeBll != nullptr)
+	StockCodeTradeBLLPtr _stockCodeTradeBll = item->toTypeObject<JKStockCodeTradeBLL*>();
+	if (_stockCodeTradeBll)
 	{
-		StockCodeBLLConstRefPtr _stockCode = LoadBLL(JKStockCodeBLL, JKStockCodeModel, _stockCodeTradeBll->getParentID(), -1);
+		StockCodeBLLPtr _stockCode = LoadBLL(JKStockCodeBLL, JKStockCodeModel, _stockCodeTradeBll->getParentID(), -1);
 		return _stockCode->toBaseObject();
 	}
-	auto _stockCodeTradeItem = dynamic_cast<JKStockCodeTradeItemBLL*>(item.get());// item->toTypeObject<JKStockCodeTradeItemBLL*>();
+	StockCodeTradeItemBLLPtr _stockCodeTradeItem = item->toTypeObject<JKStockCodeTradeItemBLL*>();
 	if (_stockCodeTradeItem)
 	{
-		StockCodeBLLConstRefPtr _stockCodeTrade = LoadBLL(JKStockCodeTradeBLL, JKStockCodeTradeModel, _stockCodeTradeBll->getParentID(), -1);
+		StockCodeTradeBLLPtr _stockCodeTrade = LoadBLL(JKStockCodeTradeBLL, JKStockCodeTradeModel, _stockCodeTradeItem->getParentID(), -1);
 		return _stockCodeTrade->toBaseObject();
 	}
 

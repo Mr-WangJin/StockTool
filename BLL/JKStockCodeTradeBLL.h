@@ -47,7 +47,7 @@ public:
 	double getRealEarning();
 
 	int getTradeItemsCount();
-	StockCodeTradeBLLPtr getTradeItem(int index);
+	StockCodeTradeItemBLLPtr getTradeItem(int index);
 	void getTradeItems(std::vector<JKRef_Ptr<JKStockCodeTradeItemBLL>> &vecTradeItems);
 
 	virtual void upgradeDataVersion(int dataVersion) override;

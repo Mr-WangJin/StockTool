@@ -1,10 +1,11 @@
 #pragma once
 
 #include <QTableView>
+#include <qtreeview.h>
 
 class JKStockCodeTradeBLL;
 
-class JKStockTableViewer : public QTableView
+class JKStockTableViewer : public QTreeView
 {
 	Q_OBJECT
 

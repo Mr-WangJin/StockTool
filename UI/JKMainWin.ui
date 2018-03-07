@@ -438,8 +438,8 @@
   </customwidget>
   <customwidget>
    <class>JKStockTableViewer</class>
-   <extends>QTableView</extends>
-   <header location="global">jkstocktableviewer.h</header>
+   <extends>QTreeView</extends>
+   <header>jkstocktableviewer.h</header>
   </customwidget>
  </customwidgets>
  <resources>

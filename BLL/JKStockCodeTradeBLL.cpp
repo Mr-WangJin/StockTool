@@ -26,7 +26,7 @@ void JKStockCodeTradeBLL::sell(double sellPrice, size_t sellCount, size_t sellSu
 	
 	JKRef_Ptr<JKStockCodeTradeItemBLL> _refStockCodeTradeItem = NewBLL(JKStockCodeTradeItemBLL, JKStockCodeTradeItemModel, getOriginID());
 	_refStockCodeTradeItem->setParams(sellPrice, sellCount, sellSumCount, stampTax, transfer, commission);
-	_refStockCodeTradeItem->setSoldDate(soldDate);
+	_refStockCodeTradeItem->setsoldDate(soldDate);
 	_refStockCodeTradeItem->setRealEarning(expactEarning);
 	ptrModel->addStockCodeTradeItem(_refStockCodeTradeItem->getModel());
 
@@ -94,7 +94,7 @@ JKString JKStockCodeTradeBLL::getSoldDate()
 {
 	if (ptrModel->vecSellItem.size() != 0)
 	{
-		return ptrModel->vecSellItem[0]->SoldDate;
+		return ptrModel->vecSellItem[0]->soldDate;
 	}
 	return "";
 }
@@ -146,10 +146,10 @@ int JKStockCodeTradeBLL::getTradeItemsCount()
 	return ptrModel->vecSellItem.size();
 }
 
-StockCodeTradeBLLPtr JKStockCodeTradeBLL::getTradeItem(int index)
+StockCodeTradeItemBLLPtr JKStockCodeTradeBLL::getTradeItem(int index)
 {
 	if (index >= ptrModel->vecSellItem.size())
-		return StockCodeTradeBLLPtr();
+		return StockCodeTradeItemBLLPtr();
 
 	return LoadBLL(JKStockCodeTradeItemBLL, JKStockCodeTradeItemModel, ptrModel->vecSellItem[index].get_id(), getOriginID());
 }
