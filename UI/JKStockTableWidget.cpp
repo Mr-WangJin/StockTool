@@ -25,6 +25,7 @@ JKBuyStockTableAdapter::JKBuyStockTableAdapter(ProjectBLLConstRefPtr _projectBll
 	mapHeader.insert(std::make_pair(c++, QStringLiteral("买入合价")));
 	mapHeader.insert(std::make_pair(c++, QStringLiteral("预计收益")));
 	mapHeader.insert(std::make_pair(c++, QStringLiteral("收益%")));
+	mapHeader.insert(std::make_pair(c++, QStringLiteral("部分收益")));
 	columnCount = c;
 }
 
@@ -89,6 +90,7 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 	if (role == Qt::DisplayRole)
 	{
 		StockCodeTradeBLLConstRefPtr _stockCodeTradeBll = _baseObject->toTypeObject<JKStockCodeTradeBLL*>();
+		TradeType type = _stockCodeTradeBll->getType();
 		JKStockTradeUtil tradeUtil(projectBll);
 		double latestPrice = projectBll->getCurStockCode()->getLatestPrice();
 		if (_stockCodeTradeBll)
@@ -96,21 +98,38 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 			switch (index.column())
 			{
 			case 0:
-				return QStringLiteral("买入");
+				if (type == TradeType::BUY)
+					return QStringLiteral("买入");
+				else if (type == TradeType::PART)
+					return QStringLiteral("部分");
+				break;
 			case 1:
 				return _stockCodeTradeBll->getCouldSellCount();
+				break;
 			case 2:
 				return _stockCodeTradeBll->getBuyPrice();
+				break;
 			case 3:
 				return tradeUtil.getTradeBuyCostPrice(_stockCodeTradeBll);
+				break;
 			case 4:
 				return QString::fromStdString(_stockCodeTradeBll->getDate());
+				break;
 			case 5:
 				return _stockCodeTradeBll->getBuyAmount();
+				break;
 			case 6:
 				return (int)((tradeUtil.getExpactEarning(latestPrice, _stockCodeTradeBll, _stockCodeTradeBll->getCouldSellCount())+0.005)*100) / 100.0;
+				break;
 			case 7:
 				return QString("%1%").arg(QString::number(tradeUtil.getExpactEarningPercent(latestPrice, _stockCodeTradeBll) * 100, 'f', 2));
+				break;
+			case 8:
+				if (type == TradeType::PART)
+				{
+					return (int)((_stockCodeTradeBll->getRealEarning() + 0.005) * 100) / 100.0f;
+				}
+				break;
 			default:
 				break;
 			}
@@ -123,6 +142,7 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 		{
 			JKStockTradeUtil tradeUtil(projectBll);
 			double latestPrice = projectBll->getCurStockCode()->getLatestPrice();
+			TradeType type = _stockCodeTradeBll->getType();
 			QVariant variant;
 			switch (index.column())
 			{
@@ -135,6 +155,15 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 				else
 					variant.setValue(DOWN_EARNING);
 			}
+			case 8:
+				if (type == TradeType::PART)
+				{
+					double earning = (int)((_stockCodeTradeBll->getRealEarning() + 0.005) * 100) / 100.0f;
+					if (earning >= 0)
+						variant.setValue(UP_EARNING);
+					else
+						variant.setValue(DOWN_EARNING);
+				}
 			break;
 			}
 			return variant;
@@ -270,26 +299,37 @@ QVariant JKSellStockTableAdapter::data(BaseObjectConstRefPtr item, int role, con
 			{
 			case 0:
 				return QStringLiteral("卖出");
+				break;
 			case 1:
 				return _stockCodeTradeBll->getSoldCount();
+				break;
 			case 2:
 				return _stockCodeTradeBll->getBuyPrice();
+				break;
 			case 3:
 				return (int)((tradeUtil.getTradeBuyCostPrice(_stockCodeTradeBll)+0.005)*100)/100.0f;
+				break;
 			case 4:
 				return QString::fromStdString(_stockCodeTradeBll->getDate());
+				break;
 			case 5:
 				return _stockCodeTradeBll->getBuyAmount();
+				break;
 			case 6:
 				return _stockCodeTradeBll->getSellPrice();
+				break;
 			case 7:
 				return QString::fromStdString(_stockCodeTradeBll->getSoldDate());
+				break;
 			case 8:
 				return _stockCodeTradeBll->getSellAmount();
+				break;
 			case 9:
-				return (int)((_stockCodeTradeBll->getRealEarning() + 0.005) * 100) / 100.0f;;
+				return (int)((_stockCodeTradeBll->getRealEarning() + 0.005) * 100) / 100.0f;
+				break;
 			case 10:
 				return QString("%1%").arg(QString::number(tradeUtil.getRealEarningPercent(_stockCodeTradeBll)*100, 'f', 2));
+				break;
 			default:
 				break;
 			}
