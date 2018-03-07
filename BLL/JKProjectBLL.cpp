@@ -35,20 +35,20 @@ JKRef_Ptr<JKProjectBLL> JKProjectBLL::openProject(const JKString & path)
 	{
 		JKRef_Ptr<JKProjectBLL> refProject;
 
-		std::list<JKRef_Ptr<JKProjectBLL>> listBll = LoadALLBLL(JKProjectBLL, JKProjectModel);
+		std::list<JKRef_Ptr<JKProjectBLL>> listBll = LoadALLBLL(JKProjectBLL, JKProjectModel, -1);
 		if (listBll.size() > 0)
 		{
 			refProject = *listBll.begin();
 			bean_ptr<JKProjectModel> ptrModel = refProject->getModel();
 			if (ptrModel->vecStockCode.size() > 0)
 			{
-				JKRef_Ptr<JKStockCodeBLL> refCurStockCode = LoadBLL(JKStockCodeBLL, JKStockCodeModel, ptrModel->vecStockCode[0].get_id(), -1);
+				JKRef_Ptr<JKStockCodeBLL> refCurStockCode = LoadBLL(JKStockCodeBLL, JKStockCodeModel, ptrModel->vecStockCode[0].get_id(), ptrModel.get_id());
 				refProject->setCurStockCode(refCurStockCode);
 			}
 		}
 		else
 		{
-			refProject = NewBLL(JKProjectBLL, JKProjectModel);
+			refProject = NewBLL(JKProjectBLL, JKProjectModel, -1);
 		}
 		BLLContext.setProject(refProject);
 
@@ -88,7 +88,7 @@ void JKProjectBLL::upgradeDataVersion(int dataVersion)
 
 JKRef_Ptr<JKStockCodeBLL> JKProjectBLL::newStockCode()
 {
-	JKRef_Ptr<JKStockCodeBLL> _refStockCode = NewBLL(JKStockCodeBLL, JKStockCodeModel);
+	JKRef_Ptr<JKStockCodeBLL> _refStockCode = NewBLL(JKStockCodeBLL, JKStockCodeModel, getOriginID());
 	_refStockCode->setParentID(parentID);
 
 	ptrModel->addStockCode(_refStockCode->getModel());
@@ -128,7 +128,7 @@ JKRef_Ptr<JKProjectSettingBLL> JKProjectBLL::getProjectSetting()
 	JKRef_Ptr<JKProjectSettingBLL> _refProjectSetting;
 	if (ptrModel->projectSetting.get_id() == -1)
 	{
-		_refProjectSetting = NewBLL(JKProjectSettingBLL, JKProjectSettingModel);
+		_refProjectSetting = NewBLL(JKProjectSettingBLL, JKProjectSettingModel, getOriginID());
 		ptrModel->projectSetting = _refProjectSetting->getModel();
 	}
 	else

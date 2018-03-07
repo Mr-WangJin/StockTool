@@ -108,9 +108,9 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 			case 5:
 				return _stockCodeTradeBll->getBuyAmount();
 			case 6:
-				return tradeUtil.getExpactEarning(latestPrice, _stockCodeTradeBll, _stockCodeTradeBll->getCouldSellCount());
+				return (int)((tradeUtil.getExpactEarning(latestPrice, _stockCodeTradeBll, _stockCodeTradeBll->getCouldSellCount())+0.005)*100) / 100.0;
 			case 7:
-				return QString("%1%").arg(tradeUtil.getExpactEarningPercent(latestPrice, _stockCodeTradeBll) * 100);
+				return QString("%1%").arg(QString::number(tradeUtil.getExpactEarningPercent(latestPrice, _stockCodeTradeBll) * 100, 'f', 2));
 			default:
 				break;
 			}
@@ -283,14 +283,13 @@ QVariant JKSellStockTableAdapter::data(BaseObjectConstRefPtr item, int role, con
 			case 6:
 				return _stockCodeTradeBll->getSellPrice();
 			case 7:
-				break;
+				return QString::fromStdString(_stockCodeTradeBll->getSoldDate());
 			case 8:
 				return _stockCodeTradeBll->getSellAmount();
 			case 9:
-				return _stockCodeTradeBll->getRealEarning();
+				return (int)((_stockCodeTradeBll->getRealEarning() + 0.005) * 100) / 100.0f;;
 			case 10:
-				return tradeUtil.getRealEarningPercent(_stockCodeTradeBll);
-				break;
+				return QString("%1%").arg(QString::number(tradeUtil.getRealEarningPercent(_stockCodeTradeBll)*100, 'f', 2));
 			default:
 				break;
 			}

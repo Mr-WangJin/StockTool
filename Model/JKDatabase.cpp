@@ -269,6 +269,7 @@ int JKDatabase::getDbDataVersion()
 		hiberlite::bean_ptr<JKProjectVersionModel> ptrProjectVersionModel = SingleDB->loadBean<JKProjectVersionModel>(vecIds[0]);
 		return ptrProjectVersionModel->dataVersion;
 	}
+	return -1;
 }
 
 int JKDatabase::getDataVersion()
