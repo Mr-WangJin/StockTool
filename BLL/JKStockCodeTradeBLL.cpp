@@ -116,7 +116,7 @@ double JKStockCodeTradeBLL::getSellPrice()
 	return total / count;
 }
 
-double JKStockCodeTradeBLL::getSellAmount()
+double JKStockCodeTradeBLL::getSoldAmount()
 {
 	double total = .0f;
 	for (auto &var : ptrModel->vecSellItem)

@@ -25,6 +25,7 @@ public:
 	TradeType getType();
 	HoldStockType getHoldType();
 	void setHoldType(HoldStockType type);
+	//获取买入时间
 	JKString getDate();
 	JKUInt64 getCount();
 	//获取已经卖出的数量
@@ -39,8 +40,8 @@ public:
 	double getBuyAmount();
 	//获取卖出单价
 	double getSellPrice();
-	//获取买入总价
-	double getSellAmount();
+	//获取已卖出总价
+	double getSoldAmount();
 	//获取真实收益
 	double getRealEarning();
 

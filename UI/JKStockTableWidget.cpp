@@ -116,7 +116,7 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 				return QString::fromStdString(_stockCodeTradeBll->getDate());
 				break;
 			case 5:
-				return _stockCodeTradeBll->getBuyAmount();
+				return _stockCodeTradeBll->getCouldSellCount()* _stockCodeTradeBll->getBuyPrice();
 				break;
 			case 6:
 				return (int)((tradeUtil.getExpactEarning(latestPrice, _stockCodeTradeBll, _stockCodeTradeBll->getCouldSellCount())+0.005)*100) / 100.0;
@@ -155,6 +155,7 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 				else
 					variant.setValue(DOWN_EARNING);
 			}
+			break;
 			case 8:
 				if (type == TradeType::PART)
 				{
@@ -322,7 +323,7 @@ QVariant JKSellStockTableAdapter::data(BaseObjectConstRefPtr item, int role, con
 				return QString::fromStdString(_stockCodeTradeBll->getSoldDate());
 				break;
 			case 8:
-				return _stockCodeTradeBll->getSellAmount();
+				return _stockCodeTradeBll->getSoldAmount();
 				break;
 			case 9:
 				return (int)((_stockCodeTradeBll->getRealEarning() + 0.005) * 100) / 100.0f;

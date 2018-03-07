@@ -23,7 +23,7 @@ public:
 
 private:
 	int columnCount = 0;
-	int tradeType = (int)TradeType::BUY;
+	int tradeType = (int)TradeType::BUY | (int)TradeType::PART;
 
 	std::map<int, QVariant> mapHeader;
 
@@ -50,7 +50,7 @@ public:
 
 private:
 	int columnCount = 0;
-	int tradeType = (int)TradeType::SELL;
+	int tradeType = (int)TradeType::SELL ;
 
 	std::map<int, QVariant> mapHeader;
 
