@@ -3,6 +3,19 @@
 #include "JKBLLCommon.h"
 #include <JKFramework/SmartPtr/JKReferenced.h>
 
+/** 宏定义
+*	类的属性
+*/
+#define PROPERTY_GETTER(valueType, name) \
+	valueType get##name() {return ptrModel->##name;}
+
+#define PROPERTY_SETTER(valueType, name) \
+	void set##name(valueType value) { ptrModel->##name = value;}
+
+#define PROPERTY(valueType, name) \
+	PROPERTY_GETTER(valueType, name)\
+	PROPERTY_SETTER(valueType, name)
+
 class JKBaseObject : public JKReferenced
 {
 public: 

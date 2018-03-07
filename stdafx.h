@@ -14,6 +14,9 @@ using namespace hiberlite;
 #include "BLL\JKBaseBLL.h"
 #include <QMessageBox>
 
+/** 宏定义
+ *	类变量
+ */
 #define DefTypePtr(obj) \
 class JK##obj;\
 using obj##Ptr = JKRef_Ptr<JK##obj>;\
@@ -30,12 +33,12 @@ DefTypePtr(ProjectBLL)
 DefTypePtr(ProjectSettingBLL)
 DefTypePtr(StockCodeBLL)
 DefTypePtr(StockCodeTradeBLL)
+DefTypePtr(StockCodeTradeItemBLL)
 
 
-
-
-
-
+/** 宏定义
+ *	新建 加载 保存 销毁 类 
+ */
 #define SingleDB JKSingleton<JKDatabase>::GetInstance().db
 #define BLLContainer(T) JKSingleton<JKBLLContainer<T>>::GetInstance()
 #define BLLContext JKSingleton<JKBLLContext>::GetInstance()

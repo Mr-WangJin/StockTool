@@ -94,7 +94,7 @@ JKString JKStockCodeTradeBLL::getSoldDate()
 {
 	if (ptrModel->vecSellItem.size() != 0)
 	{
-		return ptrModel->vecSellItem[0]->soldDate;
+		return ptrModel->vecSellItem[0]->SoldDate;
 	}
 	return "";
 }
@@ -139,6 +139,19 @@ double JKStockCodeTradeBLL::getRealEarning()
 		realEarning += var->realEarning;
 	}
 	return realEarning;
+}
+
+int JKStockCodeTradeBLL::getTradeItemsCount()
+{
+	return ptrModel->vecSellItem.size();
+}
+
+StockCodeTradeBLLPtr JKStockCodeTradeBLL::getTradeItem(int index)
+{
+	if (index >= ptrModel->vecSellItem.size())
+		return StockCodeTradeBLLPtr();
+
+	return LoadBLL(JKStockCodeTradeItemBLL, JKStockCodeTradeItemModel, ptrModel->vecSellItem[index].get_id(), getOriginID());
 }
 
 void JKStockCodeTradeBLL::getTradeItems(std::vector<JKRef_Ptr<JKStockCodeTradeItemBLL>>& vecTradeItems)

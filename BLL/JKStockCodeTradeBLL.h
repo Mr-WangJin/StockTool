@@ -23,6 +23,7 @@ public:
 		float stampTax, float transfer, float commission);
 
 	TradeType getType();
+	//获取持有类型
 	HoldStockType getHoldType();
 	void setHoldType(HoldStockType type);
 	//获取买入时间
@@ -45,6 +46,8 @@ public:
 	//获取真实收益
 	double getRealEarning();
 
+	int getTradeItemsCount();
+	StockCodeTradeBLLPtr getTradeItem(int index);
 	void getTradeItems(std::vector<JKRef_Ptr<JKStockCodeTradeItemBLL>> &vecTradeItems);
 
 	virtual void upgradeDataVersion(int dataVersion) override;
