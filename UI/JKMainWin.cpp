@@ -686,7 +686,7 @@ void JKMainWin::initUI()
 	QActionGroup* _showActionGrp = new QActionGroup(this);
 	_showActionGrp->addAction(ui.actOnlyShowBuy);
 	_showActionGrp->addAction(ui.actOnlyShowSold);
-	_showActionGrp->addAction(ui.actShowAll);
+	//_showActionGrp->addAction(ui.actShowAll);
 	ui.actShowAll->setChecked(true);
 
 	/** ¹ØÓÚ */
