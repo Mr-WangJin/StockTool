@@ -12,7 +12,7 @@
 
 ///////////////////////////////////////////////////////////////////////
 JKBuyStockTableAdapter::JKBuyStockTableAdapter(ProjectBLLConstRefPtr _projectBll, BaseObjectConstRefPtr _root)
-	: JKVirtualModelAdapter(_projectBll, _root)
+	: JKVirtualModelAdapter(_root)
 {
 	projectBll = _projectBll;
 	root = _root;
@@ -52,13 +52,11 @@ int JKBuyStockTableAdapter::getItemsCount(BaseObjectConstRefPtr parent)
 		return itemCount;
 	}
 
-	QString name = _baseObject->getClassName();
-	StockCodeTradeBLLPtr _stockCodeTrade = _baseObject->toTypeObject<JKStockCodeTradeBLL*>();
-	if (_stockCodeTrade)
-	{
-		return _stockCodeTrade->getTradeItemsCount();
-	}
-
+// 	StockCodeTradeBLLPtr _stockCodeTrade = _baseObject->toTypeObject<JKStockCodeTradeBLL*>();
+// 	if (_stockCodeTrade)
+// 	{
+// 		return _stockCodeTrade->getTradeItemsCount();
+// 	}
 
 	return 0;
 }
@@ -91,11 +89,11 @@ BaseObjectPtr JKBuyStockTableAdapter::getItem(BaseObjectConstRefPtr parent, int 
 		return item;
 	}
 
-	StockCodeTradeBLLPtr _stockCodeTrade = _baseObject->toTypeObject<JKStockCodeTradeBLL*>();
-	if (_stockCodeTrade)
-	{
-		return _stockCodeTrade->getTradeItem(index);
-	}
+// 	StockCodeTradeBLLPtr _stockCodeTrade = _baseObject->toTypeObject<JKStockCodeTradeBLL*>();
+// 	if (_stockCodeTrade)
+// 	{
+// 		return _stockCodeTrade->getTradeItem(index);
+// 	}
 
 	return BaseObjectPtr();
 }
@@ -109,7 +107,8 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 		if (_stockCodeTradeBll)
 		{
 			TradeType type = _stockCodeTradeBll->getType();
-			JKStockTradeUtil tradeUtil(projectBll);
+			JKStockTradeUtil tradeUtil;
+			auto projectBll = JKSingleton<JKUiContext>::GetInstance().getProjectBLL();
 			double latestPrice = projectBll->getCurStockCode()->getLatestPrice();
 
 			switch (index.column())
@@ -127,7 +126,7 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 				return _stockCodeTradeBll->getBuyPrice();
 				break;
 			case 3:
-				return tradeUtil.getTradeBuyCostPrice(_stockCodeTradeBll);
+				return (int)((tradeUtil.getTradeBuyCostPrice(_stockCodeTradeBll) + 0.005) * 100) / 100.0f;
 				break;
 			case 4:
 				return QString::fromStdString(_stockCodeTradeBll->getDate());
@@ -152,19 +151,27 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 			}
 		}
 
-		StockCodeTradeItemBLLPtr _stockCodeTradeItem = _baseObject->toTypeObject<JKStockCodeTradeItemBLL*>();
-		if (_stockCodeTradeItem)
-		{
-			return 1;
-		}
+// 		StockCodeTradeItemBLLPtr _stockCodeTradeItem = _baseObject->toTypeObject<JKStockCodeTradeItemBLL*>();
+// 		if (_stockCodeTradeItem)
+// 		{
+// 			switch (index.column())
+// 			{
+// 			case 5:
+// 				return _stockCodeTradeItem->getsellCount();
+// 				break;
+// 			default:
+// 				break;
+// 			}
+// 		}
 	}
 	else if (role == Qt::BackgroundColorRole)
 	{
 		StockCodeTradeBLLConstRefPtr _stockCodeTradeBll = _baseObject->toTypeObject<JKStockCodeTradeBLL*>();
 		if (_stockCodeTradeBll)
 		{
-			JKStockTradeUtil tradeUtil(projectBll);
-			double latestPrice = projectBll->getCurStockCode()->getLatestPrice();
+			JKStockTradeUtil tradeUtil;
+			auto project = JKSingleton<JKUiContext>::GetInstance().getProjectBLL();
+			double latestPrice = project->getCurStockCode()->getLatestPrice();
 			TradeType type = _stockCodeTradeBll->getType();
 			QVariant variant;
 			switch (index.column())
@@ -224,12 +231,12 @@ BaseObjectPtr JKBuyStockTableAdapter::getItemParent(BaseObjectConstRefPtr item)
 		StockCodeBLLPtr _stockCode = LoadBLL(JKStockCodeBLL, JKStockCodeModel, _stockCodeTradeBll->getParentID(), -1);
 		return _stockCode->toBaseObject();
 	}
-	StockCodeTradeItemBLLPtr _stockCodeTradeItem = item->toTypeObject<JKStockCodeTradeItemBLL*>();
-	if (_stockCodeTradeItem)
-	{
-		StockCodeTradeBLLPtr _stockCodeTrade = LoadBLL(JKStockCodeTradeBLL, JKStockCodeTradeModel, _stockCodeTradeItem->getParentID(), -1);
-		return _stockCodeTrade->toBaseObject();
-	}
+// 	StockCodeTradeItemBLLPtr _stockCodeTradeItem = item->toTypeObject<JKStockCodeTradeItemBLL*>();
+// 	if (_stockCodeTradeItem)
+// 	{
+// 		StockCodeTradeBLLPtr _stockCodeTrade = LoadBLL(JKStockCodeTradeBLL, JKStockCodeTradeModel, _stockCodeTradeItem->getParentID(), -1);
+// 		return _stockCodeTrade->toBaseObject();
+// 	}
 
 	return nullptr;
 }
@@ -247,7 +254,7 @@ BaseObjectPtr JKBuyStockTableAdapter::getValue(BaseObjectConstRefPtr data)
 
 //////////////////////////////////////////////////////////////////////////
 JKSellStockTableAdapter::JKSellStockTableAdapter(ProjectBLLConstRefPtr _projectBll, BaseObjectConstRefPtr _root)
-	: JKVirtualModelAdapter(_projectBll, _root)
+	: JKVirtualModelAdapter(_root)
 {
 
 	int c = 0;
@@ -321,8 +328,9 @@ QVariant JKSellStockTableAdapter::data(BaseObjectConstRefPtr item, int role, con
 	if (role == Qt::DisplayRole)
 	{
 		StockCodeTradeBLLConstRefPtr _stockCodeTradeBll = _baseObject->toTypeObject<JKStockCodeTradeBLL*>();
-		JKStockTradeUtil tradeUtil(projectBll);
-		double latestPrice = projectBll->getCurStockCode()->getLatestPrice();
+		JKStockTradeUtil tradeUtil;
+		auto project = JKSingleton<JKUiContext>::GetInstance().getProjectBLL();
+		double latestPrice = project->getCurStockCode()->getLatestPrice();
 		if (_stockCodeTradeBll)
 		{
 			switch (index.column())
@@ -370,8 +378,9 @@ QVariant JKSellStockTableAdapter::data(BaseObjectConstRefPtr item, int role, con
 		StockCodeTradeBLLConstRefPtr _stockCodeTradeBll = _baseObject->toTypeObject<JKStockCodeTradeBLL*>();
 		if (_stockCodeTradeBll)
 		{
-			JKStockTradeUtil tradeUtil(projectBll);
-			double latestPrice = projectBll->getCurStockCode()->getLatestPrice();
+			JKStockTradeUtil tradeUtil;
+			auto project = JKSingleton<JKUiContext>::GetInstance().getProjectBLL();
+			double latestPrice = project->getCurStockCode()->getLatestPrice();
 			QVariant variant;
 			switch (index.column())
 			{

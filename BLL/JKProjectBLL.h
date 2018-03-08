@@ -27,7 +27,7 @@ public:
 	void saveProject();
 	StockCodeBLLPtr newStockCode();
 	StockCodeBLLPtr getCurStockCode();
-	vector<JKRef_Ptr<JKStockCodeBLL>> getAllStockCode();
+	vector<StockCodeBLLPtr> getAllStockCode();
 
 	void setProjectSetting(JKRef_Ptr<JKProjectSettingBLL>);
 	ProjectSettingBLLPtr getProjectSetting();

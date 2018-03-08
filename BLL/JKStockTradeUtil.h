@@ -9,6 +9,7 @@ class JKStockCodeTradeBLL;
 class JKStockTradeUtil : public JKReferenced
 {
 public:
+	JKStockTradeUtil();
 	JKStockTradeUtil(JKRef_Ptr<JKProjectBLL> _refProject);
 	JKStockTradeUtil(float _stampTax, float _transfer, float _commission);
 	virtual ~JKStockTradeUtil();

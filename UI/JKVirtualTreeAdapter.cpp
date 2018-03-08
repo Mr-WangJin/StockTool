@@ -3,9 +3,8 @@
 #include "BLL/JKProjectBLL.h"
 #include "BLL/JKStockCodeBLL.h"
 
-JKVirtualModelAdapter::JKVirtualModelAdapter(ProjectBLLConstRefPtr _projectBll, BaseObjectConstRefPtr _root)
+JKVirtualModelAdapter::JKVirtualModelAdapter(BaseObjectConstRefPtr _root)
 {
-	this->setProjectBLL(_projectBll);
 	this->setRoot(_root);
 }
 
@@ -51,13 +50,10 @@ void JKVirtualModelAdapter::QueuedUpdate()
     m_modelIntf->QueuedUpdate();
 }
 
-void JKVirtualModelAdapter::setProjectBLL(ProjectBLLConstRefPtr _projectBll)
-{
-	projectBll = _projectBll; 
-}
-
 void JKVirtualModelAdapter::setRoot(BaseObjectConstRefPtr _root)
 {
+	if (root != _root)
+		RootChanged = true;
 	root = _root;
 }
 

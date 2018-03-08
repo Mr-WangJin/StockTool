@@ -33,6 +33,12 @@ void JKBuyStockCodeWgt::okClicked()
 	double price = buyPrice.toDouble();
 	JKUInt count = buyCount;
 
+	for (int i = 0; i< 1000; ++i)
+	{
+		refStockCodeTrade = refStockCode->newStockCodeTrade();
+		refStockCodeTrade->setParams(TradeType::BUY, buyDate.toStdString(), count, price);
+		refStockCodeTrade->setHoldType(HoldStockType::SHORT_TIME);
+	}
 	refStockCodeTrade = refStockCode->newStockCodeTrade();
 	refStockCodeTrade->setParams(TradeType::BUY, buyDate.toStdString(), count, price);
 	refStockCodeTrade->setHoldType(HoldStockType::SHORT_TIME);

@@ -16,6 +16,8 @@ public:
 	void setParams(double sellPrice, size_t sellCount, size_t sellSumCount, float stampTax, float transfer, float commission);
 
 	PROPERTY(JKString, soldDate);
+	PROPERTY(size_t, sellCount);
+	PROPERTY(double, sellPrice);
 
 	/** 设置真实收益 */
 	void setRealEarning(double _realEarning);

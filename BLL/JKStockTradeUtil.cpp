@@ -3,6 +3,19 @@
 #include "JKStockCodeBLL.h"
 #include "JKStockCodeTradeBLL.h"
 #include "JKProjectBLL.h"
+#include "JKUiCommon.h"
+
+JKStockTradeUtil::JKStockTradeUtil()
+{
+	auto project = JKSingleton<JKUiContext>::GetInstance().getProjectBLL();
+	if (project)
+	{
+		stampTax = project->getStampTax();
+		transfer = project->getTransfer();
+		commission = project->getCommission();
+	}
+
+}
 
 JKStockTradeUtil::JKStockTradeUtil(JKRef_Ptr<JKProjectBLL> _refProject)
 	: JKReferenced()

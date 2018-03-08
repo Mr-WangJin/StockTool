@@ -325,16 +325,28 @@ QModelIndex JKVirtualTreeModel::getItemIndex(BaseObjectConstRefPtr item) const
 
 void JKVirtualTreeModel::setModelAdapter(const std::shared_ptr<JKVirtualModelAdapter>& _modelAdapter)
 {
-	beginUpdate();
-	if (modelAdapter)
-		modelAdapter->setModel(nullptr);
-	modelAdapter = _modelAdapter;
-	beginResetModel();
-	rootNode->children.clear();
-	endResetModel();
-	if (modelAdapter)
-		modelAdapter->setModel(m_intf);
-	endUpdate();
+	if (modelAdapter != _modelAdapter || _modelAdapter->getRootChanged())
+	{
+		beginUpdate();
+		if (modelAdapter)
+			modelAdapter->setModel(nullptr);
+
+		modelAdapter = _modelAdapter;
+
+		beginResetModel();
+		rootNode->children.clear();
+		endResetModel();
+
+		if (modelAdapter)
+			modelAdapter->setModel(m_intf);
+		endUpdate();
+	}
+	else
+	{
+		this->QueuedUpdate();
+	}
+
+	modelAdapter->setRootChanged(false);
 }
 
 const std::shared_ptr<JKVirtualModelAdapter>& JKVirtualTreeModel::getModelAdapter() const
