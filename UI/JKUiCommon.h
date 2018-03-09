@@ -15,3 +15,10 @@
 #define PROPERTY_UI(valueType, name) \
 	PROPERTY_UI_GETTER(valueType, name)\
 	PROPERTY_UI_SETTER(valueType, name)
+
+
+enum TableShowType {
+	Show_Buy_Only = 1,
+	Show_Sell_Only = 1 << 1,
+	Show_All = Show_Buy_Only | Show_Sell_Only
+};

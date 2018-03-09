@@ -9,7 +9,6 @@
 #include "BLL/JKStockCodeBLL.h"
 #include "BLL/JKStockCodeTradeBLL.h"
 #include "Utils/JKCrawlPrice.h"
-#include "JKStockTableModel.h"
 
 class QLabel;
 class QSystemTrayIcon;

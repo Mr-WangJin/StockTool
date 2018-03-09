@@ -17,6 +17,7 @@ class JKStockCodeTradeModel : public JKBaseModel
 		ar & HIBERLITE_NVP(buyCount);
 		ar & HIBERLITE_NVP(sellPrice);
 		ar & HIBERLITE_NVP(vecSellItem);
+		ar & HIBERLITE_NVP(Remark);
 
 	}
 
@@ -36,6 +37,8 @@ public:
 	JKUInt buyCount;
 	double sellPrice = 0.0f;			//废弃
 	int holdType;						//持有类型
+	JKString Remark;					//备注
+
 
 	vector<bean_ptr<JKStockCodeTradeItemModel>> vecSellItem;
 };

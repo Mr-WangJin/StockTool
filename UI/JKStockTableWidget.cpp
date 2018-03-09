@@ -27,6 +27,7 @@ JKBuyStockTableAdapter::JKBuyStockTableAdapter(ProjectBLLConstRefPtr _projectBll
 	mapHeader.insert(std::make_pair(c++, QStringLiteral("预计收益")));
 	mapHeader.insert(std::make_pair(c++, QStringLiteral("收益%")));
 	mapHeader.insert(std::make_pair(c++, QStringLiteral("部分收益")));
+	mapHeader.insert(std::make_pair(c++, QStringLiteral("备注")));
 	columnCount = c;
 }
 
@@ -145,6 +146,9 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 				{
 					return (int)((_stockCodeTradeBll->getRealEarning() + 0.005) * 100) / 100.0f;
 				}
+				break;
+			case 9:
+				return QString::fromStdString(_stockCodeTradeBll->getRemark());
 				break;
 			default:
 				break;

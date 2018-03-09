@@ -46,6 +46,8 @@ public:
 	//获取真实收益
 	double getRealEarning();
 
+	PROPERTY(JKString, Remark);
+
 	int getTradeItemsCount();
 	StockCodeTradeItemBLLPtr getTradeItem(int index);
 	void getTradeItems(std::vector<JKRef_Ptr<JKStockCodeTradeItemBLL>> &vecTradeItems);
