@@ -9,6 +9,7 @@ JKStockTableViewer::JKStockTableViewer(QWidget* parent/* = nullptr*/)
 	: QTreeView(parent)
 {
 	this->initUI();	
+
 }
 
 JKStockTableViewer::~JKStockTableViewer()
@@ -17,18 +18,19 @@ JKStockTableViewer::~JKStockTableViewer()
 
 void JKStockTableViewer::resizeColumnsWidth()
 {
-	//this->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+	this->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	
 	//this->resizeColumnToContents();
 	//this->resizeColumnToContents();
 	//setSectionResizeMode
 	//this->resizeRowsToContents();
-	////获取表头列数  
-	for (int i = 0; i < this->header()->count(); i++)
-	{
-		this->resizeColumnToContents(i);
-		this->setColumnWidth(i, this->columnWidth(i) + 20);  //多一些空余控件，不然每列内容很挤  
-	}
+
+
+// 	for (int i = 0; i < this->header()->count(); i++)
+// 	{
+// 		this->resizeColumnToContents(i);
+// 		this->setColumnWidth(i, this->columnWidth(i) + 20);  //多一些空余控件，不然每列内容很挤  
+// 	}
 }
 
 void JKStockTableViewer::setModel(QAbstractItemModel * model)

@@ -242,7 +242,7 @@ Qt::ItemFlags JKBuyStockTableAdapter::flags(const QModelIndex & index) const
 	if (index.column() == mapHeader.size()-1)
 		return Qt::ItemIsEditable | Qt::ItemIsEnabled;
 
-	return Qt::ItemIsEnabled;
+	return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
 BaseObjectPtr JKBuyStockTableAdapter::getItemParent(BaseObjectConstRefPtr item)
