@@ -25,11 +25,13 @@ Qt::ItemFlags JKVirtualModelAdapter::flags(const QModelIndex & index) const
 
 int JKVirtualModelAdapter::indexOf(BaseObjectConstRefPtr parent, BaseObjectConstRefPtr item, int start)
 {
-  int count = getItemsCount(parent);
-  for (int i = start; i < count; ++i)
-    if (getItem(parent, i) == item)
-      return i;
-  return -1;
+	int count = getItemsCount(parent);
+	for (int i = start; i < count; ++i)
+	{
+		if (getItem(parent, i) == item)
+			return i;
+	}
+	return -1;
 }
 
 bool JKVirtualModelAdapter::hasItems(BaseObjectConstRefPtr parent)
@@ -67,12 +69,10 @@ void JKVirtualModelAdapter::setRoot(BaseObjectConstRefPtr _root)
 	root = _root;
 }
 
-
 JKVirtualModelInterface::~JKVirtualModelInterface()
 {
 
 }
-
 
 int JKVirtualModelStubAdapter::getItemsCount(void *parent)
 {

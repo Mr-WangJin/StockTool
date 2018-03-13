@@ -654,6 +654,8 @@ void JKMainWin::initUI()
 	curStockTableAdapter = buyStockTableAdapter;
 	stockTableModel = new JKVirtualTreeModel(curStockTableAdapter, this);
 	ui.tableView->setModel(stockTableModel);
+	ui.tableView->setSortingEnabled(true);
+	ui.tableView->sortByColumn(1);
 	
 // 	QItemSelectionModel *selectionModel = new QItemSelectionModel(stockTableModel);
 // 	ui.tableView->setSelectionModel(selectionModel);

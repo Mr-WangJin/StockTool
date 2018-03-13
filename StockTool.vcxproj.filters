@@ -304,6 +304,9 @@
     <ClCompile Include="UI\JKStockTableWidget.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="UI\JKVirtualDelegate.cpp">
+      <Filter>UI\Framework</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\JKMainWin.h">
@@ -525,6 +528,9 @@
     </ClInclude>
     <ClInclude Include="UI\JKStockTableWidget.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\JKVirtualDelegate.h">
+      <Filter>UI\Framework</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

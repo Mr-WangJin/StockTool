@@ -315,6 +315,7 @@
     <ClCompile Include="UI\JKMainWin.cpp" />
     <ClCompile Include="UI\JKUiContext.cpp" />
     <ClCompile Include="UI\JKUiEventDispatcher.cpp" />
+    <ClCompile Include="UI\JKVirtualDelegate.cpp" />
     <ClCompile Include="UI\JKVirtualTreeAdapter.cpp" />
     <ClCompile Include="UI\JKVirtualTreeModel.cpp" />
     <ClCompile Include="Utils\JKCrawlPrice.cpp" />
@@ -480,6 +481,7 @@
     <ClInclude Include="UI\JKStockTableWidget.h" />
     <ClInclude Include="UI\JKUiCommon.h" />
     <ClInclude Include="UI\JKUiContext.h" />
+    <ClInclude Include="UI\JKVirtualDelegate.h" />
     <ClInclude Include="UI\JKVirtualTreeAdapter.h" />
     <CustomBuild Include="UI\JKVirtualTreeModel.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
