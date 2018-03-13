@@ -13,6 +13,16 @@ JKVirtualModelAdapter::~JKVirtualModelAdapter()
 
 }
 
+bool JKVirtualModelAdapter::setData(BaseObjectConstRefPtr item, const QVariant & value, int role /*= Qt::EditRole*/)
+{
+	return false;
+}
+
+Qt::ItemFlags JKVirtualModelAdapter::flags(const QModelIndex & index) const
+{
+	return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+}
+
 int JKVirtualModelAdapter::indexOf(BaseObjectConstRefPtr parent, BaseObjectConstRefPtr item, int start)
 {
   int count = getItemsCount(parent);

@@ -190,6 +190,23 @@ QVariant JKVirtualTreeModel::headerData(int section, Qt::Orientation orientation
 	return QVariant();
 }
 
+bool JKVirtualTreeModel::setData(const QModelIndex &index, const QVariant &value, int role /*= Qt::EditRole*/)
+{
+	if (!index.isValid() || !modelAdapter)
+		return false;
+
+	BaseObjectPtr item = getNode(index).item;
+	return modelAdapter->setData(item, value, role);
+}
+
+Qt::ItemFlags JKVirtualTreeModel::flags(const QModelIndex & index) const
+{
+	if (!modelAdapter)
+		return Qt::ItemFlag::NoItemFlags;
+
+	return modelAdapter->flags(index);
+}
+
 QModelIndex JKVirtualTreeModel::index(int row, int column, const QModelIndex &parent) const
 {  
 	InternalNode &parentItem = getNode(parent);

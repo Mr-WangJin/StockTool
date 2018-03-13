@@ -18,6 +18,8 @@
 #include "BLL/JKProjectSettingBLL.h"
 #include <QSettings>
 #include "JKStockTableWidget.h"
+#include "JKVirtualTreeModel.h"
+
 
 #define REG_RUN "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 
@@ -133,8 +135,6 @@ void JKMainWin::newProject()
 		}
 	}
 }
-
-#include "JKVirtualTreeModel.h"
 
 void JKMainWin::openRecentProject()
 {

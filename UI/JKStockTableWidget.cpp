@@ -224,6 +224,27 @@ QVariant JKBuyStockTableAdapter::headerData(int section, Qt::Orientation orienta
 	return QVariant();
 }
 
+bool JKBuyStockTableAdapter::setData(BaseObjectConstRefPtr item, const QVariant & value, int role /*= Qt::EditRole*/)
+{
+	if (role & Qt::EditRole == 0)
+		return false;
+	StockCodeTradeBLLPtr stockTrade = item->toTypeObject<JKStockCodeTradeBLL*>();
+	if (stockTrade)
+	{
+		stockTrade->setRemark(value.toString().toStdString());
+		return true;
+	}
+	return false;
+}
+
+Qt::ItemFlags JKBuyStockTableAdapter::flags(const QModelIndex & index) const
+{
+	if (index.column() == mapHeader.size()-1)
+		return Qt::ItemIsEditable | Qt::ItemIsEnabled;
+
+	return Qt::ItemIsEnabled;
+}
+
 BaseObjectPtr JKBuyStockTableAdapter::getItemParent(BaseObjectConstRefPtr item)
 {
 	if (item == root)

@@ -13,6 +13,9 @@ public:
 	virtual QVariant data(BaseObjectConstRefPtr item, int role, const QModelIndex &index) override;
 	virtual QVariant headerData(int section, Qt::Orientation orientation, int role) override;
 
+	virtual bool setData(BaseObjectConstRefPtr item, const QVariant &value, int role = Qt::EditRole) override;
+	virtual Qt::ItemFlags flags(const QModelIndex & index) const override;
+
 	virtual int getItemsCount(BaseObjectConstRefPtr parent) override;
 	virtual BaseObjectPtr getItem(BaseObjectConstRefPtr parent, int index) override;
 	virtual BaseObjectPtr getItemParent(BaseObjectConstRefPtr item) override;

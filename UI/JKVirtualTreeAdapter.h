@@ -21,6 +21,9 @@ public:
 	virtual QVariant data(BaseObjectConstRefPtr item, int role, const QModelIndex &index) = 0;
 	virtual QVariant headerData(int section, Qt::Orientation orientation, int role) = 0;
 	
+	virtual bool setData(BaseObjectConstRefPtr item, const QVariant &value, int role = Qt::EditRole);
+	virtual Qt::ItemFlags flags(const QModelIndex & index) const;
+
 	virtual int getColumnCount() = 0;
 	// reimplement if you can optimize them
 	virtual int indexOf(BaseObjectConstRefPtr parent, BaseObjectConstRefPtr item, int start = 0);
