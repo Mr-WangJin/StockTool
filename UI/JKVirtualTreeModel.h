@@ -30,7 +30,7 @@ public:
 	virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder) override;
 	
 	BaseObjectPtr getItem(const QModelIndex &index) const;
-	QModelIndex getItemIndex(BaseObjectConstRefPtr item) const;
+	//QModelIndex getItemIndex(BaseObjectConstRefPtr item) const;
 	
 	void setModelAdapter(const std::shared_ptr<JKVirtualModelAdapter>& _modelAdapter);
 	const std::shared_ptr<JKVirtualModelAdapter>& getModelAdapter() const;
@@ -47,7 +47,7 @@ private slots:
 
 private:
 	InternalNode & getNode(const QModelIndex &index) const;
-	InternalNode *getItemNode(BaseObjectConstRefPtr item) const;
+	//InternalNode *getItemNode(BaseObjectConstRefPtr item) const;
 	QModelIndex getIndex(const InternalNode &node, int column = 0) const;
 
 	void syncNodeList(InternalNode &node, BaseObjectConstRefPtr parent);
@@ -62,5 +62,55 @@ private:
 	int m_updating;
 	bool m_syncing;
 };
+
+
+typedef std::vector<std::unique_ptr<InternalNode>> InternalChildren;
+
+// internal tree structure
+class InternalNode
+{
+public:
+	InternalNode(InternalNode *parent, BaseObjectConstRefPtr obj, size_t index) : parent(parent), item(obj), parentIndex(index) {}
+	~InternalNode();
+
+	bool isInitialized(const std::shared_ptr<JKVirtualModelAdapter>& _modelAdapter);
+	
+	void loadChild(const std::shared_ptr<JKVirtualModelAdapter>& _modelAdapter);
+
+	int childCount(const std::shared_ptr<JKVirtualModelAdapter>& _modelAdapter);
+
+	void eraseChildren(const InternalChildren::iterator &begin, const InternalChildren::iterator &end);
+
+	void insertedChildren(size_t lastIndex);
+
+	void sortChildren(const std::shared_ptr<JKVirtualModelAdapter> &adapter, int column, Qt::SortOrder order);
+	
+	int getParentItemIndex(BaseObjectConstRefPtr item)
+	{
+		if (parent == nullptr)
+			return 0;
+		for (int i = 0; i< parent->children.size(); ++i)
+		{
+			if (parent->children[i].get() == this)
+			{
+				return i;
+			}
+		}
+	};
+
+	InternalNode *parent;
+	InternalChildren children;
+	bool hasChildrenQueryed = false;
+	bool hasChildren = false;
+	bool childInitialized = false;
+
+	BaseObjectPtr item;
+
+	size_t parentIndex;
+
+
+};
+
+
 
 #endif // VIRTUALTREEADAPTER_H

@@ -36,9 +36,9 @@ JKBuyStockTableAdapter::~JKBuyStockTableAdapter()
 
 }
 
-int JKBuyStockTableAdapter::getItemsCount(BaseObjectConstRefPtr parent)
+int JKBuyStockTableAdapter::getChildItemsCount(BaseObjectConstRefPtr objectPtr)
 {
-	BaseObjectPtr _baseObject = getValue(parent);
+	BaseObjectPtr _baseObject = getValue(objectPtr);
 	if (_baseObject == nullptr)
 		return 0;
 	StockCodeBLLPtr _stockCodeBll = _baseObject->toTypeObject<JKStockCodeBLL*>();
@@ -62,7 +62,7 @@ int JKBuyStockTableAdapter::getItemsCount(BaseObjectConstRefPtr parent)
 	return 0;
 }
 
-BaseObjectPtr JKBuyStockTableAdapter::getItem(BaseObjectConstRefPtr parent, int index)
+BaseObjectPtr JKBuyStockTableAdapter::getChildItem(BaseObjectConstRefPtr parent, int index)
 {
 	BaseObjectPtr _baseObject = getValue(parent);
 	StockCodeBLLPtr _stockCodeBll = _baseObject->toTypeObject<JKStockCodeBLL*>();
@@ -99,7 +99,7 @@ BaseObjectPtr JKBuyStockTableAdapter::getItem(BaseObjectConstRefPtr parent, int 
 	return BaseObjectPtr();
 }
 
-QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, const QModelIndex &index)
+QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, const int &row, const int & column)
 {
 	auto _baseObject = getValue(item);
 	if (role == Qt::DisplayRole)
@@ -112,7 +112,7 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 			auto projectBll = JKSingleton<JKUiContext>::GetInstance().getProjectBLL();
 			double latestPrice = projectBll->getCurStockCode()->getLatestPrice();
 
-			switch (index.column())
+			switch (column)
 			{
 			case 0:
 				if (type == TradeType::BUY)
@@ -136,7 +136,7 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 				return _stockCodeTradeBll->getCouldSellCount()* _stockCodeTradeBll->getBuyPrice();
 				break;
 			case 6:
-				return (int)((tradeUtil.getExpactEarning(latestPrice, _stockCodeTradeBll, _stockCodeTradeBll->getCouldSellCount())+0.005)*100) / 100.0;
+				return (int)((tradeUtil.getExpactEarning(latestPrice, _stockCodeTradeBll, _stockCodeTradeBll->getCouldSellCount()) + 0.005) * 100) / 100.0;
 				break;
 			case 7:
 				return QString("%1%").arg(QString::number(tradeUtil.getExpactEarningPercent(latestPrice, _stockCodeTradeBll) * 100, 'f', 2));
@@ -155,18 +155,18 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 			}
 		}
 
-// 		StockCodeTradeItemBLLPtr _stockCodeTradeItem = _baseObject->toTypeObject<JKStockCodeTradeItemBLL*>();
-// 		if (_stockCodeTradeItem)
-// 		{
-// 			switch (index.column())
-// 			{
-// 			case 5:
-// 				return _stockCodeTradeItem->getsellCount();
-// 				break;
-// 			default:
-// 				break;
-// 			}
-// 		}
+		// 		StockCodeTradeItemBLLPtr _stockCodeTradeItem = _baseObject->toTypeObject<JKStockCodeTradeItemBLL*>();
+		// 		if (_stockCodeTradeItem)
+		// 		{
+		// 			switch (index.column())
+		// 			{
+		// 			case 5:
+		// 				return _stockCodeTradeItem->getsellCount();
+		// 				break;
+		// 			default:
+		// 				break;
+		// 			}
+		// 		}
 	}
 	else if (role == Qt::BackgroundColorRole)
 	{
@@ -178,7 +178,7 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 			double latestPrice = project->getCurStockCode()->getLatestPrice();
 			TradeType type = _stockCodeTradeBll->getType();
 			QVariant variant;
-			switch (index.column())
+			switch (column)
 			{
 			case 6:
 			case 7:
@@ -199,11 +199,12 @@ QVariant JKBuyStockTableAdapter::data(BaseObjectConstRefPtr item, int role, cons
 					else
 						variant.setValue(DOWN_EARNING);
 				}
-			break;
+				break;
 			}
 			return variant;
 		}
 	}
+
 	return QVariant();
 }
 
@@ -240,7 +241,7 @@ bool JKBuyStockTableAdapter::setData(BaseObjectConstRefPtr item, const QVariant 
 Qt::ItemFlags JKBuyStockTableAdapter::flags(const QModelIndex & index) const
 {
 	if (index.column() == mapHeader.size()-1)
-		return Qt::ItemIsEditable | Qt::ItemIsEnabled;
+		return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 
 	return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
@@ -271,9 +272,9 @@ int JKBuyStockTableAdapter::getColumnCount()
 	return columnCount;
 }
 
-BaseObjectPtr JKBuyStockTableAdapter::getValue(BaseObjectConstRefPtr data)
+BaseObjectPtr JKBuyStockTableAdapter::getValue(BaseObjectConstRefPtr objectPtr)
 {
-	return data ? data : root;
+	return objectPtr ? objectPtr : root;
 }
 
 
@@ -302,9 +303,9 @@ JKSellStockTableAdapter::~JKSellStockTableAdapter()
 
 }
 
-int JKSellStockTableAdapter::getItemsCount(BaseObjectConstRefPtr parent)
+int JKSellStockTableAdapter::getChildItemsCount(BaseObjectConstRefPtr objectPtr)
 {
-	BaseObjectConstRefPtr _baseObject = getValue(parent);
+	BaseObjectConstRefPtr _baseObject = getValue(objectPtr);
 	StockCodeBLLConstRefPtr _stockCodeBll = dynamic_cast<JKStockCodeBLL*>(_baseObject.get());
 	if (_stockCodeBll != nullptr)
 	{
@@ -317,7 +318,7 @@ int JKSellStockTableAdapter::getItemsCount(BaseObjectConstRefPtr parent)
 	return 0;
 }
 
-BaseObjectPtr JKSellStockTableAdapter::getItem(BaseObjectConstRefPtr parent, int index)
+BaseObjectPtr JKSellStockTableAdapter::getChildItem(BaseObjectConstRefPtr parent, int index)
 {
 	BaseObjectConstRefPtr _baseObject = getValue(parent);
 	StockCodeBLLConstRefPtr _stockCodeBll = dynamic_cast<JKStockCodeBLL*>(_baseObject.get());
@@ -347,7 +348,7 @@ BaseObjectPtr JKSellStockTableAdapter::getItem(BaseObjectConstRefPtr parent, int
 	return BaseObjectPtr();
 }
 
-QVariant JKSellStockTableAdapter::data(BaseObjectConstRefPtr item, int role, const QModelIndex &index)
+inline QVariant JKSellStockTableAdapter::data(BaseObjectConstRefPtr item, int role, const int & row, const int & column)
 {
 	auto _baseObject = getValue(item);
 	if (role == Qt::DisplayRole)
@@ -358,7 +359,7 @@ QVariant JKSellStockTableAdapter::data(BaseObjectConstRefPtr item, int role, con
 		double latestPrice = project->getCurStockCode()->getLatestPrice();
 		if (_stockCodeTradeBll)
 		{
-			switch (index.column())
+			switch (column)
 			{
 			case 0:
 				return QStringLiteral("Âô³ö");
@@ -370,7 +371,7 @@ QVariant JKSellStockTableAdapter::data(BaseObjectConstRefPtr item, int role, con
 				return _stockCodeTradeBll->getBuyPrice();
 				break;
 			case 3:
-				return (int)((tradeUtil.getTradeBuyCostPrice(_stockCodeTradeBll)+0.005)*100)/100.0f;
+				return (int)((tradeUtil.getTradeBuyCostPrice(_stockCodeTradeBll) + 0.005) * 100) / 100.0f;
 				break;
 			case 4:
 				return QString::fromStdString(_stockCodeTradeBll->getDate());
@@ -391,7 +392,7 @@ QVariant JKSellStockTableAdapter::data(BaseObjectConstRefPtr item, int role, con
 				return (int)((_stockCodeTradeBll->getRealEarning() + 0.005) * 100) / 100.0f;
 				break;
 			case 10:
-				return QString("%1%").arg(QString::number(tradeUtil.getRealEarningPercent(_stockCodeTradeBll)*100, 'f', 2));
+				return QString("%1%").arg(QString::number(tradeUtil.getRealEarningPercent(_stockCodeTradeBll) * 100, 'f', 2));
 				break;
 			default:
 				break;
@@ -407,7 +408,7 @@ QVariant JKSellStockTableAdapter::data(BaseObjectConstRefPtr item, int role, con
 			auto project = JKSingleton<JKUiContext>::GetInstance().getProjectBLL();
 			double latestPrice = project->getCurStockCode()->getLatestPrice();
 			QVariant variant;
-			switch (index.column())
+			switch (column)
 			{
 			case 9:
 			{
@@ -439,6 +440,11 @@ QVariant JKSellStockTableAdapter::headerData(int section, Qt::Orientation orient
 	}
 
 	return QVariant();
+}
+
+Qt::ItemFlags JKSellStockTableAdapter::flags(const QModelIndex & index) const
+{
+	return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
 BaseObjectPtr JKSellStockTableAdapter::getItemParent(BaseObjectConstRefPtr item)

@@ -10,19 +10,19 @@ public:
 	//JKBuyStockTableAdapter(const JKBuyStockTableAdapter *);
 	~JKBuyStockTableAdapter();
 
-	virtual QVariant data(BaseObjectConstRefPtr item, int role, const QModelIndex &index) override;
+	inline virtual QVariant data(BaseObjectConstRefPtr item, int role, const int &row, const int &column) override;
 	virtual QVariant headerData(int section, Qt::Orientation orientation, int role) override;
 
 	virtual bool setData(BaseObjectConstRefPtr item, const QVariant &value, int role = Qt::EditRole) override;
 	virtual Qt::ItemFlags flags(const QModelIndex & index) const override;
 
-	virtual int getItemsCount(BaseObjectConstRefPtr parent) override;
-	virtual BaseObjectPtr getItem(BaseObjectConstRefPtr parent, int index) override;
+	virtual int getChildItemsCount(BaseObjectConstRefPtr objectPtr) override;
+	virtual BaseObjectPtr getChildItem(BaseObjectConstRefPtr parent, int index) override;
 	virtual BaseObjectPtr getItemParent(BaseObjectConstRefPtr item) override;
 
 	virtual int getColumnCount() override;
 
-	inline BaseObjectPtr getValue(BaseObjectConstRefPtr data);
+	inline BaseObjectPtr getValue(BaseObjectConstRefPtr objectPtr);
 
 private:
 	int columnCount = 0;
@@ -40,11 +40,12 @@ public:
 	//JKBuyStockTableAdapter(const JKBuyStockTableAdapter *);
 	~JKSellStockTableAdapter();
 
-	QVariant data(BaseObjectConstRefPtr item, int role, const QModelIndex &index) override;
+	inline virtual QVariant data(BaseObjectConstRefPtr item, int role, const int &row, const int &column) override;
 	QVariant headerData(int section, Qt::Orientation orientation, int role) override;
+	virtual Qt::ItemFlags flags(const QModelIndex & index) const override;
 
-	int getItemsCount(BaseObjectConstRefPtr parent) override;
-	BaseObjectPtr getItem(BaseObjectConstRefPtr parent, int index) override;
+	int getChildItemsCount(BaseObjectConstRefPtr objectPtr) override;
+	BaseObjectPtr getChildItem(BaseObjectConstRefPtr parent, int index) override;
 	BaseObjectPtr getItemParent(BaseObjectConstRefPtr item) override;
 
 	virtual int getColumnCount() override;

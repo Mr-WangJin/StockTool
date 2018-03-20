@@ -2,6 +2,7 @@
 #include "JKVirtualTreeAdapter.h"
 #include "BLL/JKProjectBLL.h"
 #include "BLL/JKStockCodeBLL.h"
+#include <QModelIndex>
 
 JKVirtualModelAdapter::JKVirtualModelAdapter(BaseObjectConstRefPtr _root)
 {
@@ -11,6 +12,11 @@ JKVirtualModelAdapter::JKVirtualModelAdapter(BaseObjectConstRefPtr _root)
 JKVirtualModelAdapter::~JKVirtualModelAdapter()
 {
 
+}
+
+QVariant JKVirtualModelAdapter::data(BaseObjectConstRefPtr item, int role, const QModelIndex & index)
+{
+	return data(item, role, index.row(), index.column());
 }
 
 bool JKVirtualModelAdapter::setData(BaseObjectConstRefPtr item, const QVariant & value, int role /*= Qt::EditRole*/)
@@ -25,10 +31,10 @@ Qt::ItemFlags JKVirtualModelAdapter::flags(const QModelIndex & index) const
 
 int JKVirtualModelAdapter::indexOf(BaseObjectConstRefPtr parent, BaseObjectConstRefPtr item, int start)
 {
-	int count = getItemsCount(parent);
+	int count = getChildItemsCount(parent);
 	for (int i = start; i < count; ++i)
 	{
-		if (getItem(parent, i) == item)
+		if (getChildItem(parent, i) == item)
 			return i;
 	}
 	return -1;
@@ -36,7 +42,7 @@ int JKVirtualModelAdapter::indexOf(BaseObjectConstRefPtr parent, BaseObjectConst
 
 bool JKVirtualModelAdapter::hasItems(BaseObjectConstRefPtr parent)
 {
-  return getItemsCount(parent) > 0;
+  return getChildItemsCount(parent) > 0;
 }
 
 BaseObjectPtr JKVirtualModelAdapter::getItemParent(BaseObjectConstRefPtr item)
@@ -74,13 +80,13 @@ JKVirtualModelInterface::~JKVirtualModelInterface()
 
 }
 
-int JKVirtualModelStubAdapter::getItemsCount(void *parent)
+int JKVirtualModelStubAdapter::getChildItemsCount(void *parent)
 {
   Q_UNUSED(parent)
   return 0;
 }
 
-void *JKVirtualModelStubAdapter::getItem(void *parent, int index)
+void *JKVirtualModelStubAdapter::getChildItem(void *parent, int index)
 {
   Q_UNUSED(parent)
   Q_UNUSED(index)

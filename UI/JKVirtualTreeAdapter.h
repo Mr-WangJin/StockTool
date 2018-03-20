@@ -11,14 +11,15 @@ class JKVirtualModelInterface;
 
 class JKVirtualModelAdapter 
 {
+	friend class JKVirtualTreeModel;
 public:
 	JKVirtualModelAdapter(BaseObjectConstRefPtr _root);
 	virtual ~JKVirtualModelAdapter();
 
-	virtual int getItemsCount(BaseObjectConstRefPtr parent) = 0;
-	virtual BaseObjectPtr getItem(BaseObjectConstRefPtr parent, int index) = 0;
+	virtual int getChildItemsCount(BaseObjectConstRefPtr objectPtr) = 0;
+	virtual BaseObjectPtr getChildItem(BaseObjectConstRefPtr parent, int index) = 0;
 	
-	virtual QVariant data(BaseObjectConstRefPtr item, int role, const QModelIndex &index) = 0;
+	virtual QVariant data(BaseObjectConstRefPtr item, int role, const int &row, const int &column) = 0;
 	virtual QVariant headerData(int section, Qt::Orientation orientation, int role) = 0;
 	
 	virtual bool setData(BaseObjectConstRefPtr item, const QVariant &value, int role = Qt::EditRole);
@@ -41,6 +42,10 @@ public:
 	void setRoot(BaseObjectConstRefPtr _root);
 
 	PROPERTY_UI(bool, RootChanged);
+
+protected:
+	virtual QVariant data(BaseObjectConstRefPtr item, int role, const QModelIndex &index);
+
 
 protected:
 	ProjectBLLPtr projectBll;
@@ -67,8 +72,8 @@ public:
 class JKVirtualModelStubAdapter: public JKVirtualModelAdapter
 {
 public:
-	int getItemsCount(void *parent);
-	void * getItem(void *parent, int index);
+	int getChildItemsCount(void *parent);
+	void * getChildItem(void *parent, int index);
 	QVariant data(void *item, int role);
 };
 
