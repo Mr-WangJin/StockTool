@@ -28,24 +28,24 @@
 
 
 struct ContentItemData
+	: public JKReferenced
 {
-	ContentItemData(const QString &name, size_t page) :
-		name(name),
-		page(page) {}
+	ContentItemData(const QString &name, size_t page)
+		: name(name), page(page) {};
 
-	QString getName() const { return name; };
-	void setName(QString _name) { name = _name; }
+	QString				getName() const { return name; };
+	void				setName(QString _name) { name = _name; }
 
 
-	size_t page;
-private:
-	QString name;
+	size_t				page;
+	QString				name;
 };
 
-class ContentItem : public JKTreeModelCustomItem<ContentItemData>
+class ContentItem 
+	: public JKTreeModelCustomItem<ContentItemData *>
 {
 public:
-	ContentItem(const ContentItemData &data) :
+	ContentItem(ContentItemData* data) :
 		JKTreeModelCustomItem(data)
 	{
 		addGetter(0, Qt::DisplayRole, &ContentItemData::getName);
@@ -53,7 +53,8 @@ public:
 	}
 };
 
-class ContentItemA : public JKTreeModelCustomItem<ContentItemData>
+class ContentItemA 
+	: public JKTreeModelCustomItem<ContentItemData>
 {
 public:
 	ContentItemA(const ContentItemData &data) :
@@ -701,16 +702,16 @@ void JKMainWin::initUI()
 	stockTableModel = new JKTreeModel(this);
 	ui.tableView->setModel(stockTableModel);
 
-	auto *t1 = new ContentItem(ContentItemData("Preface", 10));
-	auto *t2 = new ContentItem(ContentItemData("Introduction", 13));
+	auto *t1 = new ContentItem(new ContentItemData("Preface", 10));
+	auto *t2 = new ContentItem(new ContentItemData("Introduction", 13));
 	t2->appendChild(new ContentItemA(ContentItemData("Demystifying GIS", 13)));
 	t2->appendChild(new ContentItemA(ContentItemData("Finding Free Data Sources and Applications", 14)));
 	t2->appendChild(new ContentItemA(ContentItemData("Becoming a GIS Programmer", 16)));
-	auto *t3 = new ContentItem(ContentItemData("Vectors", 19));
-	t3->appendChild(new ContentItem(ContentItemData("Raw Materials", 19)));
-	t3->appendChild(new ContentItem(ContentItemData("Raster Data", 20)));
-	t3->appendChild(new ContentItem(ContentItemData("Vector Data", 24)));
-	t3->appendChild(new ContentItem(ContentItemData("Types of Vector Data ", 24)));
+	auto *t3 = new ContentItem(new ContentItemData("Vectors", 19));
+	t3->appendChild(new ContentItem(new ContentItemData("Raw Materials", 19)));
+	t3->appendChild(new ContentItem(new ContentItemData("Raster Data", 20)));
+	t3->appendChild(new ContentItem(new ContentItemData("Vector Data", 24)));
+	t3->appendChild(new ContentItem(new ContentItemData("Types of Vector Data ", 24)));
 
 	auto *rootItem = new JKTreeModelStandardItem(2);
 	rootItem->setData(0, "Name", Qt::DisplayRole);

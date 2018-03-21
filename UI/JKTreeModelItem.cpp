@@ -226,3 +226,30 @@ void JKTreeModelItem::update(int column) const
         m_model->dataChanged(targetIndex, targetIndex);
     }
 }
+
+void JKTreeModelItem::sort(int column, Qt::SortOrder order)
+{
+	foreach(auto &var, children)
+	{
+		var->sort(column, order);
+	}
+	if (order == Qt::SortOrder::DescendingOrder)
+	{
+		std::sort(children.begin(), children.end(), [&](const TreeModelItemPtr &a, const TreeModelItemPtr &b)
+		{
+			return a->data(0, Qt::DisplayRole) > b->data(0, Qt::DisplayRole);
+		});
+	}
+	else
+	{
+		std::sort(children.begin(), children.end(), [&](const TreeModelItemPtr &a, const TreeModelItemPtr &b)
+		{
+			return a->data(0, Qt::DisplayRole) < b->data(0, Qt::DisplayRole);
+		});
+	}
+
+	for (int i = 0; i < children.size(); ++i)
+	{
+		this->moveHere(children[i], i);
+	}
+}

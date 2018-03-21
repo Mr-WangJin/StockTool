@@ -21,12 +21,12 @@ public:
     virtual QVariant        data(int column, int role) const {Q_UNUSED(column); Q_UNUSED(role); return QVariant(); }
     virtual Qt::ItemFlags   flags(int column) const;
 
-    JKTreeModelItem           *child(int number);
-    const JKTreeModelItem     *child(int number) const;
+    JKTreeModelItem         *child(int number);
+    const JKTreeModelItem   *child(int number) const;
     int                     childCount() const;
     int                     childPosition(const JKTreeModelItem *item) const;
-    JKTreeModelItem           *parent();
-    const JKTreeModelItem     *parent() const;
+    JKTreeModelItem         *parent();
+    const JKTreeModelItem   *parent() const;
     bool                    removeChildren(int position, int count);
     void                    removeChildren();
     void                    moveHere(TreeModelItemPtr item, int pos);
@@ -48,47 +48,13 @@ public:
     void                    updateRecursive() const;
     void                    update(int column) const;
 
-    void sort(int column, Qt::SortOrder order = Qt::AscendingOrder)
-    {
-//        QList<TreeModelItemPtr> children_copy;
-//        children_copy = children;
-
-        //this->removeChildren();
-
-        foreach (auto &var, children)
-        {
-            var->sort(column, order);
-        }
-        if (order == Qt::SortOrder::DescendingOrder)
-        {
-            std::sort(children.begin(), children.end(), [&](const TreeModelItemPtr &a, const TreeModelItemPtr &b)
-            {
-                return a->data(0, Qt::DisplayRole) > b->data(0, Qt::DisplayRole);
-            });
-        }
-        else
-        {
-            std::sort(children.begin(), children.end(), [&](const TreeModelItemPtr &a, const TreeModelItemPtr &b)
-            {
-                return a->data(0, Qt::DisplayRole) < b->data(0, Qt::DisplayRole);
-            });
-        }
-
-        for(int i =0; i< children.size(); ++i)
-        {
-           // this->insertChild(i,children_copy[i]);
-
-           this->moveHere(children[i], i);
-        }
-
-        //this->update();
-    }
+	void					sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
 private:
     int                     m_column_count;
-    JKTreeModelItem           *m_parent = 0;
+    JKTreeModelItem         *m_parent = 0;
     QList<TreeModelItemPtr> children;
-    JKTreeModel               *m_model = 0;
+    JKTreeModel             *m_model = 0;
 };
 
 #endif // TREEMODELITEM_H

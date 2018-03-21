@@ -51,7 +51,7 @@ public:
                                       int role,
                                       const Function &function)
     {
-        columnGetters[column].insert(role, [function](const Value &value){return QVariant(function(value));});
+		columnGetters[column].insert(role, [function](const Value &value) {return QVariant(function(value)); });
         columnManipulatorAdded(column);
     }
 
@@ -64,8 +64,7 @@ public:
         columnSetters[column].insert(role, [setter](Value &value, const QVariant &variant)->bool {setter(value, variant.value<typename FT::std_function::second_argument_type>()); return true;});
     }
 
-    template<class R,
-             class A>
+    template<class R, class A>
     void                    addSetter(int column,
                                       int role,
                                       R (Value::*member)(A))
@@ -85,8 +84,7 @@ public:
         columnSetters[column].insert(role, [setter](Value &value, const QVariant &variant)->bool {return setter(value, variant.value<Arg>());});
     }
 
-    template<class R,
-             class A>
+    template<class R, class A>
     void                    addCheckingSetter(int column,
                                               int role,
                                               R (Value::*member)(A))
@@ -104,6 +102,7 @@ public:
 
         return QVariant();
     }
+
     bool                    setData(Value *value, int column, const QVariant &data, int role)
     {
         if(!columnSetters.contains(column) ||
@@ -112,6 +111,7 @@ public:
 
         return columnSetters[column][role](*value, data);
     }
+
     Qt::ItemFlags           getFlags(int column) const
     {
         if(columnSetters.contains(column))
