@@ -42,14 +42,14 @@ struct ContentItemData
 };
 
 class ContentItem 
-	: public JKTreeModelCustomItem<ContentItemData *>
+	: public JKTreeModelCustomItem<JKRef_Ptr<ContentItemData>>
 {
 public:
-	ContentItem(ContentItemData* data) :
+	ContentItem(JKRef_Ptr<ContentItemData> data) :
 		JKTreeModelCustomItem(data)
 	{
-		addGetter(0, Qt::DisplayRole, &ContentItemData::getName);
-		addGetter(1, Qt::DisplayRole, &ContentItemData::page);
+		addGetter(0, Qt::DisplayRole, [](JKRef_Ptr<ContentItemData> data) {return data->getName(); });
+		addGetter(1, Qt::DisplayRole, [](JKRef_Ptr<ContentItemData> data) {return data->page; });
 	}
 };
 
