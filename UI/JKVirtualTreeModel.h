@@ -83,6 +83,8 @@ public:
 
 	void insertedChildren(size_t lastIndex);
 
+	void moveHere(InternalNode* item, int pos);
+
 	void sortChildren(const std::shared_ptr<JKVirtualModelAdapter> &adapter, int column, Qt::SortOrder order);
 	
 	int getParentItemIndex(BaseObjectConstRefPtr item)

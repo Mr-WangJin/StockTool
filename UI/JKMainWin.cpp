@@ -18,10 +18,55 @@
 #include "BLL/JKProjectSettingBLL.h"
 #include <QSettings>
 #include "JKStockTableWidget.h"
-#include "JKVirtualTreeModel.h"
+#include "JKTreeModel.h"
+#include "JKTreeModelCustomItem.h"
+#include "JKModelDataAdapter.h"
+#include "JKTreeModelStandardItem.h"
 
 
 #define REG_RUN "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+
+
+struct ContentItemData
+{
+	ContentItemData(const QString &name, size_t page) :
+		name(name),
+		page(page) {}
+
+	QString getName() const { return name; };
+	void setName(QString _name) { name = _name; }
+
+
+	size_t page;
+private:
+	QString name;
+};
+
+class ContentItem : public JKTreeModelCustomItem<ContentItemData>
+{
+public:
+	ContentItem(const ContentItemData &data) :
+		JKTreeModelCustomItem(data)
+	{
+		addGetter(0, Qt::DisplayRole, &ContentItemData::getName);
+		addGetter(1, Qt::DisplayRole, &ContentItemData::page);
+	}
+};
+
+class ContentItemA : public JKTreeModelCustomItem<ContentItemData>
+{
+public:
+	ContentItemA(const ContentItemData &data) :
+		JKTreeModelCustomItem(data)
+	{
+		addGetter(0, Qt::DisplayRole, &ContentItemData::getName);
+		addGetter(1, Qt::DisplayRole, &ContentItemData::page);
+		addSetter(0, Qt::EditRole, [](ContentItemData& data, QVariant v)
+		{
+			data.setName(v.toString());
+		});
+	}
+};
 
 
 
@@ -495,20 +540,20 @@ void JKMainWin::onShowBuyOnly(bool checked)
 	if (!checked)
 		return;
 
-	if (buyStockTableAdapter == nullptr)
-		buyStockTableAdapter.reset(new JKBuyStockTableAdapter(project, BaseObjectPtr()));
+// 	if (buyStockTableAdapter == nullptr)
+// 		buyStockTableAdapter.reset(new JKBuyStockTableAdapter(project, BaseObjectPtr()));
 
-	curStockTableAdapter = buyStockTableAdapter;
+	//curStockTableAdapter = buyStockTableAdapter;
 	this->updateTableWidget();
 }
 void JKMainWin::onShowSellOnly(bool checked)
 {
 	if (!checked)
 		return;
-	if (sellStockTableAdapter == nullptr)
-		sellStockTableAdapter.reset(new JKSellStockTableAdapter(project, BaseObjectPtr()));
+// 	if (sellStockTableAdapter == nullptr)
+// 		sellStockTableAdapter.reset(new JKSellStockTableAdapter(project, BaseObjectPtr()));
 
-	curStockTableAdapter = sellStockTableAdapter;
+	//curStockTableAdapter = sellStockTableAdapter;
 	this->updateTableWidget();
 }
 void JKMainWin::onShowAll(bool checked)
@@ -524,8 +569,8 @@ void JKMainWin::updateTableWidget()
 	//tableModel->setProject(refProject);
 	if (project)
 	{
-		curStockTableAdapter->setRoot(project->getCurStockCode()->toBaseObject());
-		stockTableModel->setModelAdapter(curStockTableAdapter);
+		//curStockTableAdapter->setRoot(project->getCurStockCode()->toBaseObject());
+		//stockTableModel->setModelAdapter(curStockTableAdapter);
 		ui.tableView->resizeColumnsWidth();
 	}
 }
@@ -650,10 +695,32 @@ void JKMainWin::initUI()
 
 	ui.m_pHSplitter->setSizes(QList<int>() << 100 << 500);
 	
-	buyStockTableAdapter.reset(new JKBuyStockTableAdapter(project, BaseObjectPtr()));
-	curStockTableAdapter = buyStockTableAdapter;
-	stockTableModel = new JKVirtualTreeModel(curStockTableAdapter, this);
+	//buyStockTableAdapter.reset(new JKBuyStockTableAdapter(project, BaseObjectPtr()));
+	//curStockTableAdapter = buyStockTableAdapter;
+
+	stockTableModel = new JKTreeModel(this);
 	ui.tableView->setModel(stockTableModel);
+
+	auto *t1 = new ContentItem(ContentItemData("Preface", 10));
+	auto *t2 = new ContentItem(ContentItemData("Introduction", 13));
+	t2->appendChild(new ContentItemA(ContentItemData("Demystifying GIS", 13)));
+	t2->appendChild(new ContentItemA(ContentItemData("Finding Free Data Sources and Applications", 14)));
+	t2->appendChild(new ContentItemA(ContentItemData("Becoming a GIS Programmer", 16)));
+	auto *t3 = new ContentItem(ContentItemData("Vectors", 19));
+	t3->appendChild(new ContentItem(ContentItemData("Raw Materials", 19)));
+	t3->appendChild(new ContentItem(ContentItemData("Raster Data", 20)));
+	t3->appendChild(new ContentItem(ContentItemData("Vector Data", 24)));
+	t3->appendChild(new ContentItem(ContentItemData("Types of Vector Data ", 24)));
+
+	auto *rootItem = new JKTreeModelStandardItem(2);
+	rootItem->setData(0, "Name", Qt::DisplayRole);
+	rootItem->setData(1, "Page", Qt::DisplayRole);
+	stockTableModel->setRootItem(rootItem);
+	stockTableModel->getRootItem()->appendChild(t1);
+	stockTableModel->getRootItem()->appendChild(t2);
+	stockTableModel->getRootItem()->appendChild(t3);
+
+
 	ui.tableView->setSortingEnabled(true);
 	ui.tableView->sortByColumn(1);
 	

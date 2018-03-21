@@ -16,7 +16,7 @@ class JKBuyStockTableAdapter;
 class JKSellStockTableAdapter;
 class JKVirtualTreeModel;
 class JKVirtualModelAdapter;
-
+class JKTreeModel;
 
 class JKMainWin : public QMainWindow
 {
@@ -111,10 +111,14 @@ private:
 
 	JKCrawlPrice* crawlPrice = nullptr;
 
-	JKVirtualTreeModel* stockTableModel;
+	JKTreeModel* stockTableModel;
+	//JKVirtualTreeModel* stockTableModel;
+
+
+
 	std::shared_ptr<JKBuyStockTableAdapter> buyStockTableAdapter;
 	std::shared_ptr<JKSellStockTableAdapter> sellStockTableAdapter;
-	std::shared_ptr<JKVirtualModelAdapter> curStockTableAdapter;
+	//std::shared_ptr<JKVirtualModelAdapter> curStockTableAdapter;
 
 	
 

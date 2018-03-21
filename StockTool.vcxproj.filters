@@ -289,22 +289,16 @@
     <ClCompile Include="BLL\JKProjectSettingBLL.cpp">
       <Filter>BLL</Filter>
     </ClCompile>
-    <ClCompile Include="UI\JKVirtualTreeAdapter.cpp">
-      <Filter>UI\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\JKVirtualTreeModel.cpp">
-      <Filter>UI\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_JKVirtualTreeModel.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_JKVirtualTreeModel.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\JKStockTableWidget.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="UI\JKVirtualDelegate.cpp">
+      <Filter>UI\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\JKTreeModel.cpp">
+      <Filter>UI\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\JKTreeModelItem.cpp">
+      <Filter>UI\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\JKTreeModelStandardItem.cpp">
       <Filter>UI\Framework</Filter>
     </ClCompile>
   </ItemGroup>
@@ -384,9 +378,6 @@
     </CustomBuild>
     <CustomBuild Include="UI\JKSetTradeProperty.h">
       <Filter>UI\Setting</Filter>
-    </CustomBuild>
-    <CustomBuild Include="UI\JKVirtualTreeModel.h">
-      <Filter>UI\Framework</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -520,16 +511,31 @@
     <ClInclude Include="BLL\JKBLLContainer.h">
       <Filter>BLL</Filter>
     </ClInclude>
-    <ClInclude Include="UI\JKVirtualTreeAdapter.h">
-      <Filter>UI\Framework</Filter>
-    </ClInclude>
     <ClInclude Include="UI\JKUiCommon.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="UI\JKStockTableWidget.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="UI\JKVirtualDelegate.h">
+      <Filter>UI\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\JKTreeModel.h">
+      <Filter>UI\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\JKTreeModelCustomItem.h">
+      <Filter>UI\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\JKTreeModelItem.h">
+      <Filter>UI\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\JKTreeModelStandardItem.h">
+      <Filter>UI\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\JKModelDataAdapter.h">
+      <Filter>UI\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\function_traits.h">
+      <Filter>UI\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\VariadicTypedef.h">
       <Filter>UI\Framework</Filter>
     </ClInclude>
   </ItemGroup>

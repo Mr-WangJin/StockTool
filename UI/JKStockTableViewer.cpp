@@ -40,36 +40,36 @@ void JKStockTableViewer::setModel(QAbstractItemModel * model)
 
 void JKStockTableViewer::getSelectedStockTradeIds(std::vector<JKString>& _vecStockTradeIDs)
 {
-	JKVirtualTreeModel* _tableModel = qobject_cast<JKVirtualTreeModel*>(model());
-	QModelIndexList indexList = selectionModel()->selectedIndexes();
-
-	for each(auto& index in indexList)
-	{
-		JKRef_Ptr<JKStockCodeTradeBLL> _refStockTrade = _tableModel->getItem(index)->toTypeObject<JKStockCodeTradeBLL*>();
-		if (!_refStockTrade.valid())
-			continue;
-		JKString id = _refStockTrade->getId();
-
-		if (std::find(_vecStockTradeIDs.begin(), _vecStockTradeIDs.end(), id) == _vecStockTradeIDs.end())
-			_vecStockTradeIDs.push_back(id);
-	}
+// 	JKVirtualTreeModel* _tableModel = qobject_cast<JKVirtualTreeModel*>(model());
+// 	QModelIndexList indexList = selectionModel()->selectedIndexes();
+// 
+// 	for each(auto& index in indexList)
+// 	{
+// 		JKRef_Ptr<JKStockCodeTradeBLL> _refStockTrade = _tableModel->getItem(index)->toTypeObject<JKStockCodeTradeBLL*>();
+// 		if (!_refStockTrade.valid())
+// 			continue;
+// 		JKString id = _refStockTrade->getId();
+// 
+// 		if (std::find(_vecStockTradeIDs.begin(), _vecStockTradeIDs.end(), id) == _vecStockTradeIDs.end())
+// 			_vecStockTradeIDs.push_back(id);
+// 	}
 
 }
 
 void JKStockTableViewer::getSelectedStockTrade(std::vector<JKRef_Ptr<JKStockCodeTradeBLL>>& _vecStockTrade)
 {
-	JKVirtualTreeModel* _tableModel = qobject_cast<JKVirtualTreeModel*>(model());
-	QModelIndexList indexList = selectionModel()->selectedIndexes();
-
-	for each(auto& index in indexList)
-	{
-		JKRef_Ptr<JKStockCodeTradeBLL> _refStockTrade = _tableModel->getItem(index)->toTypeObject<JKStockCodeTradeBLL*>();
-		if (!_refStockTrade.valid())
-			continue;
-
-		if (std::find(_vecStockTrade.begin(), _vecStockTrade.end(), _refStockTrade) == _vecStockTrade.end())
-			_vecStockTrade.push_back(_refStockTrade);
-	}
+// 	JKVirtualTreeModel* _tableModel = qobject_cast<JKVirtualTreeModel*>(model());
+// 	QModelIndexList indexList = selectionModel()->selectedIndexes();
+// 
+// 	for each(auto& index in indexList)
+// 	{
+// 		JKRef_Ptr<JKStockCodeTradeBLL> _refStockTrade = _tableModel->getItem(index)->toTypeObject<JKStockCodeTradeBLL*>();
+// 		if (!_refStockTrade.valid())
+// 			continue;
+// 
+// 		if (std::find(_vecStockTrade.begin(), _vecStockTrade.end(), _refStockTrade) == _vecStockTrade.end())
+// 			_vecStockTrade.push_back(_refStockTrade);
+// 	}
 }
 
 void JKStockTableViewer::initHeader()

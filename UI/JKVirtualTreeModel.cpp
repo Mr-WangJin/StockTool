@@ -267,13 +267,18 @@ bool JKVirtualTreeModel::hasChildren(const QModelIndex &parent) const
 void JKVirtualTreeModel::sort(int column, Qt::SortOrder order /*= Qt::AscendingOrder*/)
 {
 	//QAbstractItemModel::sort(column, order);
-	//rootNode->sortChildren(modelAdapter, column, order);
+
+	beginResetModel();
+
+	rootNode->sortChildren(modelAdapter, column, order);
+
+	endResetModel();
 
 // 	QVector<int> roles;
 // 	roles << Qt::DisplayRole;
 // 	roles << Qt::BackgroundColorRole;
-// 	emit dataChanged(QModelIndex(), QModelIndex(), roles);
-	this->QueuedUpdate();
+//  	emit dataChanged(QModelIndex(), QModelIndex(), roles);
+	//this->QueuedUpdate();
 }
 
 BaseObjectPtr JKVirtualTreeModel::getItem(const QModelIndex &index) const
@@ -416,6 +421,11 @@ void InternalNode::insertedChildren(size_t lastIndex)
 		children[index]->parentIndex = index;
 }
 
+void InternalNode::moveHere(InternalNode* item, int pos)
+{
+}
+
+
 void InternalNode::sortChildren(const std::shared_ptr<JKVirtualModelAdapter>& adapter, int column, Qt::SortOrder order)
 {
 	if (!adapter)
@@ -427,18 +437,16 @@ void InternalNode::sortChildren(const std::shared_ptr<JKVirtualModelAdapter>& ad
 	}
 	if (order == Qt::SortOrder::DescendingOrder)
 	{
-
-
-// 		std::sort(children.begin(), children.end(), [&](const std::unique_ptr<InternalNode> &a, const std::unique_ptr<InternalNode> &b)
-// 		{
-// 			return adapter->data(a->item, Qt::DisplayRole, 0, column) > adapter->data(b->item, Qt::DisplayRole, 0, column);
-// 		});
+		std::sort(children.begin(), children.end(), [&](const std::unique_ptr<InternalNode> &a, const std::unique_ptr<InternalNode> &b)
+		{
+			return adapter->data(a->item, Qt::DisplayRole, 0, column) > adapter->data(b->item, Qt::DisplayRole, 0, column);
+		});
 	}
 	else
 	{
-// 		std::sort(children.begin(), children.end(), [&](const std::unique_ptr<InternalNode> &a, const std::unique_ptr<InternalNode> &b)
-// 		{
-// 			return adapter->data(a->item, Qt::DisplayRole, 0, column) < adapter->data(b->item, Qt::DisplayRole, 0, column);
-// 		});
+		std::sort(children.begin(), children.end(), [&](const std::unique_ptr<InternalNode> &a, const std::unique_ptr<InternalNode> &b)
+		{
+			return adapter->data(a->item, Qt::DisplayRole, 0, column) < adapter->data(b->item, Qt::DisplayRole, 0, column);
+		});
 	}
 }
