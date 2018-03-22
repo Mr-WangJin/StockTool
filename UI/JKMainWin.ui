@@ -39,7 +39,6 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="JKTrendChart" name="trendChartWgt" native="true"/>
       <widget class="JKInfoWgt" name="widget_2" native="true">
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <property name="spacing">
@@ -424,12 +423,6 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
-  <customwidget>
-   <class>JKTrendChart</class>
-   <extends>QWidget</extends>
-   <header>UI/jktrendchart.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>JKInfoWgt</class>
    <extends>QWidget</extends>

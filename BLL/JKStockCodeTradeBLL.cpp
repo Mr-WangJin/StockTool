@@ -33,7 +33,7 @@ void JKStockCodeTradeBLL::sell(double sellPrice, size_t sellCount, size_t sellSu
 	this->updateType();
 }
 
-TradeType JKStockCodeTradeBLL::getType()
+TradeType JKStockCodeTradeBLL::getType() 
 {
 	return (TradeType)ptrModel->type;
 }

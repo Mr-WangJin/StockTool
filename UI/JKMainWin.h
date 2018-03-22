@@ -14,8 +14,6 @@ class QLabel;
 class QSystemTrayIcon;
 class JKBuyStockTableAdapter;
 class JKSellStockTableAdapter;
-class JKVirtualTreeModel;
-class JKVirtualModelAdapter;
 class JKTreeModel;
 
 class JKMainWin : public QMainWindow

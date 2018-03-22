@@ -2,6 +2,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStyledItemDelegate>
+#include <QCloseEvent>
 
 #include "JKMainWin.h"
 #include "JKNewStockCodeWgt.h"
@@ -19,55 +20,53 @@
 #include <QSettings>
 #include "JKStockTableWidget.h"
 #include "JKTreeModel.h"
-#include "JKTreeModelCustomItem.h"
 #include "JKModelDataAdapter.h"
 #include "JKTreeModelStandardItem.h"
-
+#include "JKStockTableWidget.h"
 
 #define REG_RUN "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 
-
-struct ContentItemData
-	: public JKReferenced
-{
-	ContentItemData(const QString &name, size_t page)
-		: name(name), page(page) {};
-
-	QString				getName() const { return name; };
-	void				setName(QString _name) { name = _name; }
-
-
-	size_t				page;
-	QString				name;
-};
-
-class ContentItem 
-	: public JKTreeModelCustomItem<JKRef_Ptr<ContentItemData>>
-{
-public:
-	ContentItem(JKRef_Ptr<ContentItemData> data) :
-		JKTreeModelCustomItem(data)
-	{
-		addGetter(0, Qt::DisplayRole, [](JKRef_Ptr<ContentItemData> data) {return data->getName(); });
-		addGetter(1, Qt::DisplayRole, [](JKRef_Ptr<ContentItemData> data) {return data->page; });
-	}
-};
-
-class ContentItemA 
-	: public JKTreeModelCustomItem<ContentItemData>
-{
-public:
-	ContentItemA(const ContentItemData &data) :
-		JKTreeModelCustomItem(data)
-	{
-		addGetter(0, Qt::DisplayRole, &ContentItemData::getName);
-		addGetter(1, Qt::DisplayRole, &ContentItemData::page);
-		addSetter(0, Qt::EditRole, [](ContentItemData& data, QVariant v)
-		{
-			data.setName(v.toString());
-		});
-	}
-};
+// struct ContentItemData
+// 	: public JKReferenced
+// {
+// 	ContentItemData(const QString &name, size_t page)
+// 		: name(name), page(page) {};
+// 
+// 	QString				getName() const { return name; };
+// 	void				setName(QString _name) { name = _name; }
+// 
+// 
+// 	size_t				page;
+// 	QString				name;
+// };
+// 
+// class ContentItem 
+// 	: public JKTreeModelCustomItem<JKRef_Ptr<ContentItemData>>
+// {
+// public:
+// 	ContentItem(JKRef_Ptr<ContentItemData> data) :
+// 		JKTreeModelCustomItem(data)
+// 	{
+// 		addGetter(0, Qt::DisplayRole, [](JKRef_Ptr<ContentItemData> data) {return data->getName(); });
+// 		addGetter(1, Qt::DisplayRole, [](JKRef_Ptr<ContentItemData> data) {return data->page; });
+// 	}
+// };
+// 
+// class ContentItemA 
+// 	: public JKTreeModelCustomItem<ContentItemData>
+// {
+// public:
+// 	ContentItemA(const ContentItemData &data) :
+// 		JKTreeModelCustomItem(data)
+// 	{
+// 		addGetter(0, Qt::DisplayRole, &ContentItemData::getName);
+// 		addGetter(1, Qt::DisplayRole, &ContentItemData::page);
+// 		addSetter(0, Qt::EditRole, [](ContentItemData& data, QVariant v)
+// 		{
+// 			data.setName(v.toString());
+// 		});
+// 	}
+// };
 
 
 
@@ -77,7 +76,6 @@ JKMainWin::JKMainWin(/*JKProjectBLL* _projectBLL,*/ QWidget *parent)
 	qRegisterMetaType<JKString>("JKString");
 
 	ui.setupUi(this);
-	ui.trendChartWgt->setVisible(false);
 	project = nullptr;
 
 	JKSingleton<JKUiContext>::GetInstance().setMainWin(this);
@@ -572,7 +570,24 @@ void JKMainWin::updateTableWidget()
 	{
 		//curStockTableAdapter->setRoot(project->getCurStockCode()->toBaseObject());
 		//stockTableModel->setModelAdapter(curStockTableAdapter);
-		ui.tableView->resizeColumnsWidth();
+
+
+		auto *rootItem = new JKTreeModelStandardItem(2);
+		rootItem->setData(0, "Name", Qt::DisplayRole);
+		rootItem->setData(1, "Page", Qt::DisplayRole);
+		rootItem->setData(1, "Page", Qt::DisplayRole);
+		rootItem->setData(1, "Page", Qt::DisplayRole);
+
+		vector<StockCodeTradeBLLPtr> _vecStockTrade;
+		project->getCurStockCode()->getAllTrades(_vecStockTrade);
+		for each (auto &var in _vecStockTrade)
+		{
+			rootItem->appendChild(new StockBuyTableItem(var));
+		}
+
+		stockTableModel->setRootItem(rootItem);
+
+		//ui.tableView->resizeColumnsWidth();
 	}
 }
 
@@ -701,27 +716,6 @@ void JKMainWin::initUI()
 
 	stockTableModel = new JKTreeModel(this);
 	ui.tableView->setModel(stockTableModel);
-
-	auto *t1 = new ContentItem(new ContentItemData("Preface", 10));
-	auto *t2 = new ContentItem(new ContentItemData("Introduction", 13));
-	t2->appendChild(new ContentItemA(ContentItemData("Demystifying GIS", 13)));
-	t2->appendChild(new ContentItemA(ContentItemData("Finding Free Data Sources and Applications", 14)));
-	t2->appendChild(new ContentItemA(ContentItemData("Becoming a GIS Programmer", 16)));
-	auto *t3 = new ContentItem(new ContentItemData("Vectors", 19));
-	t3->appendChild(new ContentItem(new ContentItemData("Raw Materials", 19)));
-	t3->appendChild(new ContentItem(new ContentItemData("Raster Data", 20)));
-	t3->appendChild(new ContentItem(new ContentItemData("Vector Data", 24)));
-	t3->appendChild(new ContentItem(new ContentItemData("Types of Vector Data ", 24)));
-
-	auto *rootItem = new JKTreeModelStandardItem(2);
-	rootItem->setData(0, "Name", Qt::DisplayRole);
-	rootItem->setData(1, "Page", Qt::DisplayRole);
-	stockTableModel->setRootItem(rootItem);
-	stockTableModel->getRootItem()->appendChild(t1);
-	stockTableModel->getRootItem()->appendChild(t2);
-	stockTableModel->getRootItem()->appendChild(t3);
-
-
 	ui.tableView->setSortingEnabled(true);
 	ui.tableView->sortByColumn(1);
 	

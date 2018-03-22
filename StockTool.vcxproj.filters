@@ -66,6 +66,9 @@
     <Filter Include="UI\Framework">
       <UniqueIdentifier>{5a3d651f-0219-40fc-9939-01b2aa90ea04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\Table">
+      <UniqueIdentifier>{8707ec8e-a978-447f-9a2d-9535b9c562f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\qrc_stocktool.cpp">
@@ -86,15 +89,6 @@
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_JKInfoWgt.cpp">
       <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_JKTrendChart.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_JKTrendChart.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\JKTrendChart.cpp">
-      <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Model\JKBaseModel.cpp">
@@ -253,9 +247,6 @@
     <ClCompile Include="BLL\JKStockCodeTradeItemBLL.cpp">
       <Filter>BLL</Filter>
     </ClCompile>
-    <ClCompile Include="UI\JKStockTableViewer.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_JKStockTableViewer.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -301,6 +292,12 @@
     <ClCompile Include="UI\JKTreeModelStandardItem.cpp">
       <Filter>UI\Framework</Filter>
     </ClCompile>
+    <ClCompile Include="UI\JKStockTableViewer.cpp">
+      <Filter>UI\Table</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\JKStockTableWidget.cpp">
+      <Filter>UI\Table</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="UI\JKMainWin.h">
@@ -310,12 +307,6 @@
       <Filter>UI</Filter>
     </CustomBuild>
     <CustomBuild Include="stocktool.qrc" />
-    <CustomBuild Include="UI\JKTrendChart.ui">
-      <Filter>UI</Filter>
-    </CustomBuild>
-    <CustomBuild Include="UI\JKTrendChart.h">
-      <Filter>UI</Filter>
-    </CustomBuild>
     <CustomBuild Include="UI\JKNewStockCodeWgt.ui">
       <Filter>UI\New</Filter>
     </CustomBuild>
@@ -370,14 +361,14 @@
     <CustomBuild Include="UI\JKAbout.h">
       <Filter>UI</Filter>
     </CustomBuild>
-    <CustomBuild Include="UI\JKStockTableViewer.h">
-      <Filter>UI</Filter>
-    </CustomBuild>
     <CustomBuild Include="UI\JKSetTradeProperty.ui">
       <Filter>UI\Setting</Filter>
     </CustomBuild>
     <CustomBuild Include="UI\JKSetTradeProperty.h">
       <Filter>UI\Setting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="UI\JKStockTableViewer.h">
+      <Filter>UI\Table</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -385,9 +376,6 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_JKInfoWgt.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_JKTrendChart.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h" />
@@ -537,6 +525,9 @@
     </ClInclude>
     <ClInclude Include="UI\VariadicTypedef.h">
       <Filter>UI\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\JKStockTableWidget.h">
+      <Filter>UI\Table</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
