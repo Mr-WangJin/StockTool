@@ -15,8 +15,7 @@ public:
 
     ///add getter to column and role
     ///return same value
-    void                    addGetter(int column,
-                                      int role)
+    void                    addGetter(int column, int role)
     {
         columnGetters[column].insert(role, [](const Value &v){return v;});
         columnManipulatorAdded(column);
@@ -25,9 +24,7 @@ public:
     ///add getter to column and role
     ///const member function
     template<class R>
-    void                    addGetter(int column,
-                                      int role,
-                                      R (Value::*m)() const)
+    void                    addGetter(int column, int role, R (Value::*m)() const)
     {
         columnGetters[column].insert(role, std::mem_fn(m));
         columnManipulatorAdded(column);
@@ -36,9 +33,7 @@ public:
     ///add getter to column and role
     ///member
     template<class T>
-    void                    addGetter(int column,
-                                      int role,
-                                      T Value::*m)
+    void                    addGetter(int column, int role, T Value::*m)
     {
         columnGetters[column].insert(role, std::mem_fn(m));
         columnManipulatorAdded(column);
@@ -47,27 +42,21 @@ public:
     ///add getter to column and role
     ///function/functor/lambda
     template<class Function>
-    void                    addGetter(int column,
-                                      int role,
-                                      const Function &function)
+    void                    addGetter(int column, int role, const Function &function)
     {
 		columnGetters[column].insert(role, [function](const Value &value) {return QVariant(function(value)); });
         columnManipulatorAdded(column);
     }
 
     template<class Function>
-    void                    addSetter(int column,
-                                      int role,
-                                      const Function &setter)
+    void                    addSetter(int column, int role, const Function &setter)
     {
         using FT = function_traits<Function>;
         columnSetters[column].insert(role, [setter](Value &value, const QVariant &variant)->bool {setter(value, variant.value<typename FT::std_function::second_argument_type>()); return true;});
     }
 
     template<class R, class A>
-    void                    addSetter(int column,
-                                      int role,
-                                      R (Value::*member)(A))
+    void                    addSetter(int column, int role, R (Value::*member)(A))
     {
         columnSetters[column].insert(role, [member](Value &value, const QVariant &variant)->bool
         {
@@ -77,17 +66,13 @@ public:
     }
 
     template<class Arg>
-    void                    addCheckingSetter(int column,
-                                              int role,
-                                              const std::function<bool(Value &, const Arg &)> &setter)
+    void                    addCheckingSetter(int column, int role, const std::function<bool(Value &, const Arg &)> &setter)
     {
         columnSetters[column].insert(role, [setter](Value &value, const QVariant &variant)->bool {return setter(value, variant.value<Arg>());});
     }
 
     template<class R, class A>
-    void                    addCheckingSetter(int column,
-                                              int role,
-                                              R (Value::*member)(A))
+    void                    addCheckingSetter(int column, int role, R (Value::*member)(A))
     {
         columnSetters[column].insert(role, [member](Value &value, const QVariant &variant)->bool
         {

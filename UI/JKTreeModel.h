@@ -9,17 +9,21 @@ class JKTreeModelItem;
 class JKTreeModel: public QAbstractItemModel
 {
 public:
-    explicit        JKTreeModel(QObject *parent = 0);
+    explicit				JKTreeModel(QObject *parent = 0);
 
-    int             columnCount(const QModelIndex &parent) const override;
-    QVariant        data(const QModelIndex &index, int role) const override;
-    bool            setData(const QModelIndex &index, const QVariant &value, int role) override;
-    QModelIndex     index(int row, int column, const QModelIndex &parent) const override;
-    QModelIndex     parent(const QModelIndex &child) const override;
-    int             rowCount(const QModelIndex &parent) const override;
-    Qt::ItemFlags   flags(const QModelIndex &index) const override;
-    QVariant        headerData(int section, Qt::Orientation orientation, int role) const override;
-    virtual bool    removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
+// 	void					syncData();
+// 	template<class Function>
+// 	void					setSyncDataFunc(const Function &function) { syncDataFunc = function; };
+
+    int						columnCount(const QModelIndex &parent) const override;
+    QVariant				data(const QModelIndex &index, int role) const override;
+    bool					setData(const QModelIndex &index, const QVariant &value, int role) override;
+    QModelIndex				index(int row, int column, const QModelIndex &parent) const override;
+    QModelIndex				parent(const QModelIndex &child) const override;
+    int						rowCount(const QModelIndex &parent) const override;
+    Qt::ItemFlags			flags(const QModelIndex &index) const override;
+    QVariant				headerData(int section, Qt::Orientation orientation, int role) const override;
+    virtual bool			removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
     void					setRootItem(JKTreeModelItem *rootItem);
     const JKTreeModelItem	*getRootItem() const;
@@ -32,8 +36,10 @@ public:
     virtual void			sort(int column, Qt::SortOrder order = Qt::AscendingOrder) override;
 
 private:
-    QSharedPointer<JKTreeModelItem>   rootItem;
-    JKTreeModelItem                   *getItem(const QModelIndex &index) const;
+    QSharedPointer<JKTreeModelItem>		rootItem;
+    JKTreeModelItem						*getItem(const QModelIndex &index) const;
+
+	//std::function<void()>				syncDataFunc = nullptr;
 
     friend class JKTreeModelItem;
 };
