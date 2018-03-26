@@ -13,12 +13,12 @@ public:
 	StockBuyTableItem(StockCodeTradeBLLPtr data) :
 		JKTreeModelCustomItem(data)
 	{
-		addGetter(0, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) ->QString {
+		addGetter(0, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {
 			TradeType type = data->getType();
 			if (type == TradeType::BUY)
-				return QString("%1").arg(QStringLiteral("买入"));
+				return QVariant(QStringLiteral("买入"));
 			else if (type == TradeType::PART)
-				return QString("%1").arg(QStringLiteral("买入"));
+				return QVariant(QStringLiteral("买入"));
 
 		});
 		addGetter(1, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {

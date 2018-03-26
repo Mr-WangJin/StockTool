@@ -575,8 +575,8 @@ void JKMainWin::updateTableWidget()
 		auto *rootItem = new JKTreeModelStandardItem(2);
 		rootItem->setData(0, "Name", Qt::DisplayRole);
 		rootItem->setData(1, "Page", Qt::DisplayRole);
-		rootItem->setData(1, "Page", Qt::DisplayRole);
-		rootItem->setData(1, "Page", Qt::DisplayRole);
+		rootItem->setData(2, "Page", Qt::DisplayRole);
+		rootItem->setData(3, "Page", Qt::DisplayRole);
 
 		vector<StockCodeTradeBLLPtr> _vecStockTrade;
 		project->getCurStockCode()->getAllTrades(_vecStockTrade);
