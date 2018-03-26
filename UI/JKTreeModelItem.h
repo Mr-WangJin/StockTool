@@ -23,7 +23,7 @@ public:
 
     JKTreeModelItem         *child(int number);
     const JKTreeModelItem   *child(int number) const;
-    virtual int             childCount() const;
+    int                     childCount() const;
     int                     childPosition(const JKTreeModelItem *item) const;
     JKTreeModelItem         *parent();
     const JKTreeModelItem   *parent() const;

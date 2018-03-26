@@ -289,6 +289,9 @@
     <ClCompile Include="UI\JKTreeModelItem.cpp">
       <Filter>UI\Framework</Filter>
     </ClCompile>
+    <ClCompile Include="UI\JKTreeModelStandardItem.cpp">
+      <Filter>UI\Framework</Filter>
+    </ClCompile>
     <ClCompile Include="UI\JKStockTableViewer.cpp">
       <Filter>UI\Table</Filter>
     </ClCompile>
@@ -511,6 +514,9 @@
     <ClInclude Include="UI\JKTreeModelItem.h">
       <Filter>UI\Framework</Filter>
     </ClInclude>
+    <ClInclude Include="UI\JKTreeModelStandardItem.h">
+      <Filter>UI\Framework</Filter>
+    </ClInclude>
     <ClInclude Include="UI\JKModelDataAdapter.h">
       <Filter>UI\Framework</Filter>
     </ClInclude>
@@ -522,9 +528,6 @@
     </ClInclude>
     <ClInclude Include="UI\JKStockTableWidget.h">
       <Filter>UI\Table</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\JKTreeModelRootItem.h">
-      <Filter>UI\Framework</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

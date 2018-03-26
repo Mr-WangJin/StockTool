@@ -6,12 +6,6 @@ JKTreeModel::JKTreeModel(QObject *parent):
     QAbstractItemModel(parent),
     rootItem(new JKTreeModelItem(0)){}
 
-// void JKTreeModel::syncData()
-// {
-// 	if (syncDataFunc)
-// 		syncDataFunc();
-// }
-
 int JKTreeModel::columnCount(const QModelIndex &parent) const
 {
     return getItem(parent)->columnCount();
@@ -128,6 +122,7 @@ JKTreeModelItem *JKTreeModel::getItem(const QModelIndex &index) const
                 static_cast<JKTreeModelItem*>(index.internalPointer()) :
                 rootItem.data();
 }
+
 
 bool JKTreeModel::removeRows(int row, int count, const QModelIndex &parent)
 {

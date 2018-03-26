@@ -295,6 +295,7 @@
     <ClCompile Include="UI\JKStockTradeDetail.cpp" />
     <ClCompile Include="UI\JKTreeModel.cpp" />
     <ClCompile Include="UI\JKTreeModelItem.cpp" />
+    <ClCompile Include="UI\JKTreeModelStandardItem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="UI\JKInfoWgt.cpp" />
     <ClCompile Include="UI\JKMainWin.cpp" />
@@ -466,7 +467,7 @@
     <ClInclude Include="UI\JKTreeModel.h" />
     <ClInclude Include="UI\JKTreeModelCustomItem.h" />
     <ClInclude Include="UI\JKTreeModelItem.h" />
-    <ClInclude Include="UI\JKTreeModelRootItem.h" />
+    <ClInclude Include="UI\JKTreeModelStandardItem.h" />
     <ClInclude Include="UI\JKUiCommon.h" />
     <ClInclude Include="UI\JKUiContext.h" />
     <ClInclude Include="UI\JKVirtualDelegate.h" />
@@ -840,7 +841,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties MocDir=".\GeneratedFiles\$(ConfigurationName)" UicDir=".\GeneratedFiles" RccDir=".\GeneratedFiles" lupdateOptions="" lupdateOnBuild="0" lreleaseOptions="" Qt5Version_x0020_x64="Qt5.8.0x64" MocOptions="" />
+      <UserProperties MocDir=".\GeneratedFiles\$(ConfigurationName)" UicDir=".\GeneratedFiles" RccDir=".\GeneratedFiles" lupdateOptions="" lupdateOnBuild="0" lreleaseOptions="" Qt5Version_x0020_x64="msvc2015_64" MocOptions="" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

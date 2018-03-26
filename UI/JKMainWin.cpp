@@ -21,9 +21,8 @@
 #include "JKStockTableWidget.h"
 #include "JKTreeModel.h"
 #include "JKModelDataAdapter.h"
-#include "JKTreeModelRootItem.h"
+#include "JKTreeModelStandardItem.h"
 #include "JKStockTableWidget.h"
-#include "JKTreeModelItem.h"
 
 #define REG_RUN "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 
@@ -572,13 +571,21 @@ void JKMainWin::updateTableWidget()
 		//curStockTableAdapter->setRoot(project->getCurStockCode()->toBaseObject());
 		//stockTableModel->setModelAdapter(curStockTableAdapter);
 
-		auto *rootItem = new JKTreeModelRootItem<StockCodeBLLPtr>(project->getCurStockCode());
-		rootItem->addInitChildFunc([](StockCodeBLLPtr obj, JKTreeModelItem* item) {
-			
-		});
-		stockTableModel->setRootItem(rootItem);
 
-		//stockTableModel->syncData();
+		auto *rootItem = new JKTreeModelStandardItem(4);
+		rootItem->setData(0, "Name", Qt::DisplayRole);
+		rootItem->setData(1, "Page", Qt::DisplayRole);
+		rootItem->setData(2, "Page", Qt::DisplayRole);
+		rootItem->setData(3, "Page", Qt::DisplayRole);
+
+		vector<StockCodeTradeBLLPtr> _vecStockTrade;
+		project->getCurStockCode()->getAllTrades(_vecStockTrade);
+		for each (auto &var in _vecStockTrade)
+		{
+			rootItem->appendChild(new StockBuyTableItem(var));
+		}
+
+		stockTableModel->setRootItem(rootItem);
 
 		//ui.tableView->resizeColumnsWidth();
 	}
@@ -600,7 +607,6 @@ void JKMainWin::onAfterStockChanged(JKRef_Ptr<JKStockCodeBLL> _refStockCode)
 			systemTrayIcon->setToolTip(QString("JKStockTool\n%1%2").arg(QStringLiteral("×îÐÂ¼Û£º")).arg(_refStockCode->getLatestPrice()));
 		}
 
-		//stockTableModel->syncData();
 	}
 	
 }
@@ -712,28 +718,7 @@ void JKMainWin::initUI()
 	ui.tableView->setModel(stockTableModel);
 	ui.tableView->setSortingEnabled(true);
 	ui.tableView->sortByColumn(1);
-
-
-
-
-// 	stockTableModel->setSyncDataFunc([&]() {
-// 
-// 		auto *rootItem = new JKTreeModelRootItem<StockCodeBLLPtr>(project->getCurStockCode());
-// 		rootItem->setData(0, "Name", Qt::DisplayRole);
-// 		rootItem->setData(1, "Page", Qt::DisplayRole);
-// 		rootItem->setData(2, "Page", Qt::DisplayRole);
-// 		//rootItem->setData(3, "Page", Qt::DisplayRole);
-// 
-// 		vector<StockCodeTradeBLLPtr> _vecStockTrade;
-// 		project->getCurStockCode()->getAllTrades(_vecStockTrade);
-// // 		for each (auto &var in _vecStockTrade)
-// // 		{
-// // 			rootItem->appendChild(new StockBuyTableItem(var));
-// // 		}
-// 
-// 		//stockTableModel->setRootItem(rootItem);
-// 	});
-
+	
 // 	QItemSelectionModel *selectionModel = new QItemSelectionModel(stockTableModel);
 // 	ui.tableView->setSelectionModel(selectionModel);
 // 	

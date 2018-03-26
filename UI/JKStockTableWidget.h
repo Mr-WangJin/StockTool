@@ -4,32 +4,6 @@
 #include "JKTreeModelCustomItem.h"
 #include "BLL/JKStockCodeTradeBLL.h"
 #include "BLL/JKStockTradeUtil.h"
-#include "Bll/JKStockCodeBLL.h"
-
-
-
-class StockBuyTableRootItem
-	: public JKTreeModelCustomItem<StockCodeBLLPtr>
-{
-public:
-	StockBuyTableRootItem(StockCodeBLLPtr data) :
-		JKTreeModelCustomItem(data)
-	{
-		addGetter(0, Qt::DisplayRole, [](StockCodeBLLPtr data) {
-			return 1;
-
-		});
-		addGetter(1, Qt::DisplayRole, [](StockCodeBLLPtr data) -> int {
-			return 1;
-		});
-		//addGetter(2, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {return data->getBuyPrice(); });
-		//addGetter(3, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {
-		//	JKStockTradeUtil tradeUtil;
-		//	return (int)((tradeUtil.getTradeBuyCostPrice(data) + 0.005) * 100) / 100.0f; 
-		//});
-		// 		addGetter(rowNum++, Qt::DisplayRole, [](JKRef_Ptr<StockCodeTradeBLLConstRefPtr> data) {return data->page; });
-	}
-};
 
 
 class StockBuyTableItem
@@ -57,6 +31,9 @@ public:
 		//	JKStockTradeUtil tradeUtil;
 		//	return (int)((tradeUtil.getTradeBuyCostPrice(data) + 0.005) * 100) / 100.0f; 
 		//});
+// 		addGetter(rowNum++, Qt::DisplayRole, [](JKRef_Ptr<StockCodeTradeBLLConstRefPtr> data) {return data->page; });
+// 		addGetter(rowNum++, Qt::DisplayRole, [](JKRef_Ptr<StockCodeTradeBLLConstRefPtr> data) {return data->page; });
+// 		addGetter(rowNum++, Qt::DisplayRole, [](JKRef_Ptr<StockCodeTradeBLLConstRefPtr> data) {return data->page; });
 // 		addGetter(rowNum++, Qt::DisplayRole, [](JKRef_Ptr<StockCodeTradeBLLConstRefPtr> data) {return data->page; });
 	}
 };
