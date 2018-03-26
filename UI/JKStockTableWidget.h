@@ -13,24 +13,22 @@ public:
 	StockBuyTableItem(StockCodeTradeBLLPtr data) :
 		JKTreeModelCustomItem(data)
 	{
-		addGetter(0, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {
+		addGetter(0, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) ->QString {
 			TradeType type = data->getType();
 			if (type == TradeType::BUY)
-				return QVariant(QStringLiteral("买入"));
+				return QString("%1").arg(QStringLiteral("买入"));
 			else if (type == TradeType::PART)
-				return QVariant(QStringLiteral("部分"));
-			else 
-				return QVariant(QStringLiteral("卖出"));
+				return QString("%1").arg(QStringLiteral("买入"));
 
 		});
-		addGetter(1, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) -> int{
+		addGetter(1, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {
 			return data->getCouldSellCount(); 
 		});
-		//addGetter(2, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {return data->getBuyPrice(); });
-		//addGetter(3, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {
-		//	JKStockTradeUtil tradeUtil;
-		//	return (int)((tradeUtil.getTradeBuyCostPrice(data) + 0.005) * 100) / 100.0f; 
-		//});
+		addGetter(2, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {return data->getBuyPrice(); });
+		addGetter(3, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {
+			JKStockTradeUtil tradeUtil;
+			return (int)((tradeUtil.getTradeBuyCostPrice(data) + 0.005) * 100) / 100.0f; 
+		});
 // 		addGetter(rowNum++, Qt::DisplayRole, [](JKRef_Ptr<StockCodeTradeBLLConstRefPtr> data) {return data->page; });
 // 		addGetter(rowNum++, Qt::DisplayRole, [](JKRef_Ptr<StockCodeTradeBLLConstRefPtr> data) {return data->page; });
 // 		addGetter(rowNum++, Qt::DisplayRole, [](JKRef_Ptr<StockCodeTradeBLLConstRefPtr> data) {return data->page; });
