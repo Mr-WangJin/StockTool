@@ -237,14 +237,14 @@ void JKTreeModelItem::sort(int column, Qt::SortOrder order)
 	{
 		std::sort(children.begin(), children.end(), [&](const TreeModelItemPtr &a, const TreeModelItemPtr &b)
 		{
-			return a->data(0, Qt::DisplayRole) > b->data(0, Qt::DisplayRole);
+			return a->data(column, Qt::DisplayRole) > b->data(column, Qt::DisplayRole);
 		});
 	}
 	else
 	{
 		std::sort(children.begin(), children.end(), [&](const TreeModelItemPtr &a, const TreeModelItemPtr &b)
 		{
-			return a->data(0, Qt::DisplayRole) < b->data(0, Qt::DisplayRole);
+			return a->data(column, Qt::DisplayRole) < b->data(column, Qt::DisplayRole);
 		});
 	}
 

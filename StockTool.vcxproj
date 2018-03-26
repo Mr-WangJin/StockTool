@@ -295,7 +295,7 @@
     <ClCompile Include="UI\JKStockTradeDetail.cpp" />
     <ClCompile Include="UI\JKTreeModel.cpp" />
     <ClCompile Include="UI\JKTreeModelItem.cpp" />
-    <ClCompile Include="UI\JKTreeModelStandardItem.cpp" />
+    <ClCompile Include="UI\JKTreeModelRootItem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="UI\JKInfoWgt.cpp" />
     <ClCompile Include="UI\JKMainWin.cpp" />
@@ -467,7 +467,7 @@
     <ClInclude Include="UI\JKTreeModel.h" />
     <ClInclude Include="UI\JKTreeModelCustomItem.h" />
     <ClInclude Include="UI\JKTreeModelItem.h" />
-    <ClInclude Include="UI\JKTreeModelStandardItem.h" />
+    <ClInclude Include="UI\JKTreeModelRootItem.h" />
     <ClInclude Include="UI\JKUiCommon.h" />
     <ClInclude Include="UI\JKUiContext.h" />
     <ClInclude Include="UI\JKVirtualDelegate.h" />

@@ -1,5 +1,9 @@
 #include "stdafx.h"
 #include "JKStockTableWidget.h"
+#include "JKFramework/JKSingleton.h"
+#include "BLL/JKProjectBLL.h"
+#include "BLL/JKStockCodeBLL.h"
+#include "JKUiContext.h"
 #include "BLL/JKStockCodeTradeBLL.h"
 
 
@@ -464,3 +468,59 @@
 // {
 // 	return data ? data : root;
 // }
+
+StockBuyTableItem::StockBuyTableItem(StockCodeTradeBLLPtr data)
+	: JKTreeModelCustomItem(data)
+{
+	addGetter(0, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {
+		TradeType type = data->getType();
+		if (type == TradeType::BUY)
+			return QVariant(QStringLiteral("ÂòÈë"));
+		else if (type == TradeType::PART)
+			return QVariant(QStringLiteral("ÂòÈë"));
+
+	});
+	addGetter(1, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {
+		return data->getCouldSellCount();
+	});
+	addGetter(2, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {
+		return data->getBuyPrice(); });
+	addGetter(3, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {
+		JKStockTradeUtil tradeUtil;
+		return (int)((tradeUtil.getTradeBuyCostPrice(data) + 0.005) * 100) / 100.0f;
+	});
+	addGetter(4, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {
+		return QVariant(QString::fromStdString(data->getDate()));
+	});
+	addGetter(5, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {
+		return data->getCouldSellCount()* data->getBuyPrice();
+	});
+	addGetter(6, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {
+		JKStockTradeUtil tradeUtil;
+		double latestPrice = JKSingleton<JKUiContext>::GetInstance().getProjectBLL()->getCurStockCode()->getLatestPrice();
+		return (int)((tradeUtil.getExpactEarning(latestPrice, data, data->getCouldSellCount()) + 0.005) * 100) / 100.0;
+	});
+	addGetter(7, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {
+		JKStockTradeUtil tradeUtil;
+		double latestPrice = JKSingleton<JKUiContext>::GetInstance().getProjectBLL()->getCurStockCode()->getLatestPrice();
+		return QVariant(QString("%1%").arg(QString::number(tradeUtil.getExpactEarningPercent(latestPrice, data) * 100, 'f', 2)));
+	});
+	addGetter(8, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {
+		TradeType type = data->getType();
+		if (type == TradeType::PART)
+		{
+			return (int)((data->getRealEarning() + 0.005) * 100) / 100.0f;
+		}
+	});
+	addGetter(9, Qt::DisplayRole, [](StockCodeTradeBLLPtr data) {
+		return QVariant(QString::fromStdString(data->getRemark()));
+	});
+}
+
+StockBuyTableItem::~StockBuyTableItem()
+{
+}
+
+
+
+

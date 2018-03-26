@@ -21,7 +21,7 @@
 #include "JKStockTableWidget.h"
 #include "JKTreeModel.h"
 #include "JKModelDataAdapter.h"
-#include "JKTreeModelStandardItem.h"
+#include "JKTreeModelRootItem.h"
 #include "JKStockTableWidget.h"
 
 #define REG_RUN "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
@@ -565,21 +565,22 @@ void JKMainWin::onShowAll(bool checked)
 
 void JKMainWin::updateTableWidget()
 {
-	//tableModel->setProject(refProject);
 	if (project)
 	{
-		//curStockTableAdapter->setRoot(project->getCurStockCode()->toBaseObject());
-		//stockTableModel->setModelAdapter(curStockTableAdapter);
-
-
-		auto *rootItem = new JKTreeModelStandardItem(2);
-		rootItem->setData(0, "Name", Qt::DisplayRole);
-		rootItem->setData(1, "Page", Qt::DisplayRole);
-		rootItem->setData(2, "Page", Qt::DisplayRole);
-		rootItem->setData(3, "Page", Qt::DisplayRole);
+		auto *rootItem = new JKTreeModelRootItem(10);
+		rootItem->setData(0, QStringLiteral("类型"), Qt::DisplayRole);
+		rootItem->setData(1, QStringLiteral("数量"), Qt::DisplayRole);
+		rootItem->setData(2, QStringLiteral("买入价"), Qt::DisplayRole);
+		rootItem->setData(3, QStringLiteral("成本价"), Qt::DisplayRole);
+		rootItem->setData(4, QStringLiteral("买入时间"), Qt::DisplayRole);
+		rootItem->setData(5, QStringLiteral("买入合价"), Qt::DisplayRole);
+		rootItem->setData(6, QStringLiteral("预计收益"), Qt::DisplayRole);
+		rootItem->setData(7, QStringLiteral("收益%"), Qt::DisplayRole);
+		rootItem->setData(8, QStringLiteral("部分收益"), Qt::DisplayRole);
+		rootItem->setData(9, QStringLiteral("备注"), Qt::DisplayRole);
 
 		vector<StockCodeTradeBLLPtr> _vecStockTrade;
-		project->getCurStockCode()->getAllTrades(_vecStockTrade);
+		project->getCurStockCode()->getTradesByType((int)TradeType::BUY, _vecStockTrade);
 		for each (auto &var in _vecStockTrade)
 		{
 			rootItem->appendChild(new StockBuyTableItem(var));
@@ -587,7 +588,8 @@ void JKMainWin::updateTableWidget()
 
 		stockTableModel->setRootItem(rootItem);
 
-		//ui.tableView->resizeColumnsWidth();
+
+
 	}
 }
 

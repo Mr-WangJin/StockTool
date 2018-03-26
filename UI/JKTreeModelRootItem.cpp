@@ -1,17 +1,17 @@
 #include "stdafx.h"
-#include "JKTreeModelStandardItem.h"
+#include "JKTreeModelRootItem.h"
 
-JKTreeModelStandardItem::JKTreeModelStandardItem(int columns):
+JKTreeModelRootItem::JKTreeModelRootItem(int columns):
     JKTreeModelItem(columns) {}
 
-JKTreeModelStandardItem::JKTreeModelStandardItem(const QString &text, const QPixmap &pixmap):
+JKTreeModelRootItem::JKTreeModelRootItem(const QString &text, const QPixmap &pixmap):
     JKTreeModelItem(1)
 {
     setData(0, text, Qt::DisplayRole);
     setPixmap(pixmap);
 }
 
-void JKTreeModelStandardItem::setPixmap(const QPixmap &pixmap, int column)
+void JKTreeModelRootItem::setPixmap(const QPixmap &pixmap, int column)
 {
     if(!pixmap.isNull())
         setData(column, QVariant::fromValue(pixmap), Qt::DecorationRole);
@@ -19,7 +19,7 @@ void JKTreeModelStandardItem::setPixmap(const QPixmap &pixmap, int column)
         setData(column, QVariant(), Qt::DecorationRole);
 }
 
-void JKTreeModelStandardItem::setToolTip(const QString &toolTip, int column)
+void JKTreeModelRootItem::setToolTip(const QString &toolTip, int column)
 {
     if(!toolTip.isEmpty())
         setData(column, toolTip, Qt::ToolTipRole);
@@ -27,7 +27,7 @@ void JKTreeModelStandardItem::setToolTip(const QString &toolTip, int column)
         setData(column, QVariant(), Qt::ToolTipRole);
 }
 
-bool JKTreeModelStandardItem::setData(int column, const QVariant &value, int role)
+bool JKTreeModelRootItem::setData(int column, const QVariant &value, int role)
 {
     if(column >= columnCount())
         return false;
@@ -39,7 +39,7 @@ bool JKTreeModelStandardItem::setData(int column, const QVariant &value, int rol
     return true;
 }
 
-QVariant JKTreeModelStandardItem::data(int column, int role) const
+QVariant JKTreeModelRootItem::data(int column, int role) const
 {
     if(m_data.contains(column) &&
        m_data[column].contains(role))

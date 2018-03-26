@@ -5,11 +5,11 @@
 
 #include "JKTreeModelItem.h"
 
-class JKTreeModelStandardItem: public JKTreeModelItem
+class JKTreeModelRootItem: public JKTreeModelItem
 {
 public:
-    explicit                JKTreeModelStandardItem(int columns);
-    explicit                JKTreeModelStandardItem(const QString &text, const QPixmap &pixmap = QPixmap());
+    explicit                JKTreeModelRootItem(int columns);
+    explicit                JKTreeModelRootItem(const QString &text, const QPixmap &pixmap = QPixmap());
 
     void                    setPixmap(const QPixmap &pixmap, int column = 0);
     void                    setToolTip(const QString &toolTip, int column = 0);
